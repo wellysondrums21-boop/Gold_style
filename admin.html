@@ -1,340 +1,186 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar conta | Gold Style</title>
+  <link rel="stylesheet" href="style.css">
 
-  <title>Admin | Gold Style</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: #050505;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
-
-    header {
-      background: #0b0b0b;
-      padding: 25px 15px;
-      text-align: center;
-      border-bottom: 2px solid #ffd700;
-    }
-
-    .logo {
-      color: #ffd700;
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-    .subtitle {
-      color: #aaa;
-      margin-top: 8px;
-      font-size: 13px;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #ffd700;
-      margin-bottom: 8px;
-    }
-
-    .description {
-      color: #aaa;
-      margin-bottom: 25px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .card {
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 15px;
-      padding: 20px;
-    }
-
-    .icon {
-      font-size: 28px;
-    }
-
-    .title {
-      color: #999;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    .value {
-      color: #ffd700;
-      font-size: 25px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-
-    .section {
-      margin-top: 20px;
-      background: #0d0d0d;
-      border: 1px solid #292929;
-      border-radius: 15px;
-      padding: 20px;
-    }
-
-    .section h2 {
-      color: #ffd700;
-      margin-bottom: 20px;
-    }
-
-    .circle-container {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
-    }
-
-    .circle {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: conic-gradient(
-        #ffd700 0deg 230deg,
-        #333 230deg 360deg
-      );
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .circle-inner {
-      width: 105px;
-      height: 105px;
-      border-radius: 50%;
-      background: #0d0d0d;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffd700;
-      font-weight: bold;
-    }
-
-    .pizza {
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      margin: auto;
-
-      background: conic-gradient(
-        #ffd700 0deg 140deg,
-        #b8860b 140deg 230deg,
-        #666 230deg 300deg,
-        #333 300deg 360deg
-      );
-    }
-
-    .legend {
-      margin-top: 20px;
-      line-height: 2;
-      text-align: center;
-      color: #ccc;
-    }
-
-    .report {
-      background: #151515;
-      border-left: 4px solid #ffd700;
-      padding: 15px;
-      margin-top: 10px;
-      border-radius: 8px;
-
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .report strong {
-      color: #ffd700;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 12px;
-      }
-
-      .circle {
-        width: 125px;
-        height: 125px;
-      }
-
-      .circle-inner {
-        width: 88px;
-        height: 88px;
-      }
-
-      .pizza {
-        width: 160px;
-        height: 160px;
-      }
-    }
-  </style>
-
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <header>
-
-  <div class="logo">
-    GOLD STYLE
-  </div>
-
-  <div class="subtitle">
-    PAINEL ADMINISTRATIVO
-  </div>
-
+  <div class="logo">GOLD STYLE</div>
+  <div class="subtitle">CRIAR CONTA</div>
 </header>
 
 <main>
 
-  <h1>Dashboard</h1>
+  <section class="hero">
+    <h1>Crie sua conta</h1>
+    <p>Cadastre seus dados para facilitar seus próximos agendamentos.</p>
+  </section>
 
-  <p class="description">
-    Gerenciamento da Gold Style Barbearia
-  </p>
+  <form id="cadastroForm">
 
+    <label for="nome">Nome completo</label>
+    <input
+      type="text"
+      id="nome"
+      placeholder="Digite seu nome completo"
+      required
+    >
 
-  <div class="cards">
+    <label for="telefone">WhatsApp</label>
+    <input
+      type="tel"
+      id="telefone"
+      placeholder="(68) 99985-3643"
+      required
+    >
 
-    <div class="card">
-      <div class="icon">💰</div>
-      <div class="title">Faturamento</div>
-      <div class="value">R$ 0,00</div>
-    </div>
+    <label for="email">E-mail</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="seuemail@email.com"
+      required
+    >
 
-    <div class="card">
-      <div class="icon">👥</div>
-      <div class="title">Clientes</div>
-      <div class="value">0</div>
-    </div>
+    <label for="senha">Criar senha</label>
+    <input
+      type="password"
+      id="senha"
+      placeholder="Crie uma senha"
+      minlength="6"
+      required
+    >
 
-    <div class="card">
-      <div class="icon">📅</div>
-      <div class="title">Agendamentos</div>
-      <div class="value">0</div>
-    </div>
+    <label for="confirmar">Confirmar senha</label>
+    <input
+      type="password"
+      id="confirmar"
+      placeholder="Digite a senha novamente"
+      minlength="6"
+      required
+    >
 
-    <div class="card">
-      <div class="icon">📈</div>
-      <div class="title">Lucro</div>
-      <div class="value">R$ 0,00</div>
-    </div>
+    <button type="submit" class="btn btn-gold">
+      CRIAR MINHA CONTA
+    </button>
 
-  </div>
+  </form>
 
+  <div id="mensagem"></div>
 
-  <div class="section">
-
-    <h2>📊 Indicadores</h2>
-
-    <div class="circle-container">
-
-      <div class="circle">
-        <div class="circle-inner">
-          0%<br>
-          Clientes
-        </div>
-      </div>
-
-      <div class="circle">
-        <div class="circle-inner">
-          0%<br>
-          Agenda
-        </div>
-      </div>
-
-      <div class="circle">
-        <div class="circle-inner">
-          0%<br>
-          Serviços
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h2>🥧 Estoque</h2>
-
-    <div class="pizza"></div>
-
-    <div class="legend">
-      🟡 Produtos disponíveis<br>
-      🟤 Estoque baixo<br>
-      ⚪ Esgotados
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h2>🥧 Serviços realizados</h2>
-
-    <div class="pizza"></div>
-
-    <div class="legend">
-      🟡 Cortes<br>
-      🟤 Barba<br>
-      ⚪ Química<br>
-      ⚫ Outros
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h2>📑 Relatórios</h2>
-
-    <div class="report">
-      <span>Faturamento hoje</span>
-      <strong>R$ 0,00</strong>
-    </div>
-
-    <div class="report">
-      <span>Faturamento semanal</span>
-      <strong>R$ 0,00</strong>
-    </div>
-
-    <div class="report">
-      <span>Faturamento mensal</span>
-      <strong>R$ 0,00</strong>
-    </div>
-
-    <div class="report">
-      <span>Novos clientes</span>
-      <strong>0</strong>
-    </div>
-
-  </div>
+  <a href="index.html" class="btn btn-dark">
+    VOLTAR PARA INÍCIO
+  </a>
 
 </main>
 
-</body>
+<footer>
+  <strong>Gold Style Barbearia</strong><br>
+  Rio Branco - Acre<br>
+  Barbearia desde 2022
+</footer>
 
+
+<script>
+
+const SUPABASE_URL = "https://ivvswiprdqgroeoelqmh.supabase.co/rest/v1/";
+
+const SUPABASE_KEY = "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+document
+  .getElementById("cadastroForm")
+  .addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const nome = document.getElementById("nome").value.trim();
+    const telefone = document.getElementById("telefone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+    const confirmar = document.getElementById("confirmar").value;
+
+    const mensagem = document.getElementById("mensagem");
+
+    if (senha !== confirmar) {
+
+      mensagem.innerHTML =
+        "<p style='color:#ff4444;text-align:center;margin:15px 0;'>As senhas não são iguais.</p>";
+
+      return;
+    }
+
+    mensagem.innerHTML =
+      "<p style='color:#ffd700;text-align:center;margin:15px 0;'>Criando sua conta...</p>";
+
+
+    try {
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email: email,
+          password: senha
+        });
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      if (!data.user) {
+        throw new Error("Não foi possível criar o usuário.");
+      }
+
+
+      const { error: clienteError } =
+        await supabaseClient
+          .from("clientes")
+          .insert([{
+            nome: nome,
+            telefone: telefone,
+            email: email,
+            auth_user_id: data.user.id
+          }]);
+
+
+      if (clienteError) {
+        throw clienteError;
+      }
+
+
+      mensagem.innerHTML =
+        "<p style='color:#ffd700;text-align:center;margin:15px 0;'>Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.</p>";
+
+
+      document.getElementById("cadastroForm").reset();
+
+    } catch (error) {
+
+      console.error(error);
+
+      mensagem.innerHTML =
+        "<p style='color:#ff4444;text-align:center;margin:15px 0;'>Erro: "
+        + error.message +
+        "</p>";
+
+    }
+
+  });
+
+</script>
+
+</body>
 </html>
