@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Criar conta | Gold Style</title>
+
   <link rel="stylesheet" href="style.css">
 
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      color: #ffd700;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffd700;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #mensagem {
+      text-align: center;
+      line-height: 1.5;
+      margin: 18px 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -20,60 +65,76 @@
 
   <section class="hero">
     <h1>Crie sua conta</h1>
-    <p>Cadastre seus dados para facilitar seus próximos agendamentos.</p>
+
+    <p>
+      Cadastre seus dados para facilitar
+      seus próximos agendamentos.
+    </p>
   </section>
 
   <form id="cadastroForm">
 
     <label for="nome">Nome completo</label>
+
     <input
       type="text"
       id="nome"
       placeholder="Digite seu nome completo"
-      required
-    >
+      required>
+
 
     <label for="telefone">WhatsApp</label>
+
     <input
       type="tel"
       id="telefone"
       placeholder="(68) 99985-3643"
-      required
-    >
+      required>
+
 
     <label for="email">E-mail</label>
+
     <input
       type="email"
       id="email"
       placeholder="seuemail@email.com"
-      required
-    >
+      required>
+
 
     <label for="senha">Criar senha</label>
+
     <input
       type="password"
       id="senha"
       placeholder="Crie uma senha"
       minlength="6"
-      required
-    >
+      required>
+
 
     <label for="confirmar">Confirmar senha</label>
+
     <input
       type="password"
       id="confirmar"
       placeholder="Digite a senha novamente"
       minlength="6"
-      required
-    >
+      required>
 
-    <button type="submit" class="btn btn-gold">
+
+    <button
+      type="submit"
+      class="btn btn-gold"
+      id="botaoCadastro">
+
       CRIAR MINHA CONTA
+
     </button>
 
   </form>
 
+
   <div id="mensagem"></div>
+
 
   <a href="index.html" class="btn btn-dark">
     VOLTAR PARA INÍCIO
@@ -81,58 +142,153 @@
 
 </main>
 
+
 <footer>
+
   <strong>Gold Style Barbearia</strong><br>
+
   Rio Branco - Acre<br>
+
   Barbearia desde 2022
+
 </footer>
 
 
 <script>
 
-const SUPABASE_URL = "https://ivvswiprdqgroeoelqmh.supabase.co";
+/* =====================================================
+   CONFIGURAÇÃO DO SUPABASE
+   =====================================================
 
-const SUPABASE_KEY = "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+   COLE A URL DO SEU PROJETO NA PRIMEIRA LINHA.
 
-const supabaseClient = supabase.createClient(
+   COLE A SUA CHAVE PUBLICÁVEL sb_publishable_...
+   NA SEGUNDA LINHA.
+
+   NÃO coloque aqui uma chave sb_secret_...
+   ===================================================== */
+
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
 
-document
-  .getElementById("cadastroForm")
-  .addEventListener("submit", async function(event) {
+/* =====================================================
+   FORMULÁRIO
+   ===================================================== */
+
+const form =
+document.getElementById("cadastroForm");
+
+
+const mensagem =
+document.getElementById("mensagem");
+
+
+const botao =
+document.getElementById("botaoCadastro");
+
+
+form.addEventListener(
+  "submit",
+  async function(event) {
 
     event.preventDefault();
 
-    const nome = document.getElementById("nome").value.trim();
-    const telefone = document.getElementById("telefone").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const senha = document.getElementById("senha").value;
-    const confirmar = document.getElementById("confirmar").value;
 
-    const mensagem = document.getElementById("mensagem");
+    const nome =
+    document.getElementById("nome").value.trim();
+
+
+    const telefone =
+    document.getElementById("telefone").value.trim();
+
+
+    const email =
+    document.getElementById("email").value.trim();
+
+
+    const senha =
+    document.getElementById("senha").value;
+
+
+    const confirmar =
+    document.getElementById("confirmar").value;
+
+
+    /* Verificar senha */
 
     if (senha !== confirmar) {
 
       mensagem.innerHTML =
-        "<p style='color:#ff4444;text-align:center;margin:15px 0;'>As senhas não são iguais.</p>";
+      "<span style='color:#ff4444'>" +
+      "As senhas não são iguais." +
+      "</span>";
 
       return;
     }
 
+
+    if (senha.length < 6) {
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444'>" +
+      "A senha precisa ter pelo menos 6 caracteres." +
+      "</span>";
+
+      return;
+    }
+
+
+    /* Estado de carregamento */
+
+    botao.disabled = true;
+
+    botao.innerText =
+    "CRIANDO CONTA...";
+
+
     mensagem.innerHTML =
-      "<p style='color:#ffd700;text-align:center;margin:15px 0;'>Criando sua conta...</p>";
+    "<span style='color:#ffd700'>" +
+    "Aguarde, estamos criando sua conta..." +
+    "</span>";
 
 
     try {
 
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-          email: email,
-          password: senha
-        });
+      /* Criar usuário no Supabase Auth */
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signUp({
+
+        email: email,
+
+        password: senha,
+
+        options: {
+
+          data: {
+            nome: nome,
+            telefone: telefone
+          }
+
+        }
+
+      });
 
 
       if (error) {
@@ -141,44 +297,89 @@ document
 
 
       if (!data.user) {
-        throw new Error("Não foi possível criar o usuário.");
+
+        throw new Error(
+          "Não foi possível criar o usuário."
+        );
+
       }
 
 
-      const { error: clienteError } =
-        await supabaseClient
-          .from("clientes")
-          .insert([{
-            nome: nome,
-            telefone: telefone,
-            email: email,
-            auth_user_id: data.user.id
-          }]);
+      /* =================================================
+         SALVAR CLIENTE NA TABELA clientes
+         ================================================= */
+
+      const {
+        error: clienteError
+      } =
+      await supabaseClient
+        .from("clientes")
+        .insert([{
+
+          nome: nome,
+
+          telefone: telefone,
+
+          email: email,
+
+          auth_user_id: data.user.id
+
+        }]);
 
 
       if (clienteError) {
+
         throw clienteError;
+
       }
 
 
-      mensagem.innerHTML =
-        "<p style='color:#ffd700;text-align:center;margin:15px 0;'>Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.</p>";
-
-
-      document.getElementById("cadastroForm").reset();
-
-    } catch (error) {
-
-      console.error(error);
+      /* Sucesso */
 
       mensagem.innerHTML =
-        "<p style='color:#ff4444;text-align:center;margin:15px 0;'>Erro: "
-        + error.message +
-        "</p>";
+      "<span style='color:#ffd700;font-weight:bold'>" +
+
+      "✅ CONTA CRIADA COM SUCESSO!<br><br>" +
+
+      "Enviamos um e-mail para você confirmar seu cadastro." +
+
+      "</span>";
+
+
+      form.reset();
+
+
+      botao.innerText =
+      "CONTA CRIADA";
+
 
     }
 
-  });
+    catch (error) {
+
+      console.error(error);
+
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444;font-weight:bold'>" +
+
+      "❌ Não foi possível criar a conta.<br><br>" +
+
+      error.message +
+
+      "</span>";
+
+
+      botao.disabled = false;
+
+      botao.innerText =
+      "CRIAR MINHA CONTA";
+
+    }
+
+  }
+
+);
 
 </script>
 
