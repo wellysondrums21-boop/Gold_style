@@ -8,6 +8,50 @@
   <title>Criar conta | Gold Style</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      color: #ffd700;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffd700;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #mensagem {
+      text-align: center;
+      line-height: 1.5;
+      margin: 18px 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,14 +72,13 @@
     </p>
   </section>
 
-  <form>
+  <form id="cadastroForm">
 
     <label for="nome">Nome completo</label>
 
     <input
       type="text"
       id="nome"
-      name="nome"
       placeholder="Digite seu nome completo"
       required>
 
@@ -44,7 +87,6 @@
     <input
       type="tel"
       id="telefone"
-      name="telefone"
       placeholder="(68) 99985-3643"
       required>
 
@@ -53,7 +95,6 @@
     <input
       type="email"
       id="email"
-      name="email"
       placeholder="seuemail@email.com"
       required>
 
@@ -62,8 +103,8 @@
     <input
       type="password"
       id="senha"
-      name="senha"
       placeholder="Crie uma senha"
+      minlength="6"
       required>
 
     <label for="confirmar">Confirmar senha</label>
@@ -71,15 +112,22 @@
     <input
       type="password"
       id="confirmar"
-      name="confirmar"
       placeholder="Digite a senha novamente"
+      minlength="6"
       required>
 
-    <button type="submit" class="btn btn-gold">
+    <button
+      type="submit"
+      class="btn btn-gold"
+      id="botaoCadastro">
+
       CRIAR MINHA CONTA
+
     </button>
 
   </form>
+
+  <div id="mensagem"></div>
 
   <a href="index.html" class="btn btn-dark">
     VOLTAR PARA INÍCIO
@@ -88,10 +136,224 @@
 </main>
 
 <footer>
+
   <strong>Gold Style Barbearia</strong><br>
+
   Rio Branco - Acre<br>
+
   Barbearia desde 2022
+
 </footer>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO DO SUPABASE
+   ===================================================== */
+
+const SUPABASE_URL =
+"COLE_AQUI_A_URL_DO_SEU_PROJETO";
+
+const SUPABASE_KEY =
+"COLE_AQUI_SUA_CHAVE_PUBLICAVEL";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =====================================================
+   FORMULÁRIO
+   ===================================================== */
+
+const form =
+document.getElementById("cadastroForm");
+
+const mensagem =
+document.getElementById("mensagem");
+
+const botao =
+document.getElementById("botaoCadastro");
+
+
+form.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const nome =
+    document.getElementById("nome").value.trim();
+
+    const telefone =
+    document.getElementById("telefone").value.trim();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const senha =
+    document.getElementById("senha").value;
+
+    const confirmar =
+    document.getElementById("confirmar").value;
+
+
+    /* Verificar senha */
+
+    if (senha !== confirmar) {
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444'>" +
+      "As senhas não são iguais." +
+      "</span>";
+
+      return;
+    }
+
+
+    if (senha.length < 6) {
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444'>" +
+      "A senha precisa ter pelo menos 6 caracteres." +
+      "</span>";
+
+      return;
+    }
+
+
+    botao.disabled = true;
+
+    botao.innerText =
+    "CRIANDO CONTA...";
+
+
+    mensagem.innerHTML =
+    "<span style='color:#ffd700'>" +
+    "Aguarde, estamos criando sua conta..." +
+    "</span>";
+
+
+    try {
+
+      /* Criar usuário no Supabase Auth */
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signUp({
+
+        email: email,
+
+        password: senha,
+
+        options: {
+
+          data: {
+            nome: nome,
+            telefone: telefone
+          }
+
+        }
+
+      });
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      if (!data.user) {
+
+        throw new Error(
+          "Não foi possível criar o usuário."
+        );
+
+      }
+
+
+      /* Salvar cliente na tabela clientes */
+
+      const {
+        error: clienteError
+      } =
+      await supabaseClient
+        .from("clientes")
+        .insert([{
+
+          nome: nome,
+
+          telefone: telefone,
+
+          email: email,
+
+          auth_user_id: data.user.id
+
+        }]);
+
+
+      if (clienteError) {
+
+        throw clienteError;
+
+      }
+
+
+      /* Sucesso */
+
+      mensagem.innerHTML =
+      "<span style='color:#ffd700;font-weight:bold'>" +
+
+      "✅ CONTA CRIADA COM SUCESSO!<br><br>" +
+
+      "Enviamos um e-mail para você confirmar seu cadastro." +
+
+      "</span>";
+
+
+      form.reset();
+
+
+      botao.innerText =
+      "CONTA CRIADA";
+
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444;font-weight:bold'>" +
+
+      "❌ Não foi possível criar a conta.<br><br>" +
+
+      error.message +
+
+      "</span>";
+
+
+      botao.disabled = false;
+
+      botao.innerText =
+      "CRIAR MINHA CONTA";
+
+    }
+
+  }
+
+);
+
+</script>
 
 </body>
 </html>
