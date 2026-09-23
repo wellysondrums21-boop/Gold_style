@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard Administrativo | Gold Style</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050505;
+      color: white;
+    }
+
+    header {
+      background: #0b0b0b;
+      border-bottom: 2px solid #ffd700;
+      padding: 25px 18px;
+      text-align: center;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-size: 30px;
+      font-weight: bold;
+      text-shadow: 0 0 15px #d4af37;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: #aaa;
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ffd700;
+      margin-bottom: 8px;
+    }
+
+    .welcome {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+    }
+
+    .card-title {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .card-value {
+      color: #ffd700;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .card-icon {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .section {
+      background: #0d0d0d;
+      border: 1px solid #292929;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      color: #ffd700;
+      margin-bottom: 18px;
+      font-size: 20px;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* Gráfico de faturamento */
+
+    .bar-chart {
+      height: 250px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      border-bottom: 1px solid #333;
+      padding: 10px;
+    }
+
+    .bar-box {
+      height: 100%;
+      display: flex
