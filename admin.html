@@ -5,44 +5,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dashboard Administrativo | Gold Style</title>
+  <title>Admin | Gold Style</title>
 
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      font-family: Arial, sans-serif;
       background: #050505;
-      color: white;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
     }
 
     header {
       background: #0b0b0b;
-      border-bottom: 2px solid #ffd700;
-      padding: 25px 18px;
+      padding: 25px 15px;
       text-align: center;
+      border-bottom: 2px solid #ffd700;
     }
 
     .logo {
       color: #ffd700;
       font-size: 30px;
       font-weight: bold;
-      text-shadow: 0 0 15px #d4af37;
     }
 
     .subtitle {
-      margin-top: 6px;
       color: #aaa;
+      margin-top: 8px;
       font-size: 13px;
-      letter-spacing: 2px;
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: auto;
       padding: 20px;
     }
@@ -52,16 +50,15 @@
       margin-bottom: 8px;
     }
 
-    .welcome {
+    .description {
       color: #aaa;
       margin-bottom: 25px;
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 15px;
-      margin-bottom: 25px;
     }
 
     .card {
@@ -69,57 +66,275 @@
       border: 1px solid #292929;
       border-radius: 15px;
       padding: 20px;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
     }
 
-    .card-title {
+    .icon {
+      font-size: 28px;
+    }
+
+    .title {
       color: #999;
-      font-size: 13px;
-      margin-bottom: 10px;
+      margin-top: 10px;
+      font-size: 14px;
     }
 
-    .card-value {
+    .value {
       color: #ffd700;
       font-size: 25px;
       font-weight: bold;
-    }
-
-    .card-icon {
-      font-size: 25px;
-      margin-bottom: 10px;
+      margin-top: 8px;
     }
 
     .section {
+      margin-top: 20px;
       background: #0d0d0d;
       border: 1px solid #292929;
-      border-radius: 16px;
+      border-radius: 15px;
       padding: 20px;
-      margin-bottom: 20px;
     }
 
     .section h2 {
       color: #ffd700;
-      margin-bottom: 18px;
-      font-size: 20px;
+      margin-bottom: 20px;
     }
 
-    .charts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    /* Gráfico de faturamento */
-
-    .bar-chart {
-      height: 250px;
+    .circle-container {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-around;
-      border-bottom: 1px solid #333;
-      padding: 10px;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
     }
 
-    .bar-box {
-      height: 100%;
-      display: flex
+    .circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #ffd700 0deg 230deg,
+        #333 230deg 360deg
+      );
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .circle-inner {
+      width: 105px;
+      height: 105px;
+      border-radius: 50%;
+      background: #0d0d0d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .pizza {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      margin: auto;
+
+      background: conic-gradient(
+        #ffd700 0deg 140deg,
+        #b8860b 140deg 230deg,
+        #666 230deg 300deg,
+        #333 300deg 360deg
+      );
+    }
+
+    .legend {
+      margin-top: 20px;
+      line-height: 2;
+      text-align: center;
+      color: #ccc;
+    }
+
+    .report {
+      background: #151515;
+      border-left: 4px solid #ffd700;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 8px;
+
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .report strong {
+      color: #ffd700;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 12px;
+      }
+
+      .circle {
+        width: 125px;
+        height: 125px;
+      }
+
+      .circle-inner {
+        width: 88px;
+        height: 88px;
+      }
+
+      .pizza {
+        width: 160px;
+        height: 160px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    GOLD STYLE
+  </div>
+
+  <div class="subtitle">
+    PAINEL ADMINISTRATIVO
+  </div>
+
+</header>
+
+<main>
+
+  <h1>Dashboard</h1>
+
+  <p class="description">
+    Gerenciamento da Gold Style Barbearia
+  </p>
+
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="icon">💰</div>
+      <div class="title">Faturamento</div>
+      <div class="value">R$ 0,00</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">👥</div>
+      <div class="title">Clientes</div>
+      <div class="value">0</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📅</div>
+      <div class="title">Agendamentos</div>
+      <div class="value">0</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">📈</div>
+      <div class="title">Lucro</div>
+      <div class="value">R$ 0,00</div>
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>📊 Indicadores</h2>
+
+    <div class="circle-container">
+
+      <div class="circle">
+        <div class="circle-inner">
+          0%<br>
+          Clientes
+        </div>
+      </div>
+
+      <div class="circle">
+        <div class="circle-inner">
+          0%<br>
+          Agenda
+        </div>
+      </div>
+
+      <div class="circle">
+        <div class="circle-inner">
+          0%<br>
+          Serviços
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>🥧 Estoque</h2>
+
+    <div class="pizza"></div>
+
+    <div class="legend">
+      🟡 Produtos disponíveis<br>
+      🟤 Estoque baixo<br>
+      ⚪ Esgotados
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>🥧 Serviços realizados</h2>
+
+    <div class="pizza"></div>
+
+    <div class="legend">
+      🟡 Cortes<br>
+      🟤 Barba<br>
+      ⚪ Química<br>
+      ⚫ Outros
+    </div>
+
+  </div>
+
+
+  <div class="section">
+
+    <h2>📑 Relatórios</h2>
+
+    <div class="report">
+      <span>Faturamento hoje</span>
+      <strong>R$ 0,00</strong>
+    </div>
+
+    <div class="report">
+      <span>Faturamento semanal</span>
+      <strong>R$ 0,00</strong>
+    </div>
+
+    <div class="report">
+      <span>Faturamento mensal</span>
+      <strong>R$ 0,00</strong>
+    </div>
+
+    <div class="report">
+      <span>Novos clientes</span>
+      <strong>0</strong>
+    </div>
+
+  </div>
+
+</main>
+
+</body>
+
+</html>
