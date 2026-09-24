@@ -288,16 +288,15 @@ async function iniciar() {
     error: servicosError
   } =
   await supabaseClient
-    .from("servicos")
-    .select(
-      "id,nome,valor"
-    )
-    .eq(
-      "ativo",
-      true
-    )
-    .order("nome");
-
+    .from("Serviços")
+.select(
+  "id,Nome,Valor"
+)
+.eq(
+  "Ativo",
+  true
+)
+.order("Nome");
 
   if (servicosError) {
 
