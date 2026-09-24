@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Painel Administrativo | Gold Style</title>
@@ -12,11 +14,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     body {
       background: #050505;
-      color: white;
-      margin: 0;
+      color: #fff;
       font-family: Arial, sans-serif;
+      margin: 0;
     }
 
     header {
@@ -39,30 +42,13 @@
 
     main {
       width: 92%;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 25px auto;
     }
 
-    .boas-vindas {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .boas-vindas h1 {
-      color: #ffd700;
-      margin-top: 0;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
-
-    .card {
+    .boas-vindas,
+    .card,
+    .secao {
       background: #111;
       border: 1px solid #333;
       border-radius: 15px;
@@ -70,10 +56,26 @@
       box-sizing: border-box;
     }
 
+    .boas-vindas {
+      margin-bottom: 20px;
+    }
+
+    .boas-vindas h1,
+    .secao h2 {
+      color: #ffd700;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
     .card h3 {
       color: #aaa;
-      margin-top: 0;
       font-size: 14px;
+      margin-top: 0;
     }
 
     .valor {
@@ -83,23 +85,14 @@
     }
 
     .secao {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 15px;
-      padding: 20px;
       margin-top: 20px;
       overflow-x: auto;
-    }
-
-    .secao h2 {
-      color: #ffd700;
-      margin-top: 0;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 650px;
+      min-width: 750px;
     }
 
     th {
@@ -114,26 +107,28 @@
       border-bottom: 1px solid #222;
     }
 
-    .status {
-      color: #ffd700;
-      font-weight: bold;
+    select {
+      background: #050505;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 7px;
+      padding: 7px;
     }
 
     .botao {
       display: inline-block;
-      margin-top: 15px;
-      padding: 12px 18px;
+      margin-top: 20px;
+      padding: 13px 20px;
       border-radius: 10px;
       background: #ffd700;
       color: #000;
       font-weight: bold;
-      text-decoration: none;
       border: none;
       cursor: pointer;
     }
 
     .botao:hover {
-      opacity: 0.85;
+      opacity: .85;
     }
 
     #mensagem {
@@ -142,24 +137,34 @@
       color: #ffd700;
     }
 
+    .erro {
+      color: #ff5555 !important;
+    }
+
     footer {
       text-align: center;
       color: #777;
       padding: 30px 15px;
     }
 
-    .erro {
-      color: #ff5555 !important;
-    }
   </style>
+
 </head>
 
 <body>
 
 <header>
-  <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">PAINEL ADMINISTRATIVO</div>
+
+  <div class="logo">
+    GOLD STYLE
+  </div>
+
+  <div class="subtitle">
+    PAINEL ADMINISTRATIVO
+  </div>
+
 </header>
+
 
 <main>
 
@@ -167,515 +172,46 @@
     Verificando acesso...
   </div>
 
+
   <div id="painel" style="display:none;">
 
+
+    <!-- BOAS-VINDAS -->
+
     <section class="boas-vindas">
-      <h1>Olá, Weleson! 👑</h1>
+
+      <h1>
+        Olá, Weleson! 👑
+      </h1>
+
       <p>
-        Bem-vindo ao painel administrativo da Gold Style Barbearia.
+        Bem-vindo ao painel administrativo da
+        Gold Style Barbearia.
       </p>
+
     </section>
+
+
+    <!-- CARDS -->
 
     <section class="cards">
 
-      <div class="card">
-        <h3>FATURAMENTO AGENDADO</h3>
-        <div class="valor" id="faturamento">R$ 0,00</div>
-      </div>
 
       <div class="card">
-        <h3>AGENDAMENTOS</h3>
-        <div class="valor" id="totalAgendamentos">0</div>
+
+        <h3>
+          FATURAMENTO AGENDADO
+        </h3>
+
+        <div
+          class="valor"
+          id="faturamento">
+          R$ 0,00
+        </div>
+
       </div>
+
 
       <div class="card">
-        <h3>PENDENTES</h3>
-        <div class="valor" id="pendentes">0</div>
-      </div>
 
-      <div class="card">
-        <h3>PAGOS</h3>
-        <div class="valor" id="pagos">0</div>
-      </div>
-
-    </section>
-
-
-    <section class="secao">
-
-      <h2>📅 Próximos agendamentos</h2>
-
-      <table>
-  <thead>
-    <tr>
-      <th>Data</th>
-      <th>Horário</th>
-      <th>Cliente</th>
-      <th>Serviço</th>
-      <th>Valor</th>
-      <th>Status</th>
-      <th>Pagamento</th>
-    </tr>
-  </thead>
-
-  <tbody id="tabelaAgendamentos"></tbody>
-</table>
-
-    </section>
-
-
-    <section class="secao">
-
-      <h2>💰 Resumo financeiro</h2>
-
-      <p>
-        Total dos agendamentos:
-        <strong id="resumoFaturamento">R$ 0,00</strong>
-      </p>
-
-      <p>
-        Total pago:
-        <strong id="resumoPago">R$ 0,00</strong>
-      </p>
-
-      <p>
-        Total pendente:
-        <strong id="resumoPendente">R$ 0,00</strong>
-      </p>
-
-    </section>
-
-
-    <button class="botao" onclick="sair()">
-      SAIR DO PAINEL
-    </button>
-
-  </div>
-
-</main>
-
-
-<footer>
-  <strong>Gold Style Barbearia</strong><br>
-  Rio Branco - Acre<br>
-  Barbearia desde 2022
-</footer>
-
-
-<script>
-
-const SUPABASE_URL =
-"https://ivvswiprdqgroeoelqmh.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-
-async function iniciarPainel() {
-
-  const mensagem =
-    document.getElementById("mensagem");
-
-  try {
-
-    /* Verificar usuário logado */
-
-    const {
-      data: sessionData
-    } =
-    await supabaseClient.auth.getSession();
-
-    const usuario =
-      sessionData.session?.user;
-
-    if (!usuario) {
-
-      mensagem.innerHTML =
-        "Você precisa estar logado para acessar o painel.";
-
-      mensagem.classList.add("erro");
-
-      return;
-    }
-
-
-    /* Verificar se é administrador */
-
-    const {
-      data: administrador,
-      error: adminError
-    } =
-    await supabaseClient
-      .from("administradores")
-      .select("*")
-      .eq("auth_user_id", usuario.id)
-      .eq("ativo", true)
-      .maybeSingle();
-
-
-    if (adminError) {
-      throw adminError;
-    }
-
-
-    if (!administrador) {
-
-      mensagem.innerHTML =
-        "⛔ Acesso negado. Esta área é exclusiva do administrador.";
-
-      mensagem.classList.add("erro");
-
-      return;
-    }
-
-
-    /* Mostrar painel */
-
-    mensagem.style.display = "none";
-
-    document.getElementById("painel").style.display =
-      "block";
-
-
-    /* Carregar agendamentos */
-
-    await carregarAgendamentos();
-
-  }
-
-  catch (erro) {
-
-    console.error(erro);
-
-    mensagem.innerHTML =
-      "Erro ao carregar o painel:<br><br>" +
-      erro.message;
-
-    mensagem.classList.add("erro");
-
-  }
-
-}
-
-
-async function carregarAgendamentos() {
-
-  const {
-    data,
-    error
-  } =
-  await supabaseClient
-    .from("agendamentos")
-    .select("*")
-    .order("Data", {
-      ascending: true
-    })
-    .order("Horário", {
-      ascending: true
-    });
-
-
-  if (error) {
-    throw error;
-  }
-
-
-  const agendamentos =
-    data || [];
-
-
-  let faturamento = 0;
-
-  let pendentes = 0;
-
-  let pagos = 0;
-
-  let totalPago = 0;
-
-  let totalPendente = 0;
-
-
-  const tabela =
-  document.getElementById("tabelaAgendamentos");
-
-  tabela.innerHTML = "";
-
-
-  agendamentos.forEach(function(item) {
-
-    const valor =
-      Number(item["Valor"] || 0);
-
-
-    faturamento += valor;
-
-
-    if (item["Status"] === "Pendente") {
-      pendentes++;
-    }
-
-
-    if (item["Pagamento"] === "Pago") {
-
-      pagos++;
-
-      totalPago += valor;
-
-    }
-    else {
-
-      totalPendente += valor;
-
-    }
-
-
-    const linha =
-      document.createElement("tr");
-
-
-    linha.innerHTML =
-
-  "<td>" +
-  (item["Data"] || "-") +
-  "</td>" +
-
-  "<td>" +
-  (item["Horário"] || "-") +
-  "</td>" +
-
-  "<td>" +
-  (item["Serviços"] || "-") +
-  "</td>" +
-
-  "<td>R$ " +
-  valor.toFixed(2).replace(".", ",") +
-  "</td>" +
-
-  "<td>" +
-  "<select onchange='alterarStatus(\"" +
-  item.id +
-  "\", this.value)'>" +
-
-  "<option value='Pendente' " +
-  (item["Status"] === "Pendente" ? "selected" : "") +
-  ">Pendente</option>" +
-
-  "<option value='Confirmado' " +
-  (item["Status"] === "Confirmado" ? "selected" : "") +
-  ">Confirmado</option>" +
-
-  "<option value='Concluído' " +
-  (item["Status"] === "Concluído" ? "selected" : "") +
-  ">Concluído</option>" +
-
-  "<option value='Cancelado' " +
-  (item["Status"] === "Cancelado" ? "selected" : "") +
-  ">Cancelado</option>" +
-
-  "</select>" +
-  "</td>" +
-
-  "<td>" +
-  "<select onchange='alterarPagamento(\"" +
-  item.id +
-  "\", this.value)'>" +
-
-  "<option value='Pendente' " +
-  (item["Pagamento"] === "Pendente" ? "selected" : "") +
-  ">Pendente</option>" +
-
-  "<option value='Pago' " +
-  (item["Pagamento"] === "Pago" ? "selected" : "") +
-  ">Pago</option>" +
-
-  "</select>" +
-  "</td>";
-
-
-    tabela.appendChild(linha);
-
-  });
-
-
-  document.getElementById("faturamento").innerText =
-    "R$ " +
-    faturamento.toFixed(2).replace(".", ",");
-
-
-  document.getElementById("totalAgendamentos").innerText =
-    agendamentos.length;
-
-
-  document.getElementById("pendentes").innerText =
-    pendentes;
-
-
-  document.getElementById("pagos").innerText =
-    pagos;
-
-
-  document.getElementById("resumoFaturamento").innerText =
-    "R$ " +
-    faturamento.toFixed(2).replace(".", ",");
-
-
-  document.getElementById("resumoPago").innerText =
-    "R$ " +
-    totalPago.toFixed(2).replace(".", ",");
-
-
-  document.getElementById("resumoPendente").innerText =
-    "R$ " +
-    totalPendente.toFixed(2).replace(".", ",");
-
-}
-
-
-async function sair() {
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "login.html";
-
-}
-
-async function carregarClientes() {
-
-  const area = document.getElementById("tabelaClientes");
-
-  if (!area) {
-    console.log("Tabela de clientes ainda não existe.");
-    return;
-  }
-
-  const { data: clientes, error } = await supabaseClient
-    .from("clientes")
-    .select("*")
-    .order("Data_cadastro", {
-      ascending: false
-    });
-
-  if (error) {
-    console.error(error);
-    area.innerHTML =
-      "<tr><td colspan='5'>Erro ao carregar clientes: " +
-      error.message +
-      "</td></tr>";
-    return;
-  }
-
-  area.innerHTML = "";
-
-  if (!clientes || clientes.length === 0) {
-    area.innerHTML =
-      "<tr><td colspan='5'>Nenhum cliente cadastrado.</td></tr>";
-    return;
-  }
-
-  for (const cliente of clientes) {
-
-    const { count } = await supabaseClient
-      .from("agendamentos")
-      .select("*", {
-        count: "exact",
-        head: true
-      })
-      .eq("Cliente_id", cliente.id);
-
-    const linha = document.createElement("tr");
-
-    linha.innerHTML =
-      "<td>" +
-      (cliente.Nome || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente.Telefone || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente["E-mail"] || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente.Data_cadastro || "-") +
-      "</td>" +
-
-      "<td>" +
-      (count || 0) +
-      "</td>";
-
-    area.appendChild(linha);
-  }
-}
-
-async function alterarStatus(id, novoStatus) {
-
-  const { error } = await supabaseClient
-    .from("agendamentos")
-    .update({
-      "Status": novoStatus
-    })
-    .eq("id", id);
-
-  if (error) {
-    alert("Erro ao atualizar status: " + error.message);
-    return;
-  }
-
-  alert("Status atualizado com sucesso!");
-  carregarAgendamentos();
-}
-
-
-async function alterarPagamento(id, novoPagamento) {
-
-  const { error } = await supabaseClient
-    .from("agendamentos")
-    .update({
-      "Pagamento": novoPagamento
-    })
-    .eq("id", id);
-
-  if (error) {
-    alert("Erro ao atualizar pagamento: " + error.message);
-    return;
-  }
-
-  alert("Pagamento atualizado com sucesso!");
-  carregarAgendamentos();
-}
-  async function alterarPagamento(id, novoPagamento) {
-
-  const { error } = await supabaseClient
-    .from("agendamentos")
-    .update({
-      "Pagamento": novoPagamento
-    })
-    .eq("id", id);
-
-  if (error) {
-    alert("Erro ao atualizar pagamento: " + error.message);
-    return;
-  }
-
-  alert("Pagamento atualizado com sucesso!");
-
-  carregarAgendamentos();
-}
-
-
-iniciarPainel();
-carregarClientes();
-
-</script>
-
-</body>
-</html>
+        <h
