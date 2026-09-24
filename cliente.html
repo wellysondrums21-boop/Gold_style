@@ -2,142 +2,407 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Minha conta | Gold Style</title>
+<meta charset="UTF-8">
 
-  <link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Área do Cliente | Gold Style</title>
 
-  <style>
-    .cliente-card {
-      background: #111;
-      border: 1px solid #292929;
-      border-left: 4px solid #ffd700;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 15px;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    .cliente-card h2 {
-      color: #ffd700;
-      margin-bottom: 15px;
-    }
+<style>
 
-    .dados {
-      line-height: 1.9;
-      color: #ddd;
-    }
+*{
+box-sizing:border-box;
+}
 
-    .dados strong {
-      color: #ffd700;
-    }
+body{
+margin:0;
+background:#050505;
+color:#fff;
+font-family:Arial,sans-serif;
+}
 
-    .agendamento {
-      background: #151515;
-      border: 1px solid #292929;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 10px;
-    }
+header{
+background:#080808;
+border-bottom:1px solid #333;
+padding:25px 15px;
+text-align:center;
+}
 
-    .agendamento strong {
-      color: #ffd700;
-    }
+.logo{
+color:#ffd700;
+font-size:30px;
+font-weight:bold;
+letter-spacing:3px;
+}
 
-    #mensagem {
-      text-align: center;
-      margin: 20px 0;
-      line-height: 1.5;
-    }
-  </style>
+.subtitulo{
+color:#aaa;
+font-size:14px;
+margin-top:7px;
+}
+
+main{
+width:94%;
+max-width:1000px;
+margin:25px auto;
+}
+
+.card{
+background:#111;
+border:1px solid #333;
+border-radius:15px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 0 15px rgba(255,215,0,0.06);
+}
+
+h1,
+h2{
+color:#ffd700;
+}
+
+h1{
+margin-top:0;
+font-size:25px;
+}
+
+h2{
+font-size:20px;
+}
+
+.info{
+color:#aaa;
+line-height:1.7;
+}
+
+.dados{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:12px;
+}
+
+.dado{
+background:#080808;
+border:1px solid #333;
+border-radius:10px;
+padding:15px;
+}
+
+.dado strong{
+display:block;
+color:#ffd700;
+margin-bottom:6px;
+}
+
+.agendamento{
+background:#080808;
+border:1px solid #333;
+border-radius:12px;
+padding:16px;
+margin-bottom:12px;
+}
+
+.agendamento strong{
+color:#ffd700;
+}
+
+.status{
+display:inline-block;
+padding:6px 10px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.status-pendente{
+background:#5c4b00;
+color:#ffd700;
+}
+
+.status-confirmado{
+background:#063d22;
+color:#00ff88;
+}
+
+.status-concluido{
+background:#063747;
+color:#00d9ff;
+}
+
+.status-cancelado{
+background:#4a1111;
+color:#ff5555;
+}
+
+.botao{
+display:inline-block;
+padding:13px 18px;
+border-radius:10px;
+border:none;
+background:#ffd700;
+color:#000;
+font-weight:bold;
+text-decoration:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+.botao:hover{
+background:#fff000;
+}
+
+.botao-whatsapp{
+background:#25d366;
+color:#fff;
+}
+
+.botao-sair{
+background:#222;
+color:#fff;
+border:1px solid #555;
+width:100%;
+}
+
+.mensagem{
+text-align:center;
+padding:20px;
+color:#ffd700;
+}
+
+.erro{
+color:#ff5555;
+}
+
+footer{
+text-align:center;
+color:#777;
+padding:30px 15px;
+border-top:1px solid #222;
+margin-top:30px;
+}
+
+@media(max-width:600px){
+
+.logo{
+font-size:25px;
+}
+
+main{
+width:95%;
+}
+
+.card{
+padding:16px;
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header>
-  <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">ÁREA DO CLIENTE</div>
+
+<div class="logo">
+GOLD STYLE
+</div>
+
+<div class="subtitulo">
+ÁREA DO CLIENTE
+</div>
+
 </header>
+
 
 <main>
 
-  <section class="hero">
-    <h1 id="boasVindas">Minha conta</h1>
+<div id="mensagem" class="mensagem">
+Carregando sua conta...
+</div>
 
-    <p>
-      Aqui você acompanha seus dados e seus agendamentos.
-    </p>
-  </section>
 
-  <div id="mensagem">
-    Carregando sua conta...
-  </div>
+<div id="conteudo" style="display:none;">
 
-  <section class="cliente-card">
 
-    <h2>👤 Meus dados</h2>
+<!-- PERFIL -->
 
-    <div class="dados">
+<section class="card">
 
-      <strong>Nome:</strong>
-      <span id="nome">Carregando...</span>
-      <br>
+<h1>
+Olá, <span id="nomeCliente">Cliente</span>! 👋
+</h1>
 
-      <strong>WhatsApp:</strong>
-      <span id="telefone">Carregando...</span>
-      <br>
+<p class="info">
+Bem-vindo à sua área exclusiva da Gold Style Barbearia.
+</p>
 
-      <strong>E-mail:</strong>
-      <span id="email">Carregando...</span>
 
-    </div>
+<div class="dados">
 
-  </section>
+<div class="dado">
 
-  <section class="cliente-card">
+<strong>
+👤 Nome
+</strong>
 
-    <h2>📅 Meus agendamentos</h2>
+<span id="clienteNome">
+-
+</span>
 
-    <div id="agendamentos">
-      Carregando agendamentos...
-    </div>
+</div>
 
-  </section>
 
-  <a
-    href="agendamento.html"
-    class="btn btn-gold">
-    AGENDAR NOVO HORÁRIO
-  </a>
+<div class="dado">
 
-  <a
-    href="index.html"
-    class="btn btn-dark">
-    VOLTAR PARA INÍCIO
-  </a>
+<strong>
+📱 Telefone
+</strong>
 
-  <button
-    id="sair"
-    class="btn btn-dark">
-    SAIR DA CONTA
-  </button>
+<span id="clienteTelefone">
+-
+</span>
+
+</div>
+
+
+<div class="dado">
+
+<strong>
+📧 E-mail
+</strong>
+
+<span id="clienteEmail">
+-
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- AGENDAMENTOS -->
+
+<section class="card">
+
+<h2>
+📅 Meus agendamentos
+</h2>
+
+<div id="listaAgendamentos">
+
+Carregando agendamentos...
+
+</div>
+
+<a
+href="agendamento.html"
+class="botao">
+
+✂️ AGENDAR NOVO SERVIÇO
+
+</a>
+
+</section>
+
+
+<!-- SERVIÇOS -->
+
+<section class="card">
+
+<h2>
+✂️ Serviços da Gold Style
+</h2>
+
+<p class="info">
+
+Escolha seu serviço e faça seu agendamento.
+
+</p>
+
+<a
+href="servicos.html"
+class="botao">
+
+VER SERVIÇOS
+
+</a>
+
+</section>
+
+
+<!-- WHATSAPP -->
+
+<section class="card">
+
+<h2>
+📲 Precisa de ajuda?
+</h2>
+
+<p class="info">
+
+Entre em contato diretamente com a Gold Style pelo WhatsApp.
+
+</p>
+
+<a
+href="https://wa.me/5568999853643"
+target="_blank"
+class="botao botao-whatsapp">
+
+💬 FALAR NO WHATSAPP
+
+</a>
+
+</section>
+
+
+<!-- SAIR -->
+
+<button
+class="botao botao-sair"
+onclick="sair()">
+
+🚪 SAIR DA CONTA
+
+</button>
+
+
+</div>
 
 </main>
 
+
 <footer>
 
-  <strong>Gold Style Barbearia</strong><br>
+<strong>
+Gold Style Barbearia
+</strong>
 
-  Rio Branco - Acre<br>
+<br>
 
-  Barbearia desde 2022
+Rua Preciosa 557 — Rio Branco, Acre
+
+<br>
+
+Barbearia desde 2022
 
 </footer>
 
+
 <script>
+
+
+/* ==============================
+   SUPABASE
+============================== */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
@@ -147,235 +412,314 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
-async function carregarCliente() {
+/* ==============================
+   INICIAR
+============================== */
 
-  const {
-    data: sessionData,
-    error: sessionError
-  } = await supabaseClient.auth.getSession();
+async function iniciar(){
 
-  if (sessionError) {
+try{
 
-    document.getElementById("mensagem").innerHTML =
-      "<span style='color:#ff4444'>" +
-      "Erro ao verificar login: " +
-      sessionError.message +
-      "</span>";
 
-    return;
-  }
+const {
+data:sessionData,
+error:sessionError
+} =
+await supabaseClient.auth.getSession();
 
-  const session =
-    sessionData.session;
 
-  if (!session) {
+if(sessionError){
 
-    window.location.href =
-      "login.html";
-
-    return;
-  }
-
-  const usuario =
-    session.user;
-
-  document.getElementById("email").innerText =
-    usuario.email || "Não informado";
-
-
-  const {
-    data: cliente,
-    error
-  } = await supabaseClient
-    .from("clientes")
-    .select("*")
-    .eq("auth_user_id", usuario.id)
-    .maybeSingle();
-
-
-  if (error) {
-
-    console.error(error);
-
-    document.getElementById("mensagem").innerHTML =
-      "<span style='color:#ff4444'>" +
-      "Erro ao carregar seus dados: " +
-      error.message +
-      "</span>";
-
-    return;
-  }
-
-
-  if (!cliente) {
-
-    document.getElementById("nome").innerText =
-      "Não cadastrado";
-
-    document.getElementById("telefone").innerText =
-      "Não informado";
-
-    document.getElementById("boasVindas").innerText =
-      "Olá, cliente!";
-
-    document.getElementById("mensagem").innerHTML =
-      "<span style='color:#ff4444'>" +
-      "Seu cadastro de cliente não foi encontrado." +
-      "</span>";
-
-    return;
-  }
-
-
-  document.getElementById("nome").innerText =
-    cliente.Nome || "Não informado";
-
-  document.getElementById("telefone").innerText =
-    cliente.Telefone || "Não informado";
-
-  document.getElementById("boasVindas").innerText =
-    "Olá, " +
-    (cliente.Nome || "cliente") +
-    "!";
-
-
-  document.getElementById("mensagem").innerText =
-    "Conta carregada com sucesso.";
-
-  carregarAgendamentos(cliente);
-}
-
-
-async function carregarAgendamentos(cliente) {
-
-  const area =
-    document.getElementById("agendamentos");
-
-
-  if (!cliente) {
-
-    area.innerHTML =
-      "Não encontramos seus dados de cliente.";
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("agendamentos")
-    .select("*")
-    .eq("Cliente_id", cliente.id)
-    .order("Data", {
-      ascending: true
-    })
-    .order("Horário", {
-      ascending: true
-    });
-
-
-  if (error) {
-
-    console.error(error);
-
-    area.innerHTML =
-      "<span style='color:#ff4444'>" +
-      "Erro ao carregar seus agendamentos: " +
-      error.message +
-      "</span>";
-
-    return;
-  }
-
-
-  if (!data || data.length === 0) {
-
-    area.innerHTML =
-      "<p style='color:#aaa'>" +
-      "Você ainda não possui agendamentos." +
-      "</p>";
-
-    return;
-  }
-
-
-  area.innerHTML = "";
-
-
-  data.forEach(function(item) {
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "agendamento";
-
-
-    div.innerHTML =
-
-      "<strong>Serviço:</strong> " +
-      (item["Serviços"] || "Não informado") +
-
-      "<br>" +
-
-      "<strong>Valor:</strong> R$ " +
-      Number(item["Valor"] || 0)
-        .toFixed(2)
-        .replace(".", ",") +
-
-      "<br>" +
-
-      "<strong>Data:</strong> " +
-      (item["Data"] || "Não informada") +
-
-      "<br>" +
-
-      "<strong>Horário:</strong> " +
-      (item["Horário"] || "Não informado") +
-
-      "<br>" +
-
-      "<strong>Status:</strong> " +
-      (item["Status"] || "Pendente") +
-
-      "<br>" +
-
-      "<strong>Pagamento:</strong> " +
-      (item["Pagamento"] || "Pendente");
-
-
-    area.appendChild(div);
-
-  });
+throw sessionError;
 
 }
 
 
-document
-  .getElementById("sair")
-  .addEventListener(
-    "click",
-    async function() {
-
-      await supabaseClient.auth.signOut();
-
-      window.location.href =
-        "login.html";
-
-    }
-  );
+const session =
+sessionData.session;
 
 
-carregarCliente();
+if(!session){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+
+const usuarioId =
+session.user.id;
+
+
+/* ==============================
+   BUSCAR CLIENTE
+============================== */
+
+const {
+data:cliente,
+error:clienteError
+} =
+await supabaseClient
+.from("clientes")
+.select("id,Nome,Telefone,E-mail,Data_cadastro")
+.eq("auth_user_id",usuarioId)
+.maybeSingle();
+
+
+if(clienteError){
+
+throw clienteError;
+
+}
+
+
+if(!cliente){
+
+document.getElementById("mensagem").innerHTML =
+"❌ Cadastro de cliente não encontrado.";
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+return;
+
+}
+
+
+/* ==============================
+   MOSTRAR DADOS
+============================== */
+
+document.getElementById("nomeCliente")
+.innerText =
+cliente.Nome || "Cliente";
+
+
+document.getElementById("clienteNome")
+.innerText =
+cliente.Nome || "-";
+
+
+document.getElementById("clienteTelefone")
+.innerText =
+cliente.Telefone || "-";
+
+
+document.getElementById("clienteEmail")
+.innerText =
+cliente["E-mail"] || "-";
+
+
+document.getElementById("mensagem")
+.style.display="none";
+
+
+document.getElementById("conteudo")
+.style.display="block";
+
+
+/* ==============================
+   AGENDAMENTOS
+============================== */
+
+await carregarAgendamentos(usuarioId);
+
+
+}catch(error){
+
+console.error(error);
+
+document.getElementById("mensagem").innerHTML =
+"❌ Erro ao carregar sua conta: " +
+(error.message || error);
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+}
+
+}
+
+
+/* ==============================
+   CARREGAR AGENDAMENTOS
+============================== */
+
+async function carregarAgendamentos(usuarioId){
+
+const lista =
+document.getElementById("listaAgendamentos");
+
+
+const {
+data:agendamentos,
+error
+} =
+await supabaseClient
+.from("agendamentos")
+.select("*")
+.eq("auth_user_id",usuarioId)
+.order("Data",{ascending:true})
+.order("Horário",{ascending:true});
+
+
+if(error){
+
+console.error(error);
+
+lista.innerHTML =
+"❌ Não foi possível carregar seus agendamentos.";
+
+return;
+
+}
+
+
+if(!agendamentos ||
+agendamentos.length===0){
+
+lista.innerHTML =
+`
+<p class="info">
+Você ainda não possui agendamentos.
+</p>
+`;
+
+return;
+
+}
+
+
+lista.innerHTML="";
+
+
+agendamentos.forEach(item=>{
+
+const status =
+item["Status"] || "Pendente";
+
+
+let classe =
+"status-pendente";
+
+
+if(status==="Confirmado"){
+
+classe="status-confirmado";
+
+}
+
+
+if(status==="Concluído"){
+
+classe="status-concluido";
+
+}
+
+
+if(status==="Cancelado"){
+
+classe="status-cancelado";
+
+}
+
+
+const valor =
+Number(item["Valor"] || 0);
+
+
+const horario =
+item["Horário"]
+? String(item["Horário"]).substring(0,5)
+: "";
+
+
+const div =
+document.createElement("div");
+
+
+div.className="agendamento";
+
+
+div.innerHTML =
+`
+
+<div>
+
+<strong>
+✂️ ${item["Serviços"] || "Serviço"}
+</strong>
+
+</div>
+
+<br>
+
+<div>
+📅 Data: ${item["Data"] || "-"}
+</div>
+
+<div>
+🕐 Horário: ${horario || "-"}
+</div>
+
+<div>
+💰 Valor: R$ ${valor.toFixed(2).replace(".",",")}
+</div>
+
+<div>
+
+<span class="status ${classe}">
+${status}
+</span>
+
+</div>
+
+<div>
+
+Pagamento:
+<strong>
+${item["Pagamento"] || "Pendente"}
+</strong>
+
+</div>
+
+`;
+
+
+lista.appendChild(div);
+
+});
+
+}
+
+
+/* ==============================
+   SAIR
+============================== */
+
+async function sair(){
+
+await supabaseClient.auth.signOut();
+
+window.location.href="login.html";
+
+}
+
+
+/* ==============================
+   EXECUTAR
+============================== */
+
+iniciar();
 
 </script>
 
 </body>
-</html>
+
+  </html>
