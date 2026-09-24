@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Criar conta | Gold Style</title>
+  <title>Login | Gold Style</title>
 
   <link rel="stylesheet" href="style.css">
 
@@ -58,82 +58,81 @@
 
 <header>
   <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">CRIAR CONTA</div>
+  <div class="subtitle">ÁREA DO CLIENTE</div>
 </header>
 
 <main>
 
   <section class="hero">
-    <h1>Crie sua conta</h1>
+
+    <h1>Bem-vindo!</h1>
 
     <p>
-      Cadastre seus dados para facilitar
-      seus próximos agendamentos.
+      Entre na sua conta para acessar
+      seus agendamentos.
     </p>
+
   </section>
 
-  <form id="cadastroForm">
 
-    <label for="nome">Nome completo</label>
+  <form id="loginForm">
 
-    <input
-      type="text"
-      id="nome"
-      placeholder="Digite seu nome completo"
-      required>
-
-    <label for="telefone">WhatsApp</label>
-
-    <input
-      type="tel"
-      id="telefone"
-      placeholder="(68) 99985-3643"
-      required>
-
-    <label for="email">E-mail</label>
+    <label for="email">
+      E-mail
+    </label>
 
     <input
       type="email"
       id="email"
-      placeholder="seuemail@email.com"
+      placeholder="Digite seu e-mail"
       required>
 
-    <label for="senha">Criar senha</label>
+
+    <label for="senha">
+      Senha
+    </label>
 
     <input
       type="password"
       id="senha"
-      placeholder="Crie uma senha"
-      minlength="6"
+      placeholder="Digite sua senha"
       required>
 
-    <label for="confirmar">Confirmar senha</label>
-
-    <input
-      type="password"
-      id="confirmar"
-      placeholder="Digite a senha novamente"
-      minlength="6"
-      required>
 
     <button
       type="submit"
       class="btn btn-gold"
-      id="botaoCadastro">
+      id="botaoLogin">
 
-      CRIAR MINHA CONTA
+      ENTRAR
 
     </button>
 
   </form>
 
+
   <div id="mensagem"></div>
 
-  <a href="index.html" class="btn btn-dark">
+
+  <a
+    href="cadastro.html"
+    class="btn btn-dark">
+
+    CRIAR MINHA CONTA
+
+  </a>
+
+
+  <a
+    href="index.html"
+    class="btn btn-dark">
+
     VOLTAR PARA INÍCIO
+
   </a>
 
 </main>
+
 
 <footer>
 
@@ -149,11 +148,17 @@
 <script>
 
 /* =====================================================
-   CONFIGURAÇÃO DO SUPABASE
+   SUPABASE
    ===================================================== */
+
+
+/* 🔴 COLOQUE AQUI A URL DO SEU PROJETO */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+/* 🔴 COLOQUE AQUI A SUA CHAVE sb_publishable_... */
 
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
@@ -167,17 +172,17 @@ window.supabase.createClient(
 
 
 /* =====================================================
-   FORMULÁRIO
+   LOGIN
    ===================================================== */
 
 const form =
-document.getElementById("cadastroForm");
+document.getElementById("loginForm");
 
 const mensagem =
 document.getElementById("mensagem");
 
 const botao =
-document.getElementById("botaoCadastro");
+document.getElementById("botaoLogin");
 
 
 form.addEventListener(
@@ -187,80 +192,37 @@ form.addEventListener(
     event.preventDefault();
 
 
-    const nome =
-    document.getElementById("nome").value.trim();
-
-    const telefone =
-    document.getElementById("telefone").value.trim();
-
     const email =
     document.getElementById("email").value.trim();
 
+
     const senha =
     document.getElementById("senha").value;
-
-    const confirmar =
-    document.getElementById("confirmar").value;
-
-
-    /* Verificar senha */
-
-    if (senha !== confirmar) {
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444'>" +
-      "As senhas não são iguais." +
-      "</span>";
-
-      return;
-    }
-
-
-    if (senha.length < 6) {
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444'>" +
-      "A senha precisa ter pelo menos 6 caracteres." +
-      "</span>";
-
-      return;
-    }
 
 
     botao.disabled = true;
 
     botao.innerText =
-    "CRIANDO CONTA...";
+    "ENTRANDO...";
 
 
     mensagem.innerHTML =
     "<span style='color:#ffd700'>" +
-    "Aguarde, estamos criando sua conta..." +
+    "Verificando seus dados..." +
     "</span>";
 
 
     try {
 
-      /* Criar usuário no Supabase Auth */
-
       const {
         data,
         error
       } =
-      await supabaseClient.auth.signUp({
+      await supabaseClient.auth.signInWithPassword({
 
         email: email,
 
-        password: senha,
-
-        options: {
-
-          data: {
-            nome: nome,
-            telefone: telefone
-          }
-
-        }
+        password: senha
 
       });
 
@@ -273,56 +235,37 @@ form.addEventListener(
       if (!data.user) {
 
         throw new Error(
-          "Não foi possível criar o usuário."
+          "Usuário não encontrado."
         );
 
       }
 
 
-      /* Salvar cliente na tabela clientes */
-
-      const {
-        error: clienteError
-      } =
-      await supabaseClient
-        .from("clientes")
-        .insert([{
-
-          nome: nome,
-
-          telefone: telefone,
-
-          email: email,
-
-          auth_user_id: data.user.id
-
-        }]);
-
-
-      if (clienteError) {
-
-        throw clienteError;
-
-      }
-
-
-      /* Sucesso */
-
       mensagem.innerHTML =
       "<span style='color:#ffd700;font-weight:bold'>" +
 
-      "✅ CONTA CRIADA COM SUCESSO!<br><br>" +
+      "✅ LOGIN REALIZADO COM SUCESSO!<br><br>" +
 
-      "Enviamos um e-mail para você confirmar seu cadastro." +
+      "Aguarde..." +
 
       "</span>";
 
 
-      form.reset();
+      /*
+        Por enquanto vamos mandar o cliente
+        para a página inicial.
 
+        Depois vamos criar a área exclusiva
+        do cliente com agendamentos,
+        pagamentos e histórico.
+      */
 
-      botao.innerText =
-      "CONTA CRIADA";
+      setTimeout(function() {
+
+        window.location.href =
+        "index.html";
+
+      }, 1000);
 
 
     }
@@ -335,7 +278,7 @@ form.addEventListener(
       mensagem.innerHTML =
       "<span style='color:#ff4444;font-weight:bold'>" +
 
-      "❌ Não foi possível criar a conta.<br><br>" +
+      "❌ Não foi possível entrar.<br><br>" +
 
       error.message +
 
@@ -345,7 +288,7 @@ form.addEventListener(
       botao.disabled = false;
 
       botao.innerText =
-      "CRIAR MINHA CONTA";
+      "ENTRAR";
 
     }
 
