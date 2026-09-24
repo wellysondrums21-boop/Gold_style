@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Serviços | Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#050505;
+color:#fff;
+font-family:Arial,sans-serif;
+}
+
+header{
+background:#080808;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #333;
+}
+
+.logo{
+color:#ffd700;
+font-size:28px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.subtitulo{
+color:#aaa;
+margin-top:5px;
+font-size:13px;
+}
+
+main{
+width:94%;
+max-width:900px;
+margin:20px auto;
+}
+
+.topo{
+display:flex;
+align-items:center;
+gap:15px;
+margin-bottom:20px;
+}
+
+.voltar{
+background:#111;
+border:1px solid #444;
+color:#ffd700;
+padding:10px 15px;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+}
+
+h1{
+color:#ffd700;
+margin:0;
+}
+
+.servico{
+background:#111;
+border:1px solid #333;
+border-radius:15px;
+padding:18px;
+margin-bottom:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+}
+
+.nome{
+font-size:18px;
+font-weight:bold;
+}
+
+.preco{
+color:#ffd700;
+font-size:20px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.status{
+font-size:12px;
+color:#00ff88;
+margin-top:5px;
+}
+
+button{
+background:#ffd700;
+color:#000;
+border:none;
+padding:10px 15px;
+border-radius:9px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#fff000;
+}
+
+#mensagem{
+text-align:center;
+color:#ffd700;
+padding:20px;
+}
+
+.erro{
+color:#ff5555!important;
+}
+
+@media(max-width:600px){
+
+.servico{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.servico button{
+width:100%;
+}
+
+.topo{
+align-items:flex-start;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+GOLD STYLE
+</div>
+
+<div class="subtitulo">
+GERENCIAMENTO DE SERVIÇOS
+</div>
+
+</header>
+
+
+<main>
+
+
+<div class="topo">
+
+<a
+href="admin.html"
+class="voltar">
+
+← Voltar
+
+</a>
+
+<h1>
+✂️ Serviços
+</h1>
+
+</div>
+
+
+<div id="mensagem">
+Carregando serviços...
+</div>
+
+
+<div id="listaServicos"></div>
+
+
+</main>
+
+
+
+<script>
+
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+
+async function carregarServicos(){
+
+try{
+
+
+const {
+data:sessionData
+} =
+await supabaseClient.auth.getSession();
+
+
+if(!sessionData.session){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+
+
+const {
+data:admin,
+error:adminError
+} =
+await supabaseClient
+.from("administradores")
+.select("id,ativo")
+.eq(
+"auth_user_id",
+sessionData.session.user.id
+)
+.eq("ativo",true)
+.maybeSingle();
+
+
+if(adminError){
+
+throw adminError;
+
+}
+
+
+if(!admin){
+
+document.getElementById("mensagem")
+.innerHTML=
+"❌ Acesso administrativo não autorizado.";
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+return;
+
+}
+
+
+
+const {
+data:servicos,
+error
+} =
+await supabaseClient
+.from("Serviços")
+.select("id,created_at,Valor,Ativo")
+.order("created_at");
+
+
+if(error){
+
+throw error;
+
+}
+
+
+
+const lista =
+document.getElementById("listaServicos");
+
+
+document.getElementById("mensagem")
+.style.display="none";
+
+
+lista.innerHTML="";
+
+
+if(!servicos || servicos.length===0){
+
+lista.innerHTML=
+"<p>Nenhum serviço cadastrado.</p>";
+
+return;
+
+}
+
+
+
+servicos.forEach(servico=>{
+
+
+const item =
+document.createElement("div");
+
+
+item.className="servico";
+
+
+item.innerHTML=
+`
+
+<div>
+
+<div class="nome">
+
+${servico.created_at}
+
+</div>
+
+<div class="preco">
+
+R$ ${Number(servico.Valor)
+.toFixed(2)
+.replace(".",",")}
+
+</div>
+
+<div class="status">
+
+${servico.Ativo
+? "● Serviço ativo"
+: "● Serviço desativado"}
+
+</div>
+
+</div>
+
+
+<button
+onclick="alternarServico(
+'${servico.id}',
+${servico.Ativo}
+)">
+
+${servico.Ativo
+? "Desativar"
+: "Ativar"}
+
+</button>
+
+`;
+
+
+lista.appendChild(item);
+
+});
+
+
+}catch(error){
+
+
+console.error(error);
+
+
+document.getElementById("mensagem")
+.innerHTML=
+"❌ Erro: " +
+(error.message || error);
+
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+}
+
+}
+
+
+
+async function alternarServico(id,ativo){
+
+
+const novoStatus=!ativo;
+
+
+const {
+error
+} =
+await supabaseClient
+.from("Serviços")
+.update({
+"Ativo":novoStatus
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Erro ao atualizar serviço: " +
+error.message
+);
+
+return;
+
+}
+
+
+carregarServicos();
+
+}
+
+
+
+carregarServicos();
+
+
+</script>
+
+
+</body>
+
+</html>
