@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Produtos | Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    background:linear-gradient(135deg,#050505,#181818);
+    border-bottom:2px solid #d4af37;
+    padding:22px 18px;
+    text-align:center;
+    box-shadow:0 0 25px rgba(212,175,55,.25);
+}
+
+.logo{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.subtitulo{
+    color:#aaa;
+    margin-top:6px;
+    font-size:13px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+.voltar{
+    display:inline-block;
+    color:#ffd700;
+    text-decoration:none;
+    margin-bottom:20px;
+    font-weight:bold;
+}
+
+.titulo{
+    color:#ffd700;
+    font-size:26px;
+    margin-bottom:5px;
+}
+
+.descricao{
+    color:#aaa;
+    margin-bottom:20px;
+}
+
+.resumo{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:22px;
+}
+
+.card{
+    background:#111;
+    border:1px solid #333;
+    border-radius:14px;
+    padding:17px;
+}
+
+.card span{
+    color:#aaa;
+    font-size:13px;
+}
+
+.card strong{
+    display:block;
+    color:#ffd700;
+    font-size:26px;
+    margin-top:7px;
+}
+
+.produto{
+    background:#111;
+    border:1px solid #333;
+    border-left:4px solid #d4af37;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:0 0 15px rgba(212,175,55,.08);
+}
+
+.nome{
+    color:#ffd700;
+    font-size:21px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.descricao-produto{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:16px;
+}
+
+.info{
+    margin:8px 0;
+    color:#ddd;
+    font-size:14px;
+}
+
+.info span{
+    color:#999;
+}
+
+.preco{
+    color:#ffd700;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.estoque-normal{
+    color:#4ade80;
+    font-weight:bold;
+}
+
+.estoque-baixo{
+    color:#ff5252;
+    font-weight:bold;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.ativo{
+    background:#143d22;
+    color:#4ade80;
+}
+
+.inativo{
+    background:#3d1414;
+    color:#ff5252;
+}
+
+.alerta{
+    background:#3d1414;
+    border:1px solid #ff5252;
+    color:#ff7777;
+    padding:10px;
+    border-radius:8px;
+    margin-top:12px;
+    font-size:13px;
+}
+
+.edicao{
+    margin-top:18px;
+    padding-top:18px;
+    border-top:1px solid #333;
+}
+
+.edicao-titulo{
+    color:#ffd700;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.campo{
+    margin-bottom:12px;
+}
+
+.campo label{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.campo input{
+    width:100%;
+    padding:12px;
+    background:#080808;
+    border:1px solid #444;
+    border-radius:8px;
+    color:#fff;
+    font-size:15px;
+}
+
+.campo input:focus{
+    outline:none;
+    border-color:#ffd700;
+}
+
+.botoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+.botao{
+    border:0;
+    border-radius:8px;
+    padding:12px 16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.salvar{
+    background:#d4af37;
+    color:#000;
+}
+
+.salvar:hover{
+    background:#ffd700;
+}
+
+.status-btn{
+    background:#222;
+    color:#ffd700;
+    border:1px solid #555;
+}
+
+.status-btn:hover{
+    border-color:#ffd700;
+}
+
+.mensagem{
+    text-align:center;
+    color:#aaa;
+    padding:30px 10px;
+}
+
+.erro{
+    color:#ff5555;
+}
+
+.sucesso{
+    color:#4ade80;
+    margin-top:10px;
+    font-size:13px;
+}
+
+@media(min-width:700px){
+
+    .resumo{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .produto{
+        padding:22px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GOLD STYLE
+    </div>
+
+    <div class="subtitulo">
+        BARBEARIA DESDE 2022
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <a href="admin.html" class="voltar">
+        ← Voltar para o painel
+    </a>
+
+    <h1 class="titulo">
+        🛍️ Produtos
+    </h1>
+
+    <p class="descricao">
+        Controle de produtos, preços e estoque da Gold Style.
+    </p>
+
+
+    <div class="resumo">
+
+        <div class="card">
+            <span>Total de produtos</span>
+            <strong id="totalProdutos">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Produtos ativos</span>
+            <strong id="produtosAtivos">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Estoque baixo</span>
+            <strong id="estoqueBaixo">0</strong>
+        </div>
+
+        <div class="card">
+            <span>Unidades em estoque</span>
+            <strong id="totalEstoque">0</strong>
+        </div>
+
+    </div>
+
+
+    <div id="listaProdutos">
+
+        <div class="mensagem">
+            Carregando produtos...
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================
+   VERIFICAR ADMIN
+========================= */
+
+async function verificarAdmin(){
+
+    const {
+        data:{session}
+    } = await supabaseClient.auth.getSession();
+
+    if(!session){
+
+        window.location.href="login.html";
+
+        return null;
+    }
+
+
+    const {data:admin,error} =
+    await supabaseClient
+    .from("administradores")
+    .select("id,ativo")
+    .eq("auth_user_id",session.user.id)
+    .eq("ativo",true)
+    .maybeSingle();
+
+
+    if(error || !admin){
+
+        alert(
+            "Acesso permitido somente para administrador."
+        );
+
+        window.location.href="cliente.html";
+
+        return null;
+    }
+
+
+    return session;
+
+}
+
+
+/* =========================
+   CARREGAR PRODUTOS
+========================= */
+
+async function carregarProdutos(){
+
+    const lista =
+    document.getElementById("listaProdutos");
+
+
+    const {data:produtos,error} =
+    await supabaseClient
+    .from("produtos")
+    .select(
+        "id,Nome,Descrição,Preço,Estoque,\"Estoque minimo\",Ativo,Criado_em"
+    )
+    .order("Nome");
+
+
+    if(error){
+
+        console.error(error);
+
+        lista.innerHTML = `
+            <div class="mensagem erro">
+                Erro ao carregar produtos.<br><br>
+                ${error.message}
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if(!produtos || produtos.length === 0){
+
+        lista.innerHTML = `
+            <div class="mensagem">
+                Nenhum produto cadastrado.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    /* =========================
+       RESUMO
+    ========================= */
+
+    const total =
+    produtos.length;
+
+
+    const ativos =
+    produtos.filter(
+        produto => produto.Ativo === true
+    ).length;
+
+
+    const baixo =
+    produtos.filter(produto =>
+        Number(produto.Estoque || 0)
+        <=
+        Number(produto["Estoque minimo"] || 0)
+    ).length;
+
+
+    const unidades =
+    produtos.reduce(
+        (total,produto) =>
+        total + Number(produto.Estoque || 0),
+        0
+    );
+
+
+    document.getElementById("totalProdutos")
+    .textContent = total;
+
+
+    document.getElementById("produtosAtivos")
+    .textContent = ativos;
+
+
+    document.getElementById("estoqueBaixo")
+    .textContent = baixo;
+
+
+    document.getElementById("totalEstoque")
+    .textContent = unidades;
+
+
+    /* =========================
+       LISTA
+    ========================= */
+
+    lista.innerHTML = "";
+
+
+    produtos.forEach(produto => {
+
+        const estoque =
+        Number(produto.Estoque || 0);
+
+
+        const minimo =
+        Number(produto["Estoque minimo"] || 0);
+
+
+        const preco =
+        Number(produto["Preço"] || 0);
+
+
+        const estoqueBaixo =
+        estoque <= minimo;
+
+
+        const div =
+        document.createElement("div");
+
+
+        div.className="produto";
+
+
+        div.innerHTML = `
+
+            <div class="nome">
+                🛍️ ${produto.Nome || "Produto"}
+            </div>
+
+            <div class="descricao-produto">
+                ${produto.Descrição || "Sem descrição"}
+            </div>
+
+            <div class="info">
+                💰 <span>Preço:</span>
+                <span class="preco">
+                    R$ ${preco.toFixed(2).replace(".",",")}
+                </span>
+            </div>
+
+            <div class="info">
+                📦 <span>Estoque:</span>
+
+                <span class="${
+                    estoqueBaixo
+                    ? "estoque-baixo"
+                    : "estoque-normal"
+                }">
+
+                    ${estoque} unidade(s)
+
+                </span>
+            </div>
+
+            <div class="info">
+                ⚠️ <span>Estoque mínimo:</span>
+                ${minimo} unidade(s)
+            </div>
+
+            <div>
+
+                <span class="badge ${
+                    produto.Ativo
+                    ? "ativo"
+                    : "inativo"
+                }">
+
+                    ${
+                        produto.Ativo
+                        ? "● Produto ativo"
+                        : "● Produto inativo"
+                    }
+
+                </span>
+
+            </div>
+
+            ${
+                estoqueBaixo
+                ? `
+                    <div class="alerta">
+                        ⚠️ Atenção: estoque igual ou abaixo
+                        do estoque mínimo.
+                    </div>
+                  `
+                : ""
+            }
+
+
+            <div class="edicao">
+
+                <div class="edicao-titulo">
+                    ⚙️ Editar produto
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Preço de venda
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        id="preco-${produto.id}"
+                        value="${preco}"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Estoque atual
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        id="estoque-${produto.id}"
+                        value="${estoque}"
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Estoque mínimo
+                    </label>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        id="minimo-${produto.id}"
+                        value="${minimo}"
+                    >
+
+                </div>
+
+
+                <div class="botoes">
+
+                    <button
+                        class="botao salvar"
+                        onclick="salvarProduto('${produto.id}')"
+                    >
+                        💾 Salvar alterações
+                    </button>
+
+
+                    <button
+                        class="botao status-btn"
+                        onclick="alternarProduto(
+                            '${produto.id}',
+                            ${produto.Ativo}
+                        )"
+                    >
+
+                        ${
+                            produto.Ativo
+                            ? "Desativar produto"
+                            : "Ativar produto"
+                        }
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="mensagem-${produto.id}"
+                ></div>
+
+            </div>
+
+        `;
+
+
+        lista.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================
+   SALVAR PRODUTO
+========================= */
+
+async function salvarProduto(id){
+
+    const preco =
+    Number(
+        document.getElementById(
+            "preco-"+id
+        ).value
+    );
+
+
+    const estoque =
+    Number(
+        document.getElementById(
+            "estoque-"+id
+        ).value
+    );
+
+
+    const minimo =
+    Number(
+        document.getElementById(
+            "minimo-"+id
+        ).value
+    );
+
+
+    const mensagem =
+    document.getElementById(
+        "mensagem-"+id
+    );
+
+
+    if(
+        Number.isNaN(preco) ||
+        Number.isNaN(estoque) ||
+        Number.isNaN(minimo)
+    ){
+
+        mensagem.innerHTML = `
+            <div class="erro">
+                Preencha todos os campos corretamente.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if(
+        preco < 0 ||
+        estoque < 0 ||
+        minimo < 0
+    ){
+
+        mensagem.innerHTML = `
+            <div class="erro">
+                Os valores não podem ser negativos.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    mensagem.innerHTML =
+    "Salvando...";
+
+
+    const {error} =
+    await supabaseClient
+    .from("produtos")
+    .update({
+        "Preço":preco,
+        "Estoque":estoque,
+        "Estoque minimo":minimo
+    })
+    .eq("id",id);
+
+
+    if(error){
+
+        console.error(error);
+
+        mensagem.innerHTML = `
+            <div class="erro">
+                Erro ao salvar:<br>
+                ${error.message}
+            </div>
+        `;
+
+        return;
+    }
+
+
+    mensagem.innerHTML = `
+        <div class="sucesso">
+            ✓ Produto atualizado com sucesso.
+        </div>
+    `;
+
+
+    await carregarProdutos();
+
+}
+
+
+/* =========================
+   ATIVAR / DESATIVAR
+========================= */
+
+async function alternarProduto(id,ativo){
+
+    const novoStatus =
+    !ativo;
+
+
+    const {error} =
+    await supabaseClient
+    .from("produtos")
+    .update({
+        "Ativo":novoStatus
+    })
+    .eq("id",id);
+
+
+    if(error){
+
+        alert(
+            "Erro ao alterar produto:\n"+
+            error.message
+        );
+
+        return;
+    }
+
+
+    await carregarProdutos();
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+async function iniciar(){
+
+    const session =
+    await verificarAdmin();
+
+
+    if(!session)
+        return;
+
+
+    await carregarProdutos();
+
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+  </html>
