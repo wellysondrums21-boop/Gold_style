@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Agenda Administrativa - Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050505;
+    color:white;
+}
+
+header{
+    background:linear-gradient(135deg,#050505,#151515);
+    border-bottom:2px solid #d4af37;
+    padding:20px;
+    text-align:center;
+}
+
+.logo{
+    color:#ffd700;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.subtitulo{
+    color:#ccc;
+    margin-top:5px;
+}
+
+.container{
+    width:95%;
+    max-width:1200px;
+    margin:25px auto;
+}
+
+.topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+h1{
+    color:#ffd700;
+    margin:0;
+}
+
+.btn-voltar{
+    background:#ffd700;
+    color:#000;
+    padding:12px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.resumo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin:25px 0;
+}
+
+.card{
+    background:#111;
+    border:1px solid #333;
+    border-left:4px solid #ffd700;
+    border-radius:10px;
+    padding:18px;
+}
+
+.card strong{
+    display:block;
+    color:#aaa;
+    margin-bottom:8px;
+}
+
+.numero{
+    color:#ffd700;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.agendamento{
+    background:#111;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.agendamento:hover{
+    border-color:#ffd700;
+}
+
+.linha{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.item strong{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.item span{
+    color:white;
+    font-size:16px;
+}
+
+.valor{
+    color:#00ff88 !important;
+    font-weight:bold;
+}
+
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    border-top:1px solid #333;
+    padding-top:15px;
+}
+
+select{
+    background:#050505;
+    color:white;
+    border:1px solid #555;
+    border-radius:7px;
+    padding:10px;
+    min-width:160px;
+}
+
+button{
+    border:none;
+    border-radius:7px;
+    padding:10px 15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-salvar{
+    background:#ffd700;
+    color:#000;
+}
+
+.btn-whatsapp{
+    background:#25d366;
+    color:white;
+}
+
+.mensagem{
+    text-align:center;
+    padding:30px;
+    background:#111;
+    border-radius:10px;
+    color:#aaa;
+}
+
+.erro{
+    color:#ff5555;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:92%;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    .acoes{
+        flex-direction:column;
+    }
+
+    select,
+    button{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GOLD STYLE
+    </div>
+
+    <div class="subtitulo">
+        BARBEARIA DESDE 2022
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="topo">
+
+        <h1>📅 Agenda Administrativa</h1>
+
+        <a href="admin.html" class="btn-voltar">
+            ← Voltar ao painel
+        </a>
+
+    </div>
+
+    <div class="resumo">
+
+        <div class="card">
+            <strong>Total de agendamentos</strong>
+            <div class="numero" id="total">0</div>
+        </div>
+
+        <div class="card">
+            <strong>Pendentes</strong>
+            <div class="numero" id="pendentes">0</div>
+        </div>
+
+        <div class="card">
+            <strong>Confirmados</strong>
+            <div class="numero" id="confirmados">0</div>
+        </div>
+
+        <div class="card">
+            <strong>Concluídos</strong>
+            <div class="numero" id="concluidos">0</div>
+        </div>
+
+    </div>
+
+    <div id="lista">
+        <div class="mensagem">
+            Carregando agenda...
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+// VERIFICAR LOGIN E ADMIN
+async function verificarAdmin(){
+
+    const {
+        data:{
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if(!session){
+
+        window.location.href="login.html";
+
+        return false;
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("administradores")
+        .select("id")
+        .eq("auth_user_id",session.user.id)
+        .eq("ativo",true)
+        .maybeSingle();
+
+    if(error || !data){
+
+        alert("Acesso administrativo não autorizado.");
+
+        window.location.href="cliente.html";
+
+        return false;
+    }
+
+    return true;
+}
+
+
+// CARREGAR AGENDA
+async function carregarAgenda(){
+
+    const lista =
+        document.getElementById("lista");
+
+    lista.innerHTML =
+        '<div class="mensagem">Carregando agenda...</div>';
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("agendamentos")
+        .select("*")
+        .order("Data",{ascending:true})
+        .order("Horário",{ascending:true});
+
+    if(error){
+
+        console.error(error);
+
+        lista.innerHTML =
+            `<div class="erro">
+                Erro ao carregar a agenda.<br><br>
+                ${error.message}
+            </div>`;
+
+        return;
+    }
+
+    atualizarResumo(data || []);
+
+    if(!data || data.length===0){
+
+        lista.innerHTML =
+            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
+
+        return;
+    }
+
+    lista.innerHTML="";
+
+    for(const agendamento of data){
+
+        const card =
+            document.createElement("div");
+
+        card.className="agendamento";
+
+        const dataFormatada =
+            agendamento.Data
+            ? new Date(
+                agendamento.Data+"T00:00:00"
+              ).toLocaleDateString("pt-BR")
+            : "-";
+
+        const horario =
+            agendamento.Horário
+            ? String(agendamento.Horário).substring(0,5)
+            : "-";
+
+        const telefone =
+            "5568999853643";
+
+        card.innerHTML=`
+
+            <div class="linha">
+
+                <div class="item">
+                    <strong>👤 Cliente</strong>
+                    <span>
+                        ${agendamento.Cliente_id || "Cliente"}
+                    </span>
+                </div>
+
+                <div class="item">
+                    <strong>✂️ Serviço</strong>
+                    <span>
+                        ${agendamento["Serviços"] || "-"}
+                    </span>
+                </div>
+
+                <div class="item">
+                    <strong>📅 Data</strong>
+                    <span>
+                        ${dataFormatada}
+                    </span>
+                </div>
+
+                <div class="item">
+                    <strong>🕐 Horário</strong>
+                    <span>
+                        ${horario}
+                    </span>
+                </div>
+
+                <div class="item">
+                    <strong>💰 Valor</strong>
+                    <span class="valor">
+                        R$ ${Number(
+                            agendamento.Valor || 0
+                        ).toFixed(2).replace(".",",")}
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="acoes">
+
+                <select class="status">
+
+                    <option value="Pendente"
+                        ${agendamento.Status==="Pendente"?"selected":""}>
+                        Pendente
+                    </option>
+
+                    <option value="Confirmado"
+                        ${agendamento.Status==="Confirmado"?"selected":""}>
+                        Confirmado
+                    </option>
+
+                    <option value="Concluído"
+                        ${agendamento.Status==="Concluído"?"selected":""}>
+                        Concluído
+                    </option>
+
+                    <option value="Cancelado"
+                        ${agendamento.Status==="Cancelado"?"selected":""}>
+                        Cancelado
+                    </option>
+
+                </select>
+
+
+                <select class="pagamento">
+
+                    <option value="Pendente"
+                        ${agendamento.Pagamento==="Pendente"?"selected":""}>
+                        Pagamento Pendente
+                    </option>
+
+                    <option value="Pago"
+                        ${agendamento.Pagamento==="Pago"?"selected":""}>
+                        Pagamento Pago
+                    </option>
+
+                </select>
+
+
+                <button
+                    class="btn-salvar"
+                    onclick="salvarAgendamento(
+                        '${agendamento.id}',
+                        this
+                    )">
+
+                    💾 Salvar
+
+                </button>
+
+
+                <a
+                    href="https://wa.me/${telefone}"
+                    target="_blank"
+                    class="btn-whatsapp"
+                    style="
+                        text-decoration:none;
+                        padding:10px 15px;
+                        border-radius:7px;
+                        font-weight:bold;
+                    ">
+
+                    📲 WhatsApp
+
+                </a>
+
+            </div>
+
+        `;
+
+        lista.appendChild(card);
+    }
+
+}
+
+
+// RESUMO
+function atualizarResumo(agendamentos){
+
+    document.getElementById("total")
+        .textContent=agendamentos.length;
+
+    document.getElementById("pendentes")
+        .textContent=
+        agendamentos.filter(
+            a=>a.Status==="Pendente"
+        ).length;
+
+    document.getElementById("confirmados")
+        .textContent=
+        agendamentos.filter(
+            a=>a.Status==="Confirmado"
+        ).length;
+
+    document.getElementById("concluidos")
+        .textContent=
+        agendamentos.filter(
+            a=>a.Status==="Concluído"
+        ).length;
+}
+
+
+// SALVAR ALTERAÇÕES
+async function salvarAgendamento(id,botao){
+
+    const card =
+        botao.closest(".agendamento");
+
+    const status =
+        card.querySelector(".status").value;
+
+    const pagamento =
+        card.querySelector(".pagamento").value;
+
+    botao.disabled=true;
+
+    botao.textContent="Salvando...";
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("agendamentos")
+        .update({
+            Status:status,
+            Pagamento:pagamento
+        })
+        .eq("id",id);
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erro ao salvar: "+
+            error.message
+        );
+
+        botao.disabled=false;
+
+        botao.textContent="💾 Salvar";
+
+        return;
+    }
+
+
+    botao.textContent="✅ Salvo";
+
+    setTimeout(()=>{
+
+        botao.disabled=false;
+
+        botao.textContent="💾 Salvar";
+
+        carregarAgenda();
+
+    },1000);
+
+}
+
+
+// INICIAR
+(async()=>{
+
+    const autorizado =
+        await verificarAdmin();
+
+    if(autorizado){
+
+        await carregarAgenda();
+
+    }
+
+})();
+
+</script>
+
+</body>
+  </html>
