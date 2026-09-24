@@ -22,25 +22,25 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#050505,#151515);
-    border-bottom:2px solid #d4af37;
-    padding:20px;
+    background:linear-gradient(135deg,#050505,#171717);
+    border-bottom:2px solid #ffd700;
+    padding:22px 15px;
     text-align:center;
 }
 
 .logo{
     color:#ffd700;
-    font-size:28px;
+    font-size:30px;
     font-weight:bold;
 }
 
 .subtitulo{
-    color:#ccc;
+    color:#aaa;
     margin-top:5px;
 }
 
 .container{
-    width:95%;
+    width:94%;
     max-width:1200px;
     margin:25px auto;
 }
@@ -125,9 +125,34 @@ h1{
     font-size:16px;
 }
 
+.nome-cliente{
+    color:#ffd700 !important;
+    font-weight:bold;
+}
+
+.telefone{
+    color:#25d366 !important;
+}
+
 .valor{
     color:#00ff88 !important;
     font-weight:bold;
+}
+
+.status{
+    padding:10px;
+    border-radius:7px;
+    background:#050505;
+    color:white;
+    border:1px solid #555;
+}
+
+.pagamento{
+    padding:10px;
+    border-radius:7px;
+    background:#050505;
+    color:white;
+    border:1px solid #555;
 }
 
 .acoes{
@@ -136,15 +161,6 @@ h1{
     flex-wrap:wrap;
     border-top:1px solid #333;
     padding-top:15px;
-}
-
-select{
-    background:#050505;
-    color:white;
-    border:1px solid #555;
-    border-radius:7px;
-    padding:10px;
-    min-width:160px;
 }
 
 button{
@@ -163,6 +179,10 @@ button{
 .btn-whatsapp{
     background:#25d366;
     color:white;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:7px;
+    font-weight:bold;
 }
 
 .mensagem{
@@ -194,8 +214,10 @@ button{
     }
 
     select,
-    button{
+    button,
+    .btn-whatsapp{
         width:100%;
+        text-align:center;
     }
 
 }
@@ -217,6 +239,7 @@ button{
 
 </header>
 
+
 <div class="container">
 
     <div class="topo">
@@ -229,37 +252,50 @@ button{
 
     </div>
 
+
     <div class="resumo">
 
         <div class="card">
             <strong>Total de agendamentos</strong>
-            <div class="numero" id="total">0</div>
+            <div class="numero" id="total">
+                0
+            </div>
         </div>
 
         <div class="card">
             <strong>Pendentes</strong>
-            <div class="numero" id="pendentes">0</div>
+            <div class="numero" id="pendentes">
+                0
+            </div>
         </div>
 
         <div class="card">
             <strong>Confirmados</strong>
-            <div class="numero" id="confirmados">0</div>
+            <div class="numero" id="confirmados">
+                0
+            </div>
         </div>
 
         <div class="card">
             <strong>Concluídos</strong>
-            <div class="numero" id="concluidos">0</div>
+            <div class="numero" id="concluidos">
+                0
+            </div>
         </div>
 
     </div>
 
+
     <div id="lista">
+
         <div class="mensagem">
             Carregando agenda...
         </div>
+
     </div>
 
 </div>
+
 
 <script>
 
@@ -276,7 +312,7 @@ window.supabase.createClient(
 );
 
 
-// VERIFICAR LOGIN E ADMIN
+// VERIFICAR ADMIN
 async function verificarAdmin(){
 
     const {
@@ -285,12 +321,14 @@ async function verificarAdmin(){
         }
     } = await supabaseClient.auth.getSession();
 
+
     if(!session){
 
         window.location.href="login.html";
 
         return false;
     }
+
 
     const {
         data,
@@ -302,6 +340,7 @@ async function verificarAdmin(){
         .eq("ativo",true)
         .maybeSingle();
 
+
     if(error || !data){
 
         alert("Acesso administrativo não autorizado.");
@@ -310,6 +349,7 @@ async function verificarAdmin(){
 
         return false;
     }
+
 
     return true;
 }
@@ -321,17 +361,28 @@ async function carregarAgenda(){
     const lista =
         document.getElementById("lista");
 
+
     lista.innerHTML =
         '<div class="mensagem">Carregando agenda...</div>';
+
 
     const {
         data,
         error
     } = await supabaseClient
         .from("agendamentos")
-        .select("*")
+        .select(`
+            *,
+            cliente:clientes (
+                id,
+                Nome,
+                Telefone,
+                "E-mail"
+            )
+        `)
         .order("Data",{ascending:true})
         .order("Horário",{ascending:true});
+
 
     if(error){
 
@@ -346,7 +397,9 @@ async function carregarAgenda(){
         return;
     }
 
+
     atualizarResumo(data || []);
+
 
     if(!data || data.length===0){
 
@@ -356,14 +409,37 @@ async function carregarAgenda(){
         return;
     }
 
+
     lista.innerHTML="";
+
 
     for(const agendamento of data){
 
         const card =
             document.createElement("div");
 
+
         card.className="agendamento";
+
+
+        const cliente =
+            agendamento.cliente || {};
+
+
+        const nome =
+            cliente.Nome ||
+            "Cliente não identificado";
+
+
+        const telefone =
+            cliente.Telefone ||
+            "";
+
+
+        const email =
+            cliente["E-mail"] ||
+            "";
+
 
         const dataFormatada =
             agendamento.Data
@@ -372,58 +448,113 @@ async function carregarAgenda(){
               ).toLocaleDateString("pt-BR")
             : "-";
 
+
         const horario =
             agendamento.Horário
-            ? String(agendamento.Horário).substring(0,5)
+            ? String(
+                agendamento.Horário
+              ).substring(0,5)
             : "-";
 
-        const telefone =
-            "5568999853643";
+
+        const telefoneWhatsApp =
+            telefone
+            ? telefone.replace(/\D/g,"")
+            : "5568999853643";
+
 
         card.innerHTML=`
 
             <div class="linha">
 
                 <div class="item">
+
                     <strong>👤 Cliente</strong>
-                    <span>
-                        ${agendamento.Cliente_id || "Cliente"}
+
+                    <span class="nome-cliente">
+                        ${nome}
                     </span>
+
                 </div>
 
+
                 <div class="item">
+
+                    <strong>📱 WhatsApp</strong>
+
+                    <span class="telefone">
+                        ${telefone || "-"}
+                    </span>
+
+                </div>
+
+
+                <div class="item">
+
+                    <strong>📧 E-mail</strong>
+
+                    <span>
+                        ${email || "-"}
+                    </span>
+
+                </div>
+
+
+                <div class="item">
+
                     <strong>✂️ Serviço</strong>
+
                     <span>
                         ${agendamento["Serviços"] || "-"}
                     </span>
+
                 </div>
 
+
                 <div class="item">
+
                     <strong>📅 Data</strong>
+
                     <span>
                         ${dataFormatada}
                     </span>
+
                 </div>
 
+
                 <div class="item">
+
                     <strong>🕐 Horário</strong>
+
                     <span>
                         ${horario}
                     </span>
+
                 </div>
 
+
                 <div class="item">
+
                     <strong>💰 Valor</strong>
+
                     <span class="valor">
-                        R$ ${Number(
+
+                        R$
+                        ${Number(
                             agendamento.Valor || 0
-                        ).toFixed(2).replace(".",",")}
+                        )
+                        .toFixed(2)
+                        .replace(".",",")}
+
                     </span>
+
                 </div>
 
             </div>
 
+
             <div class="acoes">
+
 
                 <select class="status">
 
@@ -478,67 +609,83 @@ async function carregarAgenda(){
 
 
                 <a
-                    href="https://wa.me/${telefone}"
+                    href="https://wa.me/${telefoneWhatsApp}"
                     target="_blank"
-                    class="btn-whatsapp"
-                    style="
-                        text-decoration:none;
-                        padding:10px 15px;
-                        border-radius:7px;
-                        font-weight:bold;
-                    ">
+                    class="btn-whatsapp">
 
                     📲 WhatsApp
 
                 </a>
 
+
             </div>
 
         `;
 
+
         lista.appendChild(card);
+
     }
 
 }
 
 
-// RESUMO
+// ATUALIZAR RESUMO
 function atualizarResumo(agendamentos){
 
-    document.getElementById("total")
-        .textContent=agendamentos.length;
+    document.getElementById(
+        "total"
+    ).textContent =
+        agendamentos.length;
 
-    document.getElementById("pendentes")
-        .textContent=
+
+    document.getElementById(
+        "pendentes"
+    ).textContent =
         agendamentos.filter(
             a=>a.Status==="Pendente"
         ).length;
 
-    document.getElementById("confirmados")
-        .textContent=
+
+    document.getElementById(
+        "confirmados"
+    ).textContent =
         agendamentos.filter(
             a=>a.Status==="Confirmado"
         ).length;
 
-    document.getElementById("concluidos")
-        .textContent=
+
+    document.getElementById(
+        "concluidos"
+    ).textContent =
         agendamentos.filter(
             a=>a.Status==="Concluído"
         ).length;
+
 }
 
 
-// SALVAR ALTERAÇÕES
-async function salvarAgendamento(id,botao){
+// SALVAR
+async function salvarAgendamento(
+    id,
+    botao
+){
 
     const card =
         botao.closest(".agendamento");
 
+
     const status =
-        card.querySelector(".status").value;
+        card.querySelector(
+            ".status"
+        ).value;
+
 
     const pagamento =
-        card.querySelector(".pagamento").value;
+        card.querySelector(
+            ".pagamento"
+        ).value;
+
 
     botao.disabled=true;
 
@@ -550,8 +697,11 @@ async function salvarAgendamento(id,botao){
     } = await supabaseClient
         .from("agendamentos")
         .update({
+
             Status:status,
+
             Pagamento:pagamento
+
         })
         .eq("id",id);
 
@@ -561,9 +711,10 @@ async function salvarAgendamento(id,botao){
         console.error(error);
 
         alert(
-            "Erro ao salvar: "+
+            "Erro ao salvar:\n"+
             error.message
         );
+
 
         botao.disabled=false;
 
@@ -575,6 +726,7 @@ async function salvarAgendamento(id,botao){
 
     botao.textContent="✅ Salvo";
 
+
     setTimeout(()=>{
 
         botao.disabled=false;
@@ -583,7 +735,7 @@ async function salvarAgendamento(id,botao){
 
         carregarAgenda();
 
-    },1000);
+    },800);
 
 }
 
@@ -593,6 +745,7 @@ async function salvarAgendamento(id,botao){
 
     const autorizado =
         await verificarAdmin();
+
 
     if(autorizado){
 
@@ -605,4 +758,4 @@ async function salvarAgendamento(id,botao){
 </script>
 
 </body>
-  </html>
+    </html>
