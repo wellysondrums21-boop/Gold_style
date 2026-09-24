@@ -1,1 +1,1157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Relatórios - Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#050505;
+    color:white;
+    min-height:100vh;
+}
+
+header{
+    background:linear-gradient(135deg,#050505,#171717);
+    padding:20px;
+    border-bottom:1px solid #d4af37;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.logo{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.subtitulo{
+    color:#aaa;
+    margin-top:5px;
+    font-size:14px;
+}
+
+.container{
+    padding:20px;
+    max-width:1200px;
+    margin:auto;
+}
+
+.filtros{
+    background:#111;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.filtros h2{
+    color:#ffd700;
+    margin-bottom:15px;
+    font-size:18px;
+}
+
+.filtro-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+}
+
+label{
+    color:#aaa;
+    font-size:13px;
+    display:block;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:12px;
+    background:#050505;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#ffd700;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:21px;
+}
+
+button:hover{
+    background:#fff000;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:linear-gradient(145deg,#111,#1b1b1b);
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 0 15px rgba(212,175,55,.08);
+}
+
+.card h3{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:10px;
+}
+
+.valor{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.numero{
+    color:#fff;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.secao{
+    background:#111;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.secao h2{
+    color:#ffd700;
+    margin-bottom:15px;
+}
+
+.tabela-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th{
+    color:#ffd700;
+    text-align:left;
+    padding:12px;
+    border-bottom:1px solid #555;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #292929;
+    color:#ddd;
+}
+
+.status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    display:inline-block;
+}
+
+.confirmado{
+    background:#183b1c;
+    color:#62ff72;
+}
+
+.pendente{
+    background:#403719;
+    color:#ffd700;
+}
+
+.concluido{
+    background:#163d3d;
+    color:#55ffff;
+}
+
+.cancelado{
+    background:#411919;
+    color:#ff6b6b;
+}
+
+.vazio{
+    color:#888;
+    text-align:center;
+    padding:20px;
+}
+
+.menu{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#ddd;
+    border:1px solid #333;
+    padding:10px 14px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+.menu a:hover{
+    border-color:#ffd700;
+    color:#ffd700;
+}
+
+.rodape{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+    font-size:12px;
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:12px;
+    }
+
+    header{
+        padding:16px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .valor,
+    .numero{
+        font-size:22px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GOLD STYLE BARBEARIA
+    </div>
+
+    <div class="subtitulo">
+        Relatórios administrativos
+    </div>
+
+</header>
+
+<div class="container">
+
+    <div class="menu">
+
+        <a href="admin.html">🏠 Dashboard</a>
+
+        <a href="agendamento.html">📅 Agenda</a>
+
+        <a href="servicos.html">✂️ Serviços</a>
+
+        <a href="clientes.html">👥 Clientes</a>
+
+        <a href="produtos.html">🛍️ Produtos</a>
+
+        <a href="financeiro.html">💰 Financeiro</a>
+
+        <a href="relatorios.html">📊 Relatórios</a>
+
+    </div>
+
+
+    <div class="filtros">
+
+        <h2>🔎 Filtros do relatório</h2>
+
+        <div class="filtro-grid">
+
+            <div>
+                <label>Data inicial</label>
+                <input type="date" id="dataInicial">
+            </div>
+
+            <div>
+                <label>Data final</label>
+                <input type="date" id="dataFinal">
+            </div>
+
+            <div>
+                <label>Status</label>
+
+                <select id="filtroStatus">
+
+                    <option value="">Todos</option>
+
+                    <option value="Pendente">
+                        Pendente
+                    </option>
+
+                    <option value="Confirmado">
+                        Confirmado
+                    </option>
+
+                    <option value="Concluído">
+                        Concluído
+                    </option>
+
+                    <option value="Cancelado">
+                        Cancelado
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div>
+                <label>Pagamento</label>
+
+                <select id="filtroPagamento">
+
+                    <option value="">Todos</option>
+
+                    <option value="Pago">
+                        Pago
+                    </option>
+
+                    <option value="Pendente">
+                        Pendente
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <button onclick="gerarRelatorio()">
+            GERAR RELATÓRIO
+        </button>
+
+    </div>
+
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>💰 Faturamento</h3>
+
+            <div class="valor" id="faturamento">
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>💳 Recebido</h3>
+
+            <div class="valor" id="recebido">
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>⏳ Pendente</h3>
+
+            <div class="valor" id="pendente">
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>📅 Agendamentos</h3>
+
+            <div class="numero" id="agendamentos">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>✂️ Concluídos</h3>
+
+            <div class="numero" id="concluidos">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>❌ Cancelados</h3>
+
+            <div class="numero" id="cancelados">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="secao">
+
+        <h2>📋 Detalhamento dos agendamentos</h2>
+
+        <div class="tabela-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Data</th>
+
+                        <th>Horário</th>
+
+                        <th>Serviço</th>
+
+                        <th>Valor</th>
+
+                        <th>Status</th>
+
+                        <th>Pagamento</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaRelatorio">
+
+                    <tr>
+
+                        <td colspan="6" class="vazio">
+                            Carregando...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="secao">
+
+        <h2>✂️ Resumo por serviço</h2>
+
+        <div class="tabela-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Serviço</th>
+
+                        <th>Quantidade</th>
+
+                        <th>Faturamento</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaServicos">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="rodape">
+
+        GOLD STYLE BARBEARIA<br>
+
+        BARBEARIA DESDE 2022
+
+    </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+let todosAgendamentos = [];
+
+
+async function verificarAdministrador(){
+
+    const {
+        data:{session}
+    } = await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+        window.location.href="login.html";
+
+        return null;
+
+    }
+
+
+    const {
+        data:admin,
+        error
+    } =
+    await supabaseClient
+
+    .from("administradores")
+
+    .select("id,ativo")
+
+    .eq(
+        "auth_user_id",
+        session.user.id
+    )
+
+    .eq(
+        "ativo",
+        true
+    )
+
+    .maybeSingle();
+
+
+    if(error || !admin){
+
+        alert(
+            "Acesso permitido somente para administrador."
+        );
+
+        window.location.href="cliente.html";
+
+        return null;
+
+    }
+
+
+    return session;
+
+}
+
+
+async function carregarDados(){
+
+    const autorizado =
+        await verificarAdministrador();
+
+
+    if(!autorizado) return;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("agendamentos")
+
+    .select("*")
+
+    .order(
+        "Data",
+        {ascending:false}
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erro ao carregar os agendamentos."
+        );
+
+        return;
+
+    }
+
+
+    todosAgendamentos =
+        data || [];
+
+
+    definirDatasPadrao();
+
+    gerarRelatorio();
+
+}
+
+
+function definirDatasPadrao(){
+
+    const hoje =
+        new Date();
+
+
+    const primeiroDia =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            1
+        );
+
+
+    const ultimoDia =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth()+1,
+            0
+        );
+
+
+    document.getElementById(
+        "dataInicial"
+    ).value =
+        formatarDataInput(
+            primeiroDia
+        );
+
+
+    document.getElementById(
+        "dataFinal"
+    ).value =
+        formatarDataInput(
+            ultimoDia
+        );
+
+}
+
+
+function formatarDataInput(data){
+
+    const ano =
+        data.getFullYear();
+
+
+    const mes =
+        String(
+            data.getMonth()+1
+        ).padStart(2,"0");
+
+
+    const dia =
+        String(
+            data.getDate()
+        ).padStart(2,"0");
+
+
+    return `${ano}-${mes}-${dia}`;
+
+}
+
+
+function gerarRelatorio(){
+
+    const dataInicial =
+        document.getElementById(
+            "dataInicial"
+        ).value;
+
+
+    const dataFinal =
+        document.getElementById(
+            "dataFinal"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "filtroStatus"
+        ).value;
+
+
+    const pagamento =
+        document.getElementById(
+            "filtroPagamento"
+        ).value;
+
+
+    let dados =
+        [...todosAgendamentos];
+
+
+    if(dataInicial){
+
+        dados =
+            dados.filter(
+                item =>
+                    item.Data >= dataInicial
+            );
+
+    }
+
+
+    if(dataFinal){
+
+        dados =
+            dados.filter(
+                item =>
+                    item.Data <= dataFinal
+            );
+
+    }
+
+
+    if(status){
+
+        dados =
+            dados.filter(
+                item =>
+                    item.Status === status
+            );
+
+    }
+
+
+    if(pagamento){
+
+        dados =
+            dados.filter(
+                item =>
+                    item.Pagamento === pagamento
+            );
+
+    }
+
+
+    atualizarCards(dados);
+
+    mostrarTabela(dados);
+
+    mostrarResumoServicos(dados);
+
+}
+
+
+function atualizarCards(dados){
+
+    let faturamento = 0;
+
+    let recebido = 0;
+
+    let pendente = 0;
+
+    let concluidos = 0;
+
+    let cancelados = 0;
+
+
+    dados.forEach(item => {
+
+        const valor =
+            Number(item.Valor) || 0;
+
+
+        if(item.Status !== "Cancelado"){
+
+            faturamento += valor;
+
+        }
+
+
+        if(item.Pagamento === "Pago"){
+
+            recebido += valor;
+
+        }
+
+
+        if(
+            item.Status !== "Cancelado" &&
+            item.Pagamento !== "Pago"
+        ){
+
+            pendente += valor;
+
+        }
+
+
+        if(
+            item.Status === "Concluído"
+        ){
+
+            concluidos++;
+
+        }
+
+
+        if(
+            item.Status === "Cancelado"
+        ){
+
+            cancelados++;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "faturamento"
+    ).textContent =
+        dinheiro(faturamento);
+
+
+    document.getElementById(
+        "recebido"
+    ).textContent =
+        dinheiro(recebido);
+
+
+    document.getElementById(
+        "pendente"
+    ).textContent =
+        dinheiro(pendente);
+
+
+    document.getElementById(
+        "agendamentos"
+    ).textContent =
+        dados.length;
+
+
+    document.getElementById(
+        "concluidos"
+    ).textContent =
+        concluidos;
+
+
+    document.getElementById(
+        "cancelados"
+    ).textContent =
+        cancelados;
+
+}
+
+
+function mostrarTabela(dados){
+
+    const tabela =
+        document.getElementById(
+            "tabelaRelatorio"
+        );
+
+
+    if(!dados.length){
+
+        tabela.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    class="vazio"
+                >
+                    Nenhum agendamento encontrado.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tabela.innerHTML =
+        dados.map(item => {
+
+            const statusClass =
+                classeStatus(
+                    item.Status
+                );
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        ${formatarData(item.Data)}
+                    </td>
+
+                    <td>
+                        ${formatarHora(item.Horário)}
+                    </td>
+
+                    <td>
+                        ${item.Serviços || "-"}
+                    </td>
+
+                    <td>
+                        ${dinheiro(item.Valor)}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+                            ${item.Status || "-"}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${item.Pagamento || "-"}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function mostrarResumoServicos(dados){
+
+    const tabela =
+        document.getElementById(
+            "tabelaServicos"
+        );
+
+
+    const resumo = {};
+
+
+    dados.forEach(item => {
+
+        const nome =
+            item.Serviços ||
+            "Serviço não informado";
+
+
+        const valor =
+            Number(item.Valor) || 0;
+
+
+        if(!resumo[nome]){
+
+            resumo[nome] = {
+
+                quantidade:0,
+
+                faturamento:0
+
+            };
+
+        }
+
+
+        resumo[nome].quantidade++;
+
+        if(item.Status !== "Cancelado"){
+
+            resumo[nome].faturamento += valor;
+
+        }
+
+    });
+
+
+    const lista =
+        Object.entries(resumo)
+        .sort(
+            (a,b) =>
+                b[1].faturamento -
+                a[1].faturamento
+        );
+
+
+    if(!lista.length){
+
+        tabela.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="3"
+                    class="vazio"
+                >
+                    Nenhum serviço encontrado.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tabela.innerHTML =
+        lista.map(
+            ([nome,dadosServico]) => `
+
+                <tr>
+
+                    <td>
+                        ${nome}
+                    </td>
+
+                    <td>
+                        ${dadosServico.quantidade}
+                    </td>
+
+                    <td>
+                        ${dinheiro(
+                            dadosServico.faturamento
+                        )}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+
+function classeStatus(status){
+
+    if(status === "Confirmado")
+        return "confirmado";
+
+
+    if(status === "Concluído")
+        return "concluido";
+
+
+    if(status === "Cancelado")
+        return "cancelado";
+
+
+    return "pendente";
+
+}
+
+
+function formatarData(data){
+
+    if(!data) return "-";
+
+
+    const partes =
+        data.split("-");
+
+
+    if(partes.length !== 3)
+        return data;
+
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+function formatarHora(hora){
+
+    if(!hora) return "-";
+
+
+    return hora.substring(
+        0,
+        5
+    );
+
+}
+
+
+function dinheiro(valor){
+
+    return Number(valor || 0)
+        .toLocaleString(
+            "pt-BR",
+            {
+                style:"currency",
+                currency:"BRL"
+            }
+        );
+
+}
+
+
+carregarDados();
+
+</script>
+
+</body>
+  </html>
