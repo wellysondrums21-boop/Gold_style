@@ -72,11 +72,9 @@
     </p>
   </section>
 
-
   <div id="mensagem">
     Carregando sua conta...
   </div>
-
 
   <section class="cliente-card">
 
@@ -99,7 +97,6 @@
 
   </section>
 
-
   <section class="cliente-card">
 
     <h2>📅 Meus agendamentos</h2>
@@ -110,35 +107,25 @@
 
   </section>
 
-
   <a
     href="agendamento.html"
     class="btn btn-gold">
-
     AGENDAR NOVO HORÁRIO
-
   </a>
-
 
   <a
     href="index.html"
     class="btn btn-dark">
-
     VOLTAR PARA INÍCIO
-
   </a>
-
 
   <button
     id="sair"
     class="btn btn-dark">
-
     SAIR DA CONTA
-
   </button>
 
 </main>
-
 
 <footer>
 
@@ -150,25 +137,13 @@
 
 </footer>
 
-
 <script>
-
-/* =====================================================
-   CONFIGURAÇÃO DO SUPABASE
-   ===================================================== */
-
-
-/* 🔴 COLOQUE A MESMA URL DO SEU login.html */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
-/* 🔴 COLOQUE A MESMA CHAVE sb_publishable_ DO login.html */
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -177,51 +152,46 @@ window.supabase.createClient(
 );
 
 
-/* =====================================================
-   CARREGAR CLIENTE
-   ===================================================== */
-
 async function carregarCliente() {
 
   const {
-    data: sessionData
-  } =
-  await supabaseClient.auth.getSession();
+    data: sessionData,
+    error: sessionError
+  } = await supabaseClient.auth.getSession();
 
+  if (sessionError) {
+
+    document.getElementById("mensagem").innerHTML =
+      "<span style='color:#ff4444'>" +
+      "Erro ao verificar login: " +
+      sessionError.message +
+      "</span>";
+
+    return;
+  }
 
   const session =
-  sessionData.session;
-
-
-  /* Se não estiver logado */
+    sessionData.session;
 
   if (!session) {
 
     window.location.href =
-    "login.html";
+      "login.html";
 
     return;
-
   }
 
-
   const usuario =
-  session.user;
-
-
-  /* Mostrar e-mail */
+    session.user;
 
   document.getElementById("email").innerText =
-  usuario.email;
+    usuario.email || "Não informado";
 
-
-  /* Buscar cliente */
 
   const {
     data: cliente,
     error
-  } =
-  await supabaseClient
+  } = await supabaseClient
     .from("clientes")
     .select("*")
     .eq("auth_user_id", usuario.id)
@@ -233,90 +203,106 @@ async function carregarCliente() {
     console.error(error);
 
     document.getElementById("mensagem").innerHTML =
-    "<span style='color:#ff4444'>" +
-    "Erro ao carregar seus dados: " +
-    error.message +
-    "</span>";
+      "<span style='color:#ff4444'>" +
+      "Erro ao carregar seus dados: " +
+      error.message +
+      "</span>";
 
     return;
-
   }
 
 
-  if (cliente) {
+  if (!cliente) {
 
     document.getElementById("nome").innerText =
-cliente.Nome || "Não informado";
+      "Não cadastrado";
 
-document.getElementById("telefone").innerText =
-cliente.Telefone || "Não informado";
+    document.getElementById("telefone").innerText =
+      "Não informado";
 
-document.getElementById("boasVindas").innerText =
-"Olá, " + (cliente.Nome || "cliente") + "!";
-    
-}
+    document.getElementById("boasVindas").innerText =
+      "Olá, cliente!";
 
-  /* Carregar agendamentos */
+    document.getElementById("mensagem").innerHTML =
+      "<span style='color:#ff4444'>" +
+      "Seu cadastro de cliente não foi encontrado." +
+      "</span>";
+
+    return;
+  }
+
+
+  document.getElementById("nome").innerText =
+    cliente.Nome || "Não informado";
+
+  document.getElementById("telefone").innerText =
+    cliente.Telefone || "Não informado";
+
+  document.getElementById("boasVindas").innerText =
+    "Olá, " +
+    (cliente.Nome || "cliente") +
+    "!";
+
+
+  document.getElementById("mensagem").innerText =
+    "Conta carregada com sucesso.";
 
   carregarAgendamentos(cliente);
-
 }
 
-
-/* =====================================================
-   CARREGAR AGENDAMENTOS
-   ===================================================== */
 
 async function carregarAgendamentos(cliente) {
 
   const area =
-  document.getElementById("agendamentos");
+    document.getElementById("agendamentos");
 
 
   if (!cliente) {
 
     area.innerHTML =
-    "Não encontramos seus dados de cliente.";
+      "Não encontramos seus dados de cliente.";
 
     return;
-
   }
 
 
   const {
-  data,
-  error
-} =
-await supabaseClient
-  .from("agendamentos")
-  .select("*")
-  .eq("Cliente_id", cliente.id)
-  .order("Data", { ascending: true });
+    data,
+    error
+  } = await supabaseClient
+    .from("agendamentos")
+    .select("*")
+    .eq("Cliente_id", cliente.id)
+    .order("Data", {
+      ascending: true
+    })
+    .order("Horário", {
+      ascending: true
+    });
 
 
   if (error) {
 
-    area.innerHTML =
-    "<span style='color:#ff4444'>" +
-    "Erro ao carregar agendamentos." +
-    "</span>";
-
     console.error(error);
 
-    return;
+    area.innerHTML =
+      "<span style='color:#ff4444'>" +
+      "Erro ao carregar seus agendamentos: " +
+      error.message +
+      "</span>";
 
+    return;
   }
 
 
   if (!data || data.length === 0) {
 
     area.innerHTML =
-    "<p style='color:#aaa'>" +
-    "Você ainda não possui agendamentos." +
-    "</p>";
+      "<p style='color:#aaa'>" +
+      "Você ainda não possui agendamentos." +
+      "</p>";
 
     return;
-
   }
 
 
@@ -326,31 +312,43 @@ await supabaseClient
   data.forEach(function(item) {
 
     const div =
-    document.createElement("div");
+      document.createElement("div");
 
     div.className =
-    "agendamento";
+      "agendamento";
 
 
     div.innerHTML =
 
-    "<strong>Serviço:</strong> " +
-    (item["Serviços"] || "Não informado") +
+      "<strong>Serviço:</strong> " +
+      (item["Serviços"] || "Não informado") +
 
-"<br>" +
+      "<br>" +
 
-    "<strong>Data:</strong> " +
-    (item["Data"] || "Não informada") +
+      "<strong>Valor:</strong> R$ " +
+      Number(item["Valor"] || 0)
+        .toFixed(2)
+        .replace(".", ",") +
 
-    "<br>" +
+      "<br>" +
 
-    "<strong>Horário:</strong> " +
-    (item["Horário"] || "Não informado") +
+      "<strong>Data:</strong> " +
+      (item["Data"] || "Não informada") +
 
-    "<br>" +
+      "<br>" +
 
-    "<strong>Status:</strong> " +
-   (item["Status"] || "Pendente") ;
+      "<strong>Horário:</strong> " +
+      (item["Horário"] || "Não informado") +
+
+      "<br>" +
+
+      "<strong>Status:</strong> " +
+      (item["Status"] || "Pendente") +
+
+      "<br>" +
+
+      "<strong>Pagamento:</strong> " +
+      (item["Pagamento"] || "Pendente");
 
 
     area.appendChild(div);
@@ -360,105 +358,24 @@ await supabaseClient
 }
 
 
-/* =====================================================
-   SAIR
-   ===================================================== */
-
 document
-.getElementById("sair")
-.addEventListener(
-  "click",
-  async function() {
+  .getElementById("sair")
+  .addEventListener(
+    "click",
+    async function() {
 
-    await supabaseClient.auth.signOut();
+      await supabaseClient.auth.signOut();
 
-    window.location.href =
-    "login.html";
+      window.location.href =
+        "login.html";
 
-  }
-);
+    }
+  );
 
-
-/* =====================================================
-   INICIAR
-   ===================================================== */
 
 carregarCliente();
-async function carregarClientes() {
 
-  const { data: clientes, error } =
-    await supabaseClient
-      .from("clientes")
-      .select("*")
-      .order("Data_cadastro", { ascending: false });
-
-  if (error) {
-    console.error("Erro ao carregar clientes:", error);
-    return;
-  }
-
-  const tabela =
-    document.getElementById("tabelaClientes");
-
-  tabela.innerHTML = "";
-
-  for (const cliente of clientes || []) {
-
-    const { count } =
-      await supabaseClient
-        .from("agendamentos")
-        .select("*", {
-          count: "exact",
-          head: true
-        })
-        .eq("Cliente_id", cliente.id);
-
-    const linha =
-      document.createElement("tr");
-
-    linha.innerHTML =
-      "<td>" +
-      (cliente["Nome"] || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente["Telefone"] || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente["E-mail"] || "-") +
-      "</td>" +
-
-      "<td>" +
-      (cliente["Data_cadastro"] || "-") +
-      "</td>" +
-
-      "<td>" +
-      (count || 0) +
-      "</td>";
-
-    tabela.appendChild(linha);
-  }
-  }
 </script>
-<section class="secao">
 
-  <h2>👥 Clientes cadastrados</h2>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Telefone</th>
-        <th>E-mail</th>
-        <th>Data de cadastro</th>
-        <th>Agendamentos</th>
-      </tr>
-    </thead>
-
-    <tbody id="tabelaClientes"></tbody>
-  </table>
-
-</section>
 </body>
 </html>
