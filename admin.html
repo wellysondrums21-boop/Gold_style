@@ -654,14 +654,27 @@ async function alterarPagamento(id, novoPagamento) {
 }
   async function alterarPagamento(id, novoPagamento) {
 
-  // código da função...
+  const { error } = await supabaseClient
+    .from("agendamentos")
+    .update({
+      "Pagamento": novoPagamento
+    })
+    .eq("id", id);
 
+  if (error) {
+    alert("Erro ao atualizar pagamento: " + error.message);
+    return;
+  }
+
+  alert("Pagamento atualizado com sucesso!");
+
+  carregarAgendamentos();
 }
+
 
 iniciarPainel();
 carregarClientes();
 
-</script>
 </script>
 
 </body>
