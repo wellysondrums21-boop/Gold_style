@@ -15,35 +15,52 @@
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
+margin:0;
 background:#050505;
 color:#fff;
 font-family:Arial,sans-serif;
-margin:0;
 }
 
 header{
 text-align:center;
 padding:25px 15px;
 border-bottom:1px solid #333;
+background:#080808;
 }
 
 .logo{
 color:#ffd700;
-font-size:30px;
+font-size:32px;
 font-weight:bold;
-letter-spacing:2px;
+letter-spacing:3px;
 }
 
 .subtitle{
 color:#aaa;
 margin-top:6px;
+font-size:14px;
 }
 
 main{
-width:92%;
+width:94%;
 max-width:1200px;
 margin:25px auto;
+}
+
+#mensagem{
+text-align:center;
+padding:25px;
+color:#ffd700;
+font-size:16px;
+}
+
+.erro{
+color:#ff5555 !important;
 }
 
 .boas-vindas,
@@ -53,15 +70,20 @@ background:#111;
 border:1px solid #333;
 border-radius:15px;
 padding:20px;
-box-sizing:border-box;
 }
 
 .boas-vindas{
 margin-bottom:20px;
+box-shadow:0 0 15px rgba(255,215,0,0.08);
 }
 
-h1,h2{
+h1,
+h2{
 color:#ffd700;
+}
+
+h1{
+margin-top:0;
 }
 
 .cards{
@@ -70,9 +92,13 @@ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:15px;
 }
 
+.card{
+box-shadow:0 0 15px rgba(255,215,0,0.05);
+}
+
 .card h3{
 color:#aaa;
-font-size:14px;
+font-size:13px;
 margin-top:0;
 }
 
@@ -110,7 +136,8 @@ background:#050505;
 color:#fff;
 border:1px solid #555;
 border-radius:7px;
-padding:7px;
+padding:8px;
+cursor:pointer;
 }
 
 .botao{
@@ -124,27 +151,68 @@ border:none;
 cursor:pointer;
 }
 
-#mensagem{
-text-align:center;
-padding:20px;
-color:#ffd700;
+.botao:hover{
+background:#fff000;
 }
 
-.erro{
-color:#ff5555!important;
+.botao-sair{
+width:100%;
+margin-bottom:20px;
+}
+
+.status-ok{
+color:#00ff88;
+font-weight:bold;
+}
+
+.status-pendente{
+color:#ffd700;
+font-weight:bold;
+}
+
+.status-cancelado{
+color:#ff5555;
+font-weight:bold;
+}
+
+.status-concluido{
+color:#00d9ff;
+font-weight:bold;
 }
 
 footer{
 text-align:center;
 color:#777;
 padding:30px 15px;
+margin-top:20px;
+border-top:1px solid #222;
+}
+
+@media(max-width:600px){
+
+.logo{
+font-size:26px;
+}
+
+main{
+width:95%;
+}
+
+.boas-vindas,
+.card,
+.secao{
+padding:15px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -158,13 +226,17 @@ PAINEL ADMINISTRATIVO
 
 </header>
 
+
 <main>
+
 
 <div id="mensagem">
 Verificando acesso...
 </div>
 
+
 <div id="painel" style="display:none;">
+
 
 <section class="boas-vindas">
 
@@ -178,7 +250,9 @@ Bem-vindo ao painel administrativo da Gold Style Barbearia.
 
 </section>
 
+
 <section class="cards">
+
 
 <div class="card">
 
@@ -192,6 +266,7 @@ R$ 0,00
 
 </div>
 
+
 <div class="card">
 
 <h3>
@@ -203,6 +278,7 @@ AGENDAMENTOS
 </div>
 
 </div>
+
 
 <div class="card">
 
@@ -216,6 +292,7 @@ PENDENTES
 
 </div>
 
+
 <div class="card">
 
 <h3>
@@ -228,11 +305,194 @@ PAGOS
 
 </div>
 
+
 </section>
+
+
+
+<!-- AGENDAMENTOS -->
+
+<section class="secao">
+
+<h2>
+📅 Agendamentos
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Cliente</th>
+
+<th>Serviço</th>
+
+<th>Valor</th>
+
+<th>Data</th>
+
+<th>Horário</th>
+
+<th>Status</th>
+
+<th>Pagamento</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tabelaAgendamentos">
+
+<tr>
+
+<td colspan="7">
+Carregando agendamentos...
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+<!-- CLIENTES -->
+
+<section class="secao">
+
+<h2>
+👥 Clientes cadastrados
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Nome</th>
+
+<th>Telefone</th>
+
+<th>E-mail</th>
+
+<th>Data de cadastro</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tabelaClientes">
+
+<tr>
+
+<td colspan="4">
+Carregando clientes...
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+<!-- FINANCEIRO -->
+
+<section class="secao">
+
+<h2>
+💰 Resumo financeiro
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Descrição</th>
+
+<th>Valor</th>
+
+</tr>
+
+</thead>
+
+
+<tbody>
+
+
+<tr>
+
+<td>
+Faturamento agendado
+</td>
+
+<td id="financeiroAgendado">
+R$ 0,00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Total pago
+</td>
+
+<td id="financeiroPago">
+R$ 0,00
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Total pendente
+</td>
+
+<td id="financeiroPendente">
+R$ 0,00
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</section>
+
+
+
+<button
+class="botao botao-sair"
+onclick="sair()">
+
+SAIR DO PAINEL
+
+</button>
+
 
 </div>
 
+
 </main>
+
 
 <footer>
 
@@ -249,119 +509,673 @@ Rio Branco - Acre
 Barbearia desde 2022
 
 </footer>
-</footer>
 
-<!-- AGENDAMENTOS -->
 
-<section class="secao">
 
-<h2>📅 Agendamentos</h2>
+<script>
 
-<table>
 
-<thead>
+/* ==============================
+   CONFIGURAÇÃO SUPABASE
+============================== */
 
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+
+/* ==============================
+   VERIFICAR ADMINISTRADOR
+============================== */
+
+
+async function iniciarPainel(){
+
+try{
+
+
+const {
+data: sessionData,
+error: sessionError
+} =
+await supabaseClient.auth.getSession();
+
+
+if(sessionError){
+throw sessionError;
+}
+
+
+const session =
+sessionData.session;
+
+
+if(!session){
+
+window.location.href =
+"login.html";
+
+return;
+
+}
+
+
+
+const {
+data: administrador,
+error: adminError
+} =
+await supabaseClient
+.from("administradores")
+.select("id,nome,ativo")
+.eq("auth_user_id",session.user.id)
+.eq("ativo",true)
+.maybeSingle();
+
+
+if(adminError){
+
+throw adminError;
+
+}
+
+
+if(!administrador){
+
+document.getElementById("mensagem").innerHTML =
+"❌ Você não possui acesso administrativo.";
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+return;
+
+}
+
+
+
+document.getElementById("mensagem")
+.style.display="none";
+
+
+document.getElementById("painel")
+.style.display="block";
+
+
+await carregarAgendamentos();
+
+await carregarClientes();
+
+
+}catch(error){
+
+console.error(error);
+
+
+document.getElementById("mensagem").innerHTML =
+"❌ Erro ao carregar painel: " +
+(error.message || error);
+
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+}
+
+}
+
+
+
+/* ==============================
+   CARREGAR AGENDAMENTOS
+============================== */
+
+
+async function carregarAgendamentos(){
+
+
+const tabela =
+document.getElementById("tabelaAgendamentos");
+
+
+const {
+data: agendamentos,
+error
+} =
+await supabaseClient
+.from("agendamentos")
+.select("*")
+.order("Data",{ascending:true})
+.order("Horário",{ascending:true});
+
+
+if(error){
+
+console.error(error);
+
+tabela.innerHTML =
+`
 <tr>
-<th>Cliente</th>
-<th>Serviço</th>
-<th>Valor</th>
-<th>Data</th>
-<th>Horário</th>
-<th>Status</th>
-<th>Pagamento</th>
+<td colspan="7">
+Erro ao carregar agendamentos.
+</td>
 </tr>
+`;
 
-</thead>
+return;
 
-<tbody id="tabelaAgendamentos">
+}
 
+
+if(!agendamentos ||
+agendamentos.length === 0){
+
+tabela.innerHTML =
+`
 <tr>
-<td colspan="7">Carregando agendamentos...</td>
+<td colspan="7">
+Nenhum agendamento encontrado.
+</td>
 </tr>
+`;
 
-</tbody>
+atualizarResumo([]);
 
-</table>
+return;
 
-</section>
+}
 
 
-<!-- CLIENTES -->
 
-<section class="secao">
+/* Buscar clientes */
 
-<h2>👥 Clientes cadastrados</h2>
+const {
+data: clientes
+} =
+await supabaseClient
+.from("clientes")
+.select("id,Nome,Telefone,E-mail");
 
-<table>
 
-<thead>
+const mapaClientes={};
 
+
+(clientes || []).forEach(cliente=>{
+
+mapaClientes[cliente.id]=cliente;
+
+});
+
+
+
+let faturamento=0;
+
+let pendentes=0;
+
+let pagos=0;
+
+let totalPago=0;
+
+let totalPendente=0;
+
+
+
+tabela.innerHTML="";
+
+
+
+agendamentos.forEach(item=>{
+
+
+const cliente =
+mapaClientes[item["Cliente_id"]];
+
+
+const nomeCliente =
+cliente?.Nome ||
+"Cliente";
+
+
+const valor =
+Number(item["Valor"] || 0);
+
+
+faturamento += valor;
+
+
+
+if(item["Status"] === "Pendente"){
+
+pendentes++;
+
+}
+
+
+if(item["Pagamento"] === "Pago"){
+
+pagos++;
+
+totalPago += valor;
+
+}else{
+
+totalPendente += valor;
+
+}
+
+
+
+const status =
+item["Status"] || "Pendente";
+
+
+let classeStatus="status-pendente";
+
+
+if(status === "Confirmado"){
+
+classeStatus="status-ok";
+
+}
+
+
+if(status === "Concluído"){
+
+classeStatus="status-concluido";
+
+}
+
+
+if(status === "Cancelado"){
+
+classeStatus="status-cancelado";
+
+}
+
+
+
+const data =
+item["Data"] || "";
+
+
+const horario =
+item["Horário"]
+? String(item["Horário"]).substring(0,5)
+: "";
+
+
+
+const tr =
+document.createElement("tr");
+
+
+tr.innerHTML =
+`
+<td>${nomeCliente}</td>
+
+<td>${item["Serviços"] || ""}</td>
+
+<td>
+R$ ${valor.toFixed(2).replace(".",",")}
+</td>
+
+<td>${data}</td>
+
+<td>${horario}</td>
+
+<td>
+
+<select
+onchange="alterarStatus('${item.id}',this.value)"
+class="${classeStatus}">
+
+<option value="Pendente"
+${status==="Pendente" ? "selected":""}>
+Pendente
+</option>
+
+<option value="Confirmado"
+${status==="Confirmado" ? "selected":""}>
+Confirmado
+</option>
+
+<option value="Concluído"
+${status==="Concluído" ? "selected":""}>
+Concluído
+</option>
+
+<option value="Cancelado"
+${status==="Cancelado" ? "selected":""}>
+Cancelado
+</option>
+
+</select>
+
+</td>
+
+<td>
+
+<select
+onchange="alterarPagamento('${item.id}',this.value)">
+
+<option value="Pendente"
+${item["Pagamento"]==="Pendente" ? "selected":""}>
+Pendente
+</option>
+
+<option value="Pago"
+${item["Pagamento"]==="Pago" ? "selected":""}>
+Pago
+</option>
+
+</select>
+
+</td>
+`;
+
+
+tabela.appendChild(tr);
+
+
+});
+
+
+
+document.getElementById("faturamento")
+.innerText =
+"R$ " +
+faturamento
+.toFixed(2)
+.replace(".",",");
+
+
+
+document.getElementById("totalAgendamentos")
+.innerText =
+agendamentos.length;
+
+
+
+document.getElementById("pendentes")
+.innerText =
+pendentes;
+
+
+
+document.getElementById("pagos")
+.innerText =
+pagos;
+
+
+
+document.getElementById("financeiroAgendado")
+.innerText =
+"R$ " +
+faturamento
+.toFixed(2)
+.replace(".",",");
+
+
+
+document.getElementById("financeiroPago")
+.innerText =
+"R$ " +
+totalPago
+.toFixed(2)
+.replace(".",",");
+
+
+
+document.getElementById("financeiroPendente")
+.innerText =
+"R$ " +
+totalPendente
+.toFixed(2)
+.replace(".",",");
+
+}
+
+
+
+/* ==============================
+   ATUALIZAR STATUS
+============================== */
+
+
+async function alterarStatus(id,status){
+
+
+const {
+error
+} =
+await supabaseClient
+.from("agendamentos")
+.update({
+"Status":status
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Erro ao atualizar status: " +
+error.message
+);
+
+return;
+
+}
+
+
+await carregarAgendamentos();
+
+}
+
+
+
+/* ==============================
+   ATUALIZAR PAGAMENTO
+============================== */
+
+
+async function alterarPagamento(id,pagamento){
+
+
+const {
+error
+} =
+await supabaseClient
+.from("agendamentos")
+.update({
+"Pagamento":pagamento
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Erro ao atualizar pagamento: " +
+error.message
+);
+
+return;
+
+}
+
+
+await carregarAgendamentos();
+
+}
+
+
+
+/* ==============================
+   CLIENTES
+============================== */
+
+
+async function carregarClientes(){
+
+
+const tabela =
+document.getElementById("tabelaClientes");
+
+
+const {
+data: clientes,
+error
+} =
+await supabaseClient
+.from("clientes")
+.select("id,Nome,Telefone,E-mail,Data_cadastro")
+.order("Data_cadastro",{ascending:false});
+
+
+if(error){
+
+console.error(error);
+
+
+tabela.innerHTML =
+`
 <tr>
-<th>Nome</th>
-<th>Telefone</th>
-<th>E-mail</th>
-<th>Data de cadastro</th>
+
+<td colspan="4">
+
+Não foi possível carregar os clientes.
+
+</td>
+
 </tr>
+`;
 
-</thead>
+return;
 
-<tbody id="tabelaClientes">
+}
 
+
+if(!clientes ||
+clientes.length===0){
+
+tabela.innerHTML =
+`
 <tr>
-<td colspan="4">Carregando clientes...</td>
+
+<td colspan="4">
+
+Nenhum cliente cadastrado.
+
+</td>
+
 </tr>
+`;
 
-</tbody>
+return;
 
-</table>
-
-</section>
+}
 
 
-<!-- FINANCEIRO -->
 
-<section class="secao">
+tabela.innerHTML="";
 
-<h2>💰 Resumo financeiro</h2>
 
-<table>
 
-<thead>
+clientes.forEach(cliente=>{
 
-<tr>
-<th>Descrição</th>
-<th>Valor</th>
-</tr>
 
-</thead>
+const tr =
+document.createElement("tr");
 
-<tbody>
 
-<tr>
-<td>Faturamento agendado</td>
-<td id="financeiroAgendado">R$ 0,00</td>
-</tr>
+let dataCadastro =
+cliente["Data_cadastro"] || "";
 
-<tr>
-<td>Total pago</td>
-<td id="financeiroPago">R$ 0,00</td>
-</tr>
 
-<tr>
-<td>Total pendente</td>
-<td id="financeiroPendente">R$ 0,00</td>
-</tr>
+if(dataCadastro){
 
-</tbody>
+try{
 
-</table>
+dataCadastro =
+new Date(dataCadastro)
+.toLocaleDateString("pt-BR");
 
-</section>
+}catch(e){}
 
-<button class="botao" onclick="sair()">
-SAIR DO PAINEL
-</button>
+}
 
-</div>
 
-  </main>
+
+tr.innerHTML =
+`
+<td>
+${cliente["Nome"] || ""}
+</td>
+
+<td>
+${cliente["Telefone"] || ""}
+</td>
+
+<td>
+${cliente["E-mail"] || ""}
+</td>
+
+<td>
+${dataCadastro}
+</td>
+`;
+
+
+tabela.appendChild(tr);
+
+
+});
+
+}
+
+
+
+/* ==============================
+   SAIR
+============================== */
+
+
+async function sair(){
+
+
+await supabaseClient.auth.signOut();
+
+
+window.location.href =
+"login.html";
+
+}
+
+
+
+/* ==============================
+   INICIAR
+============================== */
+
+
+iniciarPainel();
+
+
+</script>
+
+</body>
+
+  </html>
