@@ -290,14 +290,13 @@ async function iniciar() {
   await supabaseClient
     .from("Serviços")
 .select(
-  "id,Nome,Valor"
+  "id,created_at,Valor"
 )
 .eq(
   "Ativo",
   true
 )
-.order("Nome");
-
+.order("created_at");
   if (servicosError) {
 
     mostrarMensagem(
@@ -321,7 +320,7 @@ async function iniciar() {
         servico.id;
 
       option.textContent =
-        servico.Nome +
+        servico.created_at +
         " — R$ " +
         Number(
           servico.Valor
@@ -333,7 +332,7 @@ async function iniciar() {
         );
 
       option.dataset.nome =
-        servico.Nome
+        servico.created_at
 
       option.dataset.valor =
         servico.Valor
