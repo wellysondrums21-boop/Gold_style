@@ -284,14 +284,14 @@ async function carregarAgendamentos(cliente) {
 
 
   const {
-    data,
-    error
-  } =
-  await supabaseClient
-    .from("agendamentos")
-    .select("*")
-    .eq("cliente_id", cliente.id)
-    .order("data", { ascending: true });
+  data,
+  error
+} =
+await supabaseClient
+  .from("agendamentos")
+  .select("*")
+  .eq("Cliente_id", cliente.id)
+  .order("Data", { ascending: true });
 
 
   if (error) {
@@ -335,22 +335,22 @@ async function carregarAgendamentos(cliente) {
     div.innerHTML =
 
     "<strong>Serviço:</strong> " +
-    (item.servico || "Não informado") +
-
+    (item["Serviços"] || "Não informado")
+    
     "<br>" +
 
     "<strong>Data:</strong> " +
-    (item.data || "Não informada") +
+    (item["Data"] || "Não informada") +
 
     "<br>" +
 
     "<strong>Horário:</strong> " +
-    (item.horario || "Não informado") +
+    (item["Horário"] || "Não informado") +
 
     "<br>" +
 
     "<strong>Status:</strong> " +
-    (item.status || "Pendente");
+   (item["Status"] || "Pendente") ;
 
 
     area.appendChild(div);
