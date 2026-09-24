@@ -548,7 +548,42 @@ async function sair() {
 
 
 iniciarPainel();
+async function alterarStatus(id, novoStatus) {
 
+  const { error } = await supabaseClient
+    .from("agendamentos")
+    .update({
+      "Status": novoStatus
+    })
+    .eq("id", id);
+
+  if (error) {
+    alert("Erro ao atualizar status: " + error.message);
+    return;
+  }
+
+  alert("Status atualizado com sucesso!");
+  carregarAgendamentos();
+}
+
+
+async function alterarPagamento(id, novoPagamento) {
+
+  const { error } = await supabaseClient
+    .from("agendamentos")
+    .update({
+      "Pagamento": novoPagamento
+    })
+    .eq("id", id);
+
+  if (error) {
+    alert("Erro ao atualizar pagamento: " + error.message);
+    return;
+  }
+
+  alert("Pagamento atualizado com sucesso!");
+  carregarAgendamentos();
+}
 </script>
 
 </body>
