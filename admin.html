@@ -5,51 +5,151 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Criar conta | Gold Style</title>
+  <title>Painel Administrativo | Gold Style</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    body {
+      background: #050505;
+      color: white;
+      margin: 0;
+      font-family: Arial, sans-serif;
     }
 
-    label {
+    header {
+      text-align: center;
+      padding: 25px 15px;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      color: #ffd700;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      color: #aaa;
+      margin-top: 6px;
+    }
+
+    main {
+      width: 92%;
+      max-width: 1100px;
+      margin: 25px auto;
+    }
+
+    .boas-vindas {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .boas-vindas h1 {
+      color: #ffd700;
+      margin-top: 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .card h3 {
+      color: #aaa;
+      margin-top: 0;
+      font-size: 14px;
+    }
+
+    .valor {
+      color: #ffd700;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .secao {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    .secao h2 {
+      color: #ffd700;
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+    }
+
+    th {
+      color: #ffd700;
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #444;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #222;
+    }
+
+    .status {
       color: #ffd700;
       font-weight: bold;
-      margin-top: 10px;
     }
 
-    input {
-      width: 100%;
-      padding: 15px;
+    .botao {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 18px;
       border-radius: 10px;
-      border: 1px solid #444;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #ffd700;
-    }
-
-    button {
+      background: #ffd700;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
       border: none;
       cursor: pointer;
-      margin-top: 15px;
+    }
+
+    .botao:hover {
+      opacity: 0.85;
     }
 
     #mensagem {
       text-align: center;
-      line-height: 1.5;
-      margin: 18px 0;
+      padding: 20px;
+      color: #ffd700;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 30px 15px;
+    }
+
+    .erro {
+      color: #ff5555 !important;
     }
   </style>
 </head>
@@ -58,122 +158,119 @@
 
 <header>
   <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">CRIAR CONTA</div>
+  <div class="subtitle">PAINEL ADMINISTRATIVO</div>
 </header>
 
 <main>
 
-  <section class="hero">
-    <h1>Crie sua conta</h1>
+  <div id="mensagem">
+    Verificando acesso...
+  </div>
 
-    <p>
-      Cadastre seus dados para facilitar
-      seus próximos agendamentos.
-    </p>
-  </section>
+  <div id="painel" style="display:none;">
 
-  <form id="cadastroForm">
+    <section class="boas-vindas">
+      <h1>Olá, Weleson! 👑</h1>
+      <p>
+        Bem-vindo ao painel administrativo da Gold Style Barbearia.
+      </p>
+    </section>
 
-    <label for="nome">Nome completo</label>
+    <section class="cards">
 
-    <input
-      type="text"
-      id="nome"
-      placeholder="Digite seu nome completo"
-      required>
+      <div class="card">
+        <h3>FATURAMENTO AGENDADO</h3>
+        <div class="valor" id="faturamento">R$ 0,00</div>
+      </div>
 
+      <div class="card">
+        <h3>AGENDAMENTOS</h3>
+        <div class="valor" id="totalAgendamentos">0</div>
+      </div>
 
-    <label for="telefone">WhatsApp</label>
+      <div class="card">
+        <h3>PENDENTES</h3>
+        <div class="valor" id="pendentes">0</div>
+      </div>
 
-    <input
-      type="tel"
-      id="telefone"
-      placeholder="(68) 99985-3643"
-      required>
+      <div class="card">
+        <h3>PAGOS</h3>
+        <div class="valor" id="pagos">0</div>
+      </div>
 
-
-    <label for="email">E-mail</label>
-
-    <input
-      type="email"
-      id="email"
-      placeholder="seuemail@email.com"
-      required>
-
-
-    <label for="senha">Criar senha</label>
-
-    <input
-      type="password"
-      id="senha"
-      placeholder="Crie uma senha"
-      minlength="6"
-      required>
+    </section>
 
 
-    <label for="confirmar">Confirmar senha</label>
+    <section class="secao">
 
-    <input
-      type="password"
-      id="confirmar"
-      placeholder="Digite a senha novamente"
-      minlength="6"
-      required>
+      <h2>📅 Próximos agendamentos</h2>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Serviço</th>
+            <th>Valor</th>
+            <th>Status</th>
+            <th>Pagamento</th>
+          </tr>
+        </thead>
+
+        <tbody id="listaAgendamentos">
+        </tbody>
+
+      </table>
+
+    </section>
 
 
-    <button
-      type="submit"
-      class="btn btn-gold"
-      id="botaoCadastro">
+    <section class="secao">
 
-      CRIAR MINHA CONTA
+      <h2>💰 Resumo financeiro</h2>
 
+      <p>
+        Total dos agendamentos:
+        <strong id="resumoFaturamento">R$ 0,00</strong>
+      </p>
+
+      <p>
+        Total pago:
+        <strong id="resumoPago">R$ 0,00</strong>
+      </p>
+
+      <p>
+        Total pendente:
+        <strong id="resumoPendente">R$ 0,00</strong>
+      </p>
+
+    </section>
+
+
+    <button class="botao" onclick="sair()">
+      SAIR DO PAINEL
     </button>
 
-  </form>
-
-
-  <div id="mensagem"></div>
-
-<a href="cadastro.html" class="btn btn-gold">CRIAR MINHA CONTA</a>
-  
+  </div>
 
 </main>
 
 
 <footer>
-
   <strong>Gold Style Barbearia</strong><br>
-
   Rio Branco - Acre<br>
-
   Barbearia desde 2022
-
 </footer>
 
 
 <script>
 
-/* =====================================================
-   CONFIGURAÇÃO DO SUPABASE
-   =====================================================
-
-   COLE A URL DO SEU PROJETO NA PRIMEIRA LINHA.
-
-   COLE A SUA CHAVE PUBLICÁVEL sb_publishable_...
-   NA SEGUNDA LINHA.
-
-   NÃO coloque aqui uma chave sb_secret_...
-   ===================================================== */
-
-
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -182,202 +279,245 @@ window.supabase.createClient(
 );
 
 
-/* =====================================================
-   FORMULÁRIO
-   ===================================================== */
+async function iniciarPainel() {
 
-const form =
-document.getElementById("cadastroForm");
+  const mensagem =
+    document.getElementById("mensagem");
 
+  try {
 
-const mensagem =
-document.getElementById("mensagem");
+    /* Verificar usuário logado */
 
+    const {
+      data: sessionData
+    } =
+    await supabaseClient.auth.getSession();
 
-const botao =
-document.getElementById("botaoCadastro");
+    const usuario =
+      sessionData.session?.user;
 
-
-form.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-
-    const nome =
-    document.getElementById("nome").value.trim();
-
-
-    const telefone =
-    document.getElementById("telefone").value.trim();
-
-
-    const email =
-    document.getElementById("email").value.trim();
-
-
-    const senha =
-    document.getElementById("senha").value;
-
-
-    const confirmar =
-    document.getElementById("confirmar").value;
-
-
-    /* Verificar senha */
-
-    if (senha !== confirmar) {
+    if (!usuario) {
 
       mensagem.innerHTML =
-      "<span style='color:#ff4444'>" +
-      "As senhas não são iguais." +
-      "</span>";
+        "Você precisa estar logado para acessar o painel.";
+
+      mensagem.classList.add("erro");
 
       return;
     }
 
 
-    if (senha.length < 6) {
+    /* Verificar se é administrador */
+
+    const {
+      data: administrador,
+      error: adminError
+    } =
+    await supabaseClient
+      .from("administradores")
+      .select("*")
+      .eq("auth_user_id", usuario.id)
+      .eq("ativo", true)
+      .maybeSingle();
+
+
+    if (adminError) {
+      throw adminError;
+    }
+
+
+    if (!administrador) {
 
       mensagem.innerHTML =
-      "<span style='color:#ff4444'>" +
-      "A senha precisa ter pelo menos 6 caracteres." +
-      "</span>";
+        "⛔ Acesso negado. Esta área é exclusiva do administrador.";
+
+      mensagem.classList.add("erro");
 
       return;
     }
 
 
-    /* Estado de carregamento */
+    /* Mostrar painel */
 
-    botao.disabled = true;
+    mensagem.style.display = "none";
 
-    botao.innerText =
-    "CRIANDO CONTA...";
-
-
-    mensagem.innerHTML =
-    "<span style='color:#ffd700'>" +
-    "Aguarde, estamos criando sua conta..." +
-    "</span>";
+    document.getElementById("painel").style.display =
+      "block";
 
 
-    try {
+    /* Carregar agendamentos */
 
-      /* Criar usuário no Supabase Auth */
-
-      const {
-        data,
-        error
-      } =
-      await supabaseClient.auth.signUp({
-
-        email: email,
-
-        password: senha,
-
-        options: {
-
-          data: {
-            nome: nome,
-            telefone: telefone
-          }
-
-        }
-
-      });
-
-
-      if (error) {
-        throw error;
-      }
-
-
-      if (!data.user) {
-
-        throw new Error(
-          "Não foi possível criar o usuário."
-        );
-
-      }
-
-
-      /* =================================================
-         SALVAR CLIENTE NA TABELA clientes
-         ================================================= */
-
-      const {
-        error: clienteError
-      } =
-      await supabaseClient
-        .from("clientes")
-        .insert([{
-
-          nome: nome,
-
-          telefone: telefone,
-
-          email: email,
-
-          auth_user_id: data.user.id
-
-        }]);
-
-
-      if (clienteError) {
-
-        throw clienteError;
-
-      }
-
-
-      /* Sucesso */
-
-      mensagem.innerHTML =
-      "<span style='color:#ffd700;font-weight:bold'>" +
-
-      "✅ CONTA CRIADA COM SUCESSO!<br><br>" +
-
-      "Enviamos um e-mail para você confirmar seu cadastro." +
-
-      "</span>";
-
-
-      form.reset();
-
-
-      botao.innerText =
-      "CONTA CRIADA";
-
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444;font-weight:bold'>" +
-
-      "❌ Não foi possível criar a conta.<br><br>" +
-
-      error.message +
-
-      "</span>";
-
-
-      botao.disabled = false;
-
-      botao.innerText =
-      "CRIAR MINHA CONTA";
-
-    }
+    await carregarAgendamentos();
 
   }
 
-);
+  catch (erro) {
+
+    console.error(erro);
+
+    mensagem.innerHTML =
+      "Erro ao carregar o painel:<br><br>" +
+      erro.message;
+
+    mensagem.classList.add("erro");
+
+  }
+
+}
+
+
+async function carregarAgendamentos() {
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from("agendamentos")
+    .select("*")
+    .order("Data", {
+      ascending: true
+    })
+    .order("Horário", {
+      ascending: true
+    });
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  const agendamentos =
+    data || [];
+
+
+  let faturamento = 0;
+
+  let pendentes = 0;
+
+  let pagos = 0;
+
+  let totalPago = 0;
+
+  let totalPendente = 0;
+
+
+  const tabela =
+    document.getElementById("listaAgendamentos");
+
+  tabela.innerHTML = "";
+
+
+  agendamentos.forEach(function(item) {
+
+    const valor =
+      Number(item["Valor"] || 0);
+
+
+    faturamento += valor;
+
+
+    if (item["Status"] === "Pendente") {
+      pendentes++;
+    }
+
+
+    if (item["Pagamento"] === "Pago") {
+
+      pagos++;
+
+      totalPago += valor;
+
+    }
+    else {
+
+      totalPendente += valor;
+
+    }
+
+
+    const linha =
+      document.createElement("tr");
+
+
+    linha.innerHTML =
+
+      "<td>" +
+      (item["Data"] || "-") +
+      "</td>" +
+
+      "<td>" +
+      (item["Horário"] || "-") +
+      "</td>" +
+
+      "<td>" +
+      (item["Serviços"] || "-") +
+      "</td>" +
+
+      "<td>R$ " +
+      valor.toFixed(2).replace(".", ",") +
+      "</td>" +
+
+      "<td class='status'>" +
+      (item["Status"] || "-") +
+      "</td>" +
+
+      "<td>" +
+      (item["Pagamento"] || "-") +
+      "</td>";
+
+
+    tabela.appendChild(linha);
+
+  });
+
+
+  document.getElementById("faturamento").innerText =
+    "R$ " +
+    faturamento.toFixed(2).replace(".", ",");
+
+
+  document.getElementById("totalAgendamentos").innerText =
+    agendamentos.length;
+
+
+  document.getElementById("pendentes").innerText =
+    pendentes;
+
+
+  document.getElementById("pagos").innerText =
+    pagos;
+
+
+  document.getElementById("resumoFaturamento").innerText =
+    "R$ " +
+    faturamento.toFixed(2).replace(".", ",");
+
+
+  document.getElementById("resumoPago").innerText =
+    "R$ " +
+    totalPago.toFixed(2).replace(".", ",");
+
+
+  document.getElementById("resumoPendente").innerText =
+    "R$ " +
+    totalPendente.toFixed(2).replace(".", ",");
+
+}
+
+
+async function sair() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+iniciarPainel();
 
 </script>
 
