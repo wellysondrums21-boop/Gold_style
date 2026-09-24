@@ -546,8 +546,9 @@ async function sair() {
 
 }
 
-
 iniciarPainel();
+carregarClientes();
+
 async function alterarStatus(id, novoStatus) {
 
   const { error } = await supabaseClient
