@@ -8,6 +8,41 @@
   <title>Agendamento | Gold Style</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      color: #ffd700;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    #mensagem {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -28,36 +63,34 @@
     </p>
   </section>
 
-  <form>
+  <form id="formAgendamento">
 
     <label for="nome">Nome completo</label>
+
     <input
       type="text"
       id="nome"
-      name="nome"
-      placeholder="Digite seu nome"
-      required>
+      readonly
+      required
+    >
 
     <label for="telefone">WhatsApp</label>
+
     <input
       type="tel"
       id="telefone"
-      name="telefone"
-      placeholder="(68) 99985-3643"
-      required>
+      readonly
+      required
+    >
 
     <label for="servico">Escolha o serviço</label>
 
-    <select id="servico" name="servico" required>
-      <option value="">Selecione um serviço</option>
-      <option>Corte Social — R$ 25</option>
-      <option>Degradê / Navalhado — R$ 30</option>
-      <option>Corte + Barba — R$ 50</option>
-      <option>Sobrancelha — R$ 10</option>
-      <option>Barba — R$ 25</option>
-      <option>Selagem — R$ 65</option>
-      <option>Luzes — R$ 80</option>
-      <option>Platinado — a partir de R$ 120</option>
+    <select id="servico" required>
+
+      <option value="">
+        Selecione um serviço
+      </option>
+
     </select>
 
     <label for="data">Escolha a data</label>
@@ -65,13 +98,17 @@
     <input
       type="date"
       id="data"
-      name="data"
-      required>
+      required
+    >
 
     <label for="horario">Escolha o horário</label>
 
-    <select id="horario" name="horario" required>
-      <option value="">Selecione um horário</option>
+    <select id="horario" required>
+
+      <option value="">
+        Selecione um horário
+      </option>
+
       <option>08:00</option>
       <option>09:00</option>
       <option>10:00</option>
@@ -83,26 +120,443 @@
       <option>16:00</option>
       <option>17:00</option>
       <option>18:00</option>
+
     </select>
 
-    <button type="submit" class="btn btn-gold">
-      CONTINUAR AGENDAMENTO
+    <button
+      type="submit"
+      class="btn btn-gold"
+    >
+      CONFIRMAR AGENDAMENTO
     </button>
 
   </form>
 
-  <a href="index.html" class="btn btn-dark">
+  <div id="mensagem"></div>
+
+  <a
+    href="index.html"
+    class="btn btn-dark"
+  >
     VOLTAR PARA INÍCIO
   </a>
 
 </main>
 
 <footer>
+
   <strong>Gold Style Barbearia</strong><br>
+
   Rio Branco - Acre<br>
+
   Segunda a sábado: 08h às 19h<br>
+
   Domingo: 08h às 12h
+
 </footer>
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+const form =
+document.getElementById(
+  "formAgendamento"
+);
+
+const mensagem =
+document.getElementById(
+  "mensagem"
+);
+
+const servicoSelect =
+document.getElementById(
+  "servico"
+);
+
+
+function mostrarMensagem(
+  texto,
+  sucesso
+) {
+
+  mensagem.innerText = texto;
+
+  mensagem.style.display =
+    "block";
+
+  mensagem.style.color =
+    sucesso
+      ? "#ffd700"
+      : "#ff6b6b";
+
+  mensagem.style.border =
+    "1px solid " +
+    (
+      sucesso
+        ? "#d4af37"
+        : "#ff6b6b"
+    );
+
+}
+
+
+async function iniciar() {
+
+  const {
+    data: {
+      user
+    },
+    error: authError
+  } =
+  await supabaseClient.auth.getUser();
+
+
+  if (
+    authError ||
+    !user
+  ) {
+
+    mostrarMensagem(
+      "Você precisa entrar na sua conta antes de agendar.",
+      false
+    );
+
+    form.style.display =
+      "none";
+
+    return;
+  }
+
+
+  const {
+    data: cliente,
+    error: clienteError
+  } =
+  await supabaseClient
+    .from("clientes")
+    .select("*")
+    .eq(
+      "auth_user_id",
+      user.id
+    )
+    .maybeSingle();
+
+
+  if (
+    clienteError ||
+    !cliente
+  ) {
+
+    mostrarMensagem(
+      "Cadastro de cliente não encontrado.",
+      false
+    );
+
+    form.style.display =
+      "none";
+
+    return;
+  }
+
+
+  document.getElementById(
+    "nome"
+  ).value =
+    cliente.Nome || "";
+
+
+  document.getElementById(
+    "telefone"
+  ).value =
+    cliente.Telefone || "";
+
+
+  const {
+    data: servicos,
+    error: servicosError
+  } =
+  await supabaseClient
+    .from("servicos")
+    .select(
+      "id,nome,valor"
+    )
+    .eq(
+      "ativo",
+      true
+    )
+    .order("nome");
+
+
+  if (servicosError) {
+
+    mostrarMensagem(
+      "Não foi possível carregar os serviços.",
+      false
+    );
+
+    return;
+  }
+
+
+  servicos.forEach(
+    servico => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        servico.id;
+
+      option.textContent =
+        servico.nome +
+        " — R$ " +
+        Number(
+          servico.valor
+        )
+        .toFixed(2)
+        .replace(
+          ".",
+          ","
+        );
+
+      option.dataset.nome =
+        servico.nome;
+
+      option.dataset.valor =
+        servico.valor;
+
+      servicoSelect.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  form.dataset.clienteId =
+    cliente.id;
+
+  form.dataset.authUserId =
+    user.id;
+
+}
+
+
+form.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const clienteId =
+      form.dataset.clienteId;
+
+    const authUserId =
+      form.dataset.authUserId;
+
+
+    const opcao =
+      servicoSelect
+        .options[
+          servicoSelect
+            .selectedIndex
+        ];
+
+
+    const dataEscolhida =
+      document.getElementById(
+        "data"
+      ).value;
+
+
+    const horario =
+      document.getElementById(
+        "horario"
+      ).value;
+
+
+    if (
+      !clienteId ||
+      !authUserId ||
+      !opcao ||
+      !opcao.value ||
+      !dataEscolhida ||
+      !horario
+    ) {
+
+      mostrarMensagem(
+        "Preencha todos os campos.",
+        false
+      );
+
+      return;
+    }
+
+
+    const hoje =
+      new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+    if (
+      dataEscolhida <
+      hoje
+    ) {
+
+      mostrarMensagem(
+        "Escolha uma data válida.",
+        false
+      );
+
+      return;
+    }
+
+
+    const {
+      data: existente,
+      error: consultaError
+    } =
+    await supabaseClient
+      .from("agendamentos")
+      .select("id")
+      .eq(
+        "Data",
+        dataEscolhida
+      )
+      .eq(
+        "Horário",
+        horario
+      )
+      .limit(1);
+
+
+    if (consultaError) {
+
+      mostrarMensagem(
+        "Não foi possível verificar esse horário.",
+        false
+      );
+
+      return;
+    }
+
+
+    if (
+      existente &&
+      existente.length > 0
+    ) {
+
+      mostrarMensagem(
+        "Esse horário já está ocupado. Escolha outro.",
+        false
+      );
+
+      return;
+    }
+
+
+    const {
+      error
+    } =
+    await supabaseClient
+      .from("agendamentos")
+      .insert({
+
+        "Cliente_id":
+          clienteId,
+
+        "Serviços":
+          opcao.dataset.nome,
+
+        "Valor":
+          Number(
+            opcao.dataset.valor
+          ),
+
+        "Data":
+          dataEscolhida,
+
+        "Horário":
+          horario,
+
+        "Status":
+          "Pendente",
+
+        "Pagamento":
+          "Pendente",
+
+        "Serviço_id":
+          opcao.value,
+
+        "auth_user_id":
+          authUserId
+
+      });
+
+
+    if (error) {
+
+      mostrarMensagem(
+        "Erro ao salvar agendamento: " +
+        error.message,
+        false
+      );
+
+      return;
+    }
+
+
+    mostrarMensagem(
+      "Agendamento realizado com sucesso!",
+      true
+    );
+
+
+    setTimeout(
+      () => {
+
+        window.location.href =
+          "cliente.html";
+
+      },
+      1800
+    );
+
+  }
+);
+
+
+const dataInput =
+document.getElementById(
+  "data"
+);
+
+
+dataInput.min =
+new Date()
+  .toISOString()
+  .split("T")[0];
+
+
+iniciar();
+
+</script>
 
 </body>
 </html>
