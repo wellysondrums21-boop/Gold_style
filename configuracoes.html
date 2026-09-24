@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Configurações - Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    background:linear-gradient(135deg,#050505,#1b1b1b);
+    border-bottom:1px solid #d4af37;
+    padding:20px;
+}
+
+.logo{
+    color:#ffd700;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.subtitulo{
+    color:#999;
+    margin-top:5px;
+    font-size:14px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.menu{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.menu a{
+    text-decoration:none;
+    color:#ddd;
+    border:1px solid #333;
+    padding:10px 13px;
+    border-radius:8px;
+    font-size:13px;
+}
+
+.menu a:hover{
+    color:#ffd700;
+    border-color:#ffd700;
+}
+
+.card{
+    background:#111;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card h2{
+    color:#ffd700;
+    margin-bottom:18px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.campo{
+    margin-bottom:5px;
+}
+
+.campo-completo{
+    grid-column:1 / -1;
+}
+
+label{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+input,
+textarea{
+    width:100%;
+    background:#050505;
+    color:#fff;
+    border:1px solid #444;
+    border-radius:9px;
+    padding:13px;
+    outline:none;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#ffd700;
+}
+
+textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    border:0;
+    border-radius:10px;
+    padding:15px;
+    background:#ffd700;
+    color:#000;
+    font-weight:bold;
+    font-size:15px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#fff000;
+}
+
+.mensagem{
+    text-align:center;
+    margin-top:15px;
+    color:#ffd700;
+    min-height:20px;
+}
+
+.info{
+    color:#999;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.rodape{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+    font-size:12px;
+}
+
+@media(max-width:650px){
+
+    .container{
+        padding:12px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .campo-completo{
+        grid-column:auto;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+GOLD STYLE BARBEARIA
+</div>
+
+<div class="subtitulo">
+Configurações administrativas
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<div class="menu">
+
+<a href="admin.html">
+🏠 Dashboard
+</a>
+
+<a href="agendamento.html">
+📅 Agenda
+</a>
+
+<a href="servicos.html">
+✂️ Serviços
+</a>
+
+<a href="clientes.html">
+👥 Clientes
+</a>
+
+<a href="produtos.html">
+🛍️ Produtos
+</a>
+
+<a href="financeiro.html">
+💰 Financeiro
+</a>
+
+<a href="relatorios.html">
+📊 Relatórios
+</a>
+
+<a href="configuracoes.html">
+⚙️ Configurações
+</a>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+🏪 Informações da Barbearia
+</h2>
+
+
+<div class="grid">
+
+
+<div class="campo">
+
+<label>
+Nome da barbearia
+</label>
+
+<input
+id="nome_barbearia"
+type="text"
+placeholder="Gold Style Barbearia"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Slogan
+</label>
+
+<input
+id="slogan"
+type="text"
+placeholder="BARBEARIA DESDE 2022"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Endereço
+</label>
+
+<input
+id="endereco"
+type="text"
+placeholder="Rua Preciosa 557"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+WhatsApp
+</label>
+
+<input
+id="whatsapp"
+type="text"
+placeholder="6899985-3643"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Instagram
+</label>
+
+<input
+id="instagram"
+type="text"
+placeholder="@barbearia_Gold_style"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Horário segunda a sábado
+</label>
+
+<input
+id="horario_semana"
+type="text"
+placeholder="08:00 às 19:00"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Horário domingo
+</label>
+
+<input
+id="horario_domingo"
+type="text"
+placeholder="08:00 às 12:00"
+>
+
+</div>
+
+
+<div class="campo campo-completo">
+
+<label>
+Descrição da barbearia
+</label>
+
+<textarea
+id="descricao"
+placeholder="Digite uma descrição da Gold Style..."
+></textarea>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+💾 Salvar configurações
+</h2>
+
+<p class="info">
+
+As informações salvas aqui poderão ser utilizadas
+posteriormente no site dos clientes e no aplicativo
+administrativo.
+
+</p>
+
+<br>
+
+<button onclick="salvarConfiguracoes()">
+SALVAR CONFIGURAÇÕES
+</button>
+
+<div
+id="mensagem"
+class="mensagem"
+></div>
+
+</div>
+
+
+<div class="rodape">
+
+GOLD STYLE BARBEARIA<br>
+
+BARBEARIA DESDE 2022
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+async function verificarAdministrador(){
+
+    const {
+        data:{session}
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+        window.location.href =
+        "login.html";
+
+        return null;
+
+    }
+
+
+    const {
+        data:admin,
+        error
+    } =
+    await supabaseClient
+
+    .from("administradores")
+
+    .select("id,ativo")
+
+    .eq(
+        "auth_user_id",
+        session.user.id
+    )
+
+    .eq(
+        "ativo",
+        true
+    )
+
+    .maybeSingle();
+
+
+    if(error || !admin){
+
+        alert(
+            "Acesso permitido somente para administrador."
+        );
+
+        window.location.href =
+        "cliente.html";
+
+        return null;
+
+    }
+
+
+    return session;
+
+}
+
+
+async function carregarConfiguracoes(){
+
+    const autorizado =
+    await verificarAdministrador();
+
+
+    if(!autorizado) return;
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("configuracoes")
+
+    .select("*")
+
+    .limit(1)
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Erro ao carregar configurações."
+        );
+
+        return;
+
+    }
+
+
+    if(!data) return;
+
+
+    document.getElementById(
+        "nome_barbearia"
+    ).value =
+    data.nome_barbearia || "";
+
+
+    document.getElementById(
+        "slogan"
+    ).value =
+    data.slogan || "";
+
+
+    document.getElementById(
+        "endereco"
+    ).value =
+    data.endereco || "";
+
+
+    document.getElementById(
+        "whatsapp"
+    ).value =
+    data.whatsapp || "";
+
+
+    document.getElementById(
+        "instagram"
+    ).value =
+    data.instagram || "";
+
+
+    document.getElementById(
+        "horario_semana"
+    ).value =
+    data.horario_semana || "";
+
+
+    document.getElementById(
+        "horario_domingo"
+    ).value =
+    data.horario_domingo || "";
+
+
+    document.getElementById(
+        "descricao"
+    ).value =
+    data.descricao || "";
+
+}
+
+
+async function salvarConfiguracoes(){
+
+    const nome_barbearia =
+    document.getElementById(
+        "nome_barbearia"
+    ).value.trim();
+
+
+    const slogan =
+    document.getElementById(
+        "slogan"
+    ).value.trim();
+
+
+    const endereco =
+    document.getElementById(
+        "endereco"
+    ).value.trim();
+
+
+    const whatsapp =
+    document.getElementById(
+        "whatsapp"
+    ).value.trim();
+
+
+    const instagram =
+    document.getElementById(
+        "instagram"
+    ).value.trim();
+
+
+    const horario_semana =
+    document.getElementById(
+        "horario_semana"
+    ).value.trim();
+
+
+    const horario_domingo =
+    document.getElementById(
+        "horario_domingo"
+    ).value.trim();
+
+
+    const descricao =
+    document.getElementById(
+        "descricao"
+    ).value.trim();
+
+
+    mostrarMensagem(
+        "Salvando..."
+    );
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+    .from("configuracoes")
+
+    .upsert({
+
+        id:
+        "00000000-0000-0000-0000-000000000001",
+
+        nome_barbearia,
+
+        slogan,
+
+        endereco,
+
+        whatsapp,
+
+        instagram,
+
+        horario_semana,
+
+        horario_domingo,
+
+        descricao,
+
+        atualizado_em:
+        new Date().toISOString()
+
+    })
+
+    .select();
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Erro ao salvar: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    mostrarMensagem(
+        "✅ Configurações salvas com sucesso!"
+    );
+
+}
+
+
+function mostrarMensagem(texto){
+
+    document.getElementById(
+        "mensagem"
+    ).textContent =
+    texto;
+
+}
+
+
+carregarConfiguracoes();
+
+</script>
+
+
+</body>
+
+  </html>
