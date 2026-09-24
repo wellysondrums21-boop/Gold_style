@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Minha conta | Gold Style</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    .cliente-card {
+      background: #111;
+      border: 1px solid #292929;
+      border-left: 4px solid #ffd700;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .cliente-card h2 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+
+    .dados {
+      line-height: 1.9;
+      color: #ddd;
+    }
+
+    .dados strong {
+      color: #ffd700;
+    }
+
+    .agendamento {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .agendamento strong {
+      color: #ffd700;
+    }
+
+    #mensagem {
+      text-align: center;
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">GOLD STYLE</div>
+  <div class="subtitle">ÁREA DO CLIENTE</div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1 id="boasVindas">Minha conta</h1>
+
+    <p>
+      Aqui você acompanha seus dados e seus agendamentos.
+    </p>
+  </section>
+
+
+  <div id="mensagem">
+    Carregando sua conta...
+  </div>
+
+
+  <section class="cliente-card">
+
+    <h2>👤 Meus dados</h2>
+
+    <div class="dados">
+
+      <strong>Nome:</strong>
+      <span id="nome">Carregando...</span>
+      <br>
+
+      <strong>WhatsApp:</strong>
+      <span id="telefone">Carregando...</span>
+      <br>
+
+      <strong>E-mail:</strong>
+      <span id="email">Carregando...</span>
+
+    </div>
+
+  </section>
+
+
+  <section class="cliente-card">
+
+    <h2>📅 Meus agendamentos</h2>
+
+    <div id="agendamentos">
+      Carregando agendamentos...
+    </div>
+
+  </section>
+
+
+  <a
+    href="agendamento.html"
+    class="btn btn-gold">
+
+    AGENDAR NOVO HORÁRIO
+
+  </a>
+
+
+  <a
+    href="index.html"
+    class="btn btn-dark">
+
+    VOLTAR PARA INÍCIO
+
+  </a>
+
+
+  <button
+    id="sair"
+    class="btn btn-dark">
+
+    SAIR DA CONTA
+
+  </button>
+
+</main>
+
+
+<footer>
+
+  <strong>Gold Style Barbearia</strong><br>
+
+  Rio Branco - Acre<br>
+
+  Barbearia desde 2022
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO DO SUPABASE
+   ===================================================== */
+
+
+/* 🔴 COLOQUE A MESMA URL DO SEU login.html */
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+/* 🔴 COLOQUE A MESMA CHAVE sb_publishable_ DO login.html */
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =====================================================
+   CARREGAR CLIENTE
+   ===================================================== */
+
+async function carregarCliente() {
+
+  const {
+    data: sessionData
+  } =
+  await supabaseClient.auth.getSession();
+
+
+  const session =
+  sessionData.session;
+
+
+  /* Se não estiver logado */
+
+  if (!session) {
+
+    window.location.href =
+    "login.html";
+
+    return;
+
+  }
+
+
+  const usuario =
+  session.user;
+
+
+  /* Mostrar e-mail */
+
+  document.getElementById("email").innerText =
+  usuario.email;
+
+
+  /* Buscar cliente */
+
+  const {
+    data: cliente,
+    error
+  } =
+  await supabaseClient
+    .from("clientes")
+    .select("*")
+    .eq("auth_user_id", usuario.id)
+    .maybeSingle();
+
+
+  if (error) {
+
+    console.error(error);
+
+    document.getElementById("mensagem").innerHTML =
+    "<span style='color:#ff4444'>" +
+    "Erro ao carregar seus dados: " +
+    error.message +
+    "</span>";
+
+    return;
+
+  }
+
+
+  if (cliente) {
+
+    document.getElementById("nome").innerText =
+    cliente.nome || "Não informado";
+
+    document.getElementById("telefone").innerText =
+    cliente.telefone || "Não informado";
+
+    document.getElementById("boasVindas").innerText =
+    "Olá, " + (cliente.nome || "cliente") + "!";
+
+  }
+
+
+  /* Carregar agendamentos */
+
+  carregarAgendamentos(cliente);
+
+}
+
+
+/* =====================================================
+   CARREGAR AGENDAMENTOS
+   ===================================================== */
+
+async function carregarAgendamentos(cliente) {
+
+  const area =
+  document.getElementById("agendamentos");
+
+
+  if (!cliente) {
+
+    area.innerHTML =
+    "Não encontramos seus dados de cliente.";
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from("agendamentos")
+    .select("*")
+    .eq("cliente_id", cliente.id)
+    .order("data", { ascending: true });
+
+
+  if (error) {
+
+    area.innerHTML =
+    "<span style='color:#ff4444'>" +
+    "Erro ao carregar agendamentos." +
+    "</span>";
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    area.innerHTML =
+    "<p style='color:#aaa'>" +
+    "Você ainda não possui agendamentos." +
+    "</p>";
+
+    return;
+
+  }
+
+
+  area.innerHTML = "";
+
+
+  data.forEach(function(item) {
+
+    const div =
+    document.createElement("div");
+
+    div.className =
+    "agendamento";
+
+
+    div.innerHTML =
+
+    "<strong>Serviço:</strong> " +
+    (item.servico || "Não informado") +
+
+    "<br>" +
+
+    "<strong>Data:</strong> " +
+    (item.data || "Não informada") +
+
+    "<br>" +
+
+    "<strong>Horário:</strong> " +
+    (item.horario || "Não informado") +
+
+    "<br>" +
+
+    "<strong>Status:</strong> " +
+    (item.status || "Pendente");
+
+
+    area.appendChild(div);
+
+  });
+
+}
+
+
+/* =====================================================
+   SAIR
+   ===================================================== */
+
+document
+.getElementById("sair")
+.addEventListener(
+  "click",
+  async function() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+    "login.html";
+
+  }
+);
+
+
+/* =====================================================
+   INICIAR
+   ===================================================== */
+
+carregarCliente();
+
+</script>
+
+</body>
+</html>
