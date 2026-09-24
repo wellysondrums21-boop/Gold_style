@@ -290,7 +290,7 @@ async function carregarAgendamentos(cliente) {
 await supabaseClient
   .from("agendamentos")
   .select("*")
-  .eq("auth_user_id", usuario.id)
+  .eq("Cliente_id", cliente.id)
   .order("Data", { ascending: true });
 
 
