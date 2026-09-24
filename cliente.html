@@ -246,15 +246,13 @@ async function carregarCliente() {
   if (cliente) {
 
     document.getElementById("nome").innerText =
-    cliente.nome || "Não informado";
+cliente.Nome || "Não informado";
 
-    document.getElementById("telefone").innerText =
-    cliente.telefone || "Não informado";
+document.getElementById("telefone").innerText =
+cliente.Telefone || "Não informado";
 
-    document.getElementById("boasVindas").innerText =
-    "Olá, " + (cliente.nome || "cliente") + "!";
-
-  }
+document.getElementById("boasVindas").innerText =
+"Olá, " + (cliente.Nome || "cliente") + "!";
 
 
   /* Carregar agendamentos */
