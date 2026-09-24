@@ -3,151 +3,144 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Painel Administrativo | Gold Style</title>
+<title>Painel Administrativo | Gold Style</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
+<style>
 
-    body {
-      background: #050505;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-    }
+body{
+background:#050505;
+color:#fff;
+font-family:Arial,sans-serif;
+margin:0;
+}
 
-    header {
-      text-align: center;
-      padding: 25px 15px;
-      border-bottom: 1px solid #333;
-    }
+header{
+text-align:center;
+padding:25px 15px;
+border-bottom:1px solid #333;
+}
 
-    .logo {
-      color: #ffd700;
-      font-size: 30px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
+.logo{
+color:#ffd700;
+font-size:30px;
+font-weight:bold;
+letter-spacing:2px;
+}
 
-    .subtitle {
-      color: #aaa;
-      margin-top: 6px;
-    }
+.subtitle{
+color:#aaa;
+margin-top:6px;
+}
 
-    main {
-      width: 92%;
-      max-width: 1200px;
-      margin: 25px auto;
-    }
+main{
+width:92%;
+max-width:1200px;
+margin:25px auto;
+}
 
-    .boas-vindas,
-    .card,
-    .secao {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 15px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+.boas-vindas,
+.card,
+.secao{
+background:#111;
+border:1px solid #333;
+border-radius:15px;
+padding:20px;
+box-sizing:border-box;
+}
 
-    .boas-vindas {
-      margin-bottom: 20px;
-    }
+.boas-vindas{
+margin-bottom:20px;
+}
 
-    .boas-vindas h1,
-    .secao h2 {
-      color: #ffd700;
-    }
+h1,h2{
+color:#ffd700;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
 
-    .card h3 {
-      color: #aaa;
-      font-size: 14px;
-      margin-top: 0;
-    }
+.card h3{
+color:#aaa;
+font-size:14px;
+margin-top:0;
+}
 
-    .valor {
-      color: #ffd700;
-      font-size: 28px;
-      font-weight: bold;
-    }
+.valor{
+color:#ffd700;
+font-size:28px;
+font-weight:bold;
+}
 
-    .secao {
-      margin-top: 20px;
-      overflow-x: auto;
-    }
+.secao{
+margin-top:20px;
+overflow-x:auto;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 750px;
-    }
+table{
+width:100%;
+border-collapse:collapse;
+min-width:750px;
+}
 
-    th {
-      color: #ffd700;
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid #444;
-    }
+th{
+color:#ffd700;
+text-align:left;
+padding:12px;
+border-bottom:1px solid #444;
+}
 
-    td {
-      padding: 12px;
-      border-bottom: 1px solid #222;
-    }
+td{
+padding:12px;
+border-bottom:1px solid #222;
+}
 
-    select {
-      background: #050505;
-      color: #fff;
-      border: 1px solid #555;
-      border-radius: 7px;
-      padding: 7px;
-    }
+select{
+background:#050505;
+color:#fff;
+border:1px solid #555;
+border-radius:7px;
+padding:7px;
+}
 
-    .botao {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 13px 20px;
-      border-radius: 10px;
-      background: #ffd700;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
+.botao{
+margin-top:20px;
+padding:13px 20px;
+border-radius:10px;
+background:#ffd700;
+color:#000;
+font-weight:bold;
+border:none;
+cursor:pointer;
+}
 
-    .botao:hover {
-      opacity: .85;
-    }
+#mensagem{
+text-align:center;
+padding:20px;
+color:#ffd700;
+}
 
-    #mensagem {
-      text-align: center;
-      padding: 20px;
-      color: #ffd700;
-    }
+.erro{
+color:#ff5555!important;
+}
 
-    .erro {
-      color: #ff5555 !important;
-    }
+footer{
+text-align:center;
+color:#777;
+padding:30px 15px;
+}
 
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 30px 15px;
-    }
-
-  </style>
+</style>
 
 </head>
 
@@ -155,63 +148,104 @@
 
 <header>
 
-  <div class="logo">
-    GOLD STYLE
-  </div>
+<div class="logo">
+GOLD STYLE
+</div>
 
-  <div class="subtitle">
-    PAINEL ADMINISTRATIVO
-  </div>
+<div class="subtitle">
+PAINEL ADMINISTRATIVO
+</div>
 
 </header>
 
-
 <main>
 
-  <div id="mensagem">
-    Verificando acesso...
-  </div>
+<div id="mensagem">
+Verificando acesso...
+</div>
 
+<div id="painel" style="display:none;">
 
-  <div id="painel" style="display:none;">
+<section class="boas-vindas">
 
+<h1>
+Olá, Weleson! 👑
+</h1>
 
-    <!-- BOAS-VINDAS -->
+<p>
+Bem-vindo ao painel administrativo da Gold Style Barbearia.
+</p>
 
-    <section class="boas-vindas">
+</section>
 
-      <h1>
-        Olá, Weleson! 👑
-      </h1>
+<section class="cards">
 
-      <p>
-        Bem-vindo ao painel administrativo da
-        Gold Style Barbearia.
-      </p>
+<div class="card">
 
-    </section>
+<h3>
+FATURAMENTO AGENDADO
+</h3>
 
+<div class="valor" id="faturamento">
+R$ 0,00
+</div>
 
-    <!-- CARDS -->
+</div>
 
-    <section class="cards">
+<div class="card">
 
+<h3>
+AGENDAMENTOS
+</h3>
 
-      <div class="card">
+<div class="valor" id="totalAgendamentos">
+0
+</div>
 
-        <h3>
-          FATURAMENTO AGENDADO
-        </h3>
+</div>
 
-        <div
-          class="valor"
-          id="faturamento">
-          R$ 0,00
-        </div>
+<div class="card">
 
-      </div>
+<h3>
+PENDENTES
+</h3>
 
+<div class="valor" id="pendentes">
+0
+</div>
 
-      <div class="card">
+</div>
 
-        <h
+<div class="card">
+
+<h3>
+PAGOS
+</h3>
+
+<div class="valor" id="pagos">
+0
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+<footer>
+
+<strong>
+Gold Style Barbearia
+</strong>
+
+<br>
+
+Rio Branco - Acre
+
+<br>
+
+Barbearia desde 2022
+
+</footer>
