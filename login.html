@@ -8,6 +8,50 @@
   <title>Login | Gold Style</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      color: #ffd700;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ffd700;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #mensagem {
+      text-align: center;
+      line-height: 1.5;
+      margin: 18px 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -30,7 +74,8 @@
 
   </section>
 
-  <form>
+
+  <form id="loginForm">
 
     <label for="email">
       E-mail
@@ -39,9 +84,9 @@
     <input
       type="email"
       id="email"
-      name="email"
       placeholder="Digite seu e-mail"
       required>
+
 
     <label for="senha">
       Senha
@@ -50,31 +95,44 @@
     <input
       type="password"
       id="senha"
-      name="senha"
       placeholder="Digite sua senha"
       required>
 
+
     <button
       type="submit"
-      class="btn btn-gold">
+      class="btn btn-gold"
+      id="botaoLogin">
+
       ENTRAR
+
     </button>
 
   </form>
 
+
+  <div id="mensagem"></div>
+
+
   <a
     href="cadastro.html"
     class="btn btn-dark">
+
     CRIAR MINHA CONTA
+
   </a>
+
 
   <a
     href="index.html"
     class="btn btn-dark">
+
     VOLTAR PARA INÍCIO
+
   </a>
 
 </main>
+
 
 <footer>
 
@@ -85,6 +143,160 @@
   Barbearia desde 2022
 
 </footer>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+   ===================================================== */
+
+
+/* 🔴 COLOQUE AQUI A URL DO SEU PROJETO */
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+/* 🔴 COLOQUE AQUI A SUA CHAVE sb_publishable_... */
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =====================================================
+   LOGIN
+   ===================================================== */
+
+const form =
+document.getElementById("loginForm");
+
+const mensagem =
+document.getElementById("mensagem");
+
+const botao =
+document.getElementById("botaoLogin");
+
+
+form.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const email =
+    document.getElementById("email").value.trim();
+
+
+    const senha =
+    document.getElementById("senha").value;
+
+
+    botao.disabled = true;
+
+    botao.innerText =
+    "ENTRANDO...";
+
+
+    mensagem.innerHTML =
+    "<span style='color:#ffd700'>" +
+    "Verificando seus dados..." +
+    "</span>";
+
+
+    try {
+
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth.signInWithPassword({
+
+        email: email,
+
+        password: senha
+
+      });
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      if (!data.user) {
+
+        throw new Error(
+          "Usuário não encontrado."
+        );
+
+      }
+
+
+      mensagem.innerHTML =
+      "<span style='color:#ffd700;font-weight:bold'>" +
+
+      "✅ LOGIN REALIZADO COM SUCESSO!<br><br>" +
+
+      "Aguarde..." +
+
+      "</span>";
+
+
+      /*
+        Por enquanto vamos mandar o cliente
+        para a página inicial.
+
+        Depois vamos criar a área exclusiva
+        do cliente com agendamentos,
+        pagamentos e histórico.
+      */
+
+      setTimeout(function() {
+
+        window.location.href =
+        "index.html";
+
+      }, 1000);
+
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444;font-weight:bold'>" +
+
+      "❌ Não foi possível entrar.<br><br>" +
+
+      error.message +
+
+      "</span>";
+
+
+      botao.disabled = false;
+
+      botao.innerText =
+      "ENTRAR";
+
+    }
+
+  }
+
+);
+
+</script>
 
 </body>
 </html>
