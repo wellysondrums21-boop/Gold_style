@@ -86,6 +86,38 @@ h1{
 margin-top:0;
 }
 
+.menu-admin{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:10px;
+margin-bottom:20px;
+}
+
+.menu-admin a{
+display:block;
+text-decoration:none;
+text-align:center;
+padding:14px 10px;
+border:1px solid #444;
+border-radius:12px;
+background:#111;
+color:#fff;
+font-weight:bold;
+transition:0.2s;
+}
+
+.menu-admin a:hover{
+background:#ffd700;
+color:#000;
+border-color:#ffd700;
+}
+
+.menu-admin a.destaque{
+background:#ffd700;
+color:#000;
+border-color:#ffd700;
+}
+
 .cards{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -204,15 +236,22 @@ width:95%;
 padding:15px;
 }
 
+.menu-admin{
+grid-template-columns:repeat(2,1fr);
+}
+
+.menu-admin a{
+font-size:13px;
+padding:13px 5px;
+}
+
 }
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -226,17 +265,13 @@ PAINEL ADMINISTRATIVO
 
 </header>
 
-
 <main>
-
 
 <div id="mensagem">
 Verificando acesso...
 </div>
 
-
 <div id="painel" style="display:none;">
-
 
 <section class="boas-vindas">
 
@@ -251,8 +286,48 @@ Bem-vindo ao painel administrativo da Gold Style Barbearia.
 </section>
 
 
-<section class="cards">
+<!-- MENU ADMINISTRATIVO -->
 
+<section class="menu-admin">
+
+<a href="admin.html" class="destaque">
+🏠 Dashboard
+</a>
+
+<a href="agendamento.html">
+📅 Agenda
+</a>
+
+<a href="servicos.html">
+✂️ Serviços
+</a>
+
+<a href="clientes.html">
+👥 Clientes
+</a>
+
+<a href="produtos.html">
+🛍️ Produtos
+</a>
+
+<a href="financeiro.html">
+💰 Financeiro
+</a>
+
+<a href="relatorios.html">
+📊 Relatórios
+</a>
+
+<a href="configuracoes.html">
+⚙️ Configurações
+</a>
+
+</section>
+
+
+<!-- CARDS -->
+
+<section class="cards">
 
 <div class="card">
 
@@ -305,9 +380,7 @@ PAGOS
 
 </div>
 
-
 </section>
-
 
 
 <!-- AGENDAMENTOS -->
@@ -342,7 +415,6 @@ PAGOS
 
 </thead>
 
-
 <tbody id="tabelaAgendamentos">
 
 <tr>
@@ -358,7 +430,6 @@ Carregando agendamentos...
 </table>
 
 </section>
-
 
 
 <!-- CLIENTES -->
@@ -387,7 +458,6 @@ Carregando agendamentos...
 
 </thead>
 
-
 <tbody id="tabelaClientes">
 
 <tr>
@@ -403,7 +473,6 @@ Carregando clientes...
 </table>
 
 </section>
-
 
 
 <!-- FINANCEIRO -->
@@ -428,9 +497,7 @@ Carregando clientes...
 
 </thead>
 
-
 <tbody>
-
 
 <tr>
 
@@ -470,7 +537,6 @@ R$ 0,00
 
 </tr>
 
-
 </tbody>
 
 </table>
@@ -478,18 +544,15 @@ R$ 0,00
 </section>
 
 
-
 <button
 class="botao botao-sair"
 onclick="sair()">
 
-SAIR DO PAINEL
+🚪 SAIR DO PAINEL
 
 </button>
 
-
 </div>
-
 
 </main>
 
@@ -511,7 +574,6 @@ Barbearia desde 2022
 </footer>
 
 
-
 <script>
 
 
@@ -519,14 +581,11 @@ Barbearia desde 2022
    CONFIGURAÇÃO SUPABASE
 ============================== */
 
-
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -535,16 +594,13 @@ SUPABASE_KEY
 );
 
 
-
 /* ==============================
    VERIFICAR ADMINISTRADOR
 ============================== */
 
-
 async function iniciarPainel(){
 
 try{
-
 
 const {
 data: sessionData,
@@ -554,7 +610,9 @@ await supabaseClient.auth.getSession();
 
 
 if(sessionError){
+
 throw sessionError;
+
 }
 
 
@@ -570,7 +628,6 @@ window.location.href =
 return;
 
 }
-
 
 
 const {
@@ -605,7 +662,6 @@ return;
 }
 
 
-
 document.getElementById("mensagem")
 .style.display="none";
 
@@ -637,14 +693,11 @@ document.getElementById("mensagem")
 }
 
 
-
 /* ==============================
    CARREGAR AGENDAMENTOS
 ============================== */
 
-
 async function carregarAgendamentos(){
-
 
 const tabela =
 document.getElementById("tabelaAgendamentos");
@@ -691,12 +744,30 @@ Nenhum agendamento encontrado.
 </tr>
 `;
 
-atualizarResumo([]);
+document.getElementById("faturamento")
+.innerText="R$ 0,00";
+
+document.getElementById("totalAgendamentos")
+.innerText="0";
+
+document.getElementById("pendentes")
+.innerText="0";
+
+document.getElementById("pagos")
+.innerText="0";
+
+document.getElementById("financeiroAgendado")
+.innerText="R$ 0,00";
+
+document.getElementById("financeiroPago")
+.innerText="R$ 0,00";
+
+document.getElementById("financeiroPendente")
+.innerText="R$ 0,00";
 
 return;
 
 }
-
 
 
 /* Buscar clientes */
@@ -719,7 +790,6 @@ mapaClientes[cliente.id]=cliente;
 });
 
 
-
 let faturamento=0;
 
 let pendentes=0;
@@ -731,9 +801,7 @@ let totalPago=0;
 let totalPendente=0;
 
 
-
 tabela.innerHTML="";
-
 
 
 agendamentos.forEach(item=>{
@@ -755,7 +823,6 @@ Number(item["Valor"] || 0);
 faturamento += valor;
 
 
-
 if(item["Status"] === "Pendente"){
 
 pendentes++;
@@ -774,7 +841,6 @@ totalPago += valor;
 totalPendente += valor;
 
 }
-
 
 
 const status =
@@ -805,7 +871,6 @@ classeStatus="status-cancelado";
 }
 
 
-
 const data =
 item["Data"] || "";
 
@@ -816,24 +881,31 @@ item["Horário"]
 : "";
 
 
-
 const tr =
 document.createElement("tr");
 
 
 tr.innerHTML =
 `
-<td>${nomeCliente}</td>
+<td>
+${nomeCliente}
+</td>
 
-<td>${item["Serviços"] || ""}</td>
+<td>
+${item["Serviços"] || ""}
+</td>
 
 <td>
 R$ ${valor.toFixed(2).replace(".",",")}
 </td>
 
-<td>${data}</td>
+<td>
+${data}
+</td>
 
-<td>${horario}</td>
+<td>
+${horario}
+</td>
 
 <td>
 
@@ -888,9 +960,7 @@ Pago
 
 tabela.appendChild(tr);
 
-
 });
-
 
 
 document.getElementById("faturamento")
@@ -901,11 +971,9 @@ faturamento
 .replace(".",",");
 
 
-
 document.getElementById("totalAgendamentos")
 .innerText =
 agendamentos.length;
-
 
 
 document.getElementById("pendentes")
@@ -913,11 +981,9 @@ document.getElementById("pendentes")
 pendentes;
 
 
-
 document.getElementById("pagos")
 .innerText =
 pagos;
-
 
 
 document.getElementById("financeiroAgendado")
@@ -928,14 +994,12 @@ faturamento
 .replace(".",",");
 
 
-
 document.getElementById("financeiroPago")
 .innerText =
 "R$ " +
 totalPago
 .toFixed(2)
 .replace(".",",");
-
 
 
 document.getElementById("financeiroPendente")
@@ -948,14 +1012,11 @@ totalPendente
 }
 
 
-
 /* ==============================
    ATUALIZAR STATUS
 ============================== */
 
-
 async function alterarStatus(id,status){
-
 
 const {
 error
@@ -985,14 +1046,11 @@ await carregarAgendamentos();
 }
 
 
-
 /* ==============================
    ATUALIZAR PAGAMENTO
 ============================== */
 
-
 async function alterarPagamento(id,pagamento){
-
 
 const {
 error
@@ -1022,14 +1080,11 @@ await carregarAgendamentos();
 }
 
 
-
 /* ==============================
    CLIENTES
 ============================== */
 
-
 async function carregarClientes(){
-
 
 const tabela =
 document.getElementById("tabelaClientes");
@@ -1089,13 +1144,10 @@ return;
 }
 
 
-
 tabela.innerHTML="";
 
 
-
 clientes.forEach(cliente=>{
-
 
 const tr =
 document.createElement("tr");
@@ -1116,7 +1168,6 @@ new Date(dataCadastro)
 }catch(e){}
 
 }
-
 
 
 tr.innerHTML =
@@ -1141,23 +1192,18 @@ ${dataCadastro}
 
 tabela.appendChild(tr);
 
-
 });
 
 }
-
 
 
 /* ==============================
    SAIR
 ============================== */
 
-
 async function sair(){
 
-
 await supabaseClient.auth.signOut();
-
 
 window.location.href =
 "login.html";
@@ -1165,17 +1211,14 @@ window.location.href =
 }
 
 
-
 /* ==============================
    INICIAR
 ============================== */
 
-
 iniciarPainel();
-
 
 </script>
 
 </body>
 
-  </html>
+   </html>
