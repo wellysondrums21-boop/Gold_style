@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pagamentos - Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    background:linear-gradient(135deg,#050505,#171717);
+    border-bottom:1px solid #d4af37;
+    padding:20px;
+    text-align:center;
+}
+
+.logo{
+    color:#ffd700;
+    font-size:28px;
+    font-weight:bold;
+    text-shadow:0 0 12px #d4af37;
+}
+
+.subtitulo{
+    color:#ccc;
+    margin-top:5px;
+}
+
+.container{
+    width:94%;
+    max-width:1100px;
+    margin:25px auto;
+}
+
+.card{
+    background:#111;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 0 15px rgba(212,175,55,.15);
+}
+
+.card h2{
+    color:#ffd700;
+    margin-bottom:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.info{
+    background:#181818;
+    border-radius:12px;
+    padding:15px;
+    border:1px solid #292929;
+}
+
+.info span{
+    display:block;
+    color:#999;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.info strong{
+    color:#ffd700;
+    font-size:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:#d4af37;
+    color:#000;
+    padding:12px;
+    text-align:left;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #292929;
+}
+
+tr:hover{
+    background:#181818;
+}
+
+.status{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.aprovado{
+    background:#164d28;
+    color:#55ff88;
+}
+
+.pendente{
+    background:#594900;
+    color:#ffd700;
+}
+
+.recusado,
+.cancelado{
+    background:#541717;
+    color:#ff7777;
+}
+
+.botao{
+    display:inline-block;
+    margin-top:15px;
+    padding:12px 18px;
+    background:#d4af37;
+    color:#000;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.botao:hover{
+    background:#ffd700;
+}
+
+.mensagem{
+    text-align:center;
+    padding:25px;
+    color:#aaa;
+}
+
+@media(max-width:700px){
+
+    table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+    .logo{
+        font-size:23px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+    GOLD STYLE BARBEARIA
+</div>
+
+<div class="subtitulo">
+    Controle de pagamentos
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>💰 Resumo</h2>
+
+<div class="grid">
+
+<div class="info">
+<span>Total recebido</span>
+<strong id="totalRecebido">R$ 0,00</strong>
+</div>
+
+<div class="info">
+<span>Pagamentos pendentes</span>
+<strong id="totalPendente">R$ 0,00</strong>
+</div>
+
+<div class="info">
+<span>Total de pagamentos</span>
+<strong id="quantidadePagamentos">0</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>💳 Pagamentos</h2>
+
+<div id="resultado">
+
+<div class="mensagem">
+Carregando pagamentos...
+</div>
+
+</div>
+
+<a href="admin.html" class="botao">
+← Voltar ao painel
+</a>
+
+</div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+function dinheiro(valor){
+
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+function statusHTML(status){
+
+    const texto = status || "Pendente";
+
+    const classe =
+        texto.toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g,"")
+        .replace(/\s/g,"");
+
+    return `
+        <span class="status ${classe}">
+            ${texto}
+        </span>
+    `;
+
+}
+
+
+async function carregarPagamentos(){
+
+    const resultado =
+        document.getElementById("resultado");
+
+    try{
+
+        const sessao =
+            await supabaseClient.auth.getSession();
+
+        if(!sessao.data.session){
+
+            window.location.href="login.html";
+            return;
+
+        }
+
+
+        /*
+         * Usaremos inicialmente a tabela
+         * "pagamentos" em letras minúsculas.
+         *
+         * NÃO usamos a tabela "Pagamentos"
+         * neste primeiro momento.
+         */
+
+        const {data,error} =
+            await supabaseClient
+            .from("pagamentos")
+            .select("*")
+            .order("criado_em",{ascending:false});
+
+
+        if(error){
+
+            console.error(error);
+
+            resultado.innerHTML = `
+                <div class="mensagem">
+                    Erro ao carregar pagamentos.
+                    <br><br>
+                    ${error.message}
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        const pagamentos = data || [];
+
+        document.getElementById(
+            "quantidadePagamentos"
+        ).textContent = pagamentos.length;
+
+
+        let recebido = 0;
+        let pendente = 0;
+
+
+        pagamentos.forEach(pagamento => {
+
+            const valor =
+                Number(pagamento.valor || 0);
+
+            if(
+                String(pagamento.status)
+                .toLowerCase() === "aprovado"
+            ){
+
+                recebido += valor;
+
+            }
+
+            if(
+                String(pagamento.status)
+                .toLowerCase() === "pendente"
+            ){
+
+                pendente += valor;
+
+            }
+
+        });
+
+
+        document.getElementById(
+            "totalRecebido"
+        ).textContent = dinheiro(recebido);
+
+
+        document.getElementById(
+            "totalPendente"
+        ).textContent = dinheiro(pendente);
+
+
+        if(pagamentos.length === 0){
+
+            resultado.innerHTML = `
+                <div class="mensagem">
+                    Nenhum pagamento registrado ainda.
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        let tabela = `
+
+        <table>
+
+        <thead>
+
+        <tr>
+
+        <th>Valor</th>
+        <th>Método</th>
+        <th>Status</th>
+        <th>Referência</th>
+        <th>Data</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+        `;
+
+
+        pagamentos.forEach(pagamento => {
+
+            const data =
+                pagamento.criado_em
+                ?
+                new Date(
+                    pagamento.criado_em
+                ).toLocaleString("pt-BR")
+                :
+                "-";
+
+
+            tabela += `
+
+            <tr>
+
+                <td>
+                    ${dinheiro(pagamento.valor)}
+                </td>
+
+                <td>
+                    ${pagamento.metodo || "-"}
+                </td>
+
+                <td>
+                    ${statusHTML(pagamento.status)}
+                </td>
+
+                <td>
+                    ${pagamento.referencia || "-"}
+                </td>
+
+                <td>
+                    ${data}
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+
+        tabela += `
+
+        </tbody>
+
+        </table>
+
+        `;
+
+
+        resultado.innerHTML = tabela;
+
+
+    }catch(erro){
+
+        console.error(erro);
+
+        resultado.innerHTML = `
+            <div class="mensagem">
+                Ocorreu um erro ao carregar a página.
+            </div>
+        `;
+
+    }
+
+}
+
+
+carregarPagamentos();
+
+</script>
+
+</body>
+  </html>
