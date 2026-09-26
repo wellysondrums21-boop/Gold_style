@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Pagamento Pix - Gold Style</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top,#2a2100 0%,#090909 45%,#000 100%);
+    color:#fff;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:500px;
+    margin:0 auto;
+}
+
+.logo{
+    text-align:center;
+    margin:15px 0 25px;
+}
+
+.logo h1{
+    color:#ffd700;
+    font-size:30px;
+    text-shadow:
+        0 0 8px #d4af37,
+        0 0 18px #d4af37;
+}
+
+.logo p{
+    color:#aaa;
+    margin-top:6px;
+    font-size:14px;
+}
+
+.card{
+    background:rgba(15,15,15,.96);
+    border:1px solid #d4af37;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:
+        0 0 25px rgba(212,175,55,.18);
+}
+
+.titulo{
+    text-align:center;
+    color:#ffd700;
+    font-size:24px;
+    margin-bottom:20px;
+}
+
+.servico{
+    background:#1a1a1a;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:20px;
+    border:1px solid #292929;
+}
+
+.linha{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:8px 0;
+    border-bottom:1px solid #292929;
+}
+
+.linha:last-child{
+    border-bottom:none;
+}
+
+.label{
+    color:#999;
+}
+
+.valor{
+    color:#fff;
+    font-weight:bold;
+    text-align:right;
+}
+
+.total{
+    margin:20px 0;
+    text-align:center;
+    padding:18px;
+    border-radius:15px;
+    background:#211b00;
+    border:1px solid #d4af37;
+}
+
+.total small{
+    display:block;
+    color:#aaa;
+    margin-bottom:5px;
+}
+
+.total strong{
+    color:#ffd700;
+    font-size:32px;
+}
+
+.pix-area{
+    text-align:center;
+    margin-top:20px;
+}
+
+.pix-icon{
+    font-size:55px;
+    margin-bottom:10px;
+}
+
+.pix-area h3{
+    color:#ffd700;
+    margin-bottom:8px;
+}
+
+.pix-area p{
+    color:#aaa;
+    line-height:1.5;
+    font-size:14px;
+}
+
+.botao{
+    display:block;
+    width:100%;
+    padding:15px;
+    margin-top:20px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(
+        135deg,
+        #b8860b,
+        #ffd700,
+        #b8860b
+    );
+    color:#000;
+    font-size:16px;
+    font-weight:bold;
+    text-align:center;
+    text-decoration:none;
+    cursor:pointer;
+}
+
+.botao:hover{
+    filter:brightness(1.1);
+}
+
+.secundario{
+    background:#181818;
+    color:#ffd700;
+    border:1px solid #d4af37;
+}
+
+.aviso{
+    margin-top:20px;
+    padding:15px;
+    border-radius:12px;
+    background:#151515;
+    border:1px solid #333;
+    color:#aaa;
+    font-size:12px;
+    line-height:1.5;
+    text-align:center;
+}
+
+.carregando{
+    text-align:center;
+    padding:40px;
+    color:#ffd700;
+}
+
+.erro{
+    text-align:center;
+    color:#ff7777;
+    padding:30px 10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+
+        <h1>GOLD STYLE</h1>
+
+        <p>
+            BARBEARIA DESDE 2022
+        </p>
+
+    </div>
+
+
+    <div
+        id="conteudo"
+        class="card"
+    >
+
+        <div class="carregando">
+
+            Carregando pagamento...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+function dinheiro(valor){
+
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+function escapar(texto){
+
+    if(texto === null || texto === undefined){
+        return "";
+    }
+
+    return String(texto)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+async function carregarPagamento(){
+
+    const conteudo =
+        document.getElementById("conteudo");
+
+    try{
+
+        const {data:sessionData} =
+            await supabaseClient.auth.getSession();
+
+        const session =
+            sessionData.session;
+
+
+        if(!session){
+
+            window.location.href="login.html";
+
+            return;
+
+        }
+
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const agendamentoId =
+            params.get("agendamento");
+
+
+        if(!agendamentoId){
+
+            conteudo.innerHTML = `
+
+                <div class="erro">
+
+                    Não encontramos o agendamento
+                    para este pagamento.
+
+                </div>
+
+                <a
+                    href="cliente.html"
+                    class="botao secundario"
+                >
+                    Voltar para minha conta
+                </a>
+
+            `;
+
+            return;
+
+        }
+
+
+        const {data:agendamento,error} =
+            await supabaseClient
+
+            .from("agendamentos")
+
+            .select(`
+                id,
+                "Serviços",
+                "Valor",
+                "Data",
+                "Horário",
+                "Status",
+                "Pagamento"
+            `)
+
+            .eq(
+                "id",
+                agendamentoId
+            )
+
+            .eq(
+                "auth_user_id",
+                session.user.id
+            )
+
+            .maybeSingle();
+
+
+        if(error){
+
+            console.error(error);
+
+            throw error;
+
+        }
+
+
+        if(!agendamento){
+
+            conteudo.innerHTML = `
+
+                <div class="erro">
+
+                    Agendamento não encontrado
+                    ou você não possui acesso
+                    a este agendamento.
+
+                </div>
+
+                <a
+                    href="cliente.html"
+                    class="botao secundario"
+                >
+                    Voltar
+                </a>
+
+            `;
+
+            return;
+
+        }
+
+
+        const dataFormatada =
+            new Date(
+                agendamento.Data +
+                "T00:00:00"
+            ).toLocaleDateString(
+                "pt-BR"
+            );
+
+
+        conteudo.innerHTML = `
+
+            <div class="titulo">
+
+                Pagamento Pix
+
+            </div>
+
+
+            <div class="servico">
+
+                <div class="linha">
+
+                    <span class="label">
+                        Serviço
+                    </span>
+
+                    <span class="valor">
+                        ${escapar(
+                            agendamento["Serviços"]
+                        )}
+                    </span>
+
+                </div>
+
+
+                <div class="linha">
+
+                    <span class="label">
+                        Data
+                    </span>
+
+                    <span class="valor">
+                        ${dataFormatada}
+                    </span>
+
+                </div>
+
+
+                <div class="linha">
+
+                    <span class="label">
+                        Horário
+                    </span>
+
+                    <span class="valor">
+                        ${String(
+                            agendamento["Horário"]
+                        ).substring(0,5)}
+                    </span>
+
+                </div>
+
+
+                <div class="linha">
+
+                    <span class="label">
+                        Status
+                    </span>
+
+                    <span class="valor">
+                        ${escapar(
+                            agendamento["Status"]
+                        )}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="total">
+
+                <small>
+                    Valor do serviço
+                </small>
+
+                <strong>
+                    ${dinheiro(
+                        agendamento["Valor"]
+                    )}
+                </strong>
+
+            </div>
+
+
+            <div class="pix-area">
+
+                <div class="pix-icon">
+                    💠
+                </div>
+
+                <h3>
+                    Pague via Pix
+                </h3>
+
+                <p>
+                    Gere a cobrança Pix no
+                    aplicativo Ton utilizando
+                    o valor acima.
+                </p>
+
+            </div>
+
+
+            <a
+                href="https://ajuda.ton.com.br/como-receber-por-pix-"
+                target="_blank"
+                class="botao"
+            >
+                Como gerar meu Pix no Ton
+            </a>
+
+
+            <button
+                class="botao secundario"
+                onclick="voltarCliente()"
+            >
+                Voltar para meus agendamentos
+            </button>
+
+
+            <div class="aviso">
+
+                Após realizar o pagamento,
+                o status deverá ser confirmado
+                antes de considerarmos o
+                agendamento como pago.
+
+                <br><br>
+
+                Nesta primeira versão,
+                a confirmação automática
+                do pagamento ainda não está
+                ativada.
+
+            </div>
+
+        `;
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        conteudo.innerHTML = `
+
+            <div class="erro">
+
+                Não foi possível carregar
+                o pagamento.
+
+                <br><br>
+
+                ${escapar(
+                    error.message
+                )}
+
+            </div>
+
+            <a
+                href="cliente.html"
+                class="botao secundario"
+            >
+                Voltar
+            </a>
+
+        `;
+
+    }
+
+}
+
+
+function voltarCliente(){
+
+    window.location.href =
+        "cliente.html";
+
+}
+
+
+carregarPagamento();
+
+</script>
+
+</body>
+
+  </html>
