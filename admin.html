@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gold Style - Painel Administrativo</title>
@@ -22,7 +25,7 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#050505,#151515);
+    background:linear-gradient(135deg,#050505,#181818);
     border-bottom:2px solid #ffd700;
     padding:22px 15px;
     text-align:center;
@@ -32,16 +35,17 @@ header{
     color:#ffd700;
     font-size:30px;
     font-weight:bold;
+    letter-spacing:2px;
 }
 
 .slogan{
     color:#aaa;
-    margin-top:5px;
+    margin-top:6px;
 }
 
 .container{
     width:94%;
-    max-width:1200px;
+    max-width:1250px;
     margin:25px auto;
 }
 
@@ -76,6 +80,12 @@ header{
 
 h1{
     color:#ffd700;
+    margin-bottom:5px;
+}
+
+.subtitulo{
+    color:#999;
+    margin-bottom:20px;
 }
 
 .cards{
@@ -86,11 +96,12 @@ h1{
 }
 
 .card{
-    background:#111;
+    background:linear-gradient(145deg,#111,#080808);
     border:1px solid #333;
     border-left:4px solid #ffd700;
     border-radius:12px;
     padding:20px;
+    box-shadow:0 0 15px rgba(255,215,0,.05);
 }
 
 .card strong{
@@ -101,8 +112,12 @@ h1{
 
 .numero{
     color:#ffd700;
-    font-size:28px;
+    font-size:27px;
     font-weight:bold;
+}
+
+.card.pequeno .numero{
+    font-size:23px;
 }
 
 .section{
@@ -137,22 +152,95 @@ td{
     border-bottom:1px solid #222;
 }
 
-select{
-    background:#050505;
-    color:white;
-    border:1px solid #555;
-    padding:8px;
-    border-radius:6px;
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-button{
-    background:#ffd700;
-    color:#000;
-    border:0;
-    padding:9px 12px;
-    border-radius:6px;
-    font-weight:bold;
-    cursor:pointer;
+.status-pago{
+    background:#173d17;
+    color:#6dff6d;
+}
+
+.status-pendente{
+    background:#3d3517;
+    color:#ffd700;
+}
+
+.status-cancelado{
+    background:#401717;
+    color:#ff6666;
+}
+
+.status-confirmado{
+    background:#172e3d;
+    color:#66c7ff;
+}
+
+.status-concluido{
+    background:#203d30;
+    color:#7dffbd;
+}
+
+.grafico{
+    margin-top:15px;
+}
+
+.barra-item{
+    margin-bottom:15px;
+}
+
+.barra-topo{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:5px;
+    color:#ddd;
+    font-size:14px;
+}
+
+.barra-fundo{
+    width:100%;
+    height:12px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.barra{
+    height:100%;
+    background:linear-gradient(90deg,#b8860b,#ffd700);
+    border-radius:20px;
+    transition:width .5s;
+}
+
+.resumo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-top:15px;
+}
+
+.resumo-box{
+    background:#080808;
+    border:1px solid #292929;
+    border-radius:10px;
+    padding:15px;
+}
+
+.resumo-box span{
+    display:block;
+    color:#999;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.resumo-box strong{
+    color:#ffd700;
+    font-size:20px;
 }
 
 .mensagem{
@@ -165,6 +253,23 @@ button{
     color:#ff5555;
 }
 
+.botao{
+    display:inline-block;
+    background:#ffd700;
+    color:#000;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:7px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.atualizacao{
+    color:#777;
+    font-size:12px;
+    margin-top:10px;
+}
+
 @media(max-width:600px){
 
     .container{
@@ -175,9 +280,22 @@ button{
         font-size:25px;
     }
 
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .numero{
+        font-size:22px;
+    }
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -196,6 +314,9 @@ button{
 
 
 <div class="container">
+
+
+    <!-- MENU -->
 
     <div class="menu">
 
@@ -238,71 +359,257 @@ button{
     </div>
 
 
-    <h1>📊 Dashboard</h1>
+    <!-- TITULO -->
 
+    <h1>
+        📊 Dashboard
+    </h1>
+
+    <div class="subtitulo">
+        Visão geral da Gold Style Barbearia
+    </div>
+
+
+    <!-- CARDS PRINCIPAIS -->
 
     <div class="cards">
 
-        <div class="card">
-            <strong>Agendamentos</strong>
-            <div class="numero" id="totalAgendamentos">
-                0
-            </div>
-        </div>
 
         <div class="card">
-            <strong>Clientes</strong>
-            <div class="numero" id="totalClientes">
+
+            <strong>
+                📅 Agendamentos
+            </strong>
+
+            <div
+                class="numero"
+                id="totalAgendamentos">
                 0
             </div>
+
         </div>
 
+
         <div class="card">
-            <strong>Faturamento</strong>
-            <div class="numero" id="faturamento">
+
+            <strong>
+                👥 Clientes
+            </strong>
+
+            <div
+                class="numero"
+                id="totalClientes">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                💰 Recebido
+            </strong>
+
+            <div
+                class="numero"
+                id="totalRecebido">
                 R$ 0,00
             </div>
+
         </div>
+
 
         <div class="card">
-            <strong>Pendentes</strong>
-            <div class="numero" id="pendentes">
+
+            <strong>
+                ⏳ Pagamentos pendentes
+            </strong>
+
+            <div
+                class="numero"
+                id="totalPendente">
+                R$ 0,00
+            </div>
+
+        </div>
+
+
+        <div class="card pequeno">
+
+            <strong>
+                📆 Agendamentos hoje
+            </strong>
+
+            <div
+                class="numero"
+                id="agendamentosHoje">
                 0
             </div>
+
+        </div>
+
+
+        <div class="card pequeno">
+
+            <strong>
+                🔔 Pendentes
+            </strong>
+
+            <div
+                class="numero"
+                id="agendamentosPendentes">
+                0
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- RESUMO FINANCEIRO -->
+
+    <div class="section">
+
+        <h2>
+            💰 Resumo financeiro
+        </h2>
+
+        <div class="resumo">
+
+
+            <div class="resumo-box">
+
+                <span>
+                    Total recebido
+                </span>
+
+                <strong id="resumoRecebido">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-box">
+
+                <span>
+                    Total pendente
+                </span>
+
+                <strong id="resumoPendente">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-box">
+
+                <span>
+                    Total previsto
+                </span>
+
+                <strong id="resumoPrevisto">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="resumo-box">
+
+                <span>
+                    Ticket médio recebido
+                </span>
+
+                <strong id="ticketMedio">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
         </div>
 
     </div>
 
 
+    <!-- AGENDAMENTOS -->
+
     <div class="section">
 
-        <h2>📅 Próximos agendamentos</h2>
+        <h2>
+            📅 Próximos agendamentos
+        </h2>
 
         <div id="listaAgendamentos">
+
             <div class="mensagem">
                 Carregando...
             </div>
+
         </div>
 
     </div>
 
+
+    <!-- SERVIÇOS -->
 
     <div class="section">
 
-        <h2>👥 Clientes cadastrados</h2>
+        <h2>
+            ✂️ Serviços realizados
+        </h2>
 
-        <div id="listaClientes">
+        <div
+            id="graficoServicos"
+            class="grafico">
+
             <div class="mensagem">
                 Carregando...
             </div>
+
         </div>
 
     </div>
+
+
+    <!-- CLIENTES -->
+
+    <div class="section">
+
+        <h2>
+            👥 Clientes cadastrados
+        </h2>
+
+        <div id="listaClientes">
+
+            <div class="mensagem">
+                Carregando...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="atualizacao"
+         id="ultimaAtualizacao">
+        Atualizando dados...
+    </div>
+
 
 </div>
 
 
 <script>
+
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
@@ -317,7 +624,35 @@ window.supabase.createClient(
 );
 
 
-// VERIFICAR ADMIN
+/* =========================
+   VARIÁVEIS
+========================= */
+
+let listaAgendamentosGlobal = [];
+
+let listaClientesGlobal = [];
+
+let listaPagamentosGlobal = [];
+
+
+/* =========================
+   FORMATA DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+    return "R$ " +
+        Number(valor || 0)
+        .toFixed(2)
+        .replace(".",",");
+
+}
+
+
+/* =========================
+   VERIFICAR ADMIN
+========================= */
+
 async function verificarAdmin(){
 
     const {
@@ -326,9 +661,11 @@ async function verificarAdmin(){
         }
     } = await supabaseClient.auth.getSession();
 
+
     if(!session){
 
-        window.location.href="login.html";
+        window.location.href =
+            "login.html";
 
         return false;
     }
@@ -338,127 +675,373 @@ async function verificarAdmin(){
         data,
         error
     } = await supabaseClient
+
         .from("administradores")
+
         .select("id")
-        .eq("auth_user_id",session.user.id)
-        .eq("ativo",true)
+
+        .eq(
+            "auth_user_id",
+            session.user.id
+        )
+
+        .eq(
+            "ativo",
+            true
+        )
+
         .maybeSingle();
 
 
     if(error || !data){
 
-        alert("Acesso administrativo não autorizado.");
+        alert(
+            "Acesso administrativo não autorizado."
+        );
 
-        window.location.href="cliente.html";
+        window.location.href =
+            "cliente.html";
 
         return false;
     }
 
+
     return true;
+
 }
 
 
-// CARREGAR DASHBOARD
-async function carregarDashboard(){
+/* =========================
+   CARREGAR AGENDAMENTOS
+========================= */
+
+async function carregarAgendamentos(){
 
     const {
-        data:agendamentos,
-        error:erroAgendamentos
+        data,
+        error
     } = await supabaseClient
+
         .from("agendamentos")
+
         .select("*")
-        .order("Data",{ascending:true})
-        .order("Horário",{ascending:true});
+
+        .order(
+            "Data",
+            {ascending:true}
+        )
+
+        .order(
+            "Horário",
+            {ascending:true}
+        );
 
 
-    if(erroAgendamentos){
+    if(error){
 
-        console.error(erroAgendamentos);
+        console.error(
+            "Erro agendamentos:",
+            error
+        );
+
+        return [];
 
     }
 
 
+    return data || [];
+
+}
+
+
+/* =========================
+   CARREGAR CLIENTES
+========================= */
+
+async function carregarClientes(){
+
     const {
-        data:clientes,
-        error:erroClientes
+        data,
+        error
     } = await supabaseClient
+
         .from("clientes")
+
         .select("*");
 
 
-    if(erroClientes){
+    if(error){
 
-        console.error(erroClientes);
+        console.error(
+            "Erro clientes:",
+            error
+        );
+
+        return [];
 
     }
 
 
-    const listaAgendamentos =
-        agendamentos || [];
+    return data || [];
 
-    const listaClientes =
-        clientes || [];
+}
 
+
+/* =========================
+   CARREGAR PAGAMENTOS
+========================= */
+
+async function carregarPagamentos(){
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+
+        .from("pagamentos")
+
+        .select("*")
+
+        .order(
+            "criado_em",
+            {ascending:false}
+        );
+
+
+    if(error){
+
+        console.error(
+            "Erro pagamentos:",
+            error
+        );
+
+        return [];
+
+    }
+
+
+    return data || [];
+
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+async function carregarDashboard(){
+
+    const [
+        agendamentos,
+        clientes,
+        pagamentos
+    ] = await Promise.all([
+
+        carregarAgendamentos(),
+
+        carregarClientes(),
+
+        carregarPagamentos()
+
+    ]);
+
+
+    listaAgendamentosGlobal =
+        agendamentos;
+
+    listaClientesGlobal =
+        clientes;
+
+    listaPagamentosGlobal =
+        pagamentos;
+
+
+    /* TOTAL AGENDAMENTOS */
 
     document.getElementById(
         "totalAgendamentos"
     ).textContent =
-        listaAgendamentos.length;
+        agendamentos.length;
 
+
+    /* TOTAL CLIENTES */
 
     document.getElementById(
         "totalClientes"
     ).textContent =
-        listaClientes.length;
+        clientes.length;
 
 
-    const pendentes =
-        listaAgendamentos.filter(
-            a=>a.Status==="Pendente"
-        ).length;
+    /* PAGAMENTOS PAGOS */
+
+    const pagos =
+        pagamentos.filter(
+            p =>
+                String(
+                    p.status || ""
+                ).toLowerCase()
+                === "pago"
+        );
 
 
-    document.getElementById(
-        "pendentes"
-    ).textContent =
-        pendentes;
+    /* PAGAMENTOS PENDENTES */
+
+    const pendentesPagamentos =
+        pagamentos.filter(
+            p =>
+                String(
+                    p.status || ""
+                ).toLowerCase()
+                === "pendente"
+        );
 
 
-    const faturamento =
-        listaAgendamentos
-        .filter(
-            a=>a.Status!=="Cancelado"
-        )
-        .reduce(
-            (total,a)=>
-                total + Number(a.Valor || 0),
+    const recebido =
+        pagos.reduce(
+            (total,p) =>
+                total +
+                Number(
+                    p.valor || 0
+                ),
             0
         );
 
 
-    document.getElementById(
-        "faturamento"
-    ).textContent =
-        "R$ "+
-        faturamento
-        .toFixed(2)
-        .replace(".",",");
+    const pendente =
+        pendentesPagamentos.reduce(
+            (total,p) =>
+                total +
+                Number(
+                    p.valor || 0
+                ),
+            0
+        );
 
+
+    const previsto =
+        recebido +
+        pendente;
+
+
+    const ticketMedio =
+        pagos.length
+        ? recebido / pagos.length
+        : 0;
+
+
+    /* CARDS */
+
+    document.getElementById(
+        "totalRecebido"
+    ).textContent =
+        dinheiro(recebido);
+
+
+    document.getElementById(
+        "totalPendente"
+    ).textContent =
+        dinheiro(pendente);
+
+
+    document.getElementById(
+        "resumoRecebido"
+    ).textContent =
+        dinheiro(recebido);
+
+
+    document.getElementById(
+        "resumoPendente"
+    ).textContent =
+        dinheiro(pendente);
+
+
+    document.getElementById(
+        "resumoPrevisto"
+    ).textContent =
+        dinheiro(previsto);
+
+
+    document.getElementById(
+        "ticketMedio"
+    ).textContent =
+        dinheiro(ticketMedio);
+
+
+    /* AGENDAMENTOS PENDENTES */
+
+    const agendamentosPendentes =
+        agendamentos.filter(
+            a =>
+                a.Status ===
+                "Pendente"
+        ).length;
+
+
+    document.getElementById(
+        "agendamentosPendentes"
+    ).textContent =
+        agendamentosPendentes;
+
+
+    /* AGENDAMENTOS DE HOJE */
+
+    const hoje =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+
+    const hojeTotal =
+        agendamentos.filter(
+            a =>
+                a.Data === hoje &&
+                a.Status !==
+                "Cancelado"
+        ).length;
+
+
+    document.getElementById(
+        "agendamentosHoje"
+    ).textContent =
+        hojeTotal;
+
+
+    /* MOSTRAR */
 
     mostrarAgendamentos(
-        listaAgendamentos
+        agendamentos
     );
 
 
     mostrarClientes(
-        listaClientes
+        clientes
     );
+
+
+    mostrarGraficoServicos(
+        agendamentos
+    );
+
+
+    document.getElementById(
+        "ultimaAtualizacao"
+    ).textContent =
+        "Última atualização: " +
+        new Date()
+        .toLocaleString(
+            "pt-BR"
+        );
 
 }
 
 
-// MOSTRAR AGENDAMENTOS
-function mostrarAgendamentos(lista){
+/* =========================
+   MOSTRAR AGENDAMENTOS
+========================= */
+
+function mostrarAgendamentos(
+    lista
+){
 
     const elemento =
         document.getElementById(
@@ -466,28 +1049,44 @@ function mostrarAgendamentos(lista){
         );
 
 
-    if(!lista.length){
+    const validos =
+        lista.filter(
+            a =>
+                a.Status !==
+                "Cancelado"
+        );
+
+
+    if(!validos.length){
 
         elemento.innerHTML =
             '<div class="mensagem">Nenhum agendamento encontrado.</div>';
 
         return;
+
     }
 
 
-    let html=`
+    let html = `
 
         <table>
 
             <thead>
 
                 <tr>
+
                     <th>Serviço</th>
+
                     <th>Data</th>
+
                     <th>Horário</th>
+
                     <th>Valor</th>
+
                     <th>Status</th>
+
                     <th>Pagamento</th>
+
                 </tr>
 
             </thead>
@@ -497,23 +1096,72 @@ function mostrarAgendamentos(lista){
     `;
 
 
-    lista.slice(0,20).forEach(
-        agendamento=>{
+    validos
+    .slice(0,20)
+    .forEach(
+        agendamento => {
+
 
             const data =
                 agendamento.Data
                 ? new Date(
-                    agendamento.Data+"T00:00:00"
-                  ).toLocaleDateString("pt-BR")
+                    agendamento.Data +
+                    "T00:00:00"
+                  )
+                  .toLocaleDateString(
+                      "pt-BR"
+                  )
                 : "-";
 
 
             const horario =
-                agendamento.Horário
+                agendamento["Horário"]
                 ? String(
-                    agendamento.Horário
-                  ).substring(0,5)
+                    agendamento["Horário"]
+                  )
+                  .substring(
+                      0,
+                      5
+                  )
                 : "-";
+
+
+            let classeStatus =
+                "status-pendente";
+
+
+            if(
+                agendamento.Status
+                === "Confirmado"
+            ){
+                classeStatus =
+                    "status-confirmado";
+            }
+
+
+            if(
+                agendamento.Status
+                === "Concluído"
+            ){
+                classeStatus =
+                    "status-concluido";
+            }
+
+
+            if(
+                agendamento.Status
+                === "Cancelado"
+            ){
+                classeStatus =
+                    "status-cancelado";
+            }
+
+
+            const classePagamento =
+                agendamento.Pagamento
+                === "Pago"
+                ? "status-pago"
+                : "status-pendente";
 
 
             html += `
@@ -521,7 +1169,10 @@ function mostrarAgendamentos(lista){
                 <tr>
 
                     <td>
-                        ${agendamento["Serviços"] || "-"}
+                        ${
+                            agendamento["Serviços"]
+                            || "-"
+                        }
                     </td>
 
                     <td>
@@ -533,21 +1184,35 @@ function mostrarAgendamentos(lista){
                     </td>
 
                     <td>
-                        R$ ${
-                            Number(
-                                agendamento.Valor || 0
+                        ${
+                            dinheiro(
+                                agendamento.Valor
                             )
-                            .toFixed(2)
-                            .replace(".",",")
                         }
                     </td>
 
                     <td>
-                        ${agendamento.Status || "-"}
+
+                        <span
+                            class="status ${classeStatus}">
+                            ${
+                                agendamento.Status
+                                || "-"
+                            }
+                        </span>
+
                     </td>
 
                     <td>
-                        ${agendamento.Pagamento || "-"}
+
+                        <span
+                            class="status ${classePagamento}">
+                            ${
+                                agendamento.Pagamento
+                                || "-"
+                            }
+                        </span>
+
                     </td>
 
                 </tr>
@@ -558,7 +1223,7 @@ function mostrarAgendamentos(lista){
     );
 
 
-    html +=`
+    html += `
 
             </tbody>
 
@@ -567,13 +1232,19 @@ function mostrarAgendamentos(lista){
     `;
 
 
-    elemento.innerHTML=html;
+    elemento.innerHTML =
+        html;
 
 }
 
 
-// MOSTRAR CLIENTES
-function mostrarClientes(lista){
+/* =========================
+   MOSTRAR CLIENTES
+========================= */
+
+function mostrarClientes(
+    lista
+){
 
     const elemento =
         document.getElementById(
@@ -587,19 +1258,26 @@ function mostrarClientes(lista){
             '<div class="mensagem">Nenhum cliente cadastrado.</div>';
 
         return;
+
     }
 
 
-    let html=`
+    let html = `
 
         <table>
 
             <thead>
 
                 <tr>
+
                     <th>Nome</th>
+
                     <th>Telefone</th>
+
                     <th>E-mail</th>
+
+                    <th>Cadastro</th>
+
                 </tr>
 
             </thead>
@@ -609,23 +1287,50 @@ function mostrarClientes(lista){
     `;
 
 
-    lista.slice(0,20).forEach(
-        cliente=>{
+    lista
+    .slice(0,20)
+    .forEach(
+        cliente => {
 
-            html +=`
+
+            const cadastro =
+                cliente.Data_cadastro
+                ? new Date(
+                    cliente.Data_cadastro
+                  )
+                  .toLocaleDateString(
+                      "pt-BR"
+                  )
+                : "-";
+
+
+            html += `
 
                 <tr>
 
                     <td>
-                        ${cliente.Nome || "-"}
+                        ${
+                            cliente.Nome
+                            || "-"
+                        }
                     </td>
 
                     <td>
-                        ${cliente.Telefone || "-"}
+                        ${
+                            cliente.Telefone
+                            || "-"
+                        }
                     </td>
 
                     <td>
-                        ${cliente["E-mail"] || "-"}
+                        ${
+                            cliente["E-mail"]
+                            || "-"
+                        }
+                    </td>
+
+                    <td>
+                        ${cadastro}
                     </td>
 
                 </tr>
@@ -636,7 +1341,7 @@ function mostrarClientes(lista){
     );
 
 
-    html +=`
+    html += `
 
             </tbody>
 
@@ -645,26 +1350,162 @@ function mostrarClientes(lista){
     `;
 
 
-    elemento.innerHTML=html;
+    elemento.innerHTML =
+        html;
 
 }
 
 
-// SAIR
+/* =========================
+   GRÁFICO DE SERVIÇOS
+========================= */
+
+function mostrarGraficoServicos(
+    lista
+){
+
+    const elemento =
+        document.getElementById(
+            "graficoServicos"
+        );
+
+
+    const contagem = {};
+
+
+    lista
+    .filter(
+        a =>
+            a.Status !==
+            "Cancelado"
+    )
+    .forEach(
+        a => {
+
+            const servico =
+                a["Serviços"]
+                || "Outro";
+
+
+            if(
+                !contagem[servico]
+            ){
+                contagem[servico] = 0;
+            }
+
+
+            contagem[servico]++;
+
+        }
+    );
+
+
+    const servicos =
+        Object.entries(
+            contagem
+        )
+        .sort(
+            (a,b) =>
+                b[1] - a[1]
+        );
+
+
+    if(!servicos.length){
+
+        elemento.innerHTML =
+            '<div class="mensagem">Ainda não existem serviços registrados.</div>';
+
+        return;
+
+    }
+
+
+    const maior =
+        servicos[0][1];
+
+
+    let html = "";
+
+
+    servicos.forEach(
+        ([nome,quantidade]) => {
+
+
+            const porcentagem =
+                Math.max(
+                    5,
+                    (
+                        quantidade /
+                        maior
+                    ) * 100
+                );
+
+
+            html += `
+
+                <div class="barra-item">
+
+                    <div class="barra-topo">
+
+                        <span>
+                            ${nome}
+                        </span>
+
+                        <strong>
+                            ${quantidade}
+                        </strong>
+
+                    </div>
+
+                    <div class="barra-fundo">
+
+                        <div
+                            class="barra"
+                            style="width:${porcentagem}%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    elemento.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   SAIR
+========================= */
+
 async function sair(){
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+        .auth
+        .signOut();
 
-    window.location.href="login.html";
+
+    window.location.href =
+        "login.html";
 
 }
 
 
-// INICIAR
+/* =========================
+   INICIAR
+========================= */
+
 (async()=>{
 
     const autorizado =
         await verificarAdmin();
+
 
     if(autorizado){
 
@@ -674,7 +1515,9 @@ async function sair(){
 
 })();
 
+
 </script>
 
 </body>
-   </html>
+
+    </html>
