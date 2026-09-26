@@ -739,10 +739,6 @@ async function carregarFinanceiro(){
     }
 
 
-    /*
-    BUSCAR AGENDAMENTOS
-    */
-
     const idsAgendamento =
         pagamentos
         .map(p => p.agendamento_id)
@@ -772,13 +768,7 @@ async function carregarFinanceiro(){
             );
 
 
-        if(resultado.error){
-
-            console.error(
-                resultado.error
-            );
-
-        }else{
+        if(!resultado.error){
 
             agendamentos =
                 resultado.data || [];
@@ -787,10 +777,6 @@ async function carregarFinanceiro(){
 
     }
 
-
-    /*
-    BUSCAR CLIENTES
-    */
 
     const idsClientes =
         pagamentos
@@ -819,13 +805,7 @@ async function carregarFinanceiro(){
             );
 
 
-        if(resultado.error){
-
-            console.error(
-                resultado.error
-            );
-
-        }else{
+        if(!resultado.error){
 
             clientes =
                 resultado.data || [];
@@ -840,7 +820,6 @@ async function carregarFinanceiro(){
 
     pagamentos.forEach(
         pagamento => {
-
 
         const agendamento =
             agendamentos.find(
@@ -1066,7 +1045,16 @@ function atualizarCards(pagamentos){
 }
 
 
+/*
+==================================================
+NOVO SISTEMA DE CONFIRMAÇÃO DE PAGAMENTO
+==================================================
+*/
+
 async function marcarComoPago(id){
+
+    esconderMensagem();
+
 
     const confirmar =
         confirm(
@@ -1081,9 +1069,91 @@ async function marcarComoPago(id){
     }
 
 
+    /*
+    1. BUSCAR O PAGAMENTO PRIMEIRO
+    */
+
     const {
-        data,
-        error
+        data:pagamento,
+        error:errorBusca
+    } =
+        await supabaseClient
+
+        .from("pagamentos")
+
+        .select(`
+            id,
+            agendamento_id,
+            cliente_id,
+            valor,
+            metodo,
+            status,
+            referencia
+        `)
+
+        .eq(
+            "id",
+            id
+        )
+
+        .maybeSingle();
+
+
+    if(errorBusca){
+
+        console.error(
+            errorBusca
+        );
+
+        mostrarMensagem(
+            "Não foi possível localizar o pagamento: " +
+            errorBusca.message,
+            "erro"
+        );
+
+        return;
+
+    }
+
+
+    if(!pagamento){
+
+        mostrarMensagem(
+            "Pagamento não encontrado.",
+            "erro"
+        );
+
+        return;
+
+    }
+
+
+    /*
+    2. CONFERIR O AGENDAMENTO
+    */
+
+    const agendamentoId =
+        pagamento.agendamento_id;
+
+
+    if(!agendamentoId){
+
+        mostrarMensagem(
+            "Este pagamento não possui um agendamento vinculado.",
+            "erro"
+        );
+
+        return;
+
+    }
+
+
+    /*
+    3. ATUALIZAR PAGAMENTO
+    */
+
+    const {
+        error:errorPagamento
     } =
         await supabaseClient
 
@@ -1102,18 +1172,18 @@ async function marcarComoPago(id){
         .eq(
             "id",
             id
-        )
-
-        .select();
+        );
 
 
-    if(error){
+    if(errorPagamento){
 
-        console.error(error);
+        console.error(
+            errorPagamento
+        );
 
         mostrarMensagem(
             "Não foi possível atualizar o pagamento: " +
-            error.message,
+            errorPagamento.message,
             "erro"
         );
 
@@ -1123,54 +1193,60 @@ async function marcarComoPago(id){
 
 
     /*
-    LOCALIZAR AGENDAMENTO
+    4. ATUALIZAR AGENDAMENTO
     */
 
-    if(data && data.length > 0){
+    const {
+        error:errorAgendamento
+    } =
+        await supabaseClient
 
-        const agendamentoId =
-            data[0].agendamento_id;
+        .from("agendamentos")
 
+        .update({
 
-        if(agendamentoId){
+            "Pagamento":
+                "Pago",
 
-            const resultado =
-                await supabaseClient
+            "Status":
+                "Confirmado"
 
-                .from("agendamentos")
+        })
 
-                .update({
-
-                    "Pagamento":
-                        "Pago",
-
-                    "Status":
-                        "Confirmado"
-
-                })
-
-                .eq(
-                    "id",
-                    agendamentoId
-                );
+        .eq(
+            "id",
+            agendamentoId
+        );
 
 
-            if(resultado.error){
+    if(errorAgendamento){
 
-                console.error(
-                    "Erro ao atualizar agendamento:",
-                    resultado.error
-                );
+        console.error(
+            errorAgendamento
+        );
 
-            }
+        mostrarMensagem(
+            "O pagamento foi marcado como Pago, " +
+            "mas houve um erro ao atualizar o agendamento:<br><br>" +
+            errorAgendamento.message,
+            "erro"
+        );
 
-        }
+        await carregarFinanceiro();
+
+        return;
 
     }
 
 
+    /*
+    5. SUCESSO
+    */
+
     mostrarMensagem(
-        "Pagamento confirmado com sucesso! 💰",
+        "Pagamento confirmado com sucesso! 💰<br><br>" +
+        "O pagamento agora está como <strong>Pago</strong> " +
+        "e o agendamento foi atualizado.",
         "sucesso"
     );
 
