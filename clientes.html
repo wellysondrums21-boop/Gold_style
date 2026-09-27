@@ -1,250 +1,594 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Clientes | Gold Style</title>
+<title>Gold Style - Clientes</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
 }
 
 body{
-    font-family:Arial, sans-serif;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
     background:#050505;
-    color:#fff;
-    min-height:100vh;
+    color:white;
 }
 
 header{
-    background:linear-gradient(135deg,#050505,#161616);
-    border-bottom:2px solid #d4af37;
-    padding:22px 18px;
+    background:linear-gradient(135deg,#050505,#191919);
+    border-bottom:2px solid #ffd700;
+    padding:22px 15px;
     text-align:center;
-    box-shadow:0 0 20px rgba(212,175,55,.25);
 }
 
 .logo{
     color:#ffd700;
-    font-size:25px;
+    font-size:30px;
     font-weight:bold;
     letter-spacing:2px;
 }
 
-.subtitulo{
+.slogan{
     color:#aaa;
     margin-top:6px;
-    font-size:13px;
 }
 
 .container{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
+    width:94%;
+    max-width:1250px;
+    margin:25px auto;
 }
 
-.voltar{
-    display:inline-block;
-    color:#ffd700;
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.menu a{
+    background:#111;
+    border:1px solid #333;
+    color:white;
     text-decoration:none;
-    margin-bottom:20px;
+    padding:15px 10px;
+    border-radius:10px;
+    text-align:center;
     font-weight:bold;
 }
 
-.titulo{
+.menu a:hover{
+    border-color:#ffd700;
     color:#ffd700;
-    font-size:25px;
+}
+
+.menu .sair{
+    color:#ff5555;
+}
+
+h1{
+    color:#ffd700;
     margin-bottom:5px;
 }
 
-.descricao{
-    color:#aaa;
+.subtitulo{
+    color:#999;
     margin-bottom:20px;
 }
 
-.resumo{
+.cards{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
     margin-bottom:20px;
 }
 
 .card{
     background:#111;
     border:1px solid #333;
-    border-radius:14px;
+    border-left:4px solid #ffd700;
+    border-radius:12px;
     padding:18px;
-    box-shadow:0 0 12px rgba(212,175,55,.08);
 }
 
 .card strong{
     display:block;
-    color:#ffd700;
-    font-size:25px;
-    margin-top:6px;
+    color:#aaa;
+    margin-bottom:8px;
 }
 
-.card span{
+.numero{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.filtro-area{
+    background:#111;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.filtro-area label{
+    display:block;
     color:#aaa;
+    margin-bottom:7px;
     font-size:13px;
 }
 
-.cliente{
-    background:#101010;
+input{
+    width:100%;
+    background:#080808;
+    color:white;
+    border:1px solid #444;
+    border-radius:8px;
+    padding:13px;
+    font-size:15px;
+}
+
+input:focus{
+    outline:none;
+    border-color:#ffd700;
+}
+
+.section{
+    background:#111;
     border:1px solid #333;
-    border-left:4px solid #d4af37;
-    border-radius:14px;
-    padding:18px;
-    margin-bottom:15px;
+    border-radius:12px;
+    padding:20px;
+    overflow-x:auto;
 }
 
-.nome{
+.section h2{
     color:#ffd700;
-    font-size:20px;
+    margin-top:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1200px;
+}
+
+th{
+    color:#ffd700;
+    text-align:left;
+    padding:13px;
+    border-bottom:1px solid #444;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #222;
+    vertical-align:middle;
+}
+
+.cliente-nome{
     font-weight:bold;
-    margin-bottom:12px;
+    color:white;
 }
 
-.info{
-    color:#ddd;
-    margin:7px 0;
-    font-size:14px;
+.cliente-email{
+    color:#aaa;
+    font-size:12px;
+    margin-top:4px;
 }
 
-.info span{
-    color:#999;
+.valor{
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.verde{
+    color:#6dff6d;
+    font-weight:bold;
+}
+
+.amarelo{
+    color:#ffd700;
+    font-weight:bold;
 }
 
 .botao{
-    margin-top:15px;
-    background:#d4af37;
-    color:#000;
-    border:0;
-    padding:11px 15px;
-    border-radius:8px;
-    font-weight:bold;
+    border:none;
+    border-radius:7px;
+    padding:9px 12px;
     cursor:pointer;
+    font-weight:bold;
+    margin:2px;
+}
+
+.whatsapp{
+    background:#20c76a;
+    color:white;
+}
+
+.detalhes{
+    background:#ffd700;
+    color:#000;
 }
 
 .botao:hover{
-    background:#ffd700;
-}
-
-.agendamentos{
-    display:none;
-    margin-top:15px;
-    padding-top:15px;
-    border-top:1px solid #333;
-}
-
-.agendamento{
-    background:#080808;
-    border:1px solid #292929;
-    border-radius:10px;
-    padding:12px;
-    margin-top:10px;
-}
-
-.agendamento strong{
-    color:#ffd700;
-}
-
-.status{
-    display:inline-block;
-    margin-top:7px;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    background:#222;
-    color:#ffd700;
+    transform:translateY(-1px);
 }
 
 .mensagem{
     text-align:center;
-    padding:30px 10px;
     color:#aaa;
+    padding:25px;
 }
 
-.erro{
-    color:#ff5555;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    z-index:1000;
+    padding:20px;
+    overflow-y:auto;
 }
 
-@media(min-width:700px){
+.modal-conteudo{
+    width:100%;
+    max-width:750px;
+    margin:40px auto;
+    background:#111;
+    border:1px solid #ffd700;
+    border-radius:15px;
+    padding:22px;
+}
 
-    .resumo{
-        grid-template-columns:repeat(4,1fr);
+.modal-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    border-bottom:1px solid #333;
+    padding-bottom:15px;
+    margin-bottom:20px;
+}
+
+.modal-topo h2{
+    color:#ffd700;
+    margin:0;
+}
+
+.fechar{
+    background:#9e2525;
+    color:white;
+    border:none;
+    border-radius:7px;
+    padding:9px 13px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.info-box{
+    background:#080808;
+    border:1px solid #292929;
+    border-radius:10px;
+    padding:15px;
+}
+
+.info-box span{
+    display:block;
+    color:#888;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.info-box strong{
+    color:#ffd700;
+    font-size:18px;
+}
+
+.historico{
+    margin-top:15px;
+}
+
+.historico h3{
+    color:#ffd700;
+}
+
+.historico-item{
+    background:#080808;
+    border:1px solid #292929;
+    border-radius:9px;
+    padding:13px;
+    margin-bottom:9px;
+}
+
+.historico-item strong{
+    color:#ffd700;
+}
+
+.historico-item small{
+    color:#999;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:92%;
     }
 
-    .cliente{
-        padding:22px;
+    .logo{
+        font-size:25px;
     }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card{
+        padding:14px;
+    }
+
+    .numero{
+        font-size:21px;
+    }
+
+    .modal-conteudo{
+        margin:10px auto;
+    }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
-    <div class="logo">GOLD STYLE</div>
-    <div class="subtitulo">BARBEARIA DESDE 2022</div>
+
+    <div class="logo">
+        GOLD STYLE
+    </div>
+
+    <div class="slogan">
+        BARBEARIA DESDE 2022
+    </div>
+
 </header>
+
 
 <div class="container">
 
-    <a href="admin.html" class="voltar">← Voltar para o painel</a>
 
-    <h1 class="titulo">👥 Clientes</h1>
+    <div class="menu">
 
-    <p class="descricao">
-        Gerenciamento dos clientes cadastrados na Gold Style.
-    </p>
+        <a href="admin.html">
+            🏠 Dashboard
+        </a>
 
-    <div class="resumo">
+        <a href="agenda-admin.html">
+            📅 Agenda
+        </a>
+
+        <a href="servicos.html">
+            ✂️ Serviços
+        </a>
+
+        <a href="clientes.html">
+            👥 Clientes
+        </a>
+
+        <a href="produtos.html">
+            🛍️ Produtos
+        </a>
+
+        <a href="financeiro.html">
+            💰 Financeiro
+        </a>
+
+        <a href="relatorios.html">
+            📊 Relatórios
+        </a>
+
+        <a href="configuracoes.html">
+            ⚙️ Configurações
+        </a>
+
+        <a
+            href="#"
+            class="sair"
+            onclick="sair()">
+
+            🚪 Sair
+
+        </a>
+
+    </div>
+
+
+    <h1>
+        👥 Clientes
+    </h1>
+
+    <div class="subtitulo">
+        Cadastro, histórico e movimentação dos clientes
+    </div>
+
+
+    <div class="cards">
+
 
         <div class="card">
-            <span>Total de clientes</span>
-            <strong id="totalClientes">0</strong>
+
+            <strong>
+                👥 Total de clientes
+            </strong>
+
+            <div
+                class="numero"
+                id="totalClientes">
+
+                0
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <span>Clientes com agendamento</span>
-            <strong id="clientesAgendamento">0</strong>
-        </div>
 
         <div class="card">
-            <span>Agendamentos</span>
-            <strong id="totalAgendamentos">0</strong>
+
+            <strong>
+                📅 Agendamentos
+            </strong>
+
+            <div
+                class="numero"
+                id="totalAgendamentos">
+
+                0
+
+            </div>
+
         </div>
 
+
         <div class="card">
-            <span>Novos clientes</span>
-            <strong id="novosClientes">0</strong>
+
+            <strong>
+                💰 Total recebido
+            </strong>
+
+            <div
+                class="numero"
+                id="totalRecebido">
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                ⏳ Total pendente
+            </strong>
+
+            <div
+                class="numero"
+                id="totalPendente">
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="filtro-area">
+
+        <label>
+            🔎 Pesquisar cliente
+        </label>
+
+        <input
+            type="text"
+            id="pesquisa"
+            placeholder="Digite nome, telefone ou e-mail..."
+            oninput="filtrarClientes()">
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            📋 Lista de clientes
+        </h2>
+
+
+        <div id="listaClientes">
+
+            <div class="mensagem">
+                Carregando clientes...
+            </div>
+
         </div>
 
     </div>
 
-    <div id="listaClientes">
-        <div class="mensagem">
-            Carregando clientes...
+
+</div>
+
+
+<!-- MODAL -->
+
+<div
+    class="modal"
+    id="modal">
+
+    <div class="modal-conteudo">
+
+
+        <div class="modal-topo">
+
+            <h2>
+                👤 Detalhes do cliente
+            </h2>
+
+            <button
+                class="fechar"
+                onclick="fecharModal()">
+
+                Fechar
+
+            </button>
+
         </div>
+
+
+        <div
+            id="detalhesCliente">
+
+        </div>
+
+
     </div>
 
 </div>
 
+
 <script>
+
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -253,362 +597,1099 @@ window.supabase.createClient(
 );
 
 
+let clientes = [];
+
+let agendamentos = [];
+
+let pagamentos = [];
+
+let mapaClientes = {};
+
+
 /* =========================
-   VERIFICAR ADMIN
+   DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+    return "R$ " +
+        Number(valor || 0)
+        .toFixed(2)
+        .replace(".",",");
+
+}
+
+
+/* =========================
+   ADMIN
 ========================= */
 
 async function verificarAdmin(){
 
     const {
-        data:{session}
-    } = await supabaseClient.auth.getSession();
+        data:{
+            session
+        }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
 
     if(!session){
 
-        window.location.href="login.html";
+        window.location.href =
+            "login.html";
 
-        return null;
+        return false;
+
     }
 
-    const {data:admin,error} =
+
+    const {
+        data,
+        error
+    } =
     await supabaseClient
-    .from("administradores")
-    .select("id,ativo")
-    .eq("auth_user_id",session.user.id)
-    .eq("ativo",true)
-    .maybeSingle();
 
-    if(error || !admin){
+        .from("administradores")
 
-        alert("Acesso permitido somente para administrador.");
+        .select("id")
 
-        window.location.href="cliente.html";
+        .eq(
+            "auth_user_id",
+            session.user.id
+        )
 
-        return null;
+        .eq(
+            "ativo",
+            true
+        )
+
+        .maybeSingle();
+
+
+    if(error || !data){
+
+        alert(
+            "Acesso administrativo não autorizado."
+        );
+
+        window.location.href =
+            "cliente.html";
+
+        return false;
+
     }
 
-    return session;
+
+    return true;
+
 }
 
 
 /* =========================
-   CARREGAR CLIENTES
+   CARREGAR DADOS
 ========================= */
 
-async function carregarClientes(){
+async function carregarDados(){
 
-    const lista =
-    document.getElementById("listaClientes");
+    const resultado =
+        await Promise.all([
 
-    const {data:clientes,error} =
-    await supabaseClient
-    .from("clientes")
-    .select("id,Nome,Telefone,E-mail,Data_cadastro")
-    .order("Data_cadastro",{ascending:false});
+            supabaseClient
+                .from("clientes")
+                .select("*")
+                .order(
+                    "Data_cadastro",
+                    {
+                        ascending:false
+                    }
+                ),
 
-    if(error){
+            supabaseClient
+                .from("agendamentos")
+                .select("*"),
 
-        console.error(error);
+            supabaseClient
+                .from("pagamentos")
+                .select("*")
 
-        lista.innerHTML =
-        `<div class="mensagem erro">
-            Erro ao carregar clientes.<br>
-            ${error.message}
-        </div>`;
+        ]);
 
-        return;
+
+    const erroCliente =
+        resultado[0].error;
+
+    const erroAgendamento =
+        resultado[1].error;
+
+    const erroPagamento =
+        resultado[2].error;
+
+
+    if(erroCliente){
+
+        console.error(
+            erroCliente
+        );
+
     }
 
-    const {data:agendamentos,error:errorAg} =
-    await supabaseClient
-    .from("agendamentos")
-    .select("id,Cliente_id,Serviços,Valor,Data,Horário,Status,Pagamento")
-    .order("Data",{ascending:false});
 
-    if(errorAg){
+    if(erroAgendamento){
 
-        console.error(errorAg);
+        console.error(
+            erroAgendamento
+        );
 
-        lista.innerHTML =
-        `<div class="mensagem erro">
-            Clientes carregados, mas houve erro ao carregar agendamentos.
-        </div>`;
-
-        return;
     }
 
 
-    const listaClientes =
-    clientes || [];
+    if(erroPagamento){
 
-    const listaAgendamentos =
-    agendamentos || [];
+        console.error(
+            erroPagamento
+        );
 
-
-    document.getElementById("totalClientes")
-    .textContent =
-    listaClientes.length;
+    }
 
 
-    document.getElementById("totalAgendamentos")
-    .textContent =
-    listaAgendamentos.length;
+    clientes =
+        resultado[0].data || [];
 
 
-    const clientesComAgendamento =
-    new Set(
-        listaAgendamentos
-        .map(a => a.Cliente_id)
-        .filter(Boolean)
+    agendamentos =
+        resultado[1].data || [];
+
+
+    pagamentos =
+        resultado[2].data || [];
+
+
+    mapaClientes = {};
+
+
+    clientes.forEach(
+        cliente => {
+
+            mapaClientes[
+                cliente.id
+            ] = cliente;
+
+        }
     );
 
-    document.getElementById("clientesAgendamento")
-    .textContent =
-    clientesComAgendamento.size;
 
+    atualizarResumo();
 
-    /* =========================
-       NOVOS CLIENTES
-       ÚLTIMOS 30 DIAS
-    ========================= */
-
-    const agora =
-    new Date();
-
-    const limite =
-    new Date();
-
-    limite.setDate(
-        agora.getDate()-30
+    mostrarClientes(
+        clientes
     );
 
-    const novos =
-    listaClientes.filter(cliente => {
-
-        if(!cliente.Data_cadastro)
-            return false;
-
-        return new Date(
-            cliente.Data_cadastro
-        ) >= limite;
-
-    });
-
-    document.getElementById("novosClientes")
-    .textContent =
-    novos.length;
+}
 
 
-    if(listaClientes.length === 0){
+/* =========================
+   RESUMO
+========================= */
 
-        lista.innerHTML =
-        `<div class="mensagem">
-            Nenhum cliente cadastrado ainda.
-        </div>`;
+function atualizarResumo(){
 
-        return;
-    }
-
-
-    lista.innerHTML = "";
+    document.getElementById(
+        "totalClientes"
+    ).textContent =
+        clientes.length;
 
 
-    listaClientes.forEach(cliente => {
+    document.getElementById(
+        "totalAgendamentos"
+    ).textContent =
+        agendamentos.length;
 
-        const agendamentosCliente =
-        listaAgendamentos.filter(
-            agendamento =>
-            agendamento.Cliente_id === cliente.id
+
+    const recebido =
+        pagamentos
+
+        .filter(
+            pagamento =>
+                String(
+                    pagamento.status || ""
+                )
+                .toLowerCase()
+                === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                pagamento
+            ) =>
+                total +
+                Number(
+                    pagamento.valor || 0
+                ),
+            0
         );
 
 
-        const div =
-        document.createElement("div");
+    const pendente =
+        pagamentos
 
-        div.className="cliente";
+        .filter(
+            pagamento =>
+                String(
+                    pagamento.status || ""
+                )
+                .toLowerCase()
+                === "pendente"
+        )
 
-
-        const nome =
-        cliente.Nome ||
-        "Cliente sem nome";
-
-
-        const telefone =
-        cliente.Telefone ||
-        "Não informado";
-
-
-        const email =
-        cliente["E-mail"] ||
-        "Não informado";
-
-
-        let dataCadastro =
-        "Não informado";
-
-
-        if(cliente.Data_cadastro){
-
-            dataCadastro =
-            new Date(
-                cliente.Data_cadastro
-            ).toLocaleDateString(
-                "pt-BR"
-            );
-        }
+        .reduce(
+            (
+                total,
+                pagamento
+            ) =>
+                total +
+                Number(
+                    pagamento.valor || 0
+                ),
+            0
+        );
 
 
-        let html = `
-
-            <div class="nome">
-                👤 ${nome}
-            </div>
-
-            <div class="info">
-                📱 <span>WhatsApp:</span>
-                ${telefone}
-            </div>
-
-            <div class="info">
-                📧 <span>E-mail:</span>
-                ${email}
-            </div>
-
-            <div class="info">
-                📅 <span>Cadastro:</span>
-                ${dataCadastro}
-            </div>
-
-            <div class="info">
-                ✂️ <span>Agendamentos:</span>
-                ${agendamentosCliente.length}
-            </div>
-
-            <button
-                class="botao"
-                onclick="mostrarAgendamentos('${cliente.id}')"
-            >
-                Ver agendamentos
-            </button>
-
-            <div
-                class="agendamentos"
-                id="agendamentos-${cliente.id}"
-            >
-        `;
+    document.getElementById(
+        "totalRecebido"
+    ).textContent =
+        dinheiro(
+            recebido
+        );
 
 
-        if(agendamentosCliente.length === 0){
-
-            html += `
-                <div class="mensagem">
-                    Este cliente ainda não possui agendamentos.
-                </div>
-            `;
-
-        }else{
-
-            agendamentosCliente.forEach(agendamento => {
-
-                let data =
-                agendamento.Data || "";
-
-                if(data){
-
-                    const partes =
-                    data.split("-");
-
-                    if(partes.length === 3){
-
-                        data =
-                        `${partes[2]}/${partes[1]}/${partes[0]}`;
-                    }
-                }
-
-
-                let horario =
-                agendamento.Horário || "";
-
-                horario =
-                horario.substring(0,5);
-
-
-                html += `
-
-                    <div class="agendamento">
-
-                        <strong>
-                            ${agendamento.Serviços || "Serviço"}
-                        </strong>
-
-                        <div class="info">
-                            📅 ${data}
-                        </div>
-
-                        <div class="info">
-                            🕐 ${horario}
-                        </div>
-
-                        <div class="info">
-                            💰 R$ ${Number(
-                                agendamento.Valor || 0
-                            ).toFixed(2).replace(".",",")}
-                        </div>
-
-                        <div class="status">
-                            ${agendamento.Status || "Pendente"}
-                        </div>
-
-                        <div class="info">
-                            💳 Pagamento:
-                            ${agendamento.Pagamento || "Pendente"}
-                        </div>
-
-                    </div>
-                `;
-            });
-        }
-
-
-        html += `
-            </div>
-        `;
-
-
-        div.innerHTML =
-        html;
-
-        lista.appendChild(div);
-
-    });
+    document.getElementById(
+        "totalPendente"
+    ).textContent =
+        dinheiro(
+            pendente
+        );
 
 }
 
 
 /* =========================
-   MOSTRAR AGENDAMENTOS
+   DADOS DO CLIENTE
 ========================= */
 
-function mostrarAgendamentos(id){
+function dadosCliente(
+    clienteId
+){
 
-    const area =
-    document.getElementById(
-        "agendamentos-"+id
-    );
+    const agenda =
+        agendamentos.filter(
+            agendamento =>
+                agendamento.Cliente_id ===
+                clienteId
+        );
 
-    if(!area)
+
+    const pagamentosCliente =
+        pagamentos.filter(
+            pagamento =>
+                pagamento.cliente_id ===
+                clienteId
+        );
+
+
+    const recebido =
+        pagamentosCliente
+
+        .filter(
+            pagamento =>
+                String(
+                    pagamento.status || ""
+                )
+                .toLowerCase()
+                === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                pagamento
+            ) =>
+                total +
+                Number(
+                    pagamento.valor || 0
+                ),
+            0
+        );
+
+
+    const pendente =
+        pagamentosCliente
+
+        .filter(
+            pagamento =>
+                String(
+                    pagamento.status || ""
+                )
+                .toLowerCase()
+                === "pendente"
+        )
+
+        .reduce(
+            (
+                total,
+                pagamento
+            ) =>
+                total +
+                Number(
+                    pagamento.valor || 0
+                ),
+            0
+        );
+
+
+    return {
+
+        agenda:agenda,
+
+        pagamentos:
+            pagamentosCliente,
+
+        recebido:recebido,
+
+        pendente:pendente
+
+    };
+
+}
+
+
+/* =========================
+   MOSTRAR CLIENTES
+========================= */
+
+function mostrarClientes(
+    lista
+){
+
+    const elemento =
+        document.getElementById(
+            "listaClientes"
+        );
+
+
+    if(!lista.length){
+
+        elemento.innerHTML =
+            '<div class="mensagem">Nenhum cliente cadastrado.</div>';
+
         return;
 
+    }
 
-    if(area.style.display === "block"){
 
-        area.style.display="none";
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Cliente</th>
+
+                    <th>Telefone</th>
+
+                    <th>Agendamentos</th>
+
+                    <th>Recebido</th>
+
+                    <th>Pendente</th>
+
+                    <th>Último serviço</th>
+
+                    <th>Ações</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    lista.forEach(
+        cliente => {
+
+
+            const dados =
+                dadosCliente(
+                    cliente.id
+                );
+
+
+            const ultimo =
+                dados.agenda
+                .slice()
+                .sort(
+                    (
+                        a,
+                        b
+                    ) =>
+                        String(
+                            b.Data || ""
+                        )
+                        .localeCompare(
+                            String(
+                                a.Data || ""
+                            )
+                        )
+                )[0];
+
+
+            const ultimoServico =
+                ultimo
+                ? (
+                    ultimo["Serviços"]
+                    || "-"
+                )
+                : "-";
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <div
+                            class="cliente-nome">
+
+                            ${
+                                cliente.Nome
+                                || "Sem nome"
+                            }
+
+                        </div>
+
+                        <div
+                            class="cliente-email">
+
+                            ${
+                                cliente["E-mail"]
+                                || "Sem e-mail"
+                            }
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            cliente.Telefone
+                            || "-"
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            dados.agenda.length
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="verde">
+
+                            ${
+                                dinheiro(
+                                    dados.recebido
+                                )
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="amarelo">
+
+                            ${
+                                dinheiro(
+                                    dados.pendente
+                                )
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            ultimoServico
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="botao detalhes"
+                            onclick="abrirDetalhes('${cliente.id}')">
+
+                            👁 Detalhes
+
+                        </button>
+
+
+                        <button
+                            class="botao whatsapp"
+                            onclick="abrirWhatsApp('${cliente.id}')">
+
+                            WhatsApp
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    elemento.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   FILTRO
+========================= */
+
+function filtrarClientes(){
+
+    const texto =
+        document.getElementById(
+            "pesquisa"
+        )
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    if(!texto){
+
+        mostrarClientes(
+            clientes
+        );
+
+        return;
+
+    }
+
+
+    const filtrados =
+        clientes.filter(
+            cliente => {
+
+                const nome =
+                    String(
+                        cliente.Nome || ""
+                    )
+                    .toLowerCase();
+
+
+                const telefone =
+                    String(
+                        cliente.Telefone || ""
+                    )
+                    .toLowerCase();
+
+
+                const email =
+                    String(
+                        cliente["E-mail"] || ""
+                    )
+                    .toLowerCase();
+
+
+                return (
+
+                    nome.includes(
+                        texto
+                    )
+
+                    ||
+
+                    telefone.includes(
+                        texto
+                    )
+
+                    ||
+
+                    email.includes(
+                        texto
+                    )
+
+                );
+
+            }
+        );
+
+
+    mostrarClientes(
+        filtrados
+    );
+
+}
+
+
+/* =========================
+   DETALHES
+========================= */
+
+function abrirDetalhes(
+    clienteId
+){
+
+    const cliente =
+        mapaClientes[
+            clienteId
+        ];
+
+
+    if(!cliente){
+
+        return;
+
+    }
+
+
+    const dados =
+        dadosCliente(
+            clienteId
+        );
+
+
+    const elemento =
+        document.getElementById(
+            "detalhesCliente"
+        );
+
+
+    let historico = "";
+
+
+    if(!dados.agenda.length){
+
+        historico =
+            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
 
     }else{
 
-        area.style.display="block";
+        const ordenados =
+            dados.agenda
+            .slice()
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    (
+                        String(
+                            b.Data || ""
+                        )
+                        +
+                        String(
+                            b["Horário"] || ""
+                        )
+                    )
+                    .localeCompare(
+                        String(
+                            a.Data || ""
+                        )
+                        +
+                        String(
+                            a["Horário"] || ""
+                        )
+                    )
+            );
+
+
+        ordenados.forEach(
+            agendamento => {
+
+
+                const data =
+                    agendamento.Data
+                    ? new Date(
+                        agendamento.Data +
+                        "T00:00:00"
+                      )
+                      .toLocaleDateString(
+                          "pt-BR"
+                      )
+                    : "-";
+
+
+                const horario =
+                    agendamento["Horário"]
+                    ? String(
+                        agendamento["Horário"]
+                    )
+                    .substring(
+                        0,
+                        5
+                    )
+                    : "-";
+
+
+                historico += `
+
+                    <div
+                        class="historico-item">
+
+                        <strong>
+
+                            ${
+                                agendamento["Serviços"]
+                                || "-"
+                            }
+
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            ${data}
+                            às
+                            ${horario}
+
+                            |
+                            ${
+                                dinheiro(
+                                    agendamento.Valor
+                                )
+                            }
+
+                            |
+                            ${
+                                agendamento.Status
+                                || "-"
+                            }
+
+                            |
+                            Pagamento:
+                            ${
+                                agendamento.Pagamento
+                                || "-"
+                            }
+
+                        </small>
+
+                    </div>
+
+                `;
+
+            }
+        );
 
     }
+
+
+    elemento.innerHTML = `
+
+        <div class="info-grid">
+
+
+            <div class="info-box">
+
+                <span>
+                    Nome
+                </span>
+
+                <strong>
+
+                    ${
+                        cliente.Nome
+                        || "-"
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Telefone
+                </span>
+
+                <strong>
+
+                    ${
+                        cliente.Telefone
+                        || "-"
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    E-mail
+                </span>
+
+                <strong>
+
+                    ${
+                        cliente["E-mail"]
+                        || "-"
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Total de agendamentos
+                </span>
+
+                <strong>
+
+                    ${
+                        dados.agenda.length
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Total recebido
+                </span>
+
+                <strong>
+
+                    ${
+                        dinheiro(
+                            dados.recebido
+                        )
+                    }
+
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Total pendente
+                </span>
+
+                <strong>
+
+                    ${
+                        dinheiro(
+                            dados.pendente
+                        )
+                    }
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="historico">
+
+            <h3>
+                📅 Histórico de agendamentos
+            </h3>
+
+            ${historico}
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "modal"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =========================
+   FECHAR MODAL
+========================= */
+
+function fecharModal(){
+
+    document.getElementById(
+        "modal"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+function abrirWhatsApp(
+    clienteId
+){
+
+    const cliente =
+        mapaClientes[
+            clienteId
+        ];
+
+
+    if(
+        !cliente ||
+        !cliente.Telefone
+    ){
+
+        alert(
+            "Telefone do cliente não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    let numero =
+        String(
+            cliente.Telefone
+        )
+        .replace(
+            /\D/g,
+            ""
+        );
+
+
+    if(
+        numero.length ===
+        11
+    ){
+
+        numero =
+            "55" +
+            numero;
+
+    }
+
+
+    const mensagem =
+        `Olá, ${cliente.Nome}! ` +
+        `Aqui é da Gold Style Barbearia. ` +
+        `Estamos entrando em contato para falar sobre seu atendimento.`;
+
+
+    window.open(
+
+        "https://wa.me/" +
+        numero +
+        "?text=" +
+        encodeURIComponent(
+            mensagem
+        ),
+
+        "_blank"
+
+    );
+
+}
+
+
+/* =========================
+   FECHAR MODAL AO CLICAR FORA
+========================= */
+
+window.onclick =
+function(event){
+
+    const modal =
+        document.getElementById(
+            "modal"
+        );
+
+
+    if(
+        event.target ===
+        modal
+    ){
+
+        fecharModal();
+
+    }
+
+};
+
+
+/* =========================
+   SAIR
+========================= */
+
+async function sair(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "login.html";
 
 }
 
@@ -617,22 +1698,22 @@ function mostrarAgendamentos(id){
    INICIAR
 ========================= */
 
-async function iniciar(){
+(async()=>{
 
-    const session =
-    await verificarAdmin();
-
-    if(!session)
-        return;
-
-    await carregarClientes();
-
-}
+    const autorizado =
+        await verificarAdmin();
 
 
-iniciar();
+    if(autorizado){
+
+        await carregarDados();
+
+    }
+
+})();
 
 </script>
 
 </body>
-  </html>
+
+    </html>
