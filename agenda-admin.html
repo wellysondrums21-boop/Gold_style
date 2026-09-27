@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Agenda Administrativa - Gold Style</title>
+<title>Gold Style - Agenda Administrativa</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,7 +25,7 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#050505,#171717);
+    background:linear-gradient(135deg,#050505,#191919);
     border-bottom:2px solid #ffd700;
     padding:22px 15px;
     text-align:center;
@@ -32,53 +35,106 @@ header{
     color:#ffd700;
     font-size:30px;
     font-weight:bold;
+    letter-spacing:2px;
 }
 
-.subtitulo{
+.slogan{
     color:#aaa;
-    margin-top:5px;
+    margin-top:6px;
 }
 
 .container{
     width:94%;
-    max-width:1200px;
+    max-width:1250px;
     margin:25px auto;
 }
 
-.topo{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.menu a{
+    background:#111;
+    border:1px solid #333;
+    color:white;
+    text-decoration:none;
+    padding:15px 10px;
+    border-radius:10px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.menu a:hover{
+    border-color:#ffd700;
+    color:#ffd700;
+}
+
+.menu .sair{
+    color:#ff5555;
 }
 
 h1{
     color:#ffd700;
-    margin:0;
+    margin-bottom:5px;
 }
 
-.btn-voltar{
-    background:#ffd700;
-    color:#000;
-    padding:12px 18px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
+.subtitulo{
+    color:#999;
+    margin-bottom:20px;
 }
 
-.resumo{
+.filtros{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.filtro{
+    background:#111;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:15px;
+}
+
+.filtro label{
+    display:block;
+    color:#aaa;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+input,
+select{
+    width:100%;
+    background:#080808;
+    color:white;
+    border:1px solid #444;
+    padding:11px;
+    border-radius:7px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:#ffd700;
+}
+
+.cards{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
     gap:15px;
-    margin:25px 0;
+    margin-bottom:20px;
 }
 
 .card{
     background:#111;
     border:1px solid #333;
     border-left:4px solid #ffd700;
-    border-radius:10px;
+    border-radius:12px;
     padding:18px;
 }
 
@@ -90,85 +146,87 @@ h1{
 
 .numero{
     color:#ffd700;
-    font-size:28px;
+    font-size:25px;
     font-weight:bold;
 }
 
-.agendamento{
+.section{
     background:#111;
     border:1px solid #333;
     border-radius:12px;
     padding:20px;
-    margin-bottom:18px;
+    overflow-x:auto;
 }
 
-.agendamento:hover{
-    border-color:#ffd700;
+.section h2{
+    color:#ffd700;
+    margin-top:0;
 }
 
-.linha{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-bottom:15px;
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
 }
 
-.item strong{
-    display:block;
-    color:#aaa;
-    font-size:13px;
-    margin-bottom:5px;
+th{
+    color:#ffd700;
+    text-align:left;
+    padding:12px;
+    border-bottom:1px solid #444;
 }
 
-.item span{
-    color:white;
-    font-size:16px;
-}
-
-.nome-cliente{
-    color:#ffd700 !important;
-    font-weight:bold;
-}
-
-.telefone{
-    color:#25d366 !important;
-}
-
-.valor{
-    color:#00ff88 !important;
-    font-weight:bold;
+td{
+    padding:12px;
+    border-bottom:1px solid #222;
+    vertical-align:middle;
 }
 
 .status{
-    padding:10px;
-    border-radius:7px;
-    background:#050505;
-    color:white;
-    border:1px solid #555;
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.pagamento{
-    padding:10px;
-    border-radius:7px;
-    background:#050505;
-    color:white;
-    border:1px solid #555;
+.status-pendente{
+    background:#3d3517;
+    color:#ffd700;
 }
 
-.acoes{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    border-top:1px solid #333;
-    padding-top:15px;
+.status-confirmado{
+    background:#172e3d;
+    color:#66c7ff;
 }
 
-button{
+.status-concluido{
+    background:#173d2a;
+    color:#6dffad;
+}
+
+.status-cancelado{
+    background:#401717;
+    color:#ff6666;
+}
+
+.status-pago{
+    background:#173d17;
+    color:#6dff6d;
+}
+
+.status-nao-pago{
+    background:#3d3517;
+    color:#ffd700;
+}
+
+.btn{
     border:none;
     border-radius:7px;
-    padding:10px 15px;
+    padding:9px 11px;
     font-weight:bold;
     cursor:pointer;
+    margin:2px;
 }
 
 .btn-salvar{
@@ -176,27 +234,48 @@ button{
     color:#000;
 }
 
+.btn-salvar:hover{
+    background:#fff0a0;
+}
+
 .btn-whatsapp{
-    background:#25d366;
+    background:#20c76a;
     color:white;
-    text-decoration:none;
-    padding:10px 15px;
-    border-radius:7px;
-    font-weight:bold;
+}
+
+.btn-confirmar{
+    background:#2476b8;
+    color:white;
+}
+
+.btn-concluir{
+    background:#16834a;
+    color:white;
+}
+
+.btn-cancelar{
+    background:#9e2525;
+    color:white;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.acoes{
+    min-width:180px;
 }
 
 .mensagem{
     text-align:center;
-    padding:30px;
-    background:#111;
-    border-radius:10px;
     color:#aaa;
+    padding:25px;
 }
 
-.erro{
-    color:#ff5555;
-    text-align:center;
-    padding:20px;
+.info{
+    color:#777;
+    font-size:12px;
+    margin-top:15px;
 }
 
 @media(max-width:600px){
@@ -205,27 +284,31 @@ button{
         width:92%;
     }
 
-    h1{
-        font-size:24px;
+    .logo{
+        font-size:25px;
     }
 
-    .acoes{
-        flex-direction:column;
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    select,
-    button,
-    .btn-whatsapp{
-        width:100%;
-        text-align:center;
+    .card{
+        padding:14px;
+    }
+
+    .numero{
+        font-size:21px;
     }
 
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -233,7 +316,7 @@ button{
         GOLD STYLE
     </div>
 
-    <div class="subtitulo">
+    <div class="slogan">
         BARBEARIA DESDE 2022
     </div>
 
@@ -242,68 +325,290 @@ button{
 
 <div class="container">
 
-    <div class="topo">
 
-        <h1>📅 Agenda Administrativa</h1>
+    <div class="menu">
 
-        <a href="admin.html" class="btn-voltar">
-            ← Voltar ao painel
+        <a href="admin.html">
+            🏠 Dashboard
+        </a>
+
+        <a href="agenda-admin.html">
+            📅 Agenda
+        </a>
+
+        <a href="servicos.html">
+            ✂️ Serviços
+        </a>
+
+        <a href="clientes.html">
+            👥 Clientes
+        </a>
+
+        <a href="produtos.html">
+            🛍️ Produtos
+        </a>
+
+        <a href="financeiro.html">
+            💰 Financeiro
+        </a>
+
+        <a href="relatorios.html">
+            📊 Relatórios
+        </a>
+
+        <a href="configuracoes.html">
+            ⚙️ Configurações
+        </a>
+
+        <a
+            href="#"
+            class="sair"
+            onclick="sair()">
+
+            🚪 Sair
+
         </a>
 
     </div>
 
 
-    <div class="resumo">
+    <h1>
+        📅 Agenda Administrativa
+    </h1>
+
+    <div class="subtitulo">
+        Controle completo dos agendamentos da Gold Style
+    </div>
+
+
+    <div class="cards">
+
 
         <div class="card">
-            <strong>Total de agendamentos</strong>
-            <div class="numero" id="total">
+
+            <strong>
+                📅 Total
+            </strong>
+
+            <div
+                class="numero"
+                id="total">
+
                 0
+
             </div>
+
         </div>
 
-        <div class="card">
-            <strong>Pendentes</strong>
-            <div class="numero" id="pendentes">
-                0
-            </div>
-        </div>
 
         <div class="card">
-            <strong>Confirmados</strong>
-            <div class="numero" id="confirmados">
+
+            <strong>
+                ⏳ Pendentes
+            </strong>
+
+            <div
+                class="numero"
+                id="pendentes">
+
                 0
+
             </div>
+
         </div>
 
+
         <div class="card">
-            <strong>Concluídos</strong>
-            <div class="numero" id="concluidos">
+
+            <strong>
+                ✅ Confirmados
+            </strong>
+
+            <div
+                class="numero"
+                id="confirmados">
+
                 0
+
             </div>
+
         </div>
+
+
+        <div class="card">
+
+            <strong>
+                ✔️ Concluídos
+            </strong>
+
+            <div
+                class="numero"
+                id="concluidos">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                ❌ Cancelados
+            </strong>
+
+            <div
+                class="numero"
+                id="cancelados">
+
+                0
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
-    <div id="lista">
+    <div class="filtros">
 
-        <div class="mensagem">
-            Carregando agenda...
+
+        <div class="filtro">
+
+            <label>
+                Data
+            </label>
+
+            <input
+                type="date"
+                id="filtroData"
+                onchange="carregarAgenda()">
+
         </div>
 
+
+        <div class="filtro">
+
+            <label>
+                Status
+            </label>
+
+            <select
+                id="filtroStatus"
+                onchange="carregarAgenda()">
+
+                <option value="">
+                    Todos
+                </option>
+
+                <option value="Pendente">
+                    Pendente
+                </option>
+
+                <option value="Confirmado">
+                    Confirmado
+                </option>
+
+                <option value="Concluído">
+                    Concluído
+                </option>
+
+                <option value="Cancelado">
+                    Cancelado
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="filtro">
+
+            <label>
+                Pagamento
+            </label>
+
+            <select
+                id="filtroPagamento"
+                onchange="carregarAgenda()">
+
+                <option value="">
+                    Todos
+                </option>
+
+                <option value="Pendente">
+                    Pendente
+                </option>
+
+                <option value="Pago">
+                    Pago
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="filtro">
+
+            <label>
+                Cliente / serviço
+            </label>
+
+            <input
+                type="text"
+                id="filtroTexto"
+                placeholder="Pesquisar..."
+                oninput="filtrarTexto()">
+
+        </div>
+
+
     </div>
+
+
+    <div class="section">
+
+
+        <h2>
+            📋 Agendamentos
+        </h2>
+
+
+        <div id="lista">
+
+            <div class="mensagem">
+                Carregando agenda...
+            </div>
+
+        </div>
+
+
+        <div class="info">
+
+            As alterações são salvas diretamente no banco de dados.
+
+        </div>
+
+
+    </div>
+
 
 </div>
 
 
 <script>
 
+
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -312,390 +617,851 @@ window.supabase.createClient(
 );
 
 
-// VERIFICAR ADMIN
+let agendaCompleta = [];
+
+
+/* =========================
+   DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+    return "R$ " +
+        Number(valor || 0)
+        .toFixed(2)
+        .replace(".",",");
+
+}
+
+
+/* =========================
+   ADMIN
+========================= */
+
 async function verificarAdmin(){
 
     const {
         data:{
             session
         }
-    } = await supabaseClient.auth.getSession();
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
 
 
     if(!session){
 
-        window.location.href="login.html";
+        window.location.href =
+            "login.html";
 
         return false;
+
     }
 
 
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
+
         .from("administradores")
+
         .select("id")
-        .eq("auth_user_id",session.user.id)
-        .eq("ativo",true)
+
+        .eq(
+            "auth_user_id",
+            session.user.id
+        )
+
+        .eq(
+            "ativo",
+            true
+        )
+
         .maybeSingle();
 
 
     if(error || !data){
 
-        alert("Acesso administrativo não autorizado.");
+        alert(
+            "Acesso administrativo não autorizado."
+        );
 
-        window.location.href="cliente.html";
+        window.location.href =
+            "cliente.html";
 
         return false;
+
     }
 
 
     return true;
+
 }
 
 
-// CARREGAR AGENDA
+/* =========================
+   CARREGAR AGENDA
+========================= */
+
 async function carregarAgenda(){
 
-    const lista =
-        document.getElementById("lista");
+    const elemento =
+        document.getElementById(
+            "lista"
+        );
 
 
-    lista.innerHTML =
-        '<div class="mensagem">Carregando agenda...</div>';
+    elemento.innerHTML =
+        '<div class="mensagem">Carregando...</div>';
 
 
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
+
         .from("agendamentos")
-        .select(`
-            *,
-            cliente:clientes (
-                id,
-                Nome,
-                Telefone,
-                "E-mail"
-            )
-        `)
-        .order("Data",{ascending:true})
-        .order("Horário",{ascending:true});
+
+        .select("*")
+
+        .order(
+            "Data",
+            {
+                ascending:true
+            }
+        )
+
+        .order(
+            "Horário",
+            {
+                ascending:true
+            }
+        );
 
 
     if(error){
 
         console.error(error);
 
-        lista.innerHTML =
-            `<div class="erro">
-                Erro ao carregar a agenda.<br><br>
-                ${error.message}
-            </div>`;
+        elemento.innerHTML =
+            '<div class="mensagem">Erro ao carregar a agenda.</div>';
 
         return;
+
     }
 
 
-    atualizarResumo(data || []);
+    agendaCompleta =
+        data || [];
 
 
-    if(!data || data.length===0){
+    atualizarContadores(
+        agendaCompleta
+    );
 
-        lista.innerHTML =
-            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
 
-        return;
-    }
-
-
-    lista.innerHTML="";
-
-
-    for(const agendamento of data){
-
-        const card =
-            document.createElement("div");
-
-
-        card.className="agendamento";
-
-
-        const cliente =
-            agendamento.cliente || {};
-
-
-        const nome =
-            cliente.Nome ||
-            "Cliente não identificado";
-
-
-        const telefone =
-            cliente.Telefone ||
-            "";
-
-
-        const email =
-            cliente["E-mail"] ||
-            "";
-
-
-        const dataFormatada =
-            agendamento.Data
-            ? new Date(
-                agendamento.Data+"T00:00:00"
-              ).toLocaleDateString("pt-BR")
-            : "-";
-
-
-        const horario =
-            agendamento.Horário
-            ? String(
-                agendamento.Horário
-              ).substring(0,5)
-            : "-";
-
-
-        const telefoneWhatsApp =
-            telefone
-            ? telefone.replace(/\D/g,"")
-            : "5568999853643";
-
-
-        card.innerHTML=`
-
-            <div class="linha">
-
-                <div class="item">
-
-                    <strong>👤 Cliente</strong>
-
-                    <span class="nome-cliente">
-                        ${nome}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>📱 WhatsApp</strong>
-
-                    <span class="telefone">
-                        ${telefone || "-"}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>📧 E-mail</strong>
-
-                    <span>
-                        ${email || "-"}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>✂️ Serviço</strong>
-
-                    <span>
-                        ${agendamento["Serviços"] || "-"}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>📅 Data</strong>
-
-                    <span>
-                        ${dataFormatada}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>🕐 Horário</strong>
-
-                    <span>
-                        ${horario}
-                    </span>
-
-                </div>
-
-
-                <div class="item">
-
-                    <strong>💰 Valor</strong>
-
-                    <span class="valor">
-
-                        R$
-                        ${Number(
-                            agendamento.Valor || 0
-                        )
-                        .toFixed(2)
-                        .replace(".",",")}
-
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="acoes">
-
-
-                <select class="status">
-
-                    <option value="Pendente"
-                        ${agendamento.Status==="Pendente"?"selected":""}>
-                        Pendente
-                    </option>
-
-                    <option value="Confirmado"
-                        ${agendamento.Status==="Confirmado"?"selected":""}>
-                        Confirmado
-                    </option>
-
-                    <option value="Concluído"
-                        ${agendamento.Status==="Concluído"?"selected":""}>
-                        Concluído
-                    </option>
-
-                    <option value="Cancelado"
-                        ${agendamento.Status==="Cancelado"?"selected":""}>
-                        Cancelado
-                    </option>
-
-                </select>
-
-
-                <select class="pagamento">
-
-                    <option value="Pendente"
-                        ${agendamento.Pagamento==="Pendente"?"selected":""}>
-                        Pagamento Pendente
-                    </option>
-
-                    <option value="Pago"
-                        ${agendamento.Pagamento==="Pago"?"selected":""}>
-                        Pagamento Pago
-                    </option>
-
-                </select>
-
-
-                <button
-                    class="btn-salvar"
-                    onclick="salvarAgendamento(
-                        '${agendamento.id}',
-                        this
-                    )">
-
-                    💾 Salvar
-
-                </button>
-
-
-                <a
-                    href="https://wa.me/${telefoneWhatsApp}"
-                    target="_blank"
-                    class="btn-whatsapp">
-
-                    📲 WhatsApp
-
-                </a>
-
-
-            </div>
-
-        `;
-
-
-        lista.appendChild(card);
-
-    }
+    mostrarAgenda(
+        agendaCompleta
+    );
 
 }
 
 
-// ATUALIZAR RESUMO
-function atualizarResumo(agendamentos){
+/* =========================
+   CONTADORES
+========================= */
+
+function atualizarContadores(
+    lista
+){
 
     document.getElementById(
         "total"
     ).textContent =
-        agendamentos.length;
+        lista.length;
 
 
     document.getElementById(
         "pendentes"
     ).textContent =
-        agendamentos.filter(
-            a=>a.Status==="Pendente"
+        lista.filter(
+            a =>
+                a.Status ===
+                "Pendente"
         ).length;
 
 
     document.getElementById(
         "confirmados"
     ).textContent =
-        agendamentos.filter(
-            a=>a.Status==="Confirmado"
+        lista.filter(
+            a =>
+                a.Status ===
+                "Confirmado"
         ).length;
 
 
     document.getElementById(
         "concluidos"
     ).textContent =
-        agendamentos.filter(
-            a=>a.Status==="Concluído"
+        lista.filter(
+            a =>
+                a.Status ===
+                "Concluído"
+        ).length;
+
+
+    document.getElementById(
+        "cancelados"
+    ).textContent =
+        lista.filter(
+            a =>
+                a.Status ===
+                "Cancelado"
         ).length;
 
 }
 
 
-// SALVAR
-async function salvarAgendamento(
-    id,
-    botao
+/* =========================
+   FILTRO DE TEXTO
+========================= */
+
+function filtrarTexto(){
+
+    mostrarAgenda(
+        agendaCompleta
+    );
+
+}
+
+
+/* =========================
+   MOSTRAR AGENDA
+========================= */
+
+function mostrarAgenda(
+    lista
 ){
 
-    const card =
-        botao.closest(".agendamento");
+    const elemento =
+        document.getElementById(
+            "lista"
+        );
 
+
+    const dataFiltro =
+        document.getElementById(
+            "filtroData"
+        ).value;
+
+
+    const statusFiltro =
+        document.getElementById(
+            "filtroStatus"
+        ).value;
+
+
+    const pagamentoFiltro =
+        document.getElementById(
+            "filtroPagamento"
+        ).value;
+
+
+    const texto =
+        document.getElementById(
+            "filtroTexto"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    let filtrados =
+        lista.filter(
+            agendamento => {
+
+
+                if(
+                    dataFiltro &&
+                    agendamento.Data !==
+                    dataFiltro
+                ){
+
+                    return false;
+
+                }
+
+
+                if(
+                    statusFiltro &&
+                    agendamento.Status !==
+                    statusFiltro
+                ){
+
+                    return false;
+
+                }
+
+
+                if(
+                    pagamentoFiltro &&
+                    agendamento.Pagamento !==
+                    pagamentoFiltro
+                ){
+
+                    return false;
+
+                }
+
+
+                if(texto){
+
+                    const conteudo = (
+
+                        String(
+                            agendamento["Serviços"]
+                            || ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            agendamento.Cliente_id
+                            || ""
+                        )
+
+                    )
+                    .toLowerCase();
+
+
+                    if(
+                        !conteudo.includes(
+                            texto
+                        )
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+
+    if(!filtrados.length){
+
+        elemento.innerHTML =
+            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Cliente</th>
+
+                    <th>Telefone</th>
+
+                    <th>Serviço</th>
+
+                    <th>Data</th>
+
+                    <th>Horário</th>
+
+                    <th>Valor</th>
+
+                    <th>Status</th>
+
+                    <th>Pagamento</th>
+
+                    <th>Ações</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    filtrados.forEach(
+        agendamento => {
+
+
+            const data =
+                agendamento.Data
+                ? new Date(
+                    agendamento.Data +
+                    "T00:00:00"
+                  )
+                  .toLocaleDateString(
+                      "pt-BR"
+                  )
+                : "-";
+
+
+            const horario =
+                agendamento["Horário"]
+                ? String(
+                    agendamento["Horário"]
+                  )
+                  .substring(
+                      0,
+                      5
+                  )
+                : "-";
+
+
+            let classeStatus =
+                "status-pendente";
+
+
+            if(
+                agendamento.Status ===
+                "Confirmado"
+            ){
+
+                classeStatus =
+                    "status-confirmado";
+
+            }
+
+
+            if(
+                agendamento.Status ===
+                "Concluído"
+            ){
+
+                classeStatus =
+                    "status-concluido";
+
+            }
+
+
+            if(
+                agendamento.Status ===
+                "Cancelado"
+            ){
+
+                classeStatus =
+                    "status-cancelado";
+
+            }
+
+
+            const classePagamento =
+                agendamento.Pagamento ===
+                "Pago"
+                ? "status-pago"
+                : "status-nao-pago";
+
+
+            html += `
+
+                <tr
+                    id="linha-${agendamento.id}">
+
+                    <td>
+
+                        <strong
+                            id="nome-${agendamento.id}">
+
+                            Carregando...
+
+                        </strong>
+
+                    </td>
+
+
+                    <td
+                        id="telefone-${agendamento.id}">
+
+                        -
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            agendamento["Serviços"]
+                            || "-"
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ${data}
+
+                    </td>
+
+
+                    <td>
+
+                        ${horario}
+
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            dinheiro(
+                                agendamento.Valor
+                            )
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <select
+                            id="status-${agendamento.id}">
+
+                            <option
+                                value="Pendente"
+                                ${
+                                    agendamento.Status ===
+                                    "Pendente"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Pendente
+
+                            </option>
+
+
+                            <option
+                                value="Confirmado"
+                                ${
+                                    agendamento.Status ===
+                                    "Confirmado"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Confirmado
+
+                            </option>
+
+
+                            <option
+                                value="Concluído"
+                                ${
+                                    agendamento.Status ===
+                                    "Concluído"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Concluído
+
+                            </option>
+
+
+                            <option
+                                value="Cancelado"
+                                ${
+                                    agendamento.Status ===
+                                    "Cancelado"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Cancelado
+
+                            </option>
+
+                        </select>
+
+                    </td>
+
+
+                    <td>
+
+                        <select
+                            id="pagamento-${agendamento.id}">
+
+                            <option
+                                value="Pendente"
+                                ${
+                                    agendamento.Pagamento ===
+                                    "Pendente"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Pendente
+
+                            </option>
+
+
+                            <option
+                                value="Pago"
+                                ${
+                                    agendamento.Pagamento ===
+                                    "Pago"
+                                    ? "selected"
+                                    : ""
+                                }>
+
+                                Pago
+
+                            </option>
+
+                        </select>
+
+                    </td>
+
+
+                    <td class="acoes">
+
+                        <button
+                            class="btn btn-salvar"
+                            onclick="salvarAgendamento('${agendamento.id}')">
+
+                            💾 Salvar
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-confirmar"
+                            onclick="acaoRapida('${agendamento.id}','Confirmado')">
+
+                            ✓ Confirmar
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-concluir"
+                            onclick="acaoRapida('${agendamento.id}','Concluído')">
+
+                            ✔ Concluir
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-cancelar"
+                            onclick="acaoRapida('${agendamento.id}','Cancelado')">
+
+                            ✕ Cancelar
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-whatsapp"
+                            onclick="abrirWhatsApp('${agendamento.id}')">
+
+                            WhatsApp
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    elemento.innerHTML =
+        html;
+
+
+    carregarClientesAgenda(
+        filtrados
+    );
+
+}
+
+
+/* =========================
+   CARREGAR CLIENTES
+========================= */
+
+async function carregarClientesAgenda(
+    lista
+){
+
+    const ids =
+        [
+            ...new Set(
+                lista
+                .map(
+                    a =>
+                        a.Cliente_id
+                )
+                .filter(Boolean)
+            )
+        ];
+
+
+    if(!ids.length){
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+        .from("clientes")
+
+        .select(
+            'id, Nome, Telefone'
+        )
+
+        .in(
+            "id",
+            ids
+        );
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        return;
+
+    }
+
+
+    const mapa = {};
+
+
+    (data || [])
+    .forEach(
+        cliente => {
+
+            mapa[
+                cliente.id
+            ] =
+                cliente;
+
+        }
+    );
+
+
+    lista.forEach(
+        agendamento => {
+
+            const cliente =
+                mapa[
+                    agendamento.Cliente_id
+                ];
+
+
+            const nome =
+                document.getElementById(
+                    "nome-" +
+                    agendamento.id
+                );
+
+
+            const telefone =
+                document.getElementById(
+                    "telefone-" +
+                    agendamento.id
+                );
+
+
+            if(nome){
+
+                nome.textContent =
+                    cliente
+                    ? cliente.Nome
+                    : "Cliente";
+
+            }
+
+
+            if(telefone){
+
+                telefone.textContent =
+                    cliente
+                    ? cliente.Telefone
+                    : "-";
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================
+   SALVAR
+========================= */
+
+async function salvarAgendamento(
+    id
+){
 
     const status =
-        card.querySelector(
-            ".status"
+        document.getElementById(
+            "status-" +
+            id
         ).value;
 
 
     const pagamento =
-        card.querySelector(
-            ".pagamento"
+        document.getElementById(
+            "pagamento-" +
+            id
         ).value;
-
-
-    botao.disabled=true;
-
-    botao.textContent="Salvando...";
 
 
     const {
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
+
         .from("agendamentos")
+
         .update({
 
             Status:status,
@@ -703,44 +1469,298 @@ async function salvarAgendamento(
             Pagamento:pagamento
 
         })
-        .eq("id",id);
+
+        .eq(
+            "id",
+            id
+        );
 
 
     if(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
-            "Erro ao salvar:\n"+
+            "Erro ao salvar: " +
             error.message
         );
 
-
-        botao.disabled=false;
-
-        botao.textContent="💾 Salvar";
-
         return;
+
     }
 
 
-    botao.textContent="✅ Salvo";
+    /*
+       Se o pagamento foi marcado
+       como Pago, tentamos também
+       atualizar o pagamento
+       correspondente.
+    */
+
+    if(
+        pagamento ===
+        "Pago"
+    ){
+
+        const {
+            error:erroPagamento
+        } =
+        await supabaseClient
+
+            .from("pagamentos")
+
+            .update({
+
+                status:"Pago"
+
+            })
+
+            .eq(
+                "agendamento_id",
+                id
+            );
 
 
-    setTimeout(()=>{
+        if(erroPagamento){
 
-        botao.disabled=false;
+            console.warn(
+                erroPagamento
+            );
 
-        botao.textContent="💾 Salvar";
+        }
 
-        carregarAgenda();
+    }
 
-    },800);
+
+    alert(
+        "Agendamento atualizado com sucesso!"
+    );
+
+
+    await carregarAgenda();
 
 }
 
 
-// INICIAR
+/* =========================
+   AÇÃO RÁPIDA
+========================= */
+
+async function acaoRapida(
+    id,
+    novoStatus
+){
+
+    const confirmar =
+        confirm(
+            "Deseja alterar este agendamento para: " +
+            novoStatus +
+            "?"
+        );
+
+
+    if(!confirmar){
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+
+        .from("agendamentos")
+
+        .update({
+
+            Status:
+                novoStatus
+
+        })
+
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        alert(
+            "Erro: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    alert(
+        "Status alterado para " +
+        novoStatus +
+        "!"
+    );
+
+
+    await carregarAgenda();
+
+}
+
+
+/* =========================
+   WHATSAPP
+========================= */
+
+async function abrirWhatsApp(
+    id
+){
+
+    const agendamento =
+        agendaCompleta.find(
+            a =>
+                a.id === id
+        );
+
+
+    if(!agendamento){
+
+        return;
+
+    }
+
+
+    const {
+        data:cliente
+    } =
+    await supabaseClient
+
+        .from("clientes")
+
+        .select(
+            'Nome, Telefone'
+        )
+
+        .eq(
+            "id",
+            agendamento.Cliente_id
+        )
+
+        .maybeSingle();
+
+
+    if(
+        !cliente ||
+        !cliente.Telefone
+    ){
+
+        alert(
+            "Telefone do cliente não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    const telefone =
+        String(
+            cliente.Telefone
+        )
+        .replace(
+            /\D/g,
+            ""
+        );
+
+
+    let numero =
+        telefone;
+
+
+    if(
+        numero.length ===
+        11
+    ){
+
+        numero =
+            "55" +
+            numero;
+
+    }
+
+
+    const data =
+        agendamento.Data
+        ? new Date(
+            agendamento.Data +
+            "T00:00:00"
+          )
+          .toLocaleDateString(
+              "pt-BR"
+          )
+        : "";
+
+
+    const horario =
+        agendamento["Horário"]
+        ? String(
+            agendamento["Horário"]
+        )
+        .substring(
+            0,
+            5
+        )
+        : "";
+
+
+    const mensagem =
+        `Olá, ${cliente.Nome}! ` +
+        `Aqui é da Gold Style Barbearia. ` +
+        `Seu agendamento está marcado para ` +
+        `${data} às ${horario}. ` +
+        `Serviço: ${agendamento["Serviços"]}. ` +
+        `Valor: ${dinheiro(agendamento.Valor)}. ` +
+        `Qualquer dúvida estamos à disposição.`;
+
+
+    window.open(
+        "https://wa.me/" +
+        numero +
+        "?text=" +
+        encodeURIComponent(
+            mensagem
+        ),
+        "_blank"
+    );
+
+}
+
+
+/* =========================
+   SAIR
+========================= */
+
+async function sair(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
 (async()=>{
 
     const autorizado =
@@ -758,4 +1778,5 @@ async function salvarAgendamento(
 </script>
 
 </body>
+
     </html>
