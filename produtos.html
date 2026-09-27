@@ -2,10 +2,12 @@
 <html lang="pt-BR">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Produtos | Gold Style</title>
+<title>Gold Style - Produtos e Estoque</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -13,272 +15,361 @@
 
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
 }
 
 body{
-    font-family:Arial,sans-serif;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
     background:#050505;
-    color:#fff;
-    min-height:100vh;
+    color:white;
 }
 
 header{
-    background:linear-gradient(135deg,#050505,#181818);
-    border-bottom:2px solid #d4af37;
-    padding:22px 18px;
+    background:linear-gradient(135deg,#050505,#191919);
+    border-bottom:2px solid #ffd700;
+    padding:22px 15px;
     text-align:center;
-    box-shadow:0 0 25px rgba(212,175,55,.25);
 }
 
 .logo{
     color:#ffd700;
-    font-size:25px;
+    font-size:30px;
     font-weight:bold;
     letter-spacing:2px;
 }
 
-.subtitulo{
+.slogan{
     color:#aaa;
     margin-top:6px;
-    font-size:13px;
 }
 
 .container{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
+    width:94%;
+    max-width:1250px;
+    margin:25px auto;
 }
 
-.voltar{
-    display:inline-block;
-    color:#ffd700;
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.menu a{
+    background:#111;
+    border:1px solid #333;
+    color:white;
     text-decoration:none;
-    margin-bottom:20px;
+    padding:15px 10px;
+    border-radius:10px;
+    text-align:center;
     font-weight:bold;
 }
 
-.titulo{
+.menu a:hover{
+    border-color:#ffd700;
     color:#ffd700;
-    font-size:26px;
+}
+
+.menu .sair{
+    color:#ff5555;
+}
+
+h1{
+    color:#ffd700;
     margin-bottom:5px;
 }
 
-.descricao{
-    color:#aaa;
+.subtitulo{
+    color:#999;
     margin-bottom:20px;
 }
 
-.resumo{
+.cards{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    margin-bottom:22px;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:20px;
 }
 
 .card{
     background:#111;
     border:1px solid #333;
-    border-radius:14px;
-    padding:17px;
-}
-
-.card span{
-    color:#aaa;
-    font-size:13px;
+    border-left:4px solid #ffd700;
+    border-radius:12px;
+    padding:18px;
 }
 
 .card strong{
     display:block;
-    color:#ffd700;
-    font-size:26px;
-    margin-top:7px;
-}
-
-.produto{
-    background:#111;
-    border:1px solid #333;
-    border-left:4px solid #d4af37;
-    border-radius:15px;
-    padding:18px;
-    margin-bottom:16px;
-    box-shadow:0 0 15px rgba(212,175,55,.08);
-}
-
-.nome{
-    color:#ffd700;
-    font-size:21px;
-    font-weight:bold;
+    color:#aaa;
     margin-bottom:8px;
 }
 
-.descricao-produto{
-    color:#aaa;
-    font-size:14px;
-    margin-bottom:16px;
-}
-
-.info{
-    margin:8px 0;
-    color:#ddd;
-    font-size:14px;
-}
-
-.info span{
-    color:#999;
-}
-
-.preco{
+.numero{
     color:#ffd700;
-    font-size:20px;
+    font-size:25px;
     font-weight:bold;
 }
 
-.estoque-normal{
-    color:#4ade80;
-    font-weight:bold;
+.vermelho{
+    color:#ff5b5b;
 }
 
-.estoque-baixo{
-    color:#ff5252;
-    font-weight:bold;
+.verde{
+    color:#6dff6d;
 }
 
-.badge{
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-    margin-top:8px;
+.filtro-area{
+    background:#111;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:20px;
 }
 
-.ativo{
-    background:#143d22;
-    color:#4ade80;
-}
-
-.inativo{
-    background:#3d1414;
-    color:#ff5252;
-}
-
-.alerta{
-    background:#3d1414;
-    border:1px solid #ff5252;
-    color:#ff7777;
-    padding:10px;
-    border-radius:8px;
-    margin-top:12px;
-    font-size:13px;
-}
-
-.edicao{
-    margin-top:18px;
-    padding-top:18px;
-    border-top:1px solid #333;
-}
-
-.edicao-titulo{
-    color:#ffd700;
-    font-weight:bold;
-    margin-bottom:12px;
-}
-
-.campo{
-    margin-bottom:12px;
-}
-
-.campo label{
+.filtro-area label{
     display:block;
     color:#aaa;
     font-size:13px;
-    margin-bottom:6px;
+    margin-bottom:7px;
 }
 
-.campo input{
+input{
     width:100%;
-    padding:12px;
     background:#080808;
+    color:white;
     border:1px solid #444;
     border-radius:8px;
-    color:#fff;
+    padding:13px;
     font-size:15px;
 }
 
-.campo input:focus{
+input:focus{
     outline:none;
     border-color:#ffd700;
 }
 
-.botoes{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-top:12px;
+.section{
+    background:#111;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:20px;
+    overflow-x:auto;
+}
+
+.section h2{
+    color:#ffd700;
+    margin-top:0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
+}
+
+th{
+    color:#ffd700;
+    text-align:left;
+    padding:13px;
+    border-bottom:1px solid #444;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #222;
+    vertical-align:middle;
+}
+
+.produto{
+    font-weight:bold;
+}
+
+.descricao{
+    color:#888;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.preco{
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.estoque-normal{
+    color:#6dff6d;
+    font-weight:bold;
+}
+
+.estoque-baixo{
+    color:#ff5b5b;
+    font-weight:bold;
+}
+
+.alerta{
+    display:inline-block;
+    margin-top:5px;
+    padding:5px 8px;
+    background:#401717;
+    color:#ff7777;
+    border-radius:15px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.ok{
+    display:inline-block;
+    margin-top:5px;
+    padding:5px 8px;
+    background:#173d17;
+    color:#6dff6d;
+    border-radius:15px;
+    font-size:11px;
+    font-weight:bold;
 }
 
 .botao{
-    border:0;
-    border-radius:8px;
-    padding:12px 16px;
-    font-weight:bold;
+    border:none;
+    border-radius:7px;
+    padding:9px 11px;
     cursor:pointer;
+    font-weight:bold;
+    margin:2px;
+}
+
+.entrada{
+    background:#16834a;
+    color:white;
+}
+
+.saida{
+    background:#9e2525;
+    color:white;
 }
 
 .salvar{
-    background:#d4af37;
+    background:#ffd700;
     color:#000;
 }
 
-.salvar:hover{
-    background:#ffd700;
+.botao:hover{
+    transform:translateY(-1px);
 }
 
-.status-btn{
-    background:#222;
-    color:#ffd700;
-    border:1px solid #555;
-}
-
-.status-btn:hover{
-    border-color:#ffd700;
+.quantidade{
+    width:75px;
+    padding:9px;
+    background:#080808;
+    color:white;
+    border:1px solid #444;
+    border-radius:7px;
+    text-align:center;
 }
 
 .mensagem{
     text-align:center;
     color:#aaa;
-    padding:30px 10px;
+    padding:25px;
 }
 
-.erro{
-    color:#ff5555;
+.info{
+    color:#777;
+    font-size:12px;
+    margin-top:15px;
 }
 
-.sucesso{
-    color:#4ade80;
-    margin-top:10px;
-    font-size:13px;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    z-index:1000;
+    padding:20px;
 }
 
-@media(min-width:700px){
+.modal-conteudo{
+    width:100%;
+    max-width:450px;
+    margin:60px auto;
+    background:#111;
+    border:1px solid #ffd700;
+    border-radius:15px;
+    padding:22px;
+}
 
-    .resumo{
-        grid-template-columns:repeat(4,1fr);
+.modal-conteudo h2{
+    color:#ffd700;
+    margin-top:0;
+}
+
+.modal-conteudo label{
+    display:block;
+    color:#aaa;
+    margin:15px 0 7px;
+}
+
+.modal-conteudo input{
+    width:100%;
+}
+
+.modal-acoes{
+    margin-top:20px;
+    display:flex;
+    gap:10px;
+}
+
+.modal-acoes button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.confirmar{
+    background:#ffd700;
+    color:#000;
+}
+
+.fechar{
+    background:#333;
+    color:white;
+}
+
+@media(max-width:600px){
+
+    .container{
+        width:92%;
     }
 
-    .produto{
-        padding:22px;
+    .logo{
+        font-size:25px;
+    }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .card{
+        padding:14px;
+    }
+
+    .numero{
+        font-size:21px;
     }
 
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -286,7 +377,7 @@ header{
         GOLD STYLE
     </div>
 
-    <div class="subtitulo">
+    <div class="slogan">
         BARBEARIA DESDE 2022
     </div>
 
@@ -295,49 +386,233 @@ header{
 
 <div class="container">
 
-    <a href="admin.html" class="voltar">
-        ← Voltar para o painel
-    </a>
 
-    <h1 class="titulo">
-        🛍️ Produtos
+    <div class="menu">
+
+        <a href="admin.html">
+            🏠 Dashboard
+        </a>
+
+        <a href="agenda-admin.html">
+            📅 Agenda
+        </a>
+
+        <a href="servicos.html">
+            ✂️ Serviços
+        </a>
+
+        <a href="clientes.html">
+            👥 Clientes
+        </a>
+
+        <a href="produtos.html">
+            🛍️ Produtos
+        </a>
+
+        <a href="financeiro.html">
+            💰 Financeiro
+        </a>
+
+        <a href="relatorios.html">
+            📊 Relatórios
+        </a>
+
+        <a href="configuracoes.html">
+            ⚙️ Configurações
+        </a>
+
+        <a
+            href="#"
+            class="sair"
+            onclick="sair()">
+
+            🚪 Sair
+
+        </a>
+
+    </div>
+
+
+    <h1>
+        🛍️ Produtos e Estoque
     </h1>
 
-    <p class="descricao">
-        Controle de produtos, preços e estoque da Gold Style.
-    </p>
+    <div class="subtitulo">
+        Controle dos produtos e movimentação do estoque
+    </div>
 
 
-    <div class="resumo">
+    <div class="cards">
+
 
         <div class="card">
-            <span>Total de produtos</span>
-            <strong id="totalProdutos">0</strong>
+
+            <strong>
+                🛍️ Produtos
+            </strong>
+
+            <div
+                class="numero"
+                id="totalProdutos">
+
+                0
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <span>Produtos ativos</span>
-            <strong id="produtosAtivos">0</strong>
-        </div>
 
         <div class="card">
-            <span>Estoque baixo</span>
-            <strong id="estoqueBaixo">0</strong>
+
+            <strong>
+                📦 Unidades em estoque
+            </strong>
+
+            <div
+                class="numero"
+                id="totalUnidades">
+
+                0
+
+            </div>
+
         </div>
 
+
         <div class="card">
-            <span>Unidades em estoque</span>
-            <strong id="totalEstoque">0</strong>
+
+            <strong>
+                💰 Valor do estoque
+            </strong>
+
+            <div
+                class="numero"
+                id="valorEstoque">
+
+                R$ 0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <strong>
+                ⚠️ Estoque baixo
+            </strong>
+
+            <div
+                class="numero vermelho"
+                id="estoqueBaixo">
+
+                0
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="filtro-area">
+
+        <label>
+            🔎 Pesquisar produto
+        </label>
+
+        <input
+            type="text"
+            id="pesquisa"
+            placeholder="Digite o nome do produto..."
+            oninput="filtrarProdutos()">
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            📦 Controle de estoque
+        </h2>
+
+
+        <div id="listaProdutos">
+
+            <div class="mensagem">
+                Carregando produtos...
+            </div>
+
+        </div>
+
+
+        <div class="info">
+
+            Use <strong>Entrada</strong> para adicionar unidades ao estoque
+            e <strong>Saída</strong> para retirar unidades.
+
         </div>
 
     </div>
 
 
-    <div id="listaProdutos">
+</div>
 
-        <div class="mensagem">
-            Carregando produtos...
+
+<!-- MODAL DE MOVIMENTAÇÃO -->
+
+<div
+    class="modal"
+    id="modal">
+
+    <div class="modal-conteudo">
+
+
+        <h2 id="tituloModal">
+            Movimentar estoque
+        </h2>
+
+
+        <div
+            id="produtoModal"
+            style="color:#aaa;">
         </div>
+
+
+        <label>
+            Quantidade
+        </label>
+
+        <input
+            type="number"
+            id="quantidadeModal"
+            min="1"
+            step="1"
+            value="1">
+
+
+        <div class="modal-acoes">
+
+            <button
+                class="confirmar"
+                onclick="confirmarMovimentacao()">
+
+                Confirmar
+
+            </button>
+
+
+            <button
+                class="fechar"
+                onclick="fecharModal()">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
 
     </div>
 
@@ -346,15 +621,14 @@ header{
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -363,46 +637,91 @@ window.supabase.createClient(
 );
 
 
+let produtos = [];
+
+let produtoSelecionado = null;
+
+let tipoMovimentacao = null;
+
+
 /* =========================
-   VERIFICAR ADMIN
+   DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+    return "R$ " +
+        Number(valor || 0)
+        .toFixed(2)
+        .replace(".",",");
+
+}
+
+
+/* =========================
+   ADMIN
 ========================= */
 
 async function verificarAdmin(){
 
     const {
-        data:{session}
-    } = await supabaseClient.auth.getSession();
+        data:{
+            session
+        }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
 
     if(!session){
 
-        window.location.href="login.html";
+        window.location.href =
+            "login.html";
 
-        return null;
+        return false;
+
     }
 
 
-    const {data:admin,error} =
+    const {
+        data,
+        error
+    } =
     await supabaseClient
-    .from("administradores")
-    .select("id,ativo")
-    .eq("auth_user_id",session.user.id)
-    .eq("ativo",true)
-    .maybeSingle();
+
+        .from("administradores")
+
+        .select("id")
+
+        .eq(
+            "auth_user_id",
+            session.user.id
+        )
+
+        .eq(
+            "ativo",
+            true
+        )
+
+        .maybeSingle();
 
 
-    if(error || !admin){
+    if(error || !data){
 
         alert(
-            "Acesso permitido somente para administrador."
+            "Acesso administrativo não autorizado."
         );
 
-        window.location.href="cliente.html";
+        window.location.href =
+            "cliente.html";
 
-        return null;
+        return false;
+
     }
 
 
-    return session;
+    return true;
 
 }
 
@@ -413,434 +732,685 @@ async function verificarAdmin(){
 
 async function carregarProdutos(){
 
-    const lista =
-    document.getElementById("listaProdutos");
+    const elemento =
+        document.getElementById(
+            "listaProdutos"
+        );
 
 
-    const {data:produtos,error} =
+    elemento.innerHTML =
+        '<div class="mensagem">Carregando...</div>';
+
+
+    const {
+        data,
+        error
+    } =
     await supabaseClient
-    .from("produtos")
-    .select(
-        "id,Nome,Descrição,Preço,Estoque,\"Estoque minimo\",Ativo,Criado_em"
-    )
-    .order("Nome");
+
+        .from("produtos")
+
+        .select("*")
+
+        .eq(
+            "Ativo",
+            true
+        )
+
+        .order(
+            "Nome",
+            {
+                ascending:true
+            }
+        );
 
 
     if(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
-        lista.innerHTML = `
-            <div class="mensagem erro">
-                Erro ao carregar produtos.<br><br>
-                ${error.message}
-            </div>
-        `;
+        elemento.innerHTML =
+            '<div class="mensagem">Erro ao carregar produtos: ' +
+            error.message +
+            '</div>';
 
         return;
+
     }
 
 
-    if(!produtos || produtos.length === 0){
-
-        lista.innerHTML = `
-            <div class="mensagem">
-                Nenhum produto cadastrado.
-            </div>
-        `;
-
-        return;
-    }
+    produtos =
+        data || [];
 
 
-    /* =========================
-       RESUMO
-    ========================= */
+    atualizarResumo();
 
-    const total =
-    produtos.length;
+    mostrarProdutos(
+        produtos
+    );
 
-
-    const ativos =
-    produtos.filter(
-        produto => produto.Ativo === true
-    ).length;
+}
 
 
-    const baixo =
-    produtos.filter(produto =>
-        Number(produto.Estoque || 0)
-        <=
-        Number(produto["Estoque minimo"] || 0)
-    ).length;
+/* =========================
+   RESUMO
+========================= */
+
+function atualizarResumo(){
+
+    document.getElementById(
+        "totalProdutos"
+    ).textContent =
+        produtos.length;
 
 
     const unidades =
-    produtos.reduce(
-        (total,produto) =>
-        total + Number(produto.Estoque || 0),
-        0
-    );
-
-
-    document.getElementById("totalProdutos")
-    .textContent = total;
-
-
-    document.getElementById("produtosAtivos")
-    .textContent = ativos;
-
-
-    document.getElementById("estoqueBaixo")
-    .textContent = baixo;
-
-
-    document.getElementById("totalEstoque")
-    .textContent = unidades;
-
-
-    /* =========================
-       LISTA
-    ========================= */
-
-    lista.innerHTML = "";
-
-
-    produtos.forEach(produto => {
-
-        const estoque =
-        Number(produto.Estoque || 0);
-
-
-        const minimo =
-        Number(produto["Estoque minimo"] || 0);
-
-
-        const preco =
-        Number(produto["Preço"] || 0);
-
-
-        const estoqueBaixo =
-        estoque <= minimo;
-
-
-        const div =
-        document.createElement("div");
-
-
-        div.className="produto";
-
-
-        div.innerHTML = `
-
-            <div class="nome">
-                🛍️ ${produto.Nome || "Produto"}
-            </div>
-
-            <div class="descricao-produto">
-                ${produto.Descrição || "Sem descrição"}
-            </div>
-
-            <div class="info">
-                💰 <span>Preço:</span>
-                <span class="preco">
-                    R$ ${preco.toFixed(2).replace(".",",")}
-                </span>
-            </div>
-
-            <div class="info">
-                📦 <span>Estoque:</span>
-
-                <span class="${
-                    estoqueBaixo
-                    ? "estoque-baixo"
-                    : "estoque-normal"
-                }">
-
-                    ${estoque} unidade(s)
-
-                </span>
-            </div>
-
-            <div class="info">
-                ⚠️ <span>Estoque mínimo:</span>
-                ${minimo} unidade(s)
-            </div>
-
-            <div>
-
-                <span class="badge ${
-                    produto.Ativo
-                    ? "ativo"
-                    : "inativo"
-                }">
-
-                    ${
-                        produto.Ativo
-                        ? "● Produto ativo"
-                        : "● Produto inativo"
-                    }
-
-                </span>
-
-            </div>
-
-            ${
-                estoqueBaixo
-                ? `
-                    <div class="alerta">
-                        ⚠️ Atenção: estoque igual ou abaixo
-                        do estoque mínimo.
-                    </div>
-                  `
-                : ""
-            }
-
-
-            <div class="edicao">
-
-                <div class="edicao-titulo">
-                    ⚙️ Editar produto
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Preço de venda
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        id="preco-${produto.id}"
-                        value="${preco}"
-                    >
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Estoque atual
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step="1"
-                        id="estoque-${produto.id}"
-                        value="${estoque}"
-                    >
-
-                </div>
-
-
-                <div class="campo">
-
-                    <label>
-                        Estoque mínimo
-                    </label>
-
-                    <input
-                        type="number"
-                        min="0"
-                        step="1"
-                        id="minimo-${produto.id}"
-                        value="${minimo}"
-                    >
-
-                </div>
-
-
-                <div class="botoes">
-
-                    <button
-                        class="botao salvar"
-                        onclick="salvarProduto('${produto.id}')"
-                    >
-                        💾 Salvar alterações
-                    </button>
-
-
-                    <button
-                        class="botao status-btn"
-                        onclick="alternarProduto(
-                            '${produto.id}',
-                            ${produto.Ativo}
-                        )"
-                    >
-
-                        ${
-                            produto.Ativo
-                            ? "Desativar produto"
-                            : "Ativar produto"
-                        }
-
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="mensagem-${produto.id}"
-                ></div>
-
-            </div>
-
-        `;
-
-
-        lista.appendChild(div);
-
-    });
+        produtos.reduce(
+            (
+                total,
+                produto
+            ) =>
+                total +
+                Number(
+                    produto.Estoque || 0
+                ),
+            0
+        );
+
+
+    const valor =
+        produtos.reduce(
+            (
+                total,
+                produto
+            ) =>
+                total +
+                (
+                    Number(
+                        produto.Estoque || 0
+                    )
+                    *
+                    Number(
+                        produto["Preço"] || 0
+                    )
+                ),
+            0
+        );
+
+
+    const baixos =
+        produtos.filter(
+            produto =>
+                Number(
+                    produto.Estoque || 0
+                )
+                <=
+                Number(
+                    produto["Estoque minimo"] || 0
+                )
+        ).length;
+
+
+    document.getElementById(
+        "totalUnidades"
+    ).textContent =
+        unidades;
+
+
+    document.getElementById(
+        "valorEstoque"
+    ).textContent =
+        dinheiro(valor);
+
+
+    document.getElementById(
+        "estoqueBaixo"
+    ).textContent =
+        baixos;
 
 }
 
 
 /* =========================
-   SALVAR PRODUTO
+   MOSTRAR PRODUTOS
 ========================= */
 
-async function salvarProduto(id){
+function mostrarProdutos(
+    lista
+){
 
-    const preco =
-    Number(
+    const elemento =
         document.getElementById(
-            "preco-"+id
-        ).value
-    );
+            "listaProdutos"
+        );
 
 
-    const estoque =
-    Number(
-        document.getElementById(
-            "estoque-"+id
-        ).value
-    );
+    if(!lista.length){
 
-
-    const minimo =
-    Number(
-        document.getElementById(
-            "minimo-"+id
-        ).value
-    );
-
-
-    const mensagem =
-    document.getElementById(
-        "mensagem-"+id
-    );
-
-
-    if(
-        Number.isNaN(preco) ||
-        Number.isNaN(estoque) ||
-        Number.isNaN(minimo)
-    ){
-
-        mensagem.innerHTML = `
-            <div class="erro">
-                Preencha todos os campos corretamente.
-            </div>
-        `;
+        elemento.innerHTML =
+            '<div class="mensagem">Nenhum produto encontrado.</div>';
 
         return;
+
     }
 
 
-    if(
-        preco < 0 ||
-        estoque < 0 ||
-        minimo < 0
-    ){
+    let html = `
 
-        mensagem.innerHTML = `
-            <div class="erro">
-                Os valores não podem ser negativos.
-            </div>
-        `;
+        <table>
 
-        return;
-    }
+            <thead>
 
+                <tr>
 
-    mensagem.innerHTML =
-    "Salvando...";
+                    <th>Produto</th>
 
+                    <th>Preço</th>
 
-    const {error} =
-    await supabaseClient
-    .from("produtos")
-    .update({
-        "Preço":preco,
-        "Estoque":estoque,
-        "Estoque minimo":minimo
-    })
-    .eq("id",id);
+                    <th>Estoque</th>
 
+                    <th>Estoque mínimo</th>
 
-    if(error){
+                    <th>Valor em estoque</th>
 
-        console.error(error);
+                    <th>Movimentação</th>
 
-        mensagem.innerHTML = `
-            <div class="erro">
-                Erro ao salvar:<br>
-                ${error.message}
-            </div>
-        `;
+                </tr>
 
-        return;
-    }
+            </thead>
 
+            <tbody>
 
-    mensagem.innerHTML = `
-        <div class="sucesso">
-            ✓ Produto atualizado com sucesso.
-        </div>
     `;
 
 
-    await carregarProdutos();
+    lista.forEach(
+        produto => {
+
+
+            const estoque =
+                Number(
+                    produto.Estoque || 0
+                );
+
+
+            const minimo =
+                Number(
+                    produto["Estoque minimo"] || 0
+                );
+
+
+            const preco =
+                Number(
+                    produto["Preço"] || 0
+                );
+
+
+            const valorTotal =
+                estoque *
+                preco;
+
+
+            const baixo =
+                estoque <= minimo;
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <div class="produto">
+
+                            ${
+                                produto.Nome
+                                || "-"
+                            }
+
+                        </div>
+
+                        <div class="descricao">
+
+                            ${
+                                produto["Descrição"]
+                                || ""
+                            }
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="preco">
+
+                            ${
+                                dinheiro(preco)
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="${
+                            baixo
+                            ? "estoque-baixo"
+                            : "estoque-normal"
+                        }">
+
+                            ${estoque}
+
+                        </span>
+
+                        <br>
+
+
+                        ${
+                            baixo
+
+                            ?
+
+                            '<span class="alerta">⚠ ESTOQUE BAIXO</span>'
+
+                            :
+
+                            '<span class="ok">✓ ESTOQUE OK</span>'
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        ${minimo}
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="preco">
+
+                            ${
+                                dinheiro(
+                                    valorTotal
+                                )
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="botao entrada"
+                            onclick="abrirMovimentacao('${produto.id}','entrada')">
+
+                            ➕ Entrada
+
+                        </button>
+
+
+                        <button
+                            class="botao saida"
+                            onclick="abrirMovimentacao('${produto.id}','saida')">
+
+                            ➖ Saída
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    elemento.innerHTML =
+        html;
 
 }
 
 
 /* =========================
-   ATIVAR / DESATIVAR
+   FILTRO
 ========================= */
 
-async function alternarProduto(id,ativo){
+function filtrarProdutos(){
 
-    const novoStatus =
-    !ativo;
+    const texto =
+        document.getElementById(
+            "pesquisa"
+        )
+        .value
+        .toLowerCase()
+        .trim();
 
 
-    const {error} =
+    if(!texto){
+
+        mostrarProdutos(
+            produtos
+        );
+
+        return;
+
+    }
+
+
+    const filtrados =
+        produtos.filter(
+            produto => {
+
+                const nome =
+                    String(
+                        produto.Nome || ""
+                    )
+                    .toLowerCase();
+
+
+                const descricao =
+                    String(
+                        produto["Descrição"] || ""
+                    )
+                    .toLowerCase();
+
+
+                return (
+                    nome.includes(texto)
+                    ||
+                    descricao.includes(texto)
+                );
+
+            }
+        );
+
+
+    mostrarProdutos(
+        filtrados
+    );
+
+}
+
+
+/* =========================
+   ABRIR MODAL
+========================= */
+
+function abrirMovimentacao(
+    id,
+    tipo
+){
+
+    produtoSelecionado =
+        produtos.find(
+            produto =>
+                produto.id === id
+        );
+
+
+    if(!produtoSelecionado){
+
+        return;
+
+    }
+
+
+    tipoMovimentacao =
+        tipo;
+
+
+    const titulo =
+        tipo === "entrada"
+        ? "➕ Entrada de estoque"
+        : "➖ Saída de estoque";
+
+
+    document.getElementById(
+        "tituloModal"
+    ).textContent =
+        titulo;
+
+
+    document.getElementById(
+        "produtoModal"
+    ).textContent =
+        produtoSelecionado.Nome +
+        " | Estoque atual: " +
+        produtoSelecionado.Estoque;
+
+
+    document.getElementById(
+        "quantidadeModal"
+    ).value =
+        1;
+
+
+    document.getElementById(
+        "modal"
+    ).style.display =
+        "block";
+
+}
+
+
+/* =========================
+   FECHAR MODAL
+========================= */
+
+function fecharModal(){
+
+    document.getElementById(
+        "modal"
+    ).style.display =
+        "none";
+
+    produtoSelecionado =
+        null;
+
+    tipoMovimentacao =
+        null;
+
+}
+
+
+/* =========================
+   CONFIRMAR MOVIMENTAÇÃO
+========================= */
+
+async function confirmarMovimentacao(){
+
+    if(
+        !produtoSelecionado ||
+        !tipoMovimentacao
+    ){
+
+        return;
+
+    }
+
+
+    const quantidade =
+        Number(
+            document.getElementById(
+                "quantidadeModal"
+            ).value
+        );
+
+
+    if(
+        !Number.isInteger(
+            quantidade
+        )
+        ||
+        quantidade <= 0
+    ){
+
+        alert(
+            "Digite uma quantidade inteira maior que zero."
+        );
+
+        return;
+
+    }
+
+
+    const estoqueAtual =
+        Number(
+            produtoSelecionado.Estoque || 0
+        );
+
+
+    let novoEstoque;
+
+
+    if(
+        tipoMovimentacao ===
+        "entrada"
+    ){
+
+        novoEstoque =
+            estoqueAtual +
+            quantidade;
+
+    }else{
+
+        novoEstoque =
+            estoqueAtual -
+            quantidade;
+
+
+        if(
+            novoEstoque < 0
+        ){
+
+            alert(
+                "Não é possível retirar mais produtos do que existem no estoque."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    const {
+        error
+    } =
     await supabaseClient
-    .from("produtos")
-    .update({
-        "Ativo":novoStatus
-    })
-    .eq("id",id);
+
+        .from("produtos")
+
+        .update({
+
+            Estoque:
+                novoEstoque
+
+        })
+
+        .eq(
+            "id",
+            produtoSelecionado.id
+        );
 
 
     if(error){
 
+        console.error(
+            error
+        );
+
         alert(
-            "Erro ao alterar produto:\n"+
+            "Erro ao atualizar estoque: " +
             error.message
         );
 
         return;
+
     }
 
 
+    alert(
+        tipoMovimentacao ===
+        "entrada"
+
+        ?
+
+        "Entrada registrada com sucesso!"
+
+        :
+
+        "Saída registrada com sucesso!"
+    );
+
+
+    fecharModal();
+
     await carregarProdutos();
+
+}
+
+
+/* =========================
+   FECHAR MODAL FORA
+========================= */
+
+window.onclick =
+function(event){
+
+    const modal =
+        document.getElementById(
+            "modal"
+        );
+
+
+    if(
+        event.target ===
+        modal
+    ){
+
+        fecharModal();
+
+    }
+
+};
+
+
+/* =========================
+   SAIR
+========================= */
+
+async function sair(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "login.html";
 
 }
 
@@ -849,24 +1419,22 @@ async function alternarProduto(id,ativo){
    INICIAR
 ========================= */
 
-async function iniciar(){
+(async()=>{
 
-    const session =
-    await verificarAdmin();
-
-
-    if(!session)
-        return;
+    const autorizado =
+        await verificarAdmin();
 
 
-    await carregarProdutos();
+    if(autorizado){
 
-}
+        await carregarProdutos();
 
+    }
 
-iniciar();
+})();
 
 </script>
 
 </body>
-  </html>
+
+    </html>
