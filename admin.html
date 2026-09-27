@@ -170,11 +170,6 @@ td{
     color:#ffd700;
 }
 
-.status-cancelado{
-    background:#401717;
-    color:#ff6666;
-}
-
 .status-confirmado{
     background:#172e3d;
     color:#66c7ff;
@@ -183,6 +178,11 @@ td{
 .status-concluido{
     background:#203d30;
     color:#7dffbd;
+}
+
+.status-cancelado{
+    background:#401717;
+    color:#ff6666;
 }
 
 .grafico{
@@ -217,6 +217,48 @@ td{
     transition:width .5s;
 }
 
+.grafico-financeiro{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:8px;
+    height:260px;
+    padding:20px 5px 5px;
+    border-bottom:1px solid #333;
+}
+
+.coluna-dia{
+    flex:1;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    align-items:center;
+    min-width:35px;
+}
+
+.valor-grafico{
+    color:#ffd700;
+    font-size:11px;
+    margin-bottom:5px;
+    white-space:nowrap;
+}
+
+.coluna{
+    width:70%;
+    max-width:55px;
+    min-height:3px;
+    background:linear-gradient(180deg,#ffd700,#9b7500);
+    border-radius:6px 6px 0 0;
+    transition:height .5s;
+}
+
+.dia-grafico{
+    color:#aaa;
+    font-size:11px;
+    margin-top:7px;
+}
+
 .resumo{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
@@ -249,21 +291,6 @@ td{
     padding:20px;
 }
 
-.erro{
-    color:#ff5555;
-}
-
-.botao{
-    display:inline-block;
-    background:#ffd700;
-    color:#000;
-    text-decoration:none;
-    padding:10px 15px;
-    border-radius:7px;
-    font-weight:bold;
-    margin-top:10px;
-}
-
 .atualizacao{
     color:#777;
     font-size:12px;
@@ -292,6 +319,10 @@ td{
         font-size:22px;
     }
 
+    .grafico-financeiro{
+        height:220px;
+    }
+
 }
 
 </style>
@@ -316,70 +347,41 @@ td{
 <div class="container">
 
 
-    <!-- MENU -->
-
     <div class="menu">
 
-        <a href="admin.html">
-            🏠 Dashboard
-        </a>
+        <a href="admin.html">🏠 Dashboard</a>
 
-        <a href="agenda-admin.html">
-            📅 Agenda
-        </a>
+        <a href="agenda-admin.html">📅 Agenda</a>
 
-        <a href="servicos.html">
-            ✂️ Serviços
-        </a>
+        <a href="servicos.html">✂️ Serviços</a>
 
-        <a href="clientes.html">
-            👥 Clientes
-        </a>
+        <a href="clientes.html">👥 Clientes</a>
 
-        <a href="produtos.html">
-            🛍️ Produtos
-        </a>
+        <a href="produtos.html">🛍️ Produtos</a>
 
-        <a href="financeiro.html">
-            💰 Financeiro
-        </a>
+        <a href="financeiro.html">💰 Financeiro</a>
 
-        <a href="relatorios.html">
-            📊 Relatórios
-        </a>
+        <a href="relatorios.html">📊 Relatórios</a>
 
-        <a href="configuracoes.html">
-            ⚙️ Configurações
-        </a>
+        <a href="configuracoes.html">⚙️ Configurações</a>
 
-        <a href="#" class="sair" onclick="sair()">
-            🚪 Sair
-        </a>
+        <a href="#" class="sair" onclick="sair()">🚪 Sair</a>
 
     </div>
 
 
-    <!-- TITULO -->
-
-    <h1>
-        📊 Dashboard
-    </h1>
+    <h1>📊 Dashboard</h1>
 
     <div class="subtitulo">
         Visão geral da Gold Style Barbearia
     </div>
 
 
-    <!-- CARDS PRINCIPAIS -->
-
     <div class="cards">
-
 
         <div class="card">
 
-            <strong>
-                📅 Agendamentos
-            </strong>
+            <strong>📅 Agendamentos</strong>
 
             <div
                 class="numero"
@@ -392,9 +394,7 @@ td{
 
         <div class="card">
 
-            <strong>
-                👥 Clientes
-            </strong>
+            <strong>👥 Clientes</strong>
 
             <div
                 class="numero"
@@ -407,9 +407,7 @@ td{
 
         <div class="card">
 
-            <strong>
-                💰 Recebido
-            </strong>
+            <strong>💰 Recebido</strong>
 
             <div
                 class="numero"
@@ -422,9 +420,7 @@ td{
 
         <div class="card">
 
-            <strong>
-                ⏳ Pagamentos pendentes
-            </strong>
+            <strong>⏳ Pagamentos pendentes</strong>
 
             <div
                 class="numero"
@@ -437,9 +433,7 @@ td{
 
         <div class="card pequeno">
 
-            <strong>
-                📆 Agendamentos hoje
-            </strong>
+            <strong>📆 Agendamentos hoje</strong>
 
             <div
                 class="numero"
@@ -452,9 +446,7 @@ td{
 
         <div class="card pequeno">
 
-            <strong>
-                🔔 Pendentes
-            </strong>
+            <strong>🔔 Pendentes</strong>
 
             <div
                 class="numero"
@@ -464,11 +456,29 @@ td{
 
         </div>
 
+    </div>
+
+
+    <!-- GRÁFICO FINANCEIRO -->
+
+    <div class="section">
+
+        <h2>
+            📈 Faturamento dos últimos 7 dias
+        </h2>
+
+        <div id="graficoFinanceiro">
+
+            <div class="mensagem">
+                Carregando gráfico...
+            </div>
+
+        </div>
 
     </div>
 
 
-    <!-- RESUMO FINANCEIRO -->
+    <!-- RESUMO -->
 
     <div class="section">
 
@@ -477,7 +487,6 @@ td{
         </h2>
 
         <div class="resumo">
-
 
             <div class="resumo-box">
 
@@ -521,7 +530,7 @@ td{
             <div class="resumo-box">
 
                 <span>
-                    Ticket médio recebido
+                    Ticket médio
                 </span>
 
                 <strong id="ticketMedio">
@@ -529,7 +538,6 @@ td{
                 </strong>
 
             </div>
-
 
         </div>
 
@@ -595,8 +603,9 @@ td{
     </div>
 
 
-    <div class="atualizacao"
-         id="ultimaAtualizacao">
+    <div
+        class="atualizacao"
+        id="ultimaAtualizacao">
         Atualizando dados...
     </div>
 
@@ -607,15 +616,13 @@ td{
 <script>
 
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -625,18 +632,7 @@ window.supabase.createClient(
 
 
 /* =========================
-   VARIÁVEIS
-========================= */
-
-let listaAgendamentosGlobal = [];
-
-let listaClientesGlobal = [];
-
-let listaPagamentosGlobal = [];
-
-
-/* =========================
-   FORMATA DINHEIRO
+   DINHEIRO
 ========================= */
 
 function dinheiro(valor){
@@ -659,7 +655,10 @@ async function verificarAdmin(){
         data:{
             session
         }
-    } = await supabaseClient.auth.getSession();
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
 
 
     if(!session){
@@ -668,13 +667,15 @@ async function verificarAdmin(){
             "login.html";
 
         return false;
+
     }
 
 
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("administradores")
 
@@ -703,6 +704,7 @@ async function verificarAdmin(){
             "cliente.html";
 
         return false;
+
     }
 
 
@@ -712,7 +714,7 @@ async function verificarAdmin(){
 
 
 /* =========================
-   CARREGAR AGENDAMENTOS
+   AGENDAMENTOS
 ========================= */
 
 async function carregarAgendamentos(){
@@ -720,7 +722,8 @@ async function carregarAgendamentos(){
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("agendamentos")
 
@@ -728,19 +731,22 @@ async function carregarAgendamentos(){
 
         .order(
             "Data",
-            {ascending:true}
+            {
+                ascending:true
+            }
         )
 
         .order(
             "Horário",
-            {ascending:true}
+            {
+                ascending:true
+            }
         );
 
 
     if(error){
 
         console.error(
-            "Erro agendamentos:",
             error
         );
 
@@ -755,7 +761,7 @@ async function carregarAgendamentos(){
 
 
 /* =========================
-   CARREGAR CLIENTES
+   CLIENTES
 ========================= */
 
 async function carregarClientes(){
@@ -763,7 +769,8 @@ async function carregarClientes(){
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("clientes")
 
@@ -773,7 +780,6 @@ async function carregarClientes(){
     if(error){
 
         console.error(
-            "Erro clientes:",
             error
         );
 
@@ -788,7 +794,7 @@ async function carregarClientes(){
 
 
 /* =========================
-   CARREGAR PAGAMENTOS
+   PAGAMENTOS
 ========================= */
 
 async function carregarPagamentos(){
@@ -796,7 +802,8 @@ async function carregarPagamentos(){
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+    await supabaseClient
 
         .from("pagamentos")
 
@@ -804,14 +811,15 @@ async function carregarPagamentos(){
 
         .order(
             "criado_em",
-            {ascending:false}
+            {
+                ascending:false
+            }
         );
 
 
     if(error){
 
         console.error(
-            "Erro pagamentos:",
             error
         );
 
@@ -835,7 +843,8 @@ async function carregarDashboard(){
         agendamentos,
         clientes,
         pagamentos
-    ] = await Promise.all([
+    ] =
+    await Promise.all([
 
         carregarAgendamentos(),
 
@@ -846,25 +855,11 @@ async function carregarDashboard(){
     ]);
 
 
-    listaAgendamentosGlobal =
-        agendamentos;
-
-    listaClientesGlobal =
-        clientes;
-
-    listaPagamentosGlobal =
-        pagamentos;
-
-
-    /* TOTAL AGENDAMENTOS */
-
     document.getElementById(
         "totalAgendamentos"
     ).textContent =
         agendamentos.length;
 
-
-    /* TOTAL CLIENTES */
 
     document.getElementById(
         "totalClientes"
@@ -872,33 +867,34 @@ async function carregarDashboard(){
         clientes.length;
 
 
-    /* PAGAMENTOS PAGOS */
-
     const pagos =
         pagamentos.filter(
             p =>
                 String(
                     p.status || ""
-                ).toLowerCase()
+                )
+                .toLowerCase()
                 === "pago"
         );
 
 
-    /* PAGAMENTOS PENDENTES */
-
-    const pendentesPagamentos =
+    const pendentes =
         pagamentos.filter(
             p =>
                 String(
                     p.status || ""
-                ).toLowerCase()
+                )
+                .toLowerCase()
                 === "pendente"
         );
 
 
     const recebido =
         pagos.reduce(
-            (total,p) =>
+            (
+                total,
+                p
+            ) =>
                 total +
                 Number(
                     p.valor || 0
@@ -908,8 +904,11 @@ async function carregarDashboard(){
 
 
     const pendente =
-        pendentesPagamentos.reduce(
-            (total,p) =>
+        pendentes.reduce(
+            (
+                total,
+                p
+            ) =>
                 total +
                 Number(
                     p.valor || 0
@@ -923,13 +922,11 @@ async function carregarDashboard(){
         pendente;
 
 
-    const ticketMedio =
+    const ticket =
         pagos.length
         ? recebido / pagos.length
         : 0;
 
-
-    /* CARDS */
 
     document.getElementById(
         "totalRecebido"
@@ -964,12 +961,10 @@ async function carregarDashboard(){
     document.getElementById(
         "ticketMedio"
     ).textContent =
-        dinheiro(ticketMedio);
+        dinheiro(ticket);
 
 
-    /* AGENDAMENTOS PENDENTES */
-
-    const agendamentosPendentes =
+    const pendentesAgenda =
         agendamentos.filter(
             a =>
                 a.Status ===
@@ -980,10 +975,8 @@ async function carregarDashboard(){
     document.getElementById(
         "agendamentosPendentes"
     ).textContent =
-        agendamentosPendentes;
+        pendentesAgenda;
 
-
-    /* AGENDAMENTOS DE HOJE */
 
     const hoje =
         new Date()
@@ -1006,7 +999,10 @@ async function carregarDashboard(){
         hojeTotal;
 
 
-    /* MOSTRAR */
+    mostrarGraficoFinanceiro(
+        pagamentos
+    );
+
 
     mostrarAgendamentos(
         agendamentos
@@ -1036,7 +1032,189 @@ async function carregarDashboard(){
 
 
 /* =========================
-   MOSTRAR AGENDAMENTOS
+   GRÁFICO FINANCEIRO
+========================= */
+
+function mostrarGraficoFinanceiro(
+    pagamentos
+){
+
+    const elemento =
+        document.getElementById(
+            "graficoFinanceiro"
+        );
+
+
+    const dias = [];
+
+
+    for(
+        let i = 6;
+        i >= 0;
+        i--
+    ){
+
+        const data =
+            new Date();
+
+
+        data.setDate(
+            data.getDate() - i
+        );
+
+
+        const chave =
+            data
+            .toISOString()
+            .split("T")[0];
+
+
+        dias.push({
+            chave:chave,
+            valor:0,
+            nome:data
+                .toLocaleDateString(
+                    "pt-BR",
+                    {
+                        weekday:"short"
+                    }
+                )
+                .replace(".","")
+        });
+
+    }
+
+
+    pagamentos
+    .filter(
+        p =>
+            String(
+                p.status || ""
+            )
+            .toLowerCase()
+            === "pago"
+    )
+    .forEach(
+        pagamento => {
+
+            if(
+                !pagamento.criado_em
+            ){
+
+                return;
+
+            }
+
+
+            const chave =
+                new Date(
+                    pagamento.criado_em
+                )
+                .toISOString()
+                .split("T")[0];
+
+
+            const dia =
+                dias.find(
+                    d =>
+                        d.chave ===
+                        chave
+                );
+
+
+            if(dia){
+
+                dia.valor +=
+                    Number(
+                        pagamento.valor || 0
+                    );
+
+            }
+
+        }
+    );
+
+
+    const maior =
+        Math.max(
+            ...dias.map(
+                d => d.valor
+            ),
+            1
+        );
+
+
+    let html = `
+
+        <div class="grafico-financeiro">
+
+    `;
+
+
+    dias.forEach(
+        dia => {
+
+            const altura =
+                dia.valor > 0
+                ? (
+                    dia.valor /
+                    maior
+                  ) * 180
+                : 3;
+
+
+            html += `
+
+                <div
+                    class="coluna-dia">
+
+                    <div
+                        class="valor-grafico">
+
+                        ${dinheiro(
+                            dia.valor
+                        )}
+
+                    </div>
+
+                    <div
+                        class="coluna"
+                        style="
+                            height:${altura}px;
+                        ">
+
+                    </div>
+
+                    <div
+                        class="dia-grafico">
+
+                        ${dia.nome}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+        </div>
+
+    `;
+
+
+    elemento.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   AGENDAMENTOS
 ========================= */
 
 function mostrarAgendamentos(
@@ -1131,35 +1309,30 @@ function mostrarAgendamentos(
 
 
             if(
-                agendamento.Status
-                === "Confirmado"
+                agendamento.Status ===
+                "Confirmado"
             ){
+
                 classeStatus =
                     "status-confirmado";
+
             }
 
 
             if(
-                agendamento.Status
-                === "Concluído"
+                agendamento.Status ===
+                "Concluído"
             ){
+
                 classeStatus =
                     "status-concluido";
-            }
 
-
-            if(
-                agendamento.Status
-                === "Cancelado"
-            ){
-                classeStatus =
-                    "status-cancelado";
             }
 
 
             const classePagamento =
-                agendamento.Pagamento
-                === "Pago"
+                agendamento.Pagamento ===
+                "Pago"
                 ? "status-pago"
                 : "status-pendente";
 
@@ -1195,10 +1368,12 @@ function mostrarAgendamentos(
 
                         <span
                             class="status ${classeStatus}">
+
                             ${
                                 agendamento.Status
                                 || "-"
                             }
+
                         </span>
 
                     </td>
@@ -1207,10 +1382,12 @@ function mostrarAgendamentos(
 
                         <span
                             class="status ${classePagamento}">
+
                             ${
                                 agendamento.Pagamento
                                 || "-"
                             }
+
                         </span>
 
                     </td>
@@ -1239,7 +1416,7 @@ function mostrarAgendamentos(
 
 
 /* =========================
-   MOSTRAR CLIENTES
+   CLIENTES
 ========================= */
 
 function mostrarClientes(
@@ -1390,7 +1567,10 @@ function mostrarGraficoServicos(
             if(
                 !contagem[servico]
             ){
-                contagem[servico] = 0;
+
+                contagem[servico] =
+                    0;
+
             }
 
 
@@ -1443,9 +1623,11 @@ function mostrarGraficoServicos(
 
             html += `
 
-                <div class="barra-item">
+                <div
+                    class="barra-item">
 
-                    <div class="barra-topo">
+                    <div
+                        class="barra-topo">
 
                         <span>
                             ${nome}
@@ -1457,11 +1639,15 @@ function mostrarGraficoServicos(
 
                     </div>
 
-                    <div class="barra-fundo">
+
+                    <div
+                        class="barra-fundo">
 
                         <div
                             class="barra"
-                            style="width:${porcentagem}%">
+                            style="
+                                width:${porcentagem}%
+                            ">
                         </div>
 
                     </div>
@@ -1514,7 +1700,6 @@ async function sair(){
     }
 
 })();
-
 
 </script>
 
