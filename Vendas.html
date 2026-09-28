@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gold Style - Vendas</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050505;
+    color:white;
+}
+
+header{
+    padding:25px 15px;
+    text-align:center;
+    background:linear-gradient(135deg,#050505,#181818);
+    border-bottom:2px solid #ffd700;
+}
+
+.logo{
+    color:#ffd700;
+    font-size:30px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.slogan{
+    color:#aaa;
+    margin-top:6px;
+}
+
+.container{
+    width:94%;
+    max-width:1100px;
+    margin:25px auto;
+}
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.menu a{
+    background:#111;
+    border:1px solid #333;
+    border-radius:9px;
+    padding:13px;
+    text-align:center;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.menu a:hover{
+    border-color:#ffd700;
+    color:#ffd700;
+}
+
+h1{
+    color:#ffd700;
+}
+
+.subtitulo{
+    color:#999;
+    margin-bottom:25px;
+}
+
+.formulario{
+    background:#111;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:22px;
+}
+
+.grupo{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    color:#bbb;
+    margin-bottom:7px;
+    font-size:14px;
+}
+
+select,
+input{
+    width:100%;
+    padding:13px;
+    background:#080808;
+    border:1px solid #444;
+    color:white;
+    border-radius:8px;
+    font-size:15px;
+}
+
+select:focus,
+input:focus{
+    outline:none;
+    border-color:#ffd700;
+}
+
+.resumo{
+    background:#080808;
+    border:1px solid #333;
+    border-radius:12px;
+    padding:18px;
+    margin:20px 0;
+}
+
+.linha{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:9px 0;
+    border-bottom:1px solid #222;
+}
+
+.linha:last-child{
+    border-bottom:none;
+}
+
+.total{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:9px;
+    background:#ffd700;
+    color:#000;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#fff000;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.mensagem{
+    text-align:center;
+    padding:20px;
+    color:#aaa;
+}
+
+.sucesso{
+    display:none;
+    background:#123b20;
+    border:1px solid #35c96b;
+    color:#7cff9f;
+    padding:18px;
+    border-radius:10px;
+    margin-top:20px;
+    text-align:center;
+}
+
+.erro{
+    display:none;
+    background:#401717;
+    border:1px solid #ff5555;
+    color:#ff8888;
+    padding:18px;
+    border-radius:10px;
+    margin-top:20px;
+}
+
+@media(max-width:600px){
+
+    .logo{
+        font-size:25px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        GOLD STYLE
+    </div>
+
+    <div class="slogan">
+        BARBEARIA DESDE 2022
+    </div>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="menu">
+
+        <a href="admin.html">
+            🏠 Dashboard
+        </a>
+
+        <a href="agenda-admin.html">
+            📅 Agenda
+        </a>
+
+        <a href="clientes.html">
+            👥 Clientes
+        </a>
+
+        <a href="produtos.html">
+            📦 Estoque
+        </a>
+
+        <a href="vendas.html">
+            🛍️ Vendas
+        </a>
+
+        <a href="financeiro.html">
+            💰 Financeiro
+        </a>
+
+        <a href="relatorios.html">
+            📊 Relatórios
+        </a>
+
+    </div>
+
+
+    <h1>
+        🛍️ Registrar Venda
+    </h1>
+
+    <div class="subtitulo">
+        Registre a venda de produtos e acompanhe o faturamento.
+    </div>
+
+
+    <div class="formulario">
+
+
+        <div class="grupo">
+
+            <label>
+                Produto
+            </label>
+
+            <select id="produto">
+
+                <option value="">
+                    Carregando produtos...
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="grupo">
+
+            <label>
+                Quantidade
+            </label>
+
+            <input
+                type="number"
+                id="quantidade"
+                min="1"
+                value="1"
+                oninput="calcularTotal()">
+
+        </div>
+
+
+        <div class="grupo">
+
+            <label>
+                Cliente — opcional
+            </label>
+
+            <select id="cliente">
+
+                <option value="">
+                    Venda sem cliente identificado
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="grupo">
+
+            <label>
+                Forma de pagamento
+            </label>
+
+            <select id="pagamento">
+
+                <option value="Pix">
+                    Pix
+                </option>
+
+                <option value="Dinheiro">
+                    Dinheiro
+                </option>
+
+                <option value="Cartão">
+                    Cartão
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="resumo">
+
+            <div class="linha">
+
+                <span>
+                    Produto
+                </span>
+
+                <strong id="resumoProduto">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="linha">
+
+                <span>
+                    Estoque disponível
+                </span>
+
+                <strong id="resumoEstoque">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="linha">
+
+                <span>
+                    Preço unitário
+                </span>
+
+                <strong id="resumoPreco">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="linha">
+
+                <span>
+                    Quantidade
+                </span>
+
+                <strong id="resumoQuantidade">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="linha">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong
+                    class="total"
+                    id="resumoTotal">
+
+                    R$ 0,00
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="botaoRegistrar"
+            onclick="registrarVenda()">
+
+            💰 REGISTRAR VENDA
+
+        </button>
+
+
+        <div
+            class="sucesso"
+            id="mensagemSucesso">
+
+            Venda registrada com sucesso!
+
+        </div>
+
+
+        <div
+            class="erro"
+            id="mensagemErro">
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+let produtos = [];
+
+let clientes = [];
+
+
+/* =========================
+   DINHEIRO
+========================= */
+
+function dinheiro(valor){
+
+    return "R$ " +
+        Number(valor || 0)
+        .toFixed(2)
+        .replace(".",",");
+
+}
+
+
+/* =========================
+   VERIFICAR ADMIN
+========================= */
+
+async function verificarAdmin(){
+
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient
+    .auth
+    .getSession();
+
+
+    if(!session){
+
+        window.location.href =
+            "login.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================
+   PRODUTOS
+========================= */
+
+async function carregarProdutos(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+        .from("produtos")
+
+        .select("*")
+
+        .eq(
+            "Ativo",
+            true
+        )
+
+        .order(
+            "Nome",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        mostrarErro(
+            "Erro ao carregar produtos: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+
+    produtos =
+        data || [];
+
+
+    const select =
+        document.getElementById(
+            "produto"
+        );
+
+
+    select.innerHTML =
+        '<option value="">Selecione um produto</option>';
+
+
+    produtos.forEach(
+        produto => {
+
+            select.innerHTML += `
+
+                <option value="${produto.id}">
+
+                    ${produto.Nome}
+                    —
+                    ${dinheiro(produto["Preço"])}
+                    —
+                    estoque: ${produto.Estoque}
+
+                </option>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =========================
+   CLIENTES
+========================= */
+
+async function carregarClientes(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+        .from("clientes")
+
+        .select(
+            'id,"Nome","Telefone"'
+        )
+
+        .order(
+            "Nome",
+            {
+                ascending:true
+            }
+        );
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        return;
+
+    }
+
+
+    clientes =
+        data || [];
+
+
+    const select =
+        document.getElementById(
+            "cliente"
+        );
+
+
+    clientes.forEach(
+        cliente => {
+
+            select.innerHTML += `
+
+                <option value="${cliente.id}">
+
+                    ${cliente.Nome}
+                    ${
+                        cliente.Telefone
+                        ? " — " + cliente.Telefone
+                        : ""
+                    }
+
+                </option>
+
+            `;
+
+        }
+    );
+
+}
+
+
+/* =========================
+   CALCULAR TOTAL
+========================= */
+
+function calcularTotal(){
+
+    const produtoId =
+        document.getElementById(
+            "produto"
+        ).value;
+
+
+    const quantidade =
+        Number(
+            document.getElementById(
+                "quantidade"
+            ).value || 0
+        );
+
+
+    const produto =
+        produtos.find(
+            item =>
+                item.id === produtoId
+        );
+
+
+    if(!produto){
+
+        document.getElementById(
+            "resumoProduto"
+        ).textContent =
+            "—";
+
+
+        document.getElementById(
+            "resumoEstoque"
+        ).textContent =
+            "—";
+
+
+        document.getElementById(
+            "resumoPreco"
+        ).textContent =
+            "R$ 0,00";
+
+
+        document.getElementById(
+            "resumoQuantidade"
+        ).textContent =
+            "0";
+
+
+        document.getElementById(
+            "resumoTotal"
+        ).textContent =
+            "R$ 0,00";
+
+        return;
+
+    }
+
+
+    const preco =
+        Number(
+            produto["Preço"] || 0
+        );
+
+
+    const estoque =
+        Number(
+            produto.Estoque || 0
+        );
+
+
+    const total =
+        preco *
+        quantidade;
+
+
+    document.getElementById(
+        "resumoProduto"
+    ).textContent =
+        produto.Nome;
+
+
+    document.getElementById(
+        "resumoEstoque"
+    ).textContent =
+        estoque;
+
+
+    document.getElementById(
+        "resumoPreco"
+    ).textContent =
+        dinheiro(preco);
+
+
+    document.getElementById(
+        "resumoQuantidade"
+    ).textContent =
+        quantidade;
+
+
+    document.getElementById(
+        "resumoTotal"
+    ).textContent =
+        dinheiro(total);
+
+}
+
+
+/* =========================
+   REGISTRAR VENDA
+========================= */
+
+async function registrarVenda(){
+
+    const produtoId =
+        document.getElementById(
+            "produto"
+        ).value;
+
+
+    const quantidade =
+        Number(
+            document.getElementById(
+                "quantidade"
+            ).value
+        );
+
+
+    const clienteId =
+        document.getElementById(
+            "cliente"
+        ).value || null;
+
+
+    const pagamento =
+        document.getElementById(
+            "pagamento"
+        ).value;
+
+
+    if(!produtoId){
+
+        mostrarErro(
+            "Selecione um produto."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !Number.isInteger(
+            quantidade
+        )
+        ||
+        quantidade <= 0
+    ){
+
+        mostrarErro(
+            "Informe uma quantidade válida."
+        );
+
+        return;
+
+    }
+
+
+    const produto =
+        produtos.find(
+            item =>
+                item.id === produtoId
+        );
+
+
+    if(!produto){
+
+        mostrarErro(
+            "Produto não encontrado."
+        );
+
+        return;
+
+    }
+
+
+    const estoque =
+        Number(
+            produto.Estoque || 0
+        );
+
+
+    if(
+        quantidade > estoque
+    ){
+
+        mostrarErro(
+            "Estoque insuficiente. Disponível: " +
+            estoque
+        );
+
+        return;
+
+    }
+
+
+    const preco =
+        Number(
+            produto["Preço"] || 0
+        );
+
+
+    const total =
+        preco *
+        quantidade;
+
+
+    const botao =
+        document.getElementById(
+            "botaoRegistrar"
+        );
+
+
+    botao.disabled =
+        true;
+
+
+    botao.textContent =
+        "REGISTRANDO...";
+
+
+    esconderMensagens();
+
+
+    /* =========================
+       1. REGISTRAR VENDA
+    ========================= */
+
+    const {
+        data: venda,
+        error: erroVenda
+    } =
+    await supabaseClient
+
+        .from("vendas")
+
+        .insert({
+
+            produto_id:
+                produto.id,
+
+            cliente_id:
+                clienteId,
+
+            produto_nome:
+                produto.Nome,
+
+            quantidade:
+                quantidade,
+
+            valor_unitario:
+                preco,
+
+            valor_total:
+                total,
+
+            metodo_pagamento:
+                pagamento,
+
+            status:
+                "Pago"
+
+        })
+
+        .select()
+        .single();
+
+
+    if(erroVenda){
+
+        console.error(
+            erroVenda
+        );
+
+        mostrarErro(
+            "Não foi possível registrar a venda: " +
+            erroVenda.message
+        );
+
+        botao.disabled =
+            false;
+
+        botao.textContent =
+            "💰 REGISTRAR VENDA";
+
+        return;
+
+    }
+
+
+    /* =========================
+       2. BAIXAR ESTOQUE
+    ========================= */
+
+    const novoEstoque =
+        estoque -
+        quantidade;
+
+
+    const {
+        error: erroEstoque
+    } =
+    await supabaseClient
+
+        .from("produtos")
+
+        .update({
+
+            Estoque:
+                novoEstoque
+
+        })
+
+        .eq(
+            "id",
+            produto.id
+        );
+
+
+    if(erroEstoque){
+
+        console.error(
+            erroEstoque
+        );
+
+
+        /* TENTA CANCELAR A VENDA */
+
+        await supabaseClient
+
+            .from("vendas")
+
+            .update({
+
+                status:
+                    "Cancelado"
+
+            })
+
+            .eq(
+                "id",
+                venda.id
+            );
+
+
+        mostrarErro(
+            "A venda não pôde atualizar o estoque. A venda foi cancelada."
+        );
+
+
+        botao.disabled =
+            false;
+
+        botao.textContent =
+            "💰 REGISTRAR VENDA";
+
+        return;
+
+    }
+
+
+    /* =========================
+       SUCESSO
+    ========================= */
+
+    document.getElementById(
+        "mensagemSucesso"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "mensagemSucesso"
+    ).innerHTML =
+
+        "✅ Venda registrada!<br><br>" +
+
+        produto.Nome +
+        " — " +
+        quantidade +
+        " unidade(s)<br>" +
+
+        "Total: " +
+        dinheiro(total) +
+        "<br>" +
+
+        "Pagamento: " +
+        pagamento;
+
+
+    document.getElementById(
+        "quantidade"
+    ).value =
+        1;
+
+
+    await carregarProdutos();
+
+
+    document.getElementById(
+        "produto"
+    ).value =
+        "";
+
+
+    calcularTotal();
+
+
+    botao.disabled =
+        false;
+
+
+    botao.textContent =
+        "💰 REGISTRAR VENDA";
+
+}
+
+
+/* =========================
+   MENSAGENS
+========================= */
+
+function mostrarErro(
+    mensagem
+){
+
+    const elemento =
+        document.getElementById(
+            "mensagemErro"
+        );
+
+
+    elemento.textContent =
+        mensagem;
+
+
+    elemento.style.display =
+        "block";
+
+}
+
+
+function esconderMensagens(){
+
+    document.getElementById(
+        "mensagemErro"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "mensagemSucesso"
+    ).style.display =
+        "none";
+
+}
+
+
+/* =========================
+   EVENTOS
+========================= */
+
+document
+    .getElementById("produto")
+    .addEventListener(
+        "change",
+        calcularTotal
+    );
+
+
+/* =========================
+   SAIR
+========================= */
+
+async function sair(){
+
+    await supabaseClient
+        .auth
+        .signOut();
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
+
+(async()=>{
+
+    const autorizado =
+        await verificarAdmin();
+
+
+    if(!autorizado){
+
+        return;
+
+    }
+
+
+    await Promise.all([
+
+        carregarProdutos(),
+
+        carregarClientes()
+
+    ]);
+
+})();
+
+</script>
+
+</body>
+
+</html>
