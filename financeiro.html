@@ -1,449 +1,426 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Financeiro - Gold Style</title>
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<title>Financeiro - Gold Style</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        body {
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: #fff;
+            padding-bottom: 40px;
+        }
 
-<style>
+        header {
+            background: linear-gradient(135deg, #000, #171717);
+            border-bottom: 2px solid #ffd700;
+            padding: 20px;
+            text-align: center;
+        }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+        header h1 {
+            color: #ffd700;
+            font-size: 26px;
+        }
 
-body{
-    background:#050505;
-    color:white;
-    font-family:Arial,sans-serif;
-    min-height:100vh;
-    padding:20px;
-}
+        header p {
+            color: #aaa;
+            margin-top: 5px;
+        }
 
-.container{
-    max-width:1100px;
-    margin:auto;
-}
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            padding: 15px;
+            background: #0b0b0b;
+        }
 
-header{
-    text-align:center;
-    margin-bottom:25px;
-}
+        .menu a {
+            text-decoration: none;
+            color: #ffd700;
+            border: 1px solid #ffd700;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
 
-header h1{
-    color:#ffd700;
-    font-size:32px;
-    text-shadow:0 0 15px #ffd700;
-}
+        .menu a:hover {
+            background: #ffd700;
+            color: #000;
+        }
 
-header p{
-    color:#aaa;
-    margin-top:6px;
-}
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
 
-.cards{
-    display:grid;
-    grid-template-columns:
-    repeat(auto-fit,minmax(200px,1fr));
-    gap:15px;
-    margin-bottom:25px;
-}
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
 
-.card{
-    background:#111;
-    border:1px solid #333;
-    border-radius:16px;
-    padding:20px;
-}
+        .card {
+            background: linear-gradient(145deg, #151515, #090909);
+            border: 1px solid #333;
+            border-left: 4px solid #ffd700;
+            border-radius: 12px;
+            padding: 20px;
+        }
 
-.card h3{
-    color:#aaa;
-    font-size:14px;
-    margin-bottom:10px;
-}
+        .card h3 {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-.card strong{
-    font-size:25px;
-    color:#ffd700;
-}
+        .card strong {
+            color: #ffd700;
+            font-size: 25px;
+        }
 
-.recebido{
-    border-color:#168a3d;
-}
+        .filtros {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+        }
 
-.recebido strong{
-    color:#39e66f;
-}
+        .filtros h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
 
-.pendente{
-    border-color:#b89000;
-}
+        .filtro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
 
-.pendente strong{
-    color:#ffd700;
-}
+        label {
+            color: #ccc;
+            font-size: 13px;
+            display: block;
+            margin-bottom: 6px;
+        }
 
-.previsao{
-    border-color:#006b8f;
-}
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #050505;
+            color: #fff;
+        }
 
-.previsao strong{
-    color:#4fd8ff;
-}
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-.pix{
-    border-color:#7b42f6;
-}
+        .btn-filtrar {
+            background: #ffd700;
+            color: #000;
+            width: 100%;
+        }
 
-.pix strong{
-    color:#b48cff;
-}
+        .btn-limpar {
+            background: #333;
+            color: #fff;
+            width: 100%;
+        }
 
-.painel{
-    background:#101010;
-    border:1px solid #333;
-    border-radius:18px;
-    padding:20px;
-    margin-bottom:20px;
-}
+        .painel {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 18px;
+            overflow-x: auto;
+        }
 
-.painel h2{
-    color:#ffd700;
-    margin-bottom:15px;
-}
+        .painel h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
 
-.filtros{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:20px;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
 
-input,
-select{
-    background:#181818;
-    color:white;
-    border:1px solid #444;
-    border-radius:10px;
-    padding:12px;
-    font-size:15px;
-}
+        th {
+            background: #1c1c1c;
+            color: #ffd700;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #ffd700;
+        }
 
-button{
-    border:none;
-    border-radius:10px;
-    padding:12px 16px;
-    font-weight:bold;
-    cursor:pointer;
-}
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #292929;
+            color: #ddd;
+        }
 
-.btn-filtrar{
-    background:#ffd700;
-    color:#000;
-}
+        tr:hover {
+            background: #171717;
+        }
 
-.btn-voltar{
-    background:#222;
-    color:white;
-    border:1px solid #555;
-    margin-bottom:20px;
-}
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.btn-pago{
-    background:#16a34a;
-    color:white;
-    padding:8px 10px;
-    font-size:12px;
-}
+        .pago {
+            background: #143d1f;
+            color: #55e477;
+        }
 
-.btn-pago:hover{
-    background:#20c45a;
-}
+        .pendente {
+            background: #463b08;
+            color: #ffd700;
+        }
 
-.tabela{
-    width:100%;
-    overflow-x:auto;
-}
+        .cancelado {
+            background: #401515;
+            color: #ff6b6b;
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:900px;
-}
+        .produto {
+            color: #58c7ff;
+            font-weight: bold;
+        }
 
-th{
-    background:#1c1c1c;
-    color:#ffd700;
-    padding:12px;
-    text-align:left;
-    font-size:13px;
-}
+        .servico {
+            color: #ffd700;
+            font-weight: bold;
+        }
 
-td{
-    padding:12px;
-    border-bottom:1px solid #292929;
-    font-size:13px;
-}
+        .btn-pagar {
+            background: #ffd700;
+            color: #000;
+            padding: 8px 10px;
+        }
 
-tr:hover{
-    background:#151515;
-}
+        .btn-pagar:hover {
+            background: #fff;
+        }
 
-.status{
-    display:inline-block;
-    padding:6px 9px;
-    border-radius:8px;
-    font-size:11px;
-    font-weight:bold;
-}
+        .mensagem {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
 
-.status-pendente{
-    background:#3a3000;
-    color:#ffd700;
-}
+        .sucesso {
+            background: #123d1c;
+            color: #6cff8b;
+        }
 
-.status-pago{
-    background:#0d3a1b;
-    color:#48ef79;
-}
+        .erro {
+            background: #441616;
+            color: #ff8888;
+        }
 
-.vazio{
-    text-align:center;
-    padding:30px;
-    color:#777;
-}
+        .vazio {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+        }
 
-.carregando{
-    text-align:center;
-    padding:30px;
-    color:#ffd700;
-}
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            padding: 30px;
+        }
 
-.mensagem{
-    display:none;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
-}
+        @media (max-width: 600px) {
 
-.sucesso{
-    display:block;
-    background:#0d3518;
-    border:1px solid #25c65a;
-    color:#7aff9b;
-}
+            header h1 {
+                font-size: 22px;
+            }
 
-.erro{
-    display:block;
-    background:#351010;
-    border:1px solid #ff4444;
-    color:#ff9999;
-}
+            .container {
+                width: 94%;
+            }
 
-@media(max-width:600px){
+            .card strong {
+                font-size: 21px;
+            }
 
-    body{
-        padding:12px;
-    }
-
-    header h1{
-        font-size:26px;
-    }
-
-    .card strong{
-        font-size:21px;
-    }
-
-}
-
-</style>
-
+            .menu a {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
-
 <header>
-
-<h1>💰 GOLD STYLE</h1>
-
-<p>Financeiro da Barbearia</p>
-
+    <h1>💰 FINANCEIRO GOLD STYLE</h1>
+    <p>Controle de recebimentos, serviços e vendas</p>
 </header>
 
+<nav class="menu">
+    <a href="admin.html">🏠 Dashboard</a>
+    <a href="agenda-admin.html">📅 Agenda</a>
+    <a href="clientes.html">👥 Clientes</a>
+    <a href="servicos.html">✂️ Serviços</a>
+    <a href="produtos.html">📦 Produtos</a>
+    <a href="vendas.html">🛒 Vendas</a>
+    <a href="relatorios.html">📊 Relatórios</a>
+    <a href="configuracoes.html">⚙️ Configurações</a>
+</nav>
 
-<button
-class="btn-voltar"
-onclick="window.location.href='admin.html'">
+<div class="container">
 
-← Voltar para o painel
+    <div id="mensagem" class="mensagem"></div>
 
-</button>
+    <div class="cards">
 
+        <div class="card">
+            <h3>💰 TOTAL RECEBIDO</h3>
+            <strong id="totalRecebido">R$ 0,00</strong>
+        </div>
 
-<div id="mensagem"
-class="mensagem">
-</div>
+        <div class="card">
+            <h3>⏳ TOTAL PENDENTE</h3>
+            <strong id="totalPendente">R$ 0,00</strong>
+        </div>
 
+        <div class="card">
+            <h3>📈 TOTAL PREVISTO</h3>
+            <strong id="totalPrevisto">R$ 0,00</strong>
+        </div>
 
-<div class="cards">
+        <div class="card">
+            <h3>🛒 VENDAS DE PRODUTOS</h3>
+            <strong id="totalProdutos">R$ 0,00</strong>
+        </div>
 
-<div class="card recebido">
+    </div>
 
-<h3>Total recebido</h3>
+    <section class="filtros">
 
-<strong id="totalRecebido">
-R$ 0,00
-</strong>
+        <h2>🔎 FILTRAR MOVIMENTAÇÕES</h2>
 
-</div>
+        <div class="filtro-grid">
 
+            <div>
+                <label>Data inicial</label>
+                <input type="date" id="dataInicial">
+            </div>
 
-<div class="card pendente">
+            <div>
+                <label>Data final</label>
+                <input type="date" id="dataFinal">
+            </div>
 
-<h3>Total pendente</h3>
+            <div>
+                <label>Status</label>
 
-<strong id="totalPendente">
-R$ 0,00
-</strong>
+                <select id="filtroStatus">
 
-</div>
+                    <option value="">Todos</option>
+                    <option value="Pago">Pago</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Cancelado">Cancelado</option>
 
+                </select>
 
-<div class="card previsao">
+            </div>
 
-<h3>Total previsto</h3>
+            <div>
+                <label>&nbsp;</label>
 
-<strong id="totalPrevisto">
-R$ 0,00
-</strong>
+                <button
+                    class="btn-filtrar"
+                    onclick="carregarFinanceiro()">
+                    🔎 FILTRAR
+                </button>
 
-</div>
+            </div>
 
+            <div>
+                <label>&nbsp;</label>
 
-<div class="card pix">
+                <button
+                    class="btn-limpar"
+                    onclick="limparFiltros()">
+                    🧹 LIMPAR
+                </button>
 
-<h3>Pagamentos Pix</h3>
+            </div>
 
-<strong id="totalPix">
-0
-</strong>
+        </div>
 
-</div>
+    </section>
 
-</div>
+    <section class="painel">
 
+        <h2>📋 MOVIMENTAÇÕES FINANCEIRAS</h2>
 
-<div class="painel">
+        <div id="loading" class="loading">
+            Carregando financeiro...
+        </div>
 
-<h2>🔎 Filtros</h2>
+        <table id="tabelaFinanceiro" style="display:none;">
 
-<div class="filtros">
+            <thead>
 
-<input
-type="date"
-id="dataInicial">
+                <tr>
+                    <th>Tipo</th>
+                    <th>Cliente</th>
+                    <th>Item</th>
+                    <th>Data</th>
+                    <th>Valor</th>
+                    <th>Pagamento</th>
+                    <th>Status</th>
+                    <th>Referência</th>
+                    <th>Ação</th>
+                </tr>
 
-<input
-type="date"
-id="dataFinal">
+            </thead>
 
-<select id="filtroStatus">
+            <tbody id="tabelaBody"></tbody>
 
-<option value="">
-Todos os status
-</option>
+        </table>
 
-<option value="Pendente">
-Pendentes
-</option>
+        <div id="vazio" class="vazio" style="display:none;">
+            Nenhuma movimentação encontrada.
+        </div>
 
-<option value="Pago">
-Pagos
-</option>
-
-</select>
-
-<button
-class="btn-filtrar"
-onclick="carregarFinanceiro()">
-
-Filtrar
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="painel">
-
-<h2>💳 Pagamentos</h2>
-
-<div class="tabela">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Cliente</th>
-
-<th>Serviço</th>
-
-<th>Data</th>
-
-<th>Horário</th>
-
-<th>Valor</th>
-
-<th>Método</th>
-
-<th>Status</th>
-
-<th>Referência</th>
-
-<th>Ação</th>
-
-</tr>
-
-</thead>
-
-<tbody id="tabelaPagamentos">
-
-<tr>
-
-<td
-colspan="9"
-class="carregando">
-
-Carregando pagamentos...
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+    </section>
 
 </div>
-
-</div>
-
-</div>
-
 
 <script>
 
@@ -460,191 +437,140 @@ window.supabase.createClient(
 );
 
 
-function dinheiro(valor){
+/* ================================
+   FORMATAÇÃO
+================================ */
+
+function dinheiro(valor) {
 
     return Number(valor || 0).toLocaleString(
         "pt-BR",
         {
-            style:"currency",
-            currency:"BRL"
+            style: "currency",
+            currency: "BRL"
         }
     );
-
 }
 
 
-function formatarData(data){
+function dataBR(data) {
 
-    if(!data){
-        return "---";
-    }
+    if (!data) return "-";
 
-    const partes =
-        data.split("-");
+    const d = new Date(data);
 
-    if(partes.length !== 3){
-        return data;
-    }
-
-    return (
-        partes[2] +
-        "/" +
-        partes[1] +
-        "/" +
-        partes[0]
+    return d.toLocaleDateString(
+        "pt-BR"
     );
-
 }
 
 
-function mostrarMensagem(texto,tipo){
+/* ================================
+   MENSAGEM
+================================ */
 
-    const elemento =
+function mostrarMensagem(texto, tipo) {
+
+    const box =
         document.getElementById("mensagem");
 
-    elemento.className =
+    box.textContent = texto;
+
+    box.className =
         "mensagem " + tipo;
 
-    elemento.innerHTML =
-        texto;
+    box.style.display = "block";
 
-    elemento.style.display =
-        "block";
+    setTimeout(() => {
 
+        box.style.display = "none";
+
+    }, 4000);
 }
 
 
-function esconderMensagem(){
+/* ================================
+   VERIFICAR ADMIN
+================================ */
 
-    const elemento =
-        document.getElementById("mensagem");
-
-    elemento.style.display =
-        "none";
-
-}
-
-
-async function verificarAdmin(){
+async function verificarAdmin() {
 
     const {
-        data:{
+        data: {
             session
         }
-    } =
-        await supabaseClient
-        .auth
-        .getSession();
+    } = await supabaseClient.auth.getSession();
 
-
-    if(!session){
+    if (!session) {
 
         window.location.href =
             "login.html";
 
         return false;
-
     }
 
-
     const {
-        data:admin,
+        data,
         error
-    } =
-        await supabaseClient
-
+    } = await supabaseClient
         .from("administradores")
-
         .select("id")
-
         .eq(
             "auth_user_id",
             session.user.id
         )
-
         .eq(
             "ativo",
             true
         )
-
         .maybeSingle();
 
-
-    if(error || !admin){
+    if (error || !data) {
 
         alert(
-            "Acesso permitido somente para administradores."
+            "Acesso permitido somente ao administrador."
         );
 
         window.location.href =
             "cliente.html";
 
         return false;
-
     }
 
-
     return true;
-
 }
 
 
-async function carregarFinanceiro(){
+/* ================================
+   CARREGAR FINANCEIRO
+================================ */
 
-    esconderMensagem();
+async function carregarFinanceiro() {
 
+    const loading =
+        document.getElementById("loading");
 
     const tabela =
         document.getElementById(
-            "tabelaPagamentos"
+            "tabelaFinanceiro"
         );
 
+    const vazio =
+        document.getElementById("vazio");
 
-    tabela.innerHTML = `
-        <tr>
-            <td colspan="9"
-            class="carregando">
-            Carregando pagamentos...
-            </td>
-        </tr>
-    `;
-
-
-    let query =
-        supabaseClient
-
-        .from("pagamentos")
-
-        .select(`
-            id,
-            agendamento_id,
-            cliente_id,
-            valor,
-            metodo,
-            status,
-            referencia,
-            criado_em
-        `)
-
-        .order(
-            "criado_em",
-            {
-                ascending:false
-            }
-        );
-
+    loading.style.display = "block";
+    tabela.style.display = "none";
+    vazio.style.display = "none";
 
     const dataInicial =
         document.getElementById(
             "dataInicial"
         ).value;
 
-
     const dataFinal =
         document.getElementById(
             "dataFinal"
         ).value;
-
 
     const filtroStatus =
         document.getElementById(
@@ -652,471 +578,615 @@ async function carregarFinanceiro(){
         ).value;
 
 
-    if(dataInicial){
+    /* ================================
+       PAGAMENTOS DE SERVIÇOS
+    ================================= */
 
-        query =
-            query.gte(
+    let queryPagamentos =
+        supabaseClient
+        .from("pagamentos")
+        .select("*")
+        .order(
+            "criado_em",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (dataInicial) {
+
+        queryPagamentos =
+            queryPagamentos.gte(
                 "criado_em",
                 dataInicial +
                 "T00:00:00"
             );
-
     }
 
 
-    if(dataFinal){
+    if (dataFinal) {
 
-        query =
-            query.lte(
+        queryPagamentos =
+            queryPagamentos.lte(
                 "criado_em",
                 dataFinal +
                 "T23:59:59"
             );
-
     }
 
 
-    if(filtroStatus){
+    if (filtroStatus) {
 
-        query =
-            query.eq(
+        queryPagamentos =
+            queryPagamentos.eq(
                 "status",
                 filtroStatus
             );
-
     }
 
 
     const {
-        data:pagamentos,
-        error
+        data: pagamentos,
+        error: erroPagamentos
     } =
-        await query;
+        await queryPagamentos;
 
 
-    if(error){
+    /* ================================
+       VENDAS DE PRODUTOS
+    ================================= */
 
-        console.error(error);
-
-        tabela.innerHTML = `
-            <tr>
-                <td colspan="9"
-                class="vazio">
-                Erro ao carregar pagamentos.
-                <br><br>
-                ${error.message}
-                </td>
-            </tr>
-        `;
-
-        mostrarMensagem(
-            "Erro ao carregar o financeiro: " +
-            error.message,
-            "erro"
+    let queryVendas =
+        supabaseClient
+        .from("vendas")
+        .select("*")
+        .order(
+            "criado_em",
+            {
+                ascending: false
+            }
         );
 
-        return;
 
-    }
+    if (dataInicial) {
 
-
-    if(!pagamentos ||
-       pagamentos.length === 0){
-
-        tabela.innerHTML = `
-            <tr>
-                <td colspan="9"
-                class="vazio">
-                Nenhum pagamento encontrado.
-                </td>
-            </tr>
-        `;
-
-        atualizarCards([]);
-
-        return;
-
-    }
-
-
-    const idsAgendamento =
-        pagamentos
-        .map(p => p.agendamento_id)
-        .filter(Boolean);
-
-
-    let agendamentos = [];
-
-
-    if(idsAgendamento.length > 0){
-
-        const resultado =
-            await supabaseClient
-
-            .from("agendamentos")
-
-            .select(`
-                id,
-                "Serviços",
-                "Data",
-                "Horário"
-            `)
-
-            .in(
-                "id",
-                idsAgendamento
+        queryVendas =
+            queryVendas.gte(
+                "criado_em",
+                dataInicial +
+                "T00:00:00"
             );
-
-
-        if(!resultado.error){
-
-            agendamentos =
-                resultado.data || [];
-
-        }
-
     }
 
 
-    const idsClientes =
+    if (dataFinal) {
+
+        queryVendas =
+            queryVendas.lte(
+                "criado_em",
+                dataFinal +
+                "T23:59:59"
+            );
+    }
+
+
+    if (filtroStatus) {
+
+        queryVendas =
+            queryVendas.eq(
+                "status",
+                filtroStatus
+            );
+    }
+
+
+    const {
+        data: vendas,
+        error: erroVendas
+    } =
+        await queryVendas;
+
+
+    console.log(
+        "PAGAMENTOS:",
         pagamentos
-        .map(p => p.cliente_id)
-        .filter(Boolean);
+    );
+
+    console.log(
+        "ERRO PAGAMENTOS:",
+        erroPagamentos
+    );
+
+    console.log(
+        "VENDAS:",
+        vendas
+    );
+
+    console.log(
+        "ERRO VENDAS:",
+        erroVendas
+    );
+
+
+    if (erroPagamentos) {
+
+        mostrarMensagem(
+            "Erro ao carregar pagamentos: " +
+            erroPagamentos.message,
+            "erro"
+        );
+    }
+
+
+    if (erroVendas) {
+
+        mostrarMensagem(
+            "Erro ao carregar vendas: " +
+            erroVendas.message,
+            "erro"
+        );
+    }
+
+
+    /* ================================
+       CLIENTES
+    ================================= */
+
+    const clienteIds = [
+        ...(pagamentos || [])
+            .map(p => p.cliente_id)
+            .filter(Boolean),
+
+        ...(vendas || [])
+            .map(v => v.cliente_id)
+            .filter(Boolean)
+    ];
+
+
+    const idsUnicos =
+        [...new Set(clienteIds)];
 
 
     let clientes = [];
 
 
-    if(idsClientes.length > 0){
+    if (idsUnicos.length > 0) {
 
         const resultado =
             await supabaseClient
-
             .from("clientes")
-
-            .select(`
-                id,
-                Nome
-            `)
-
+            .select(
+                'id, "Nome", "Telefone"'
+            )
             .in(
                 "id",
-                idsClientes
+                idsUnicos
             );
 
-
-        if(!resultado.error){
-
-            clientes =
-                resultado.data || [];
-
-        }
-
+        clientes =
+            resultado.data || [];
     }
 
 
-    tabela.innerHTML = "";
+    const mapaClientes =
+        {};
+
+    clientes.forEach(cliente => {
+
+        mapaClientes[
+            cliente.id
+        ] = cliente;
+
+    });
 
 
-    pagamentos.forEach(
-        pagamento => {
+    /* ================================
+       AGENDAMENTOS
+    ================================= */
+
+    const agendamentoIds =
+        (pagamentos || [])
+            .map(p => p.agendamento_id)
+            .filter(Boolean);
+
+
+    let agendamentos = [];
+
+
+    if (agendamentoIds.length > 0) {
+
+        const resultado =
+            await supabaseClient
+            .from("agendamentos")
+            .select(
+                'id, "Serviços", "Data", "Horário"'
+            )
+            .in(
+                "id",
+                [...new Set(
+                    agendamentoIds
+                )]
+            );
+
+        agendamentos =
+            resultado.data || [];
+    }
+
+
+    const mapaAgendamentos =
+        {};
+
+    agendamentos.forEach(agendamento => {
+
+        mapaAgendamentos[
+            agendamento.id
+        ] = agendamento;
+
+    });
+
+
+    /* ================================
+       UNIFICAR MOVIMENTAÇÕES
+    ================================= */
+
+    const movimentos = [];
+
+
+    /* SERVIÇOS */
+
+    (pagamentos || []).forEach(pagamento => {
 
         const agendamento =
-            agendamentos.find(
-                a =>
-                a.id ===
+            mapaAgendamentos[
                 pagamento.agendamento_id
-            );
-
+            ] || {};
 
         const cliente =
-            clientes.find(
-                c =>
-                c.id ===
+            mapaClientes[
                 pagamento.cliente_id
-            );
+            ] || {};
 
+        movimentos.push({
 
-        const status =
-            pagamento.status ||
-            "Pendente";
+            id: pagamento.id,
 
+            tipo: "Serviço",
 
-        const statusClasse =
-            status === "Pago"
-            ? "status-pago"
-            : "status-pendente";
+            cliente:
+                cliente.Nome ||
+                "Cliente",
 
+            item:
+                agendamento["Serviços"] ||
+                "Serviço",
 
-        let botao = "";
+            data:
+                pagamento.criado_em,
 
+            valor:
+                Number(
+                    pagamento.valor || 0
+                ),
 
-        if(status !== "Pago"){
+            metodo:
+                pagamento.metodo ||
+                "-",
 
-            botao = `
-                <button
-                class="btn-pago"
-                onclick="marcarComoPago('${pagamento.id}')">
+            status:
+                pagamento.status ||
+                "Pendente",
 
-                ✓ Marcar como pago
+            referencia:
+                pagamento.referencia ||
+                "-",
 
-                </button>
-            `;
+            pagamentoId:
+                pagamento.id,
 
-        }else{
+            agendamentoId:
+                pagamento.agendamento_id
 
-            botao = `
-                <span
-                class="status status-pago">
-
-                ✓ Confirmado
-
-                </span>
-            `;
-
-        }
-
-
-        const tr =
-            document.createElement("tr");
-
-
-        tr.innerHTML = `
-
-            <td>
-                ${
-                    cliente?.Nome ||
-                    "Cliente"
-                }
-            </td>
-
-            <td>
-                ${
-                    agendamento?.["Serviços"] ||
-                    "---"
-                }
-            </td>
-
-            <td>
-                ${
-                    formatarData(
-                        agendamento?.["Data"]
-                    )
-                }
-            </td>
-
-            <td>
-                ${
-                    agendamento?.["Horário"]
-                    ? agendamento["Horário"]
-                        .substring(0,5)
-                    : "---"
-                }
-            </td>
-
-            <td>
-                <strong>
-                ${
-                    dinheiro(
-                        pagamento.valor
-                    )
-                }
-                </strong>
-            </td>
-
-            <td>
-                ${
-                    pagamento.metodo ||
-                    "---"
-                }
-            </td>
-
-            <td>
-
-                <span
-                class="status ${statusClasse}">
-
-                ${status}
-
-                </span>
-
-            </td>
-
-            <td>
-                ${
-                    pagamento.referencia ||
-                    "---"
-                }
-            </td>
-
-            <td>
-
-                ${botao}
-
-            </td>
-
-        `;
-
-
-        tabela.appendChild(tr);
+        });
 
     });
 
 
-    atualizarCards(pagamentos);
+    /* PRODUTOS */
 
-}
+    (vendas || []).forEach(venda => {
+
+        const cliente =
+            mapaClientes[
+                venda.cliente_id
+            ] || {};
+
+        movimentos.push({
+
+            id: venda.id,
+
+            tipo: "Produto",
+
+            cliente:
+                cliente.Nome ||
+                "Venda balcão",
+
+            item:
+                venda.produto_nome +
+                " × " +
+                venda.quantidade,
+
+            data:
+                venda.criado_em,
+
+            valor:
+                Number(
+                    venda.valor_total || 0
+                ),
+
+            metodo:
+                venda.metodo_pagamento ||
+                "-",
+
+            status:
+                venda.status ||
+                "Pago",
+
+            referencia:
+                "VENDA-" +
+                venda.id.substring(0, 8),
+
+            pagamentoId: null,
+
+            agendamentoId: null
+
+        });
+
+    });
 
 
-function atualizarCards(pagamentos){
+    /* ================================
+       ORDENAR
+    ================================= */
 
-    let recebido = 0;
+    movimentos.sort(
+        (a, b) =>
+            new Date(b.data) -
+            new Date(a.data)
+    );
 
-    let pendente = 0;
 
-    let pix = 0;
+    /* ================================
+       TOTAIS
+    ================================= */
+
+    let totalRecebido = 0;
+    let totalPendente = 0;
+    let totalPrevisto = 0;
+    let totalProdutos = 0;
 
 
-    pagamentos.forEach(
-        pagamento => {
+    movimentos.forEach(mov => {
 
         const valor =
-            Number(
-                pagamento.valor || 0
-            );
+            Number(mov.valor || 0);
 
 
-        if(
-            pagamento.status ===
-            "Pago"
-        ){
+        if (mov.status === "Pago") {
 
-            recebido += valor;
-
-        }else{
-
-            pendente += valor;
+            totalRecebido += valor;
 
         }
 
 
-        if(
-            String(
-                pagamento.metodo || ""
-            ).toLowerCase()
-            === "pix"
-        ){
+        if (mov.status === "Pendente") {
 
-            pix++;
+            totalPendente += valor;
+
+        }
+
+
+        if (
+            mov.status === "Pago" ||
+            mov.status === "Pendente"
+        ) {
+
+            totalPrevisto += valor;
+
+        }
+
+
+        if (
+            mov.tipo === "Produto" &&
+            mov.status === "Pago"
+        ) {
+
+            totalProdutos += valor;
 
         }
 
     });
-
-
-    const previsto =
-        recebido +
-        pendente;
 
 
     document.getElementById(
         "totalRecebido"
     ).textContent =
-        dinheiro(recebido);
+        dinheiro(totalRecebido);
 
 
     document.getElementById(
         "totalPendente"
     ).textContent =
-        dinheiro(pendente);
+        dinheiro(totalPendente);
 
 
     document.getElementById(
         "totalPrevisto"
     ).textContent =
-        dinheiro(previsto);
+        dinheiro(totalPrevisto);
 
 
     document.getElementById(
-        "totalPix"
+        "totalProdutos"
     ).textContent =
-        pix;
+        dinheiro(totalProdutos);
+
+
+    /* ================================
+       TABELA
+    ================================= */
+
+    const tbody =
+        document.getElementById(
+            "tabelaBody"
+        );
+
+    tbody.innerHTML = "";
+
+
+    if (movimentos.length === 0) {
+
+        loading.style.display = "none";
+
+        vazio.style.display = "block";
+
+        return;
+    }
+
+
+    movimentos.forEach(mov => {
+
+        const tr =
+            document.createElement("tr");
+
+
+        const classeTipo =
+            mov.tipo === "Produto"
+                ? "produto"
+                : "servico";
+
+
+        let classeStatus =
+            "pendente";
+
+
+        if (
+            mov.status === "Pago"
+        ) {
+
+            classeStatus =
+                "pago";
+
+        }
+
+
+        if (
+            mov.status === "Cancelado"
+        ) {
+
+            classeStatus =
+                "cancelado";
+
+        }
+
+
+        let acao = "-";
+
+
+        if (
+            mov.tipo === "Serviço" &&
+            mov.status === "Pendente" &&
+            mov.pagamentoId
+        ) {
+
+            acao = `
+
+                <button
+                    class="btn-pagar"
+                    onclick="marcarComoPago(
+                        '${mov.pagamentoId}',
+                        '${mov.agendamentoId || ""}'
+                    )">
+                    ✓ Marcar como pago
+                </button>
+
+            `;
+
+        }
+
+
+        tr.innerHTML = `
+
+            <td>
+                <span class="${classeTipo}">
+                    ${mov.tipo}
+                </span>
+            </td>
+
+            <td>
+                ${mov.cliente}
+            </td>
+
+            <td>
+                ${mov.item}
+            </td>
+
+            <td>
+                ${dataBR(mov.data)}
+            </td>
+
+            <td>
+                <strong>
+                    ${dinheiro(mov.valor)}
+                </strong>
+            </td>
+
+            <td>
+                ${mov.metodo}
+            </td>
+
+            <td>
+
+                <span
+                    class="badge ${classeStatus}">
+                    ${mov.status}
+                </span>
+
+            </td>
+
+            <td>
+                ${mov.referencia}
+            </td>
+
+            <td>
+                ${acao}
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+
+    loading.style.display = "none";
+
+    tabela.style.display = "table";
 
 }
 
 
-/*
-==================================================
-NOVO SISTEMA DE CONFIRMAÇÃO DE PAGAMENTO
-==================================================
-*/
+/* ================================
+   MARCAR SERVIÇO COMO PAGO
+================================ */
 
-async function marcarComoPago(id){
+async function marcarComoPago(
+    pagamentoId,
+    agendamentoId
+) {
 
-    esconderMensagem();
-
-
-    const confirmar =
-        confirm(
-            "Confirmar que este pagamento Pix foi recebido?"
-        );
-
-
-    if(!confirmar){
-
-        return;
-
-    }
-
-
-    /*
-    1. BUSCAR O PAGAMENTO PRIMEIRO
-    */
-
-    const {
-        data:pagamento,
-        error:errorBusca
-    } =
-        await supabaseClient
-
-        .from("pagamentos")
-
-        .select(`
-            id,
-            agendamento_id,
-            cliente_id,
-            valor,
-            metodo,
-            status,
-            referencia
-        `)
-
-        .eq(
-            "id",
-            id
-        )
-
-        .maybeSingle();
-
-
-    if(errorBusca){
-
-        console.error(
-            errorBusca
-        );
-
-        mostrarMensagem(
-            "Não foi possível localizar o pagamento: " +
-            errorBusca.message,
-            "erro"
-        );
-
-        return;
-
-    }
-
-
-    if(!pagamento){
+    if (!pagamentoId) {
 
         mostrarMensagem(
             "Pagamento não encontrado.",
@@ -1124,150 +1194,112 @@ async function marcarComoPago(id){
         );
 
         return;
-
     }
 
 
-    /*
-    2. CONFERIR O AGENDAMENTO
-    */
-
-    const agendamentoId =
-        pagamento.agendamento_id;
-
-
-    if(!agendamentoId){
-
-        mostrarMensagem(
-            "Este pagamento não possui um agendamento vinculado.",
-            "erro"
+    const confirmar =
+        confirm(
+            "Confirmar este pagamento?"
         );
 
-        return;
 
-    }
+    if (!confirmar) return;
 
-
-    /*
-    3. ATUALIZAR PAGAMENTO
-    */
 
     const {
-        error:errorPagamento
+        error
     } =
         await supabaseClient
-
         .from("pagamentos")
-
         .update({
 
-            status:
-                "Pago",
+            status: "Pago",
 
             atualizado_em:
                 new Date().toISOString()
 
         })
-
         .eq(
             "id",
-            id
+            pagamentoId
         );
 
 
-    if(errorPagamento){
-
-        console.error(
-            errorPagamento
-        );
+    if (error) {
 
         mostrarMensagem(
-            "Não foi possível atualizar o pagamento: " +
-            errorPagamento.message,
+            "Erro ao atualizar pagamento: " +
+            error.message,
             "erro"
         );
 
         return;
-
     }
 
 
-    /*
-    4. ATUALIZAR AGENDAMENTO
-    */
+    if (agendamentoId) {
 
-    const {
-        error:errorAgendamento
-    } =
         await supabaseClient
+            .from("agendamentos")
+            .update({
 
-        .from("agendamentos")
+                "Pagamento": "Pago",
 
-        .update({
+                "Status": "Confirmado"
 
-            "Pagamento":
-                "Pago",
-
-            "Status":
-                "Confirmado"
-
-        })
-
-        .eq(
-            "id",
-            agendamentoId
-        );
-
-
-    if(errorAgendamento){
-
-        console.error(
-            errorAgendamento
-        );
-
-        mostrarMensagem(
-            "O pagamento foi marcado como Pago, " +
-            "mas houve um erro ao atualizar o agendamento:<br><br>" +
-            errorAgendamento.message,
-            "erro"
-        );
-
-        await carregarFinanceiro();
-
-        return;
+            })
+            .eq(
+                "id",
+                agendamentoId
+            );
 
     }
 
-
-    /*
-    5. SUCESSO
-    */
 
     mostrarMensagem(
-        "Pagamento confirmado com sucesso! 💰<br><br>" +
-        "O pagamento agora está como <strong>Pago</strong> " +
-        "e o agendamento foi atualizado.",
+        "Pagamento confirmado com sucesso!",
         "sucesso"
     );
 
 
-    await carregarFinanceiro();
+    carregarFinanceiro();
 
 }
 
 
-async function iniciar(){
+/* ================================
+   LIMPAR
+================================ */
+
+function limparFiltros() {
+
+    document.getElementById(
+        "dataInicial"
+    ).value = "";
+
+    document.getElementById(
+        "dataFinal"
+    ).value = "";
+
+    document.getElementById(
+        "filtroStatus"
+    ).value = "";
+
+    carregarFinanceiro();
+
+}
+
+
+/* ================================
+   INICIALIZAÇÃO
+================================ */
+
+async function iniciar() {
 
     const autorizado =
         await verificarAdmin();
 
-
-    if(!autorizado){
-
-        return;
-
-    }
-
+    if (!autorizado) return;
 
     await carregarFinanceiro();
 
@@ -1279,5 +1311,4 @@ iniciar();
 </script>
 
 </body>
-
     </html>
