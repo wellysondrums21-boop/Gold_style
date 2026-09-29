@@ -25,42 +25,50 @@ font-family:Arial,sans-serif;
 }
 
 header{
-background:#080808;
-border-bottom:1px solid #333;
+background:linear-gradient(180deg,#111,#050505);
+border-bottom:1px solid #3b3200;
 padding:25px 15px;
 text-align:center;
+box-shadow:0 0 20px rgba(255,215,0,.08);
 }
 
 .logo{
 color:#ffd700;
 font-size:30px;
 font-weight:bold;
-letter-spacing:3px;
+letter-spacing:4px;
+text-shadow:0 0 12px rgba(255,215,0,.35);
 }
 
 .subtitulo{
 color:#aaa;
-font-size:14px;
-margin-top:7px;
+font-size:13px;
+margin-top:8px;
+letter-spacing:2px;
 }
 
 main{
 width:94%;
-max-width:1000px;
+max-width:1050px;
 margin:25px auto;
 }
 
 .card{
-background:#111;
-border:1px solid #333;
-border-radius:15px;
+background:linear-gradient(145deg,#151515,#090909);
+border:1px solid #302900;
+border-radius:16px;
 padding:20px;
 margin-bottom:20px;
-box-shadow:0 0 15px rgba(255,215,0,0.06);
+box-shadow:0 0 18px rgba(255,215,0,.06);
 }
 
-h1,
-h2{
+.hero{
+border:1px solid #5a4b00;
+background:
+linear-gradient(135deg,#171300,#090909);
+}
+
+h1,h2{
 color:#ffd700;
 }
 
@@ -71,6 +79,7 @@ font-size:25px;
 
 h2{
 font-size:20px;
+margin-top:0;
 }
 
 .info{
@@ -86,32 +95,65 @@ gap:12px;
 
 .dado{
 background:#080808;
-border:1px solid #333;
-border-radius:10px;
+border:1px solid #292929;
+border-radius:12px;
 padding:15px;
 }
 
 .dado strong{
 display:block;
 color:#ffd700;
-margin-bottom:6px;
+margin-bottom:7px;
+}
+
+.resumo{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:12px;
+margin-top:18px;
+}
+
+.resumo-card{
+background:#080808;
+border:1px solid #292929;
+border-radius:12px;
+padding:16px;
+text-align:center;
+}
+
+.resumo-card .numero{
+display:block;
+font-size:25px;
+font-weight:bold;
+color:#ffd700;
+margin-top:7px;
 }
 
 .agendamento{
 background:#080808;
-border:1px solid #333;
-border-radius:12px;
-padding:16px;
-margin-bottom:12px;
+border:1px solid #303030;
+border-radius:13px;
+padding:17px;
+margin-bottom:13px;
+}
+
+.agendamento.proximo{
+border-color:#ffd700;
+box-shadow:0 0 14px rgba(255,215,0,.10);
 }
 
 .agendamento strong{
 color:#ffd700;
 }
 
+.linha{
+margin:7px 0;
+color:#ddd;
+}
+
 .status{
 display:inline-block;
-padding:6px 10px;
+padding:6px 11px;
 border-radius:20px;
 font-size:12px;
 font-weight:bold;
@@ -138,6 +180,14 @@ background:#4a1111;
 color:#ff5555;
 }
 
+.pagamento-pendente{
+color:#ffd700;
+}
+
+.pagamento-pago{
+color:#00ff88;
+}
+
 .botao{
 display:inline-block;
 padding:13px 18px;
@@ -149,6 +199,7 @@ font-weight:bold;
 text-decoration:none;
 cursor:pointer;
 margin-top:10px;
+text-align:center;
 }
 
 .botao:hover{
@@ -160,11 +211,23 @@ background:#25d366;
 color:#fff;
 }
 
+.botao-dark{
+background:#181818;
+color:#ffd700;
+border:1px solid #514500;
+}
+
 .botao-sair{
 background:#222;
 color:#fff;
 border:1px solid #555;
 width:100%;
+}
+
+.botoes{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 }
 
 .mensagem{
@@ -175,6 +238,15 @@ color:#ffd700;
 
 .erro{
 color:#ff5555;
+}
+
+.vazio{
+background:#080808;
+border:1px dashed #444;
+border-radius:12px;
+padding:20px;
+text-align:center;
+color:#aaa;
 }
 
 footer{
@@ -199,6 +271,14 @@ width:95%;
 padding:16px;
 }
 
+.botoes{
+flex-direction:column;
+}
+
+.botao{
+width:100%;
+}
+
 }
 
 </style>
@@ -214,7 +294,7 @@ GOLD STYLE
 </div>
 
 <div class="subtitulo">
-ÁREA DO CLIENTE
+ÁREA EXCLUSIVA DO CLIENTE
 </div>
 
 </header>
@@ -230,9 +310,9 @@ Carregando sua conta...
 <div id="conteudo" style="display:none;">
 
 
-<!-- PERFIL -->
+<!-- BOAS-VINDAS -->
 
-<section class="card">
+<section class="card hero">
 
 <h1>
 Olá, <span id="nomeCliente">Cliente</span>! 👋
@@ -240,15 +320,121 @@ Olá, <span id="nomeCliente">Cliente</span>! 👋
 
 <p class="info">
 Bem-vindo à sua área exclusiva da Gold Style Barbearia.
+Aqui você acompanha seus agendamentos e serviços.
 </p>
 
+<div class="botoes">
+
+<a
+href="agendamento.html"
+class="botao">
+
+✂️ NOVO AGENDAMENTO
+
+</a>
+
+<a
+href="https://wa.me/5568999853643"
+target="_blank"
+class="botao botao-whatsapp">
+
+💬 WHATSAPP
+
+</a>
+
+</div>
+
+</section>
+
+
+<!-- RESUMO -->
+
+<section class="card">
+
+<h2>
+📊 Meu resumo
+</h2>
+
+<div class="resumo">
+
+<div class="resumo-card">
+
+Agendamentos
+
+<span
+class="numero"
+id="totalAgendamentos">
+
+0
+
+</span>
+
+</div>
+
+
+<div class="resumo-card">
+
+Confirmados
+
+<span
+class="numero"
+id="totalConfirmados">
+
+0
+
+</span>
+
+</div>
+
+
+<div class="resumo-card">
+
+Concluídos
+
+<span
+class="numero"
+id="totalConcluidos">
+
+0
+
+</span>
+
+</div>
+
+
+<div class="resumo-card">
+
+Total em serviços
+
+<span
+class="numero"
+id="totalServicos">
+
+R$ 0,00
+
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PERFIL -->
+
+<section class="card">
+
+<h2>
+👤 Meu perfil
+</h2>
 
 <div class="dados">
 
 <div class="dado">
 
 <strong>
-👤 Nome
+Nome
 </strong>
 
 <span id="clienteNome">
@@ -302,14 +488,6 @@ Carregando agendamentos...
 
 </div>
 
-<a
-href="agendamento.html"
-class="botao">
-
-✂️ AGENDAR NOVO SERVIÇO
-
-</a>
-
 </section>
 
 
@@ -323,9 +501,11 @@ class="botao">
 
 <p class="info">
 
-Escolha seu serviço e faça seu agendamento.
+Confira os serviços disponíveis e escolha o que deseja fazer.
 
 </p>
+
+<div class="botoes">
 
 <a
 href="servicos.html"
@@ -334,6 +514,16 @@ class="botao">
 VER SERVIÇOS
 
 </a>
+
+<a
+href="agendamento.html"
+class="botao botao-dark">
+
+AGENDAR HORÁRIO
+
+</a>
+
+</div>
 
 </section>
 
@@ -348,7 +538,7 @@ VER SERVIÇOS
 
 <p class="info">
 
-Entre em contato diretamente com a Gold Style pelo WhatsApp.
+Fale diretamente com a Gold Style pelo WhatsApp.
 
 </p>
 
@@ -400,9 +590,9 @@ Barbearia desde 2022
 <script>
 
 
-/* ==============================
+/* =================================
    SUPABASE
-============================== */
+================================= */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
@@ -417,14 +607,13 @@ SUPABASE_KEY
 );
 
 
-/* ==============================
+/* =================================
    INICIAR
-============================== */
+================================= */
 
 async function iniciar(){
 
 try{
-
 
 const {
 data:sessionData,
@@ -446,7 +635,8 @@ sessionData.session;
 
 if(!session){
 
-window.location.href="login.html";
+window.location.href =
+"login.html";
 
 return;
 
@@ -457,9 +647,9 @@ const usuarioId =
 session.user.id;
 
 
-/* ==============================
+/* =================================
    BUSCAR CLIENTE
-============================== */
+================================= */
 
 const {
 data:cliente,
@@ -467,8 +657,13 @@ error:clienteError
 } =
 await supabaseClient
 .from("clientes")
-.select("id,Nome,Telefone,E-mail,Data_cadastro")
-.eq("auth_user_id",usuarioId)
+.select(
+"id,Nome,Telefone,E-mail,Data_cadastro"
+)
+.eq(
+"auth_user_id",
+usuarioId
+)
 .maybeSingle();
 
 
@@ -492,9 +687,9 @@ return;
 }
 
 
-/* ==============================
-   MOSTRAR DADOS
-============================== */
+/* =================================
+   MOSTRAR PERFIL
+================================= */
 
 document.getElementById("nomeCliente")
 .innerText =
@@ -517,26 +712,30 @@ cliente["E-mail"] || "-";
 
 
 document.getElementById("mensagem")
-.style.display="none";
+.style.display =
+"none";
 
 
 document.getElementById("conteudo")
-.style.display="block";
+.style.display =
+"block";
 
 
-/* ==============================
+/* =================================
    AGENDAMENTOS
-============================== */
+================================= */
 
 await carregarAgendamentos(usuarioId);
 
 
-}catch(error){
+}
+
+catch(error){
 
 console.error(error);
 
 document.getElementById("mensagem").innerHTML =
-"❌ Erro ao carregar sua conta: " +
+"❌ Erro ao carregar sua conta:<br><br>" +
 (error.message || error);
 
 document.getElementById("mensagem")
@@ -547,14 +746,16 @@ document.getElementById("mensagem")
 }
 
 
-/* ==============================
+/* =================================
    CARREGAR AGENDAMENTOS
-============================== */
+================================= */
 
 async function carregarAgendamentos(usuarioId){
 
 const lista =
-document.getElementById("listaAgendamentos");
+document.getElementById(
+"listaAgendamentos"
+);
 
 
 const {
@@ -564,9 +765,18 @@ error
 await supabaseClient
 .from("agendamentos")
 .select("*")
-.eq("auth_user_id",usuarioId)
-.order("Data",{ascending:true})
-.order("Horário",{ascending:true});
+.eq(
+"auth_user_id",
+usuarioId
+)
+.order(
+"Data",
+{ascending:true}
+)
+.order(
+"Horário",
+{ascending:true}
+);
 
 
 if(error){
@@ -581,74 +791,166 @@ return;
 }
 
 
-if(!agendamentos ||
-agendamentos.length===0){
+if(
+!agendamentos ||
+agendamentos.length === 0
+){
 
-lista.innerHTML =
-`
-<p class="info">
+lista.innerHTML = `
+
+<div class="vazio">
+
+<p>
 Você ainda não possui agendamentos.
 </p>
+
+<a
+href="agendamento.html"
+class="botao">
+
+✂️ AGENDAR MEU PRIMEIRO SERVIÇO
+
+</a>
+
+</div>
+
 `;
+
+atualizarResumo([]);
 
 return;
 
 }
 
 
-lista.innerHTML="";
+/* =================================
+   RESUMO
+================================= */
+
+atualizarResumo(
+agendamentos
+);
 
 
-agendamentos.forEach(item=>{
+lista.innerHTML = "";
+
+
+/* =================================
+   IDENTIFICAR PRÓXIMO
+================================= */
+
+const hoje =
+new Date()
+.toISOString()
+.split("T")[0];
+
+
+const futuros =
+agendamentos.filter(item => {
+
+return (
+item["Data"] >= hoje &&
+item["Status"] !== "Cancelado"
+);
+
+});
+
+
+const proximoId =
+futuros.length > 0
+? futuros[0].id
+: null;
+
+
+/* =================================
+   MOSTRAR AGENDAMENTOS
+================================= */
+
+agendamentos.forEach(item => {
+
 
 const status =
-item["Status"] || "Pendente";
+item["Status"] ||
+"Pendente";
 
 
 let classe =
 "status-pendente";
 
 
-if(status==="Confirmado"){
+if(status === "Confirmado"){
 
-classe="status-confirmado";
-
-}
-
-
-if(status==="Concluído"){
-
-classe="status-concluido";
+classe =
+"status-confirmado";
 
 }
 
 
-if(status==="Cancelado"){
+if(status === "Concluído"){
 
-classe="status-cancelado";
+classe =
+"status-concluido";
+
+}
+
+
+if(status === "Cancelado"){
+
+classe =
+"status-cancelado";
 
 }
 
 
 const valor =
-Number(item["Valor"] || 0);
+Number(
+item["Valor"] || 0
+);
 
 
 const horario =
 item["Horário"]
-? String(item["Horário"]).substring(0,5)
-: "";
+? String(
+item["Horário"]
+).substring(0,5)
+: "-";
+
+
+const pagamento =
+item["Pagamento"] ||
+"Pendente";
+
+
+const classePagamento =
+pagamento === "Pago"
+? "pagamento-pago"
+: "pagamento-pendente";
 
 
 const div =
 document.createElement("div");
 
 
-div.className="agendamento";
+div.className =
+"agendamento";
 
 
-div.innerHTML =
-`
+if(item.id === proximoId){
+
+div.classList.add("proximo");
+
+}
+
+
+div.innerHTML = `
+
+${
+item.id === proximoId
+?
+"<div style='color:#ffd700;font-weight:bold;margin-bottom:10px'>⭐ PRÓXIMO AGENDAMENTO</div>"
+:
+""
+}
 
 <div>
 
@@ -658,17 +960,15 @@ div.innerHTML =
 
 </div>
 
-<br>
-
-<div>
+<div class="linha">
 📅 Data: ${item["Data"] || "-"}
 </div>
 
-<div>
-🕐 Horário: ${horario || "-"}
+<div class="linha">
+🕐 Horário: ${horario}
 </div>
 
-<div>
+<div class="linha">
 💰 Valor: R$ ${valor.toFixed(2).replace(".",",")}
 </div>
 
@@ -680,41 +980,107 @@ ${status}
 
 </div>
 
-<div>
+<div class="linha">
 
 Pagamento:
-<strong>
-${item["Pagamento"] || "Pendente"}
+
+<strong class="${classePagamento}">
+${pagamento}
 </strong>
 
 </div>
 
 `;
 
-
 lista.appendChild(div);
 
 });
 
+
 }
 
 
-/* ==============================
+/* =================================
+   ATUALIZAR RESUMO
+================================= */
+
+function atualizarResumo(agendamentos){
+
+const total =
+agendamentos.length;
+
+
+const confirmados =
+agendamentos.filter(
+item =>
+item["Status"] === "Confirmado"
+).length;
+
+
+const concluidos =
+agendamentos.filter(
+item =>
+item["Status"] === "Concluído"
+).length;
+
+
+const totalServicos =
+agendamentos.reduce(
+(soma,item) =>
+soma +
+Number(item["Valor"] || 0),
+0
+);
+
+
+document.getElementById(
+"totalAgendamentos"
+).innerText =
+total;
+
+
+document.getElementById(
+"totalConfirmados"
+).innerText =
+confirmados;
+
+
+document.getElementById(
+"totalConcluidos"
+).innerText =
+concluidos;
+
+
+document.getElementById(
+"totalServicos"
+).innerText =
+"R$ " +
+totalServicos
+.toFixed(2)
+.replace(".",",");
+
+}
+
+
+/* =================================
    SAIR
-============================== */
+================================= */
 
 async function sair(){
 
-await supabaseClient.auth.signOut();
+await supabaseClient
+.auth
+.signOut();
 
-window.location.href="login.html";
+window.location.href =
+"login.html";
 
 }
 
 
-/* ==============================
+/* =================================
    EXECUTAR
-============================== */
+================================= */
 
 iniciar();
 
@@ -722,4 +1088,4 @@ iniciar();
 
 </body>
 
-  </html>
+   </html>
