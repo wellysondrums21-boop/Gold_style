@@ -1,193 +1,222 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pagamento Pix - Gold Style</title>
+    <title>Gold Style - Pagamento</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #332700, #090909 45%, #000);
+            color: white;
+        }
 
-body{
-    min-height:100vh;
-    font-family:Arial, sans-serif;
-    background:#050505;
-    color:white;
-    padding:20px;
-}
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: auto;
+            padding: 20px;
+        }
 
-.container{
-    width:100%;
-    max-width:500px;
-    margin:0 auto;
-}
+        .logo {
+            text-align: center;
+            color: #ffd700;
+            font-size: 30px;
+            font-weight: 900;
+            text-shadow:
+                0 0 8px #ffd700,
+                0 0 20px #b8860b;
+            padding: 20px 0 5px;
+        }
 
-.logo{
-    text-align:center;
-    margin-bottom:25px;
-}
+        .sublogo {
+            text-align: center;
+            color: #aaa;
+            font-size: 11px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
 
-.logo h1{
-    color:#ffd700;
-    font-size:32px;
-    text-shadow:0 0 15px #ffd700;
-}
+        .box {
+            background: rgba(12,12,12,.96);
+            border: 1px solid #5b4b12;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 0 25px rgba(255,215,0,.06);
+        }
 
-.logo p{
-    color:#aaa;
-    margin-top:5px;
-}
+        h1 {
+            color: #ffd700;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
 
-.card{
-    background:#101010;
-    border:1px solid #d4af37;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 0 25px rgba(255,215,0,.15);
-}
+        .descricao {
+            color: #aaa;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
 
-.titulo{
-    text-align:center;
-    color:#ffd700;
-    font-size:25px;
-    margin-bottom:20px;
-}
+        label {
+            display: block;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-top: 15px;
+        }
 
-.info{
-    background:#181818;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:20px;
-}
+        select,
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #39320f;
+            background: #050505;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
 
-.linha{
-    display:flex;
-    justify-content:space-between;
-    gap:15px;
-    padding:10px 0;
-    border-bottom:1px solid #333;
-}
+        select:focus,
+        input:focus {
+            border-color: #ffd700;
+        }
 
-.linha:last-child{
-    border-bottom:none;
-}
+        .agendamento {
+            background: #080808;
+            border: 1px solid #292929;
+            border-radius: 13px;
+            padding: 15px;
+            margin-top: 12px;
+        }
 
-.label{
-    color:#999;
-}
+        .agendamento strong {
+            color: #ffd700;
+            display: block;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
 
-.valor{
-    font-weight:bold;
-    text-align:right;
-}
+        .agendamento span {
+            display: block;
+            color: #bbb;
+            margin-top: 5px;
+        }
 
-.preco{
-    color:#ffd700;
-    font-size:26px;
-}
+        .valor {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ffd700;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 0 0 12px rgba(255,215,0,.3);
+        }
 
-.pix-box{
-    border:1px solid #ffd700;
-    border-radius:15px;
-    padding:20px;
-    text-align:center;
-    margin-top:20px;
-}
+        .pix-box {
+            border: 1px solid #d4af37;
+            background: linear-gradient(
+                135deg,
+                rgba(255,215,0,.09),
+                rgba(0,0,0,.8)
+            );
+            border-radius: 15px;
+            padding: 18px;
+            margin-top: 18px;
+        }
 
-.pix-box h3{
-    color:#ffd700;
-    margin-bottom:10px;
-}
+        .pix-title {
+            color: #ffd700;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-.pix-box p{
-    color:#ccc;
-    line-height:1.5;
-}
+        .pix-info {
+            color: #ccc;
+            line-height: 1.6;
+        }
 
-.btn{
-    display:block;
-    width:100%;
-    border:none;
-    border-radius:12px;
-    padding:15px;
-    margin-top:15px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-}
+        .botao {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            background: linear-gradient(
+                135deg,
+                #fff000,
+                #d4af37,
+                #a87800
+            );
+            color: #000;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255,215,0,.2);
+        }
 
-.btn-pix{
-    background:#ffd700;
-    color:#000;
-}
+        .botao:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
 
-.btn-pix:hover{
-    background:#fff000;
-}
+        .voltar {
+            display: block;
+            text-align: center;
+            color: #ffd700;
+            text-decoration: none;
+            margin-top: 18px;
+            font-weight: bold;
+        }
 
-.btn-voltar{
-    background:#222;
-    color:#fff;
-    border:1px solid #555;
-}
+        .mensagem {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
 
-.btn-voltar:hover{
-    background:#333;
-}
+        .sucesso {
+            display: block;
+            background: #0d2918;
+            border: 1px solid #267443;
+            color: #76e49a;
+        }
 
-.mensagem{
-    display:none;
-    margin-top:15px;
-    padding:15px;
-    border-radius:10px;
-    text-align:center;
-    line-height:1.5;
-}
+        .erro {
+            display: block;
+            background: #2c1010;
+            border: 1px solid #7d3030;
+            color: #ff8b8b;
+        }
 
-.sucesso{
-    display:block;
-    background:#0d2b17;
-    border:1px solid #1fa855;
-    color:#7dff9f;
-}
+        .carregando {
+            text-align: center;
+            color: #aaa;
+            padding: 30px;
+        }
 
-.erro{
-    display:block;
-    background:#351010;
-    border:1px solid #ff4444;
-    color:#ff8888;
-}
-
-.aviso{
-    display:block;
-    background:#302800;
-    border:1px solid #ffd700;
-    color:#ffe878;
-}
-
-.small{
-    margin-top:15px;
-    color:#777;
-    font-size:12px;
-    text-align:center;
-    line-height:1.5;
-}
-
-.loading{
-    text-align:center;
-    color:#ffd700;
-    padding:30px;
-}
-
-</style>
+        footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            padding: 15px 0 30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -195,89 +224,137 @@ body{
 <div class="container">
 
     <div class="logo">
-        <h1>GOLD STYLE</h1>
-        <p>BARBEARIA DESDE 2022</p>
+        GOLD STYLE
     </div>
 
-    <div class="card">
+    <div class="sublogo">
+        BARBEARIA DESDE 2022
+    </div>
 
-        <div id="loading" class="loading">
-            Carregando pagamento...
+
+    <div class="box">
+
+        <h1>💰 Pagamento do atendimento</h1>
+
+        <p class="descricao">
+            Selecione um dos seus agendamentos para registrar o pagamento.
+        </p>
+
+
+        <div id="carregando" class="carregando">
+            Carregando seus agendamentos...
         </div>
+
 
         <div id="conteudo" style="display:none;">
 
-            <div class="titulo">
-                Pagamento Pix
+            <label for="agendamento">
+                SELECIONE O AGENDAMENTO
+            </label>
+
+            <select id="agendamento">
+                <option value="">
+                    Escolha um horário
+                </option>
+            </select>
+
+
+            <div id="detalhes"></div>
+
+
+            <label for="metodo">
+                FORMA DE PAGAMENTO
+            </label>
+
+            <select id="metodo">
+
+                <option value="">
+                    Selecione
+                </option>
+
+                <option value="Pix">
+                    Pix
+                </option>
+
+                <option value="Cartão">
+                    Cartão
+                </option>
+
+                <option value="Dinheiro">
+                    Dinheiro
+                </option>
+
+            </select>
+
+
+            <div id="valor" class="valor">
+                R$ 0,00
             </div>
 
-            <div class="info">
-
-                <div class="linha">
-                    <span class="label">Serviço</span>
-                    <span class="valor" id="servico">---</span>
-                </div>
-
-                <div class="linha">
-                    <span class="label">Data</span>
-                    <span class="valor" id="data">---</span>
-                </div>
-
-                <div class="linha">
-                    <span class="label">Horário</span>
-                    <span class="valor" id="horario">---</span>
-                </div>
-
-                <div class="linha">
-                    <span class="label">Valor</span>
-                    <span class="valor preco" id="valor">R$ 0,00</span>
-                </div>
-
-                <div class="linha">
-                    <span class="label">Status</span>
-                    <span class="valor" id="status">---</span>
-                </div>
-
-            </div>
 
             <div class="pix-box">
 
-                <h3>💰 PAGAMENTO VIA PIX</h3>
+                <div class="pix-title">
+                    🔑 Pagamento via Pix
+                </div>
 
-                <p>
-                    Realize o pagamento do seu agendamento
-                    através do Pix.
-                </p>
+                <div class="pix-info">
 
-                <button
-                    class="btn btn-pix"
-                    id="btnRegistrar"
-                    onclick="registrarPagamento()">
-                    ✅ REGISTRAR PAGAMENTO PIX
-                </button>
+                    Depois de realizar o Pix, registre o pagamento
+                    abaixo para que ele fique associado ao seu
+                    agendamento.
+
+                    <br><br>
+
+                    <strong style="color:#ffd700;">
+                        Chave Pix:
+                    </strong>
+
+                    68999853643
+
+                </div>
 
             </div>
 
-            <div id="mensagem" class="mensagem"></div>
 
             <button
-                class="btn btn-voltar"
-                onclick="window.location.href='cliente.html'">
-                ← VOLTAR PARA MINHA ÁREA
+                id="btnPagamento"
+                class="botao"
+                onclick="registrarPagamento()"
+                disabled
+            >
+                REGISTRAR PAGAMENTO
             </button>
 
-            <div class="small">
-                Após realizar o Pix, o pagamento ficará registrado
-                como pendente até a confirmação.
-                <br><br>
-                A confirmação automática do Pix ainda não está ativa.
-            </div>
+
+            <div
+                id="mensagem"
+                class="mensagem"
+            ></div>
 
         </div>
 
     </div>
 
+
+    <a
+        href="cliente.html"
+        class="voltar"
+    >
+        ← Voltar para minha área
+    </a>
+
+
+    <footer>
+        <strong style="color:#ffd700;">
+            GOLD STYLE BARBEARIA
+        </strong>
+        <br>
+        Rua Preciosa 557 • Rio Branco - Acre
+    </footer>
+
 </div>
+
 
 <script>
 
@@ -293,40 +370,32 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
-let agendamentoAtual = null;
-let clienteAtual = null;
-let pagamentoExistente = null;
 
-const params = new URLSearchParams(window.location.search);
+let usuario = null;
 
-const agendamentoId = params.get("agendamento");
+let cliente = null;
 
-const loading = document.getElementById("loading");
-const conteudo = document.getElementById("conteudo");
-const mensagem = document.getElementById("mensagem");
-const btnRegistrar = document.getElementById("btnRegistrar");
+let agendamentos = [];
 
 
-function mostrarMensagem(texto, tipo){
+function dinheiro(valor){
 
-    mensagem.className = "mensagem " + tipo;
-
-    mensagem.innerHTML = texto;
-
-    mensagem.style.display = "block";
-}
-
-
-function esconderMensagem(){
-
-    mensagem.style.display = "none";
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
 
 
-function formatarData(data){
+function dataBR(data){
 
-    if(!data) return "---";
+    if(!data){
+        return "---";
+    }
 
     const partes = data.split("-");
 
@@ -334,415 +403,484 @@ function formatarData(data){
         return data;
     }
 
-    return partes[2] + "/" + partes[1] + "/" + partes[0];
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
 
-function formatarValor(valor){
+function horarioBR(horario){
 
-    return Number(valor || 0).toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
+    if(!horario){
+        return "---";
+    }
+
+    if(horario.includes("T")){
+        return horario
+            .split("T")[1]
+            .substring(0,5);
+    }
+
+    return horario.substring(0,5);
 
 }
 
 
-async function carregarPagina(){
+function mostrarMensagem(texto, tipo){
 
-    esconderMensagem();
+    const elemento =
+        document.getElementById("mensagem");
 
-    if(!agendamentoId){
+    elemento.className =
+        "mensagem " + tipo;
 
-        loading.style.display = "none";
+    elemento.textContent =
+        texto;
 
-        mostrarMensagem(
-            "Agendamento não informado.",
-            "erro"
-        );
-
-        return;
-    }
+}
 
 
-    const {
-        data:{
-            session
+async function iniciar(){
+
+    try{
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getSession();
+
+
+        if(error){
+
+            throw error;
+
         }
-    } = await supabaseClient.auth.getSession();
 
 
-    if(!session){
+        if(!data.session){
 
-        window.location.href = "login.html";
+            window.location.href =
+                "login.html";
 
-        return;
-    }
+            return;
 
-
-    /*
-    CARREGAR AGENDAMENTO
-    */
-
-    const {
-        data:agendamento,
-        error:errorAgendamento
-    } = await supabaseClient
-
-        .from("agendamentos")
-
-        .select(`
-            id,
-            "Serviços",
-            "Valor",
-            "Data",
-            "Horário",
-            "Status",
-            "Pagamento",
-            "Cliente_id"
-        `)
-
-        .eq("id",agendamentoId)
-
-        .eq("auth_user_id",session.user.id)
-
-        .maybeSingle();
+        }
 
 
-    if(errorAgendamento){
+        usuario =
+            data.session.user;
 
-        loading.style.display = "none";
+
+        const {
+            data: clienteData,
+            error: clienteError
+        } = await supabaseClient
+            .from("clientes")
+            .select(
+                "id,Nome,Telefone,E-mail"
+            )
+            .eq(
+                "auth_user_id",
+                usuario.id
+            )
+            .maybeSingle();
+
+
+        if(clienteError){
+
+            throw clienteError;
+
+        }
+
+
+        cliente =
+            clienteData;
+
+
+        if(!cliente){
+
+            mostrarMensagem(
+                "Seu cadastro de cliente não foi encontrado.",
+                "erro"
+            );
+
+            document.getElementById(
+                "carregando"
+            ).style.display = "none";
+
+            return;
+
+        }
+
+
+        const {
+            data: lista,
+            error: agendamentoError
+        } = await supabaseClient
+            .from("agendamentos")
+            .select("*")
+            .eq(
+                "auth_user_id",
+                usuario.id
+            )
+            .order(
+                "Data",
+                {
+                    ascending: true
+                }
+            )
+            .order(
+                "Horário",
+                {
+                    ascending: true
+                }
+            );
+
+
+        if(agendamentoError){
+
+            throw agendamentoError;
+
+        }
+
+
+        agendamentos =
+            lista || [];
+
+
+        preencherAgendamentos();
+
+
+        document.getElementById(
+            "carregando"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "conteudo"
+        ).style.display = "block";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "carregando"
+        ).textContent =
+            "Não foi possível carregar seus dados.";
 
         mostrarMensagem(
-            "Erro ao carregar o agendamento: " +
-            errorAgendamento.message,
+            error.message ||
+            "Erro ao carregar seus dados.",
             "erro"
         );
 
-        return;
     }
 
+}
 
-    if(!agendamento){
 
-        loading.style.display = "none";
+function preencherAgendamentos(){
 
-        mostrarMensagem(
-            "Agendamento não encontrado ou você não tem acesso a ele.",
-            "erro"
+    const select =
+        document.getElementById(
+            "agendamento"
         );
 
-        return;
-    }
 
-
-    agendamentoAtual = agendamento;
-
-
-    /*
-    CARREGAR CLIENTE
-    */
-
-    const {
-        data:cliente,
-        error:errorCliente
-    } = await supabaseClient
-
-        .from("clientes")
-
-        .select(`
-            id,
-            Nome,
-            Telefone,
-            "E-mail"
-        `)
-
-        .eq("id",agendamento.Cliente_id)
-
-        .eq("auth_user_id",session.user.id)
-
-        .maybeSingle();
-
-
-    if(errorCliente){
-
-        loading.style.display = "none";
-
-        mostrarMensagem(
-            "Erro ao carregar cliente: " +
-            errorCliente.message,
-            "erro"
+    const disponiveis =
+        agendamentos.filter(
+            item =>
+                item.Status !== "Cancelado"
         );
+
+
+    if(!disponiveis.length){
+
+        select.innerHTML = `
+            <option value="">
+                Nenhum agendamento disponível
+            </option>
+        `;
+
+        document.getElementById(
+            "btnPagamento"
+        ).disabled = true;
 
         return;
+
     }
 
 
-    clienteAtual = cliente;
+    select.innerHTML = `
+        <option value="">
+            Escolha um horário
+        </option>
+    `;
 
 
-    /*
-    PREENCHER TELA
-    */
+    disponiveis.forEach(item => {
 
-    document.getElementById("servico").textContent =
-        agendamento["Serviços"] || "---";
+        const option =
+            document.createElement("option");
 
 
-    document.getElementById("data").textContent =
-        formatarData(agendamento["Data"]);
+        option.value =
+            item.id;
 
 
-    document.getElementById("horario").textContent =
-        agendamento["Horário"]
-        ? agendamento["Horário"].substring(0,5)
-        : "---";
+        option.textContent =
+            `${dataBR(item.Data)} • ${horarioBR(item.Horário)} • ${item["Serviços"] || "Serviço"} • ${dinheiro(item.Valor)}`;
 
 
-    document.getElementById("valor").textContent =
-        formatarValor(agendamento["Valor"]);
+        select.appendChild(option);
+
+    });
+
+}
 
 
-    document.getElementById("status").textContent =
-        agendamento["Pagamento"] || "Pendente";
+document.getElementById(
+    "agendamento"
+).addEventListener(
+    "change",
+    mostrarDetalhes
+);
 
 
-    /*
-    VERIFICAR SE JÁ EXISTE PAGAMENTO
-    */
-
-    const {
-        data:pagamento,
-        error:errorPagamento
-    } = await supabaseClient
-
-        .from("pagamentos")
-
-        .select(`
-            id,
-            agendamento_id,
-            cliente_id,
-            valor,
-            metodo,
-            status,
-            referencia,
-            criado_em
-        `)
-
-        .eq("agendamento_id",agendamentoId)
-
-        .eq("cliente_id",clienteAtual.id)
-
-        .order("criado_em",{ascending:false})
-
-        .limit(1)
-
-        .maybeSingle();
+document.getElementById(
+    "metodo"
+).addEventListener(
+    "change",
+    atualizarBotao
+);
 
 
-    if(errorPagamento){
+function mostrarDetalhes(){
 
-        console.log(
-            "Aviso ao consultar pagamento:",
-            errorPagamento.message
+    const id =
+        document.getElementById(
+            "agendamento"
+        ).value;
+
+
+    const item =
+        agendamentos.find(
+            agendamento =>
+                agendamento.id === id
         );
 
-    }
 
-
-    pagamentoExistente = pagamento;
-
-
-    if(pagamentoExistente){
-
-        btnRegistrar.textContent =
-            "✅ PAGAMENTO JÁ REGISTRADO";
-
-        btnRegistrar.disabled = true;
-
-        btnRegistrar.style.opacity = "0.6";
-
-        mostrarMensagem(
-            "Este agendamento já possui um pagamento registrado como " +
-            "<strong>" +
-            (pagamentoExistente.status || "Pendente") +
-            "</strong>.",
-            "aviso"
+    const detalhes =
+        document.getElementById(
+            "detalhes"
         );
 
+
+    if(!item){
+
+        detalhes.innerHTML = "";
+
+        document.getElementById(
+            "valor"
+        ).textContent =
+            "R$ 0,00";
+
+        atualizarBotao();
+
+        return;
+
     }
 
 
-    loading.style.display = "none";
+    detalhes.innerHTML = `
 
-    conteudo.style.display = "block";
+        <div class="agendamento">
+
+            <strong>
+                ${item["Serviços"] || "Serviço"}
+            </strong>
+
+            <span>
+                📅 Data:
+                ${dataBR(item.Data)}
+            </span>
+
+            <span>
+                ⏰ Horário:
+                ${horarioBR(item.Horário)}
+            </span>
+
+            <span>
+                📌 Status:
+                ${item.Status || "Pendente"}
+            </span>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "valor"
+    ).textContent =
+        dinheiro(item.Valor);
+
+
+    atualizarBotao();
+
+}
+
+
+function atualizarBotao(){
+
+    const agendamento =
+        document.getElementById(
+            "agendamento"
+        ).value;
+
+
+    const metodo =
+        document.getElementById(
+            "metodo"
+        ).value;
+
+
+    document.getElementById(
+        "btnPagamento"
+    ).disabled =
+        !(agendamento && metodo);
 
 }
 
 
 async function registrarPagamento(){
 
-    esconderMensagem();
+    const agendamentoId =
+        document.getElementById(
+            "agendamento"
+        ).value;
 
 
-    if(!agendamentoAtual){
+    const metodo =
+        document.getElementById(
+            "metodo"
+        ).value;
+
+
+    if(!agendamentoId || !metodo){
 
         mostrarMensagem(
-            "Agendamento não carregado.",
+            "Selecione o agendamento e a forma de pagamento.",
             "erro"
         );
 
         return;
+
     }
 
 
-    if(!clienteAtual){
+    const item =
+        agendamentos.find(
+            agendamento =>
+                agendamento.id === agendamentoId
+        );
+
+
+    if(!item){
 
         mostrarMensagem(
-            "Cliente não identificado.",
+            "Agendamento não encontrado.",
             "erro"
         );
 
         return;
+
     }
 
 
-    if(pagamentoExistente){
-
-        mostrarMensagem(
-            "Este pagamento já foi registrado.",
-            "aviso"
+    const botao =
+        document.getElementById(
+            "btnPagamento"
         );
 
-        return;
-    }
 
+    botao.disabled = true;
 
-    btnRegistrar.disabled = true;
-
-    btnRegistrar.textContent =
+    botao.textContent =
         "REGISTRANDO...";
 
 
-    const referencia =
-        "PIX-GOLD-" +
-        Date.now();
+    try{
+
+        const {
+            error
+        } = await supabaseClient
+            .from("pagamentos")
+            .insert({
+
+                agendamento_id:
+                    item.id,
+
+                cliente_id:
+                    cliente.id,
+
+                valor:
+                    Number(item.Valor || 0),
+
+                metodo:
+                    metodo,
+
+                status:
+                    "Pendente",
+
+                referencia:
+                    `Gold Style - ${item["Serviços"] || "Serviço"}`
+
+            });
 
 
-    /*
-    INSERIR PAGAMENTO
-    */
+        if(error){
 
-    const {
-        data,
-        error
-    } = await supabaseClient
+            throw error;
 
-        .from("pagamentos")
-
-        .insert({
-
-            agendamento_id:
-                agendamentoAtual.id,
-
-            cliente_id:
-                clienteAtual.id,
-
-            valor:
-                agendamentoAtual["Valor"],
-
-            metodo:
-                "Pix",
-
-            status:
-                "Pendente",
-
-            referencia:
-                referencia
-
-        })
-
-        .select()
-        
-        .maybeSingle();
-
-
-    if(error){
-
-        console.error(error);
-
-        btnRegistrar.disabled = false;
-
-        btnRegistrar.textContent =
-            "✅ REGISTRAR PAGAMENTO PIX";
+        }
 
 
         mostrarMensagem(
-            "Não foi possível registrar o pagamento.<br><br>" +
-            "<strong>" +
-            error.message +
-            "</strong>",
+            "Pagamento registrado com sucesso! Ele ficará como Pendente até a confirmação.",
+            "sucesso"
+        );
+
+
+        botao.textContent =
+            "PAGAMENTO REGISTRADO";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensagem(
+            error.message ||
+            "Não foi possível registrar o pagamento.",
             "erro"
         );
 
-        return;
+
+        botao.disabled = false;
+
+        botao.textContent =
+            "REGISTRAR PAGAMENTO";
+
     }
-
-
-    /*
-    ATUALIZAR O AGENDAMENTO
-    */
-
-    const {
-        error:errorAgendamento
-    } = await supabaseClient
-
-        .from("agendamentos")
-
-        .update({
-            "Pagamento":"Pendente"
-        })
-
-        .eq("id",agendamentoAtual.id)
-        
-        .eq("auth_user_id",clienteAtual.auth_user_id || "");
-
-
-    /*
-    MESMO QUE O UPDATE NÃO SEJA NECESSÁRIO,
-    O REGISTRO DO PAGAMENTO JÁ FOI CRIADO.
-    */
-
-
-    pagamentoExistente = data;
-
-
-    btnRegistrar.textContent =
-        "✅ PAGAMENTO REGISTRADO";
-
-    btnRegistrar.disabled = true;
-
-
-    mostrarMensagem(
-        "Pagamento Pix registrado com sucesso!<br><br>" +
-        "Referência: <strong>" +
-        referencia +
-        "</strong><br><br>" +
-        "Status: <strong>Pendente</strong><br><br>" +
-        "Agora o pagamento poderá ser confirmado pelo administrador.",
-        "sucesso"
-    );
 
 }
 
 
-carregarPagina();
+iniciar();
 
 </script>
 
 </body>
-                                                         </html>
+        </html>
