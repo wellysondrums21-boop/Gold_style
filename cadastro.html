@@ -1,302 +1,487 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login | Gold Style</title>
+    <title>Cadastro | Gold Style</title>
 
-  <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, #3a2b00 0%, #080808 45%, #000000 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    label {
-      color: #ffd700;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+        .container {
+            width: 100%;
+            max-width: 430px;
+            background: rgba(10, 10, 10, 0.96);
+            border: 1px solid #d4af37;
+            border-radius: 22px;
+            padding: 30px 24px;
+            box-shadow:
+                0 0 20px rgba(212, 175, 55, 0.25),
+                0 0 50px rgba(212, 175, 55, 0.08);
+        }
 
-    input {
-      width: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    input:focus {
-      border-color: #ffd700;
-    }
+        .logo h1 {
+            color: #ffd700;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow:
+                0 0 8px rgba(255, 215, 0, 0.8),
+                0 0 20px rgba(255, 215, 0, 0.35);
+        }
 
-    button {
-      border: none;
-      cursor: pointer;
-      margin-top: 15px;
-    }
+        .logo p {
+            color: #d4af37;
+            font-size: 13px;
+            margin-top: 6px;
+            letter-spacing: 2px;
+        }
 
-    #mensagem {
-      text-align: center;
-      line-height: 1.5;
-      margin: 18px 0;
-    }
-  </style>
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #ffffff;
+            font-size: 23px;
+        }
+
+        .campo {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #555;
+            background: #151515;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+        }
+
+        input::placeholder {
+            color: #777;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            color: #000;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #mensagem {
+            display: none;
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .sucesso {
+            display: block !important;
+            background: rgba(0, 150, 70, 0.15);
+            border: 1px solid #00c853;
+            color: #69f0ae;
+        }
+
+        .erro {
+            display: block !important;
+            background: rgba(180, 0, 0, 0.15);
+            border: 1px solid #ff4444;
+            color: #ff7777;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 22px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .login a {
+            color: #ffd700;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login a:hover {
+            text-decoration: underline;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #888;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .voltar:hover {
+            color: #ffd700;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">ÁREA DO CLIENTE</div>
-</header>
+<div class="container">
 
-<main>
+    <div class="logo">
+        <h1>GOLD STYLE</h1>
+        <p>BARBEARIA DESDE 2022</p>
+    </div>
 
-  <section class="hero">
+    <h2>Crie sua conta</h2>
 
-    <h1>Bem-vindo!</h1>
+    <form id="cadastroForm">
 
-    <p>
-      Entre na sua conta para acessar
-      seus agendamentos.
-    </p>
+        <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input
+                type="text"
+                id="nome"
+                placeholder="Digite seu nome"
+                required
+            >
+        </div>
 
-  </section>
+        <div class="campo">
+            <label for="telefone">WhatsApp</label>
+            <input
+                type="tel"
+                id="telefone"
+                placeholder="Ex.: 68999853643"
+                required
+            >
+        </div>
 
+        <div class="campo">
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                placeholder="seuemail@gmail.com"
+                required
+            >
+        </div>
 
-  <form id="loginForm">
+        <div class="campo">
+            <label for="senha">Senha</label>
+            <input
+                type="password"
+                id="senha"
+                placeholder="Mínimo 6 caracteres"
+                minlength="6"
+                required
+            >
+        </div>
 
-    <label for="email">
-      E-mail
-    </label>
+        <div class="campo">
+            <label for="confirmarSenha">Confirmar senha</label>
+            <input
+                type="password"
+                id="confirmarSenha"
+                placeholder="Digite a senha novamente"
+                minlength="6"
+                required
+            >
+        </div>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Digite seu e-mail"
-      required>
+        <button type="submit" id="btnCadastrar">
+            CRIAR MINHA CONTA
+        </button>
 
+    </form>
 
-    <label for="senha">
-      Senha
-    </label>
+    <div id="mensagem"></div>
 
-    <input
-      type="password"
-      id="senha"
-      placeholder="Digite sua senha"
-      required>
+    <div class="login">
+        Já possui uma conta?
+        <a href="login.html">Entrar</a>
+    </div>
 
+    <a class="voltar" href="index.html">
+        ← Voltar para a Gold Style
+    </a>
 
-    <button
-      type="submit"
-      class="btn btn-gold"
-      id="botaoLogin">
-
-      ENTRAR
-
-    </button>
-
-  </form>
-
-
-  <div id="mensagem"></div>
-
-
-  <a
-    href="cadastro.html"
-    class="btn btn-dark">
-
-    CRIAR MINHA CONTA
-
-  </a>
-
-
-  <a
-    href="index.html"
-    class="btn btn-dark">
-
-    VOLTAR PARA INÍCIO
-
-  </a>
-
-</main>
-
-
-<footer>
-
-  <strong>Gold Style Barbearia</strong><br>
-
-  Rio Branco - Acre<br>
-
-  Barbearia desde 2022
-
-</footer>
-
+</div>
 
 <script>
-
-/* =====================================================
-   SUPABASE
-   ===================================================== */
-
-
-/* 🔴 COLOQUE AQUI A URL DO SEU PROJETO */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
-/* 🔴 COLOQUE AQUI A SUA CHAVE sb_publishable_... */
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
 
-
 const supabaseClient =
 window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
 
-/* =====================================================
-   LOGIN
-   ===================================================== */
-
-const form =
-document.getElementById("loginForm");
+const formulario =
+document.getElementById("cadastroForm");
 
 const mensagem =
 document.getElementById("mensagem");
 
 const botao =
-document.getElementById("botaoLogin");
+document.getElementById("btnCadastrar");
 
 
-form.addEventListener(
-  "submit",
-  async function(event) {
+function mostrarMensagem(texto, tipo) {
+
+    mensagem.textContent = texto;
+
+    mensagem.className = tipo;
+
+}
+
+
+formulario.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
+    mensagem.className = "";
+    mensagem.textContent = "";
+
+    const nome =
+    document.getElementById("nome").value.trim();
+
+    const telefone =
+    document.getElementById("telefone").value.trim();
 
     const email =
     document.getElementById("email").value.trim();
 
-
     const senha =
     document.getElementById("senha").value;
+
+    const confirmarSenha =
+    document.getElementById("confirmarSenha").value;
+
+
+    if (!nome) {
+
+        mostrarMensagem(
+            "Digite seu nome completo.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    if (!telefone) {
+
+        mostrarMensagem(
+            "Digite seu número de WhatsApp.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    if (senha.length < 6) {
+
+        mostrarMensagem(
+            "A senha precisa ter pelo menos 6 caracteres.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    if (senha !== confirmarSenha) {
+
+        mostrarMensagem(
+            "As senhas não são iguais.",
+            "erro"
+        );
+
+        return;
+    }
 
 
     botao.disabled = true;
 
-    botao.innerText =
-    "ENTRANDO...";
-
-
-    mensagem.innerHTML =
-    "<span style='color:#ffd700'>" +
-    "Verificando seus dados..." +
-    "</span>";
+    botao.textContent = "CRIANDO CONTA...";
 
 
     try {
 
-      const {
-        data,
-        error
-      } =
-      await supabaseClient.auth.signInWithPassword({
+        const { data, error } =
+        await supabaseClient.auth.signUp({
 
-        email: email,
+            email: email,
 
-        password: senha
+            password: senha,
 
-      });
+            options: {
+
+                data: {
+
+                    nome: nome,
+
+                    telefone: telefone
+
+                },
+
+                emailRedirectTo:
+                "https://wellysondrums21-boop.github.io/Gold_style/login.html"
+
+            }
+
+        });
 
 
-      if (error) {
-        throw error;
-      }
+        if (error) {
+
+            console.error(error);
+
+            mostrarMensagem(
+                error.message,
+                "erro"
+            );
+
+            botao.disabled = false;
+
+            botao.textContent =
+            "CRIAR MINHA CONTA";
+
+            return;
+        }
 
 
-      if (!data.user) {
+        /*
+        =====================================================
+        CADASTRO REALIZADO
+        =====================================================
+        */
 
-        throw new Error(
-          "Usuário não encontrado."
+        if (data.session) {
+
+            mostrarMensagem(
+                "Cadastro realizado com sucesso! Redirecionando...",
+                "sucesso"
+            );
+
+            setTimeout(function() {
+
+                window.location.href =
+                "cliente.html";
+
+            }, 1500);
+
+            return;
+
+        }
+
+
+        /*
+        =====================================================
+        CONFIRMAÇÃO DE E-MAIL ATIVADA
+        =====================================================
+        */
+
+        mostrarMensagem(
+            "Cadastro realizado! Enviamos um e-mail de confirmação para " +
+            email +
+            ". Confirme seu e-mail e depois faça login.",
+            "sucesso"
         );
 
-      }
+
+        formulario.reset();
+
+        botao.disabled = false;
+
+        botao.textContent =
+        "CRIAR MINHA CONTA";
 
 
-      mensagem.innerHTML =
-      "<span style='color:#ffd700;font-weight:bold'>" +
+    } catch (erro) {
 
-      "✅ LOGIN REALIZADO COM SUCESSO!<br><br>" +
+        console.error(erro);
 
-      "Aguarde..." +
+        mostrarMensagem(
+            "Não foi possível realizar o cadastro. Tente novamente.",
+            "erro"
+        );
 
-      "</span>";
+        botao.disabled = false;
 
-
-      /*
-        Por enquanto vamos mandar o cliente
-        para a página inicial.
-
-        Depois vamos criar a área exclusiva
-        do cliente com agendamentos,
-        pagamentos e histórico.
-      */
-
-      setTimeout(function() {
-
-        window.location.href =
-        "index.html";
-
-      }, 1000);
-
+        botao.textContent =
+        "CRIAR MINHA CONTA";
 
     }
 
-    catch (error) {
-
-      console.error(error);
-
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444;font-weight:bold'>" +
-
-      "❌ Não foi possível entrar.<br><br>" +
-
-      error.message +
-
-      "</span>";
-
-
-      botao.disabled = false;
-
-      botao.innerText =
-      "ENTRAR";
-
-    }
-
-  }
-
-);
+});
 
 </script>
 
 </body>
-</html>
+          </html>
