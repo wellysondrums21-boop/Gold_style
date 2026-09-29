@@ -9,7 +9,6 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -34,6 +33,7 @@
       color: white;
       font-size: 16px;
       outline: none;
+      box-sizing: border-box;
     }
 
     input:focus {
@@ -46,10 +46,25 @@
       margin-top: 15px;
     }
 
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     #mensagem {
       text-align: center;
       line-height: 1.5;
       margin: 18px 0;
+    }
+
+    .esqueci {
+      display: block;
+      text-align: center;
+      color: #ffd700;
+      margin: 15px 0;
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -64,16 +79,13 @@
 <main>
 
   <section class="hero">
-
     <h1>Bem-vindo!</h1>
 
     <p>
       Entre na sua conta para acessar
       seus agendamentos.
     </p>
-
   </section>
-
 
   <form id="loginForm">
 
@@ -85,8 +97,8 @@
       type="email"
       id="email"
       placeholder="Digite seu e-mail"
+      autocomplete="email"
       required>
-
 
     <label for="senha">
       Senha
@@ -96,8 +108,8 @@
       type="password"
       id="senha"
       placeholder="Digite sua senha"
+      autocomplete="current-password"
       required>
-
 
     <button
       type="submit"
@@ -110,9 +122,16 @@
 
   </form>
 
-
   <div id="mensagem"></div>
 
+  <a
+    href="javascript:void(0)"
+    class="esqueci"
+    id="esqueciSenha">
+
+    ESQUECI MINHA SENHA
+
+  </a>
 
   <a
     href="cadastro.html"
@@ -121,7 +140,6 @@
     CRIAR MINHA CONTA
 
   </a>
-
 
   <a
     href="index.html"
@@ -133,7 +151,6 @@
 
 </main>
 
-
 <footer>
 
   <strong>Gold Style Barbearia</strong><br>
@@ -144,36 +161,19 @@
 
 </footer>
 
-
 <script>
-
-/* =====================================================
-   SUPABASE
-   ===================================================== */
-
-
-/* 🔴 COLOQUE AQUI A URL DO SEU PROJETO */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
-/* 🔴 COLOQUE AQUI A SUA CHAVE sb_publishable_... */
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-
-
-/* =====================================================
-   LOGIN
-   ===================================================== */
 
 const form =
 document.getElementById("loginForm");
@@ -184,6 +184,9 @@ document.getElementById("mensagem");
 const botao =
 document.getElementById("botaoLogin");
 
+const esqueciSenha =
+document.getElementById("esqueciSenha");
+
 
 form.addEventListener(
   "submit",
@@ -191,33 +194,35 @@ form.addEventListener(
 
     event.preventDefault();
 
-
     const email =
     document.getElementById("email").value.trim();
-
 
     const senha =
     document.getElementById("senha").value;
 
+    if (!email || !senha) {
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444;font-weight:bold'>" +
+      "❌ Preencha o e-mail e a senha." +
+      "</span>";
+
+      return;
+    }
 
     botao.disabled = true;
 
     botao.innerText =
     "ENTRANDO...";
 
-
     mensagem.innerHTML =
     "<span style='color:#ffd700'>" +
     "Verificando seus dados..." +
     "</span>";
 
-
     try {
 
-      const {
-        data,
-        error
-      } =
+      const { data, error } =
       await supabaseClient.auth.signInWithPassword({
 
         email: email,
@@ -226,64 +231,102 @@ form.addEventListener(
 
       });
 
-
       if (error) {
         throw error;
       }
 
+      const {
+        data: sessionCheck,
+        error: sessionError
+      } =
+      await supabaseClient.auth.getSession();
 
-      if (!data.user) {
+      if (sessionError) {
+        throw sessionError;
+      }
+
+      if (
+        !sessionCheck.session ||
+        !data.user
+      ) {
 
         throw new Error(
-          "Usuário não encontrado."
+          "O login não criou uma sessão. Tente novamente."
         );
 
       }
-
 
       mensagem.innerHTML =
       "<span style='color:#ffd700;font-weight:bold'>" +
 
       "✅ LOGIN REALIZADO COM SUCESSO!<br><br>" +
 
-      "Aguarde..." +
+      "Abrindo sua área de cliente..." +
 
       "</span>";
-
-
-      /*
-        Por enquanto vamos mandar o cliente
-        para a página inicial.
-
-        Depois vamos criar a área exclusiva
-        do cliente com agendamentos,
-        pagamentos e histórico.
-      */
 
       setTimeout(function() {
 
         window.location.href =
-        "index.html";
+        "cliente.html";
 
-      }, 1000);
-
+      }, 700);
 
     }
 
     catch (error) {
 
-      console.error(error);
+      console.error(
+        "Erro no login:",
+        error
+      );
 
+      let texto =
+      error?.message ||
+      "Não foi possível realizar o login.";
+
+      const textoMinusculo =
+      texto.toLowerCase();
+
+      if (
+        textoMinusculo.includes(
+          "email not confirmed"
+        ) ||
+        textoMinusculo.includes(
+          "email_not_confirmed"
+        ) ||
+        textoMinusculo.includes(
+          "email not verified"
+        )
+      ) {
+
+        texto =
+        "Seu e-mail ainda não foi confirmado. " +
+        "Abra o e-mail enviado pela Gold Style " +
+        "e confirme sua conta antes de entrar.";
+
+      }
+
+      else if (
+        textoMinusculo.includes(
+          "invalid login credentials"
+        )
+      ) {
+
+        texto =
+        "E-mail ou senha incorretos. " +
+        "Confira os dados e tente novamente.";
+
+      }
 
       mensagem.innerHTML =
       "<span style='color:#ff4444;font-weight:bold'>" +
 
       "❌ Não foi possível entrar.<br><br>" +
 
-      error.message +
+      texto +
 
       "</span>";
-
 
       botao.disabled = false;
 
@@ -293,10 +336,95 @@ form.addEventListener(
     }
 
   }
+);
 
+
+esqueciSenha.addEventListener(
+  "click",
+  async function() {
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    if (!email) {
+
+      mensagem.innerHTML =
+      "<span style='color:#ffd700;font-weight:bold'>" +
+
+      "Digite seu e-mail primeiro para " +
+      "solicitar a recuperação da senha." +
+
+      "</span>";
+
+      document
+      .getElementById("email")
+      .focus();
+
+      return;
+    }
+
+    mensagem.innerHTML =
+    "<span style='color:#ffd700'>" +
+
+    "Enviando solicitação de recuperação..." +
+
+    "</span>";
+
+    try {
+
+      const { error } =
+      await supabaseClient.auth
+      .resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+          "https://wellysondrums21-boop.github.io/Gold_style/login.html"
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      mensagem.innerHTML =
+      "<span style='color:#ffd700;font-weight:bold'>" +
+
+      "📩 Solicitação enviada!<br><br>" +
+
+      "Se o e-mail estiver cadastrado, " +
+      "você receberá as instruções " +
+      "para redefinir sua senha." +
+
+      "</span>";
+
+    }
+
+    catch (error) {
+
+      console.error(
+        "Erro ao recuperar senha:",
+        error
+      );
+
+      mensagem.innerHTML =
+      "<span style='color:#ff4444;font-weight:bold'>" +
+
+      "❌ Não foi possível solicitar a recuperação." +
+      "<br><br>" +
+
+      (
+        error?.message ||
+        "Tente novamente."
+      ) +
+
+      "</span>";
+
+    }
+
+  }
 );
 
 </script>
 
 </body>
-</html>
+  </html>
