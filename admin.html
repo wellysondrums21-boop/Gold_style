@@ -143,6 +143,10 @@
             color: #ffbd4a;
         }
 
+        .card.azul .valor {
+            color: #70d9ff;
+        }
+
         .section {
             background: #101010;
             border: 1px solid #333;
@@ -186,6 +190,10 @@
 
         .resumo.vermelho strong {
             color: #ff7777;
+        }
+
+        .resumo.azul strong {
+            color: #70d9ff;
         }
 
         .resumo.laranja strong {
@@ -325,6 +333,7 @@
         }
 
         @media (max-width: 600px) {
+
             header h1 {
                 font-size: 23px;
             }
@@ -340,6 +349,7 @@
             .card .valor {
                 font-size: 21px;
             }
+
         }
     </style>
 </head>
@@ -375,94 +385,55 @@
 
     <div class="acoes">
 
-        <a
-            href="agenda-admin.html"
-            class="btn dark"
-        >
+        <a href="agenda-admin.html" class="btn dark">
             📅 Agenda
         </a>
 
-        <a
-            href="clientes.html"
-            class="btn dark"
-        >
+        <a href="clientes.html" class="btn dark">
             👥 Clientes
         </a>
 
-        <a
-            href="servicos.html"
-            class="btn dark"
-        >
+        <a href="servicos.html" class="btn dark">
             💈 Serviços
         </a>
 
-        <a
-            href="produtos.html"
-            class="btn dark"
-        >
+        <a href="produtos.html" class="btn dark">
             📦 Produtos
         </a>
 
-        <a
-            href="vendas.html"
-            class="btn dark"
-        >
+        <a href="vendas.html" class="btn dark">
             🛍️ Vendas
         </a>
 
-        <a
-            href="pedidos.html"
-            class="btn pedidos"
-        >
+        <a href="pedidos.html" class="btn pedidos">
             📦 Pedidos
         </a>
 
-        <a
-            href="financeiro.html"
-            class="btn dark"
-        >
+        <a href="financeiro.html" class="btn dark">
             💰 Financeiro
         </a>
 
-        <a
-            href="despesas.html"
-            class="btn dark"
-        >
+        <a href="despesas.html" class="btn dark">
             💸 Despesas
         </a>
 
-        <a
-            href="relatorios.html"
-            class="btn dark"
-        >
+        <a href="relatorios.html" class="btn dark">
             📊 Relatórios
         </a>
 
-        <a
-            href="configuracoes.html"
-            class="btn dark"
-        >
+        <a href="configuracoes.html" class="btn dark">
             ⚙️ Configurações
         </a>
 
     </div>
 
-    <div
-        id="erro"
-        class="erro"
-    ></div>
+    <div id="erro" class="erro"></div>
 
-    <div
-        id="loading"
-        class="loading"
-    >
+    <div id="loading" class="loading">
         Carregando painel...
     </div>
 
-    <div
-        id="conteudo"
-        style="display:none;"
-    >
+    <div id="conteudo" style="display:none;">
 
         <div class="cards">
 
@@ -472,10 +443,7 @@
                     💰 Entradas
                 </h3>
 
-                <div
-                    class="valor"
-                    id="entradas"
-                >
+                <div class="valor" id="entradas">
                     R$ 0,00
                 </div>
 
@@ -487,10 +455,7 @@
                     💸 Despesas
                 </h3>
 
-                <div
-                    class="valor"
-                    id="despesas"
-                >
+                <div class="valor" id="despesas">
                     R$ 0,00
                 </div>
 
@@ -502,10 +467,7 @@
                     📈 Lucro
                 </h3>
 
-                <div
-                    class="valor"
-                    id="lucro"
-                >
+                <div class="valor" id="lucro">
                     R$ 0,00
                 </div>
 
@@ -517,10 +479,7 @@
                     ⏳ Pendentes
                 </h3>
 
-                <div
-                    class="valor"
-                    id="pendentes"
-                >
+                <div class="valor" id="pendentes">
                     R$ 0,00
                 </div>
 
@@ -532,10 +491,7 @@
                     📅 Agendamentos
                 </h3>
 
-                <div
-                    class="valor"
-                    id="totalAgendamentos"
-                >
+                <div class="valor" id="totalAgendamentos">
                     0
                 </div>
 
@@ -547,10 +503,7 @@
                     👥 Clientes
                 </h3>
 
-                <div
-                    class="valor"
-                    id="totalClientes"
-                >
+                <div class="valor" id="totalClientes">
                     0
                 </div>
 
@@ -562,10 +515,19 @@
                     🛍️ Produtos vendidos
                 </h3>
 
-                <div
-                    class="valor"
-                    id="produtosVendidos"
-                >
+                <div class="valor" id="produtosVendidos">
+                    0
+                </div>
+
+            </div>
+
+            <div class="card azul">
+
+                <h3>
+                    📦 Pedidos concluídos
+                </h3>
+
+                <div class="valor" id="pedidosConcluidos">
                     0
                 </div>
 
@@ -587,9 +549,7 @@
                         💈 Serviços recebidos
                     </h3>
 
-                    <strong
-                        id="receitaServicos"
-                    >
+                    <strong id="receitaServicos">
                         R$ 0,00
                     </strong>
 
@@ -601,9 +561,19 @@
                         🛍️ Produtos recebidos
                     </h3>
 
-                    <strong
-                        id="receitaProdutos"
-                    >
+                    <strong id="receitaProdutos">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+                <div class="resumo azul">
+
+                    <h3>
+                        📦 Pedidos recebidos
+                    </h3>
+
+                    <strong id="receitaPedidos">
                         R$ 0,00
                     </strong>
 
@@ -615,9 +585,7 @@
                         💸 Total de despesas
                     </h3>
 
-                    <strong
-                        id="totalDespesas"
-                    >
+                    <strong id="totalDespesas">
                         R$ 0,00
                     </strong>
 
@@ -629,9 +597,7 @@
                         📈 Resultado líquido
                     </h3>
 
-                    <strong
-                        id="resultadoLiquido"
-                    >
+                    <strong id="resultadoLiquido">
                         R$ 0,00
                     </strong>
 
@@ -647,10 +613,7 @@
                 📈 Desempenho financeiro
             </h2>
 
-            <div
-                id="grafico"
-                class="grafico"
-            ></div>
+            <div id="grafico" class="grafico"></div>
 
         </div>
 
@@ -680,9 +643,7 @@
 
                     </thead>
 
-                    <tbody
-                        id="tabelaAgendamentos"
-                    ></tbody>
+                    <tbody id="tabelaAgendamentos"></tbody>
 
                 </table>
 
@@ -720,6 +681,8 @@ let vendas = [];
 let despesas = [];
 let clientes = [];
 let agendamentos = [];
+let pedidos = [];
+let itensPedidos = [];
 
 function dinheiro(valor) {
 
@@ -758,6 +721,38 @@ function mostrarErro(mensagem) {
 
     erro.style.display =
         "block";
+
+}
+
+function normalizar(valor) {
+
+    return String(valor || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        );
+
+}
+
+function pedidoConcluido(pedido) {
+
+    const pagamento =
+        normalizar(
+            pedido.status_pagamento
+        );
+
+    const status =
+        normalizar(
+            pedido.status_pedido
+        );
+
+    return (
+        pagamento === "pago" &&
+        status === "concluido"
+    );
 
 }
 
@@ -907,7 +902,21 @@ async function buscarDados() {
                     {
                         ascending: true
                     }
-                )
+                ),
+
+            supabaseClient
+                .from("pedidos_produtos")
+                .select("*")
+                .order(
+                    "criado_em",
+                    {
+                        ascending: false
+                    }
+                ),
+
+            supabaseClient
+                .from("itens_pedido")
+                .select("*")
 
         ]);
 
@@ -926,6 +935,12 @@ async function buscarDados() {
     if (resultados[4].error)
         throw resultados[4].error;
 
+    if (resultados[5].error)
+        throw resultados[5].error;
+
+    if (resultados[6].error)
+        throw resultados[6].error;
+
     pagamentos =
         resultados[0].data || [];
 
@@ -941,6 +956,12 @@ async function buscarDados() {
     agendamentos =
         resultados[4].data || [];
 
+    pedidos =
+        resultados[5].data || [];
+
+    itensPedidos =
+        resultados[6].data || [];
+
 }
 
 function calcularFinanceiro() {
@@ -948,28 +969,33 @@ function calcularFinanceiro() {
     const pagos =
         pagamentos.filter(
             p =>
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                === "pago"
+                normalizar(
+                    p.status
+                ) === "pago"
         );
 
     const vendasPagas =
         vendas.filter(
             v =>
-                String(
-                    v.status || ""
-                ).toLowerCase()
-                === "pago"
+                normalizar(
+                    v.status
+                ) === "pago"
+        );
+
+    const pedidosConcluidos =
+        pedidos.filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
         );
 
     const pendentes =
         pagamentos.filter(
             p =>
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                !== "pago"
+                normalizar(
+                    p.status
+                ) !== "pago"
         );
 
     const receitaServicos =
@@ -985,7 +1011,7 @@ function calcularFinanceiro() {
             0
         );
 
-    const receitaProdutos =
+    const receitaVendas =
         vendasPagas.reduce(
             (
                 total,
@@ -997,6 +1023,23 @@ function calcularFinanceiro() {
                 ),
             0
         );
+
+    const receitaPedidos =
+        pedidosConcluidos.reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+    const receitaProdutos =
+        receitaVendas +
+        receitaPedidos;
 
     const totalDespesas =
         despesas.reduce(
@@ -1032,7 +1075,7 @@ function calcularFinanceiro() {
             0
         );
 
-    const produtosQuantidade =
+    const quantidadeVendas =
         vendasPagas.reduce(
             (
                 total,
@@ -1044,6 +1087,32 @@ function calcularFinanceiro() {
                 ),
             0
         );
+
+    const quantidadePedidos =
+        itensPedidos
+            .filter(
+                item =>
+                    pedidosConcluidos.some(
+                        pedido =>
+                            pedido.id ===
+                            item.pedido_id
+                    )
+            )
+            .reduce(
+                (
+                    total,
+                    item
+                ) =>
+                    total +
+                    Number(
+                        item.quantidade || 0
+                    ),
+                0
+            );
+
+    const produtosQuantidade =
+        quantidadeVendas +
+        quantidadePedidos;
 
     document.getElementById(
         "entradas"
@@ -1081,6 +1150,11 @@ function calcularFinanceiro() {
         produtosQuantidade;
 
     document.getElementById(
+        "pedidosConcluidos"
+    ).innerText =
+        pedidosConcluidos.length;
+
+    document.getElementById(
         "receitaServicos"
     ).innerText =
         dinheiro(
@@ -1091,7 +1165,14 @@ function calcularFinanceiro() {
         "receitaProdutos"
     ).innerText =
         dinheiro(
-            receitaProdutos
+            receitaVendas
+        );
+
+    document.getElementById(
+        "receitaPedidos"
+    ).innerText =
+        dinheiro(
+            receitaPedidos
         );
 
     document.getElementById(
@@ -1125,7 +1206,10 @@ function gerarGrafico() {
 
         const dia =
             String(data)
-                .substring(0, 10);
+                .substring(
+                    0,
+                    10
+                );
 
         if (!dias[dia]) {
 
@@ -1148,10 +1232,9 @@ function gerarGrafico() {
         p => {
 
             if (
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                !== "pago"
+                normalizar(
+                    p.status
+                ) !== "pago"
             )
                 return;
 
@@ -1170,10 +1253,9 @@ function gerarGrafico() {
         v => {
 
             if (
-                String(
-                    v.status || ""
-                ).toLowerCase()
-                !== "pago"
+                normalizar(
+                    v.status
+                ) !== "pago"
             )
                 return;
 
@@ -1187,6 +1269,27 @@ function gerarGrafico() {
 
         }
     );
+
+    pedidos
+        .filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
+        )
+        .forEach(
+            pedido => {
+
+                adicionar(
+                    pedido.criado_em,
+                    Number(
+                        pedido.total || 0
+                    ),
+                    0
+                );
+
+            }
+        );
 
     despesas.forEach(
         d => {
@@ -1331,9 +1434,7 @@ function gerarGrafico() {
 function statusClasse(status) {
 
     const texto =
-        String(
-            status || ""
-        ).toLowerCase();
+        normalizar(status);
 
     if (
         texto.includes(
@@ -1377,10 +1478,9 @@ function gerarAgendamentos() {
                     String(
                         a.Data
                     ) >= hoje &&
-                    String(
-                        a.Status || ""
-                    ).toLowerCase()
-                    !== "cancelado"
+                    normalizar(
+                        a.Status
+                    ) !== "cancelado"
             )
             .sort(
                 (a, b) => {
@@ -1538,4 +1638,4 @@ iniciar();
 </script>
 
 </body>
-            </html>
+    </html>
