@@ -17,7 +17,8 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #050505;
+            background:
+                radial-gradient(circle at top, #211b00 0%, #050505 35%);
             color: #fff;
             padding-bottom: 40px;
         }
@@ -25,18 +26,20 @@
         header {
             background: linear-gradient(135deg, #000, #171717);
             border-bottom: 2px solid #ffd700;
-            padding: 20px;
+            padding: 22px 15px;
             text-align: center;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.12);
         }
 
         header h1 {
             color: #ffd700;
-            font-size: 26px;
+            font-size: 27px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.35);
         }
 
         header p {
             color: #aaa;
-            margin-top: 5px;
+            margin-top: 7px;
         }
 
         .menu {
@@ -46,6 +49,7 @@
             justify-content: center;
             padding: 15px;
             background: #0b0b0b;
+            border-bottom: 1px solid #222;
         }
 
         .menu a {
@@ -55,49 +59,71 @@
             padding: 9px 12px;
             border-radius: 8px;
             font-size: 13px;
+            transition: 0.2s;
         }
 
         .menu a:hover {
             background: #ffd700;
             color: #000;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
         }
 
         .container {
             width: 95%;
-            max-width: 1200px;
+            max-width: 1250px;
             margin: 25px auto;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            grid-template-columns:
+                repeat(auto-fit, minmax(190px, 1fr));
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .card {
-            background: linear-gradient(145deg, #151515, #090909);
+            background:
+                linear-gradient(145deg, #171717, #080808);
             border: 1px solid #333;
             border-left: 4px solid #ffd700;
-            border-radius: 12px;
+            border-radius: 13px;
             padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
         }
 
         .card h3 {
             color: #aaa;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 10px;
         }
 
         .card strong {
             color: #ffd700;
-            font-size: 25px;
+            font-size: 24px;
+            display: block;
+            word-break: break-word;
+        }
+
+        .painel {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 13px;
+            padding: 18px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .painel h2 {
+            color: #ffd700;
+            margin-bottom: 17px;
+            font-size: 20px;
         }
 
         .filtros {
             background: #111;
             border: 1px solid #333;
-            border-radius: 12px;
+            border-radius: 13px;
             padding: 18px;
             margin-bottom: 20px;
         }
@@ -110,7 +136,8 @@
 
         .filtro-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns:
+                repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
         }
 
@@ -129,6 +156,13 @@
             border: 1px solid #444;
             background: #050505;
             color: #fff;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
         }
 
         button {
@@ -151,17 +185,14 @@
             width: 100%;
         }
 
-        .painel {
-            background: #101010;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 18px;
-            overflow-x: auto;
+        .btn-pagar {
+            background: #ffd700;
+            color: #000;
+            padding: 8px 10px;
         }
 
-        .painel h2 {
-            color: #ffd700;
-            margin-bottom: 15px;
+        .btn-pagar:hover {
+            background: #fff;
         }
 
         table {
@@ -221,16 +252,6 @@
             font-weight: bold;
         }
 
-        .btn-pagar {
-            background: #ffd700;
-            color: #000;
-            padding: 8px 10px;
-        }
-
-        .btn-pagar:hover {
-            background: #fff;
-        }
-
         .mensagem {
             padding: 12px;
             border-radius: 8px;
@@ -260,6 +281,44 @@
             padding: 30px;
         }
 
+        .resumo {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .resumo-box {
+            background: linear-gradient(145deg, #141414, #080808);
+            border: 1px solid #292929;
+            border-radius: 13px;
+            padding: 18px;
+        }
+
+        .resumo-box span {
+            display: block;
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .resumo-box strong {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .destaque {
+            color: #ffd700 !important;
+        }
+
+        .rodape-info {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
         @media (max-width: 600px) {
 
             header h1 {
@@ -271,12 +330,17 @@
             }
 
             .card strong {
-                font-size: 21px;
+                font-size: 20px;
             }
 
             .menu a {
                 font-size: 12px;
                 padding: 8px;
+            }
+
+            .painel,
+            .filtros {
+                padding: 14px;
             }
         }
     </style>
@@ -286,7 +350,7 @@
 
 <header>
     <h1>💰 FINANCEIRO GOLD STYLE</h1>
-    <p>Controle de recebimentos, serviços e vendas</p>
+    <p>Controle completo de recebimentos, serviços e produtos</p>
 </header>
 
 <nav class="menu">
@@ -303,6 +367,8 @@
 <div class="container">
 
     <div id="mensagem" class="mensagem"></div>
+
+    <!-- RESUMO PRINCIPAL -->
 
     <div class="cards">
 
@@ -328,6 +394,103 @@
 
     </div>
 
+
+    <!-- INDICADORES -->
+
+    <section class="painel">
+
+        <h2>📊 INDICADORES FINANCEIROS</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>📅 RECEBIDO HOJE</h3>
+                <strong id="recebidoHoje">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="card">
+                <h3>📆 RECEBIDO NA SEMANA</h3>
+                <strong id="recebidoSemana">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="card">
+                <h3>🗓️ RECEBIDO NO MÊS</h3>
+                <strong id="recebidoMes">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="card">
+                <h3>🎟️ TICKET MÉDIO</h3>
+                <strong id="ticketMedio">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="card">
+                <h3>✂️ SERVIÇOS PAGOS</h3>
+                <strong id="qtdServicos">
+                    0
+                </strong>
+            </div>
+
+            <div class="card">
+                <h3>🛒 PRODUTOS PAGOS</h3>
+                <strong id="qtdProdutos">
+                    0
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESUMO -->
+
+    <section class="painel">
+
+        <h2>📌 RESUMO DO CAIXA</h2>
+
+        <div class="resumo">
+
+            <div class="resumo-box">
+                <span>Serviços recebidos</span>
+                <strong
+                    id="resumoServicos"
+                    class="destaque">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="resumo-box">
+                <span>Produtos recebidos</span>
+                <strong
+                    id="resumoProdutos">
+                    R$ 0,00
+                </strong>
+            </div>
+
+            <div class="resumo-box">
+                <span>Total recebido</span>
+                <strong
+                    id="resumoTotal"
+                    class="destaque">
+                    R$ 0,00
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FILTROS -->
+
     <section class="filtros">
 
         <h2>🔎 FILTRAR MOVIMENTAÇÕES</h2>
@@ -336,12 +499,18 @@
 
             <div>
                 <label>Data inicial</label>
-                <input type="date" id="dataInicial">
+
+                <input
+                    type="date"
+                    id="dataInicial">
             </div>
 
             <div>
                 <label>Data final</label>
-                <input type="date" id="dataFinal">
+
+                <input
+                    type="date"
+                    id="dataFinal">
             </div>
 
             <div>
@@ -349,10 +518,21 @@
 
                 <select id="filtroStatus">
 
-                    <option value="">Todos</option>
-                    <option value="Pago">Pago</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Cancelado">Cancelado</option>
+                    <option value="">
+                        Todos
+                    </option>
+
+                    <option value="Pago">
+                        Pago
+                    </option>
+
+                    <option value="Pendente">
+                        Pendente
+                    </option>
+
+                    <option value="Cancelado">
+                        Cancelado
+                    </option>
 
                 </select>
 
@@ -384,19 +564,27 @@
 
     </section>
 
+
+    <!-- MOVIMENTAÇÕES -->
+
     <section class="painel">
 
         <h2>📋 MOVIMENTAÇÕES FINANCEIRAS</h2>
 
-        <div id="loading" class="loading">
+        <div
+            id="loading"
+            class="loading">
             Carregando financeiro...
         </div>
 
-        <table id="tabelaFinanceiro" style="display:none;">
+        <table
+            id="tabelaFinanceiro"
+            style="display:none;">
 
             <thead>
 
                 <tr>
+
                     <th>Tipo</th>
                     <th>Cliente</th>
                     <th>Item</th>
@@ -406,6 +594,7 @@
                     <th>Status</th>
                     <th>Referência</th>
                     <th>Ação</th>
+
                 </tr>
 
             </thead>
@@ -414,13 +603,24 @@
 
         </table>
 
-        <div id="vazio" class="vazio" style="display:none;">
+        <div
+            id="vazio"
+            class="vazio"
+            style="display:none;">
+
             Nenhuma movimentação encontrada.
+
         </div>
 
     </section>
 
+
+    <div class="rodape-info">
+        Gold Style Barbearia — Controle financeiro
+    </div>
+
 </div>
+
 
 <script>
 
@@ -472,7 +672,9 @@ function dataBR(data) {
 function mostrarMensagem(texto, tipo) {
 
     const box =
-        document.getElementById("mensagem");
+        document.getElementById(
+            "mensagem"
+        );
 
     box.textContent = texto;
 
@@ -499,7 +701,9 @@ async function verificarAdmin() {
         data: {
             session
         }
-    } = await supabaseClient.auth.getSession();
+    } =
+        await supabaseClient.auth.getSession();
+
 
     if (!session) {
 
@@ -509,10 +713,12 @@ async function verificarAdmin() {
         return false;
     }
 
+
     const {
         data,
         error
-    } = await supabaseClient
+    } =
+        await supabaseClient
         .from("administradores")
         .select("id")
         .eq(
@@ -524,6 +730,7 @@ async function verificarAdmin() {
             true
         )
         .maybeSingle();
+
 
     if (error || !data) {
 
@@ -537,6 +744,7 @@ async function verificarAdmin() {
         return false;
     }
 
+
     return true;
 }
 
@@ -548,7 +756,9 @@ async function verificarAdmin() {
 async function carregarFinanceiro() {
 
     const loading =
-        document.getElementById("loading");
+        document.getElementById(
+            "loading"
+        );
 
     const tabela =
         document.getElementById(
@@ -556,21 +766,29 @@ async function carregarFinanceiro() {
         );
 
     const vazio =
-        document.getElementById("vazio");
+        document.getElementById(
+            "vazio"
+        );
+
 
     loading.style.display = "block";
+
     tabela.style.display = "none";
+
     vazio.style.display = "none";
+
 
     const dataInicial =
         document.getElementById(
             "dataInicial"
         ).value;
 
+
     const dataFinal =
         document.getElementById(
             "dataFinal"
         ).value;
+
 
     const filtroStatus =
         document.getElementById(
@@ -688,27 +906,6 @@ async function carregarFinanceiro() {
         await queryVendas;
 
 
-    console.log(
-        "PAGAMENTOS:",
-        pagamentos
-    );
-
-    console.log(
-        "ERRO PAGAMENTOS:",
-        erroPagamentos
-    );
-
-    console.log(
-        "VENDAS:",
-        vendas
-    );
-
-    console.log(
-        "ERRO VENDAS:",
-        erroVendas
-    );
-
-
     if (erroPagamentos) {
 
         mostrarMensagem(
@@ -734,6 +931,7 @@ async function carregarFinanceiro() {
     ================================= */
 
     const clienteIds = [
+
         ...(pagamentos || [])
             .map(p => p.cliente_id)
             .filter(Boolean),
@@ -741,6 +939,7 @@ async function carregarFinanceiro() {
         ...(vendas || [])
             .map(v => v.cliente_id)
             .filter(Boolean)
+
     ];
 
 
@@ -764,13 +963,14 @@ async function carregarFinanceiro() {
                 idsUnicos
             );
 
+
         clientes =
             resultado.data || [];
     }
 
 
-    const mapaClientes =
-        {};
+    const mapaClientes = {};
+
 
     clientes.forEach(cliente => {
 
@@ -787,7 +987,10 @@ async function carregarFinanceiro() {
 
     const agendamentoIds =
         (pagamentos || [])
-            .map(p => p.agendamento_id)
+            .map(
+                p =>
+                    p.agendamento_id
+            )
             .filter(Boolean);
 
 
@@ -809,13 +1012,14 @@ async function carregarFinanceiro() {
                 )]
             );
 
+
         agendamentos =
             resultado.data || [];
     }
 
 
-    const mapaAgendamentos =
-        {};
+    const mapaAgendamentos = {};
+
 
     agendamentos.forEach(agendamento => {
 
@@ -835,114 +1039,134 @@ async function carregarFinanceiro() {
 
     /* SERVIÇOS */
 
-    (pagamentos || []).forEach(pagamento => {
+    (pagamentos || []).forEach(
+        pagamento => {
 
-        const agendamento =
-            mapaAgendamentos[
-                pagamento.agendamento_id
-            ] || {};
+            const agendamento =
+                mapaAgendamentos[
+                    pagamento.agendamento_id
+                ] || {};
 
-        const cliente =
-            mapaClientes[
-                pagamento.cliente_id
-            ] || {};
 
-        movimentos.push({
+            const cliente =
+                mapaClientes[
+                    pagamento.cliente_id
+                ] || {};
 
-            id: pagamento.id,
 
-            tipo: "Serviço",
+            movimentos.push({
 
-            cliente:
-                cliente.Nome ||
-                "Cliente",
+                id:
+                    pagamento.id,
 
-            item:
-                agendamento["Serviços"] ||
-                "Serviço",
+                tipo:
+                    "Serviço",
 
-            data:
-                pagamento.criado_em,
+                cliente:
+                    cliente.Nome ||
+                    "Cliente",
 
-            valor:
-                Number(
-                    pagamento.valor || 0
-                ),
+                item:
+                    agendamento[
+                        "Serviços"
+                    ] ||
+                    "Serviço",
 
-            metodo:
-                pagamento.metodo ||
-                "-",
+                data:
+                    pagamento.criado_em,
 
-            status:
-                pagamento.status ||
-                "Pendente",
+                valor:
+                    Number(
+                        pagamento.valor ||
+                        0
+                    ),
 
-            referencia:
-                pagamento.referencia ||
-                "-",
+                metodo:
+                    pagamento.metodo ||
+                    "-",
 
-            pagamentoId:
-                pagamento.id,
+                status:
+                    pagamento.status ||
+                    "Pendente",
 
-            agendamentoId:
-                pagamento.agendamento_id
+                referencia:
+                    pagamento.referencia ||
+                    "-",
 
-        });
+                pagamentoId:
+                    pagamento.id,
 
-    });
+                agendamentoId:
+                    pagamento.agendamento_id
+
+            });
+
+        }
+    );
 
 
     /* PRODUTOS */
 
-    (vendas || []).forEach(venda => {
+    (vendas || []).forEach(
+        venda => {
 
-        const cliente =
-            mapaClientes[
-                venda.cliente_id
-            ] || {};
+            const cliente =
+                mapaClientes[
+                    venda.cliente_id
+                ] || {};
 
-        movimentos.push({
 
-            id: venda.id,
+            movimentos.push({
 
-            tipo: "Produto",
+                id:
+                    venda.id,
 
-            cliente:
-                cliente.Nome ||
-                "Venda balcão",
+                tipo:
+                    "Produto",
 
-            item:
-                venda.produto_nome +
-                " × " +
-                venda.quantidade,
+                cliente:
+                    cliente.Nome ||
+                    "Venda balcão",
 
-            data:
-                venda.criado_em,
+                item:
+                    venda.produto_nome +
+                    " × " +
+                    venda.quantidade,
 
-            valor:
-                Number(
-                    venda.valor_total || 0
-                ),
+                data:
+                    venda.criado_em,
 
-            metodo:
-                venda.metodo_pagamento ||
-                "-",
+                valor:
+                    Number(
+                        venda.valor_total ||
+                        0
+                    ),
 
-            status:
-                venda.status ||
-                "Pago",
+                metodo:
+                    venda.metodo_pagamento ||
+                    "-",
 
-            referencia:
-                "VENDA-" +
-                venda.id.substring(0, 8),
+                status:
+                    venda.status ||
+                    "Pago",
 
-            pagamentoId: null,
+                referencia:
+                    "VENDA-" +
+                    venda.id.substring(
+                        0,
+                        8
+                    ),
 
-            agendamentoId: null
+                pagamentoId:
+                    null,
 
-        });
+                agendamentoId:
+                    null
 
-    });
+            });
+
+        }
+    );
 
 
     /* ================================
@@ -965,21 +1189,29 @@ async function carregarFinanceiro() {
     let totalPrevisto = 0;
     let totalProdutos = 0;
 
+    let totalServicosPagos = 0;
+
 
     movimentos.forEach(mov => {
 
         const valor =
-            Number(mov.valor || 0);
+            Number(
+                mov.valor || 0
+            );
 
 
-        if (mov.status === "Pago") {
+        if (
+            mov.status === "Pago"
+        ) {
 
             totalRecebido += valor;
 
         }
 
 
-        if (mov.status === "Pendente") {
+        if (
+            mov.status === "Pendente"
+        ) {
 
             totalPendente += valor;
 
@@ -1005,31 +1237,260 @@ async function carregarFinanceiro() {
 
         }
 
+
+        if (
+            mov.tipo === "Serviço" &&
+            mov.status === "Pago"
+        ) {
+
+            totalServicosPagos +=
+                valor;
+
+        }
+
     });
 
 
     document.getElementById(
         "totalRecebido"
     ).textContent =
-        dinheiro(totalRecebido);
+        dinheiro(
+            totalRecebido
+        );
 
 
     document.getElementById(
         "totalPendente"
     ).textContent =
-        dinheiro(totalPendente);
+        dinheiro(
+            totalPendente
+        );
 
 
     document.getElementById(
         "totalPrevisto"
     ).textContent =
-        dinheiro(totalPrevisto);
+        dinheiro(
+            totalPrevisto
+        );
 
 
     document.getElementById(
         "totalProdutos"
     ).textContent =
-        dinheiro(totalProdutos);
+        dinheiro(
+            totalProdutos
+        );
+
+
+    document.getElementById(
+        "resumoServicos"
+    ).textContent =
+        dinheiro(
+            totalServicosPagos
+        );
+
+
+    document.getElementById(
+        "resumoProdutos"
+    ).textContent =
+        dinheiro(
+            totalProdutos
+        );
+
+
+    document.getElementById(
+        "resumoTotal"
+    ).textContent =
+        dinheiro(
+            totalRecebido
+        );
+
+
+    /* ================================
+       INDICADORES
+    ================================= */
+
+    const agora =
+        new Date();
+
+
+    const inicioHoje =
+        new Date(
+            agora.getFullYear(),
+            agora.getMonth(),
+            agora.getDate()
+        );
+
+
+    const inicioSemana =
+        new Date(
+            inicioHoje
+        );
+
+
+    const diaSemana =
+        inicioSemana.getDay();
+
+
+    const distanciaSegunda =
+        diaSemana === 0
+            ? 6
+            : diaSemana - 1;
+
+
+    inicioSemana.setDate(
+        inicioSemana.getDate() -
+        distanciaSegunda
+    );
+
+
+    const inicioMes =
+        new Date(
+            agora.getFullYear(),
+            agora.getMonth(),
+            1
+        );
+
+
+    let recebidoHoje = 0;
+    let recebidoSemana = 0;
+    let recebidoMes = 0;
+
+    let quantidadePagamentos = 0;
+
+    let qtdServicos = 0;
+    let qtdProdutos = 0;
+
+
+    movimentos.forEach(
+        mov => {
+
+            if (
+                mov.status !== "Pago"
+            ) {
+                return;
+            }
+
+
+            const valor =
+                Number(
+                    mov.valor || 0
+                );
+
+
+            const dataMov =
+                new Date(
+                    mov.data
+                );
+
+
+            if (
+                dataMov >= inicioHoje &&
+                dataMov <= agora
+            ) {
+
+                recebidoHoje +=
+                    valor;
+
+            }
+
+
+            if (
+                dataMov >= inicioSemana &&
+                dataMov <= agora
+            ) {
+
+                recebidoSemana +=
+                    valor;
+
+            }
+
+
+            if (
+                dataMov >= inicioMes &&
+                dataMov <= agora
+            ) {
+
+                recebidoMes +=
+                    valor;
+
+            }
+
+
+            quantidadePagamentos++;
+
+
+            if (
+                mov.tipo === "Serviço"
+            ) {
+
+                qtdServicos++;
+
+            }
+
+
+            if (
+                mov.tipo === "Produto"
+            ) {
+
+                qtdProdutos++;
+
+            }
+
+        }
+    );
+
+
+    const ticketMedio =
+        quantidadePagamentos > 0
+            ? totalRecebido /
+              quantidadePagamentos
+            : 0;
+
+
+    document.getElementById(
+        "recebidoHoje"
+    ).textContent =
+        dinheiro(
+            recebidoHoje
+        );
+
+
+    document.getElementById(
+        "recebidoSemana"
+    ).textContent =
+        dinheiro(
+            recebidoSemana
+        );
+
+
+    document.getElementById(
+        "recebidoMes"
+    ).textContent =
+        dinheiro(
+            recebidoMes
+        );
+
+
+    document.getElementById(
+        "ticketMedio"
+    ).textContent =
+        dinheiro(
+            ticketMedio
+        );
+
+
+    document.getElementById(
+        "qtdServicos"
+    ).textContent =
+        qtdServicos;
+
+
+    document.getElementById(
+        "qtdProdutos"
+    ).textContent =
+        qtdProdutos;
 
 
     /* ================================
@@ -1041,144 +1502,175 @@ async function carregarFinanceiro() {
             "tabelaBody"
         );
 
+
     tbody.innerHTML = "";
 
 
-    if (movimentos.length === 0) {
+    if (
+        movimentos.length === 0
+    ) {
 
-        loading.style.display = "none";
+        loading.style.display =
+            "none";
 
-        vazio.style.display = "block";
+        vazio.style.display =
+            "block";
 
         return;
     }
 
 
-    movimentos.forEach(mov => {
+    movimentos.forEach(
+        mov => {
 
-        const tr =
-            document.createElement("tr");
-
-
-        const classeTipo =
-            mov.tipo === "Produto"
-                ? "produto"
-                : "servico";
+            const tr =
+                document.createElement(
+                    "tr"
+                );
 
 
-        let classeStatus =
-            "pendente";
+            const classeTipo =
+                mov.tipo === "Produto"
+                    ? "produto"
+                    : "servico";
 
 
-        if (
-            mov.status === "Pago"
-        ) {
-
-            classeStatus =
-                "pago";
-
-        }
+            let classeStatus =
+                "pendente";
 
 
-        if (
-            mov.status === "Cancelado"
-        ) {
+            if (
+                mov.status === "Pago"
+            ) {
 
-            classeStatus =
-                "cancelado";
+                classeStatus =
+                    "pago";
 
-        }
-
-
-        let acao = "-";
+            }
 
 
-        if (
-            mov.tipo === "Serviço" &&
-            mov.status === "Pendente" &&
-            mov.pagamentoId
-        ) {
+            if (
+                mov.status === "Cancelado"
+            ) {
 
-            acao = `
+                classeStatus =
+                    "cancelado";
 
-                <button
-                    class="btn-pagar"
-                    onclick="marcarComoPago(
-                        '${mov.pagamentoId}',
-                        '${mov.agendamentoId || ""}'
-                    )">
-                    ✓ Marcar como pago
-                </button>
+            }
+
+
+            let acao = "-";
+
+
+            if (
+                mov.tipo === "Serviço" &&
+                mov.status === "Pendente" &&
+                mov.pagamentoId
+            ) {
+
+                acao = `
+
+                    <button
+                        class="btn-pagar"
+                        onclick="marcarComoPago(
+                            '${mov.pagamentoId}',
+                            '${mov.agendamentoId || ""}'
+                        )">
+
+                        ✓ Marcar como pago
+
+                    </button>
+
+                `;
+
+            }
+
+
+            tr.innerHTML = `
+
+                <td>
+
+                    <span
+                        class="${classeTipo}">
+
+                        ${mov.tipo}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${mov.cliente}
+                </td>
+
+
+                <td>
+                    ${mov.item}
+                </td>
+
+
+                <td>
+                    ${dataBR(mov.data)}
+                </td>
+
+
+                <td>
+
+                    <strong>
+                        ${dinheiro(mov.valor)}
+                    </strong>
+
+                </td>
+
+
+                <td>
+                    ${mov.metodo}
+                </td>
+
+
+                <td>
+
+                    <span
+                        class="badge ${classeStatus}">
+
+                        ${mov.status}
+
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${mov.referencia}
+                </td>
+
+
+                <td>
+                    ${acao}
+                </td>
 
             `;
 
+
+            tbody.appendChild(tr);
+
         }
+    );
 
 
-        tr.innerHTML = `
-
-            <td>
-                <span class="${classeTipo}">
-                    ${mov.tipo}
-                </span>
-            </td>
-
-            <td>
-                ${mov.cliente}
-            </td>
-
-            <td>
-                ${mov.item}
-            </td>
-
-            <td>
-                ${dataBR(mov.data)}
-            </td>
-
-            <td>
-                <strong>
-                    ${dinheiro(mov.valor)}
-                </strong>
-            </td>
-
-            <td>
-                ${mov.metodo}
-            </td>
-
-            <td>
-
-                <span
-                    class="badge ${classeStatus}">
-                    ${mov.status}
-                </span>
-
-            </td>
-
-            <td>
-                ${mov.referencia}
-            </td>
-
-            <td>
-                ${acao}
-            </td>
-
-        `;
+    loading.style.display =
+        "none";
 
 
-        tbody.appendChild(tr);
-
-    });
-
-
-    loading.style.display = "none";
-
-    tabela.style.display = "table";
+    tabela.style.display =
+        "table";
 
 }
 
 
 /* ================================
-   MARCAR SERVIÇO COMO PAGO
+   MARCAR COMO PAGO
 ================================ */
 
 async function marcarComoPago(
@@ -1213,10 +1705,12 @@ async function marcarComoPago(
         .from("pagamentos")
         .update({
 
-            status: "Pago",
+            status:
+                "Pago",
 
             atualizado_em:
-                new Date().toISOString()
+                new Date()
+                .toISOString()
 
         })
         .eq(
@@ -1243,9 +1737,11 @@ async function marcarComoPago(
             .from("agendamentos")
             .update({
 
-                "Pagamento": "Pago",
+                "Pagamento":
+                    "Pago",
 
-                "Status": "Confirmado"
+                "Status":
+                    "Confirmado"
 
             })
             .eq(
@@ -1268,7 +1764,7 @@ async function marcarComoPago(
 
 
 /* ================================
-   LIMPAR
+   LIMPAR FILTROS
 ================================ */
 
 function limparFiltros() {
@@ -1277,13 +1773,16 @@ function limparFiltros() {
         "dataInicial"
     ).value = "";
 
+
     document.getElementById(
         "dataFinal"
     ).value = "";
 
+
     document.getElementById(
         "filtroStatus"
     ).value = "";
+
 
     carregarFinanceiro();
 
@@ -1299,7 +1798,9 @@ async function iniciar() {
     const autorizado =
         await verificarAdmin();
 
+
     if (!autorizado) return;
+
 
     await carregarFinanceiro();
 
@@ -1311,4 +1812,4 @@ iniciar();
 </script>
 
 </body>
-    </html>
+    </html> 
