@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Produtos — Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #302300 0%,
+            #0d0d0d 35%,
+            #050505 75%
+        );
+    color:#fff;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:18px;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:10px 0 22px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:#ffd700;
+    text-shadow:
+        0 0 8px #ffd700,
+        0 0 20px #d4af37;
+}
+
+.logo span{
+    display:block;
+    font-size:11px;
+    letter-spacing:3px;
+    color:#aaa;
+    margin-top:4px;
+}
+
+.btn-voltar{
+    border:1px solid #d4af37;
+    background:#111;
+    color:#ffd700;
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.hero{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,0,.14),
+            rgba(0,0,0,.9)
+        );
+
+    border:1px solid #806b16;
+    border-radius:20px;
+    padding:25px 20px;
+    margin-bottom:20px;
+}
+
+.hero small{
+    color:#ffd700;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.hero h1{
+    font-size:29px;
+    margin-top:8px;
+}
+
+.hero p{
+    color:#bbb;
+    line-height:1.6;
+    margin-top:9px;
+}
+
+.aviso{
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#111;
+    border:1px solid #333;
+    color:#aaa;
+    font-size:13px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:15px;
+}
+
+.produto{
+    background:#101010;
+    border:1px solid #302a13;
+    border-radius:18px;
+    padding:18px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.3);
+}
+
+.icone{
+    height:115px;
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1b1605,
+            #080808
+        );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:52px;
+
+    border:1px solid #3c3210;
+
+    margin-bottom:15px;
+}
+
+.produto h2{
+    font-size:18px;
+    color:#fff;
+}
+
+.descricao{
+    color:#888;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:7px;
+    min-height:40px;
+}
+
+.preco{
+    color:#ffd700;
+    font-size:24px;
+    font-weight:900;
+    margin:14px 0;
+}
+
+.estoque{
+    font-size:12px;
+    color:#6dff8b;
+    margin-bottom:12px;
+}
+
+.estoque.baixo{
+    color:#ffd45c;
+}
+
+.btn-comprar{
+    display:block;
+    width:100%;
+    padding:13px;
+
+    border:none;
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff000,
+            #d4af37,
+            #a87800
+        );
+
+    color:#000;
+
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.vazio,
+.erro,
+.carregando{
+    text-align:center;
+    padding:35px;
+    color:#999;
+
+    background:#101010;
+    border:1px solid #292929;
+    border-radius:16px;
+}
+
+.erro{
+    color:#ff8c8c;
+}
+
+footer{
+    text-align:center;
+    color:#666;
+    font-size:12px;
+    padding:25px 10px;
+}
+
+footer strong{
+    color:#ffd700;
+}
+
+@media(max-width:800px){
+
+    .grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:560px){
+
+    .container{
+        padding:14px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+<div class="logo">
+
+GOLD STYLE
+
+<span>
+BARBEARIA DESDE 2022
+</span>
+
+</div>
+
+<a
+href="cliente.html"
+class="btn-voltar">
+
+← VOLTAR
+
+</a>
+
+</header>
+
+
+<section class="hero">
+
+<small>
+🛍️ LOJA GOLD STYLE
+</small>
+
+<h1>
+Produtos para você manter o estilo em casa
+</h1>
+
+<p>
+
+Confira os produtos disponíveis na Gold Style.
+Escolha o que deseja e fale conosco pelo WhatsApp
+para confirmar sua compra.
+
+</p>
+
+<div class="aviso">
+
+💬 Ao clicar em comprar, o WhatsApp será aberto
+com o produto escolhido e o valor.
+
+</div>
+
+</section>
+
+
+<div
+id="listaProdutos"
+class="grid">
+
+<div class="carregando">
+
+Carregando produtos...
+
+</div>
+
+</div>
+
+
+<footer>
+
+<strong>
+GOLD STYLE BARBEARIA
+</strong>
+
+<br>
+
+Barbearia desde 2022 • Rio Branco - Acre
+
+<br>
+
+Rua Preciosa 557
+
+</footer>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+function dinheiro(valor){
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+function comprar(
+    nome,
+    preco
+){
+
+    const mensagem =
+        "Olá Gold Style! Quero comprar o produto: "
+        +
+        nome
+        +
+        " - "
+        +
+        dinheiro(preco)
+        +
+        ".";
+
+    window.open(
+        "https://wa.me/556899853643?text="
+        +
+        encodeURIComponent(
+            mensagem
+        ),
+        "_blank"
+    );
+
+}
+
+
+async function carregarProdutos(){
+
+    const {
+        data:sessionData,
+        error:sessionError
+    } =
+    await supabaseClient
+        .auth
+        .getSession();
+
+
+    if(
+        sessionError
+        ||
+        !sessionData.session
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+
+        .from("produtos")
+
+        .select(
+            'id,Nome,"Descrição","Preço",Estoque,"Estoque minimo"'
+        )
+
+        .eq(
+            "Ativo",
+            true
+        )
+
+        .order(
+            "Nome",
+            {
+                ascending:true
+            }
+        );
+
+
+    const elemento =
+        document.getElementById(
+            "listaProdutos"
+        );
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        elemento.innerHTML =
+
+            '<div class="erro">' +
+
+            'Não foi possível carregar os produtos.' +
+
+            '<br>' +
+
+            error.message +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    const produtos =
+        (data || [])
+        .filter(
+            produto =>
+                Number(
+                    produto.Estoque || 0
+                ) > 0
+        );
+
+
+    if(!produtos.length){
+
+        elemento.innerHTML =
+
+            '<div class="vazio">' +
+
+            '🛍️<br><br>' +
+
+            '<strong>Nenhum produto disponível no momento.</strong>' +
+
+            '<br>' +
+
+            'Fale conosco pelo WhatsApp para saber quando teremos reposição.' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    elemento.innerHTML =
+        produtos
+        .map(
+            produto => {
+
+                const estoque =
+                    Number(
+                        produto.Estoque || 0
+                    );
+
+
+                const minimo =
+                    Number(
+                        produto["Estoque minimo"] || 0
+                    );
+
+
+                const classe =
+                    estoque <= minimo
+                    ?
+                    "estoque baixo"
+                    :
+                    "estoque";
+
+
+                return `
+
+<article class="produto">
+
+<div class="icone">
+🧴
+</div>
+
+
+<h2>
+
+${escapeHtml(
+    produto.Nome ||
+    "Produto"
+)}
+
+</h2>
+
+
+<div class="descricao">
+
+${escapeHtml(
+    produto["Descrição"] ||
+    "Produto Gold Style."
+)}
+
+</div>
+
+
+<div class="preco">
+
+${dinheiro(
+    produto["Preço"]
+)}
+
+</div>
+
+
+<div class="${classe}">
+
+✓ ${estoque}
+unidade(s) disponível(is)
+
+</div>
+
+
+<button
+class="btn-comprar"
+onclick='comprar(
+${JSON.stringify(
+    produto.Nome ||
+    "Produto"
+)},
+${Number(
+    produto["Preço"] ||
+    0
+)}
+)'>
+
+🛒 COMPRAR PELO WHATSAPP
+
+</button>
+
+</article>
+
+`;
+
+            }
+        )
+        .join("");
+
+}
+
+
+function escapeHtml(
+    valor
+){
+
+    return String(
+        valor
+    )
+    .replace(
+        /[&<>"']/g,
+        function(c){
+
+            return {
+
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+
+            }[c];
+
+        }
+    );
+
+}
+
+
+carregarProdutos();
+
+</script>
+
+</body>
+
+  </html>
