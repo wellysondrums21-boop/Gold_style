@@ -1,531 +1,509 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Relatórios - Gold Style</title>
+    <title>Relatórios - Gold Style</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Arial, sans-serif;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+        }
 
-body{
-    background:#050505;
-    color:white;
-    min-height:100vh;
-}
+        header {
+            background: linear-gradient(135deg, #050505, #171717);
+            border-bottom: 1px solid #d4af37;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-header{
-    background:linear-gradient(135deg,#050505,#171717);
-    padding:20px;
-    border-bottom:1px solid #d4af37;
-    position:sticky;
-    top:0;
-    z-index:10;
-}
+        header h1 {
+            color: #ffd700;
+            font-size: 28px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
+        }
 
-.logo{
-    color:#ffd700;
-    font-size:25px;
-    font-weight:bold;
-}
+        header p {
+            color: #aaa;
+            margin-top: 6px;
+        }
 
-.subtitulo{
-    color:#aaa;
-    margin-top:5px;
-    font-size:14px;
-}
+        .container {
+            width: 95%;
+            max-width: 1300px;
+            margin: 25px auto;
+        }
 
-.container{
-    padding:20px;
-    max-width:1200px;
-    margin:auto;
-}
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
 
-.filtros{
-    background:#111;
-    border:1px solid #333;
-    border-radius:15px;
-    padding:18px;
-    margin-bottom:20px;
-}
+        .btn {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #d4af37;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-.filtros h2{
-    color:#ffd700;
-    margin-bottom:15px;
-    font-size:18px;
-}
+        .btn:hover {
+            background: #ffd700;
+        }
 
-.filtro-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-}
+        .btn.dark {
+            background: #181818;
+            color: #ffd700;
+            border: 1px solid #d4af37;
+        }
 
-label{
-    color:#aaa;
-    font-size:13px;
-    display:block;
-    margin-bottom:6px;
-}
+        .filters {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-input,select{
-    width:100%;
-    padding:12px;
-    background:#050505;
-    color:white;
-    border:1px solid #444;
-    border-radius:8px;
-}
+        .filters h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
 
-button{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#ffd700;
-    color:#000;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:21px;
-}
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
 
-button:hover{
-    background:#fff000;
-}
+        label {
+            display: block;
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-bottom:20px;
-}
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #050505;
+            color: white;
+            outline: none;
+        }
 
-.card{
-    background:linear-gradient(145deg,#111,#1b1b1b);
-    border:1px solid #333;
-    border-radius:15px;
-    padding:20px;
-    box-shadow:0 0 15px rgba(212,175,55,.08);
-}
+        input:focus,
+        select:focus {
+            border-color: #ffd700;
+        }
 
-.card h3{
-    color:#aaa;
-    font-size:14px;
-    margin-bottom:10px;
-}
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-.valor{
-    color:#ffd700;
-    font-size:25px;
-    font-weight:bold;
-}
+        .card {
+            background: linear-gradient(145deg, #151515, #080808);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(212,175,55,.08);
+        }
 
-.numero{
-    color:#fff;
-    font-size:25px;
-    font-weight:bold;
-}
+        .card h3 {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-.secao{
-    background:#111;
-    border:1px solid #333;
-    border-radius:15px;
-    padding:20px;
-    margin-bottom:20px;
-}
+        .card .value {
+            color: #ffd700;
+            font-size: 25px;
+            font-weight: bold;
+        }
 
-.secao h2{
-    color:#ffd700;
-    margin-bottom:15px;
-}
+        .section {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
 
-.tabela-container{
-    overflow-x:auto;
-}
+        .section h2 {
+            color: #ffd700;
+            margin-bottom: 18px;
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:650px;
-}
+        .chart {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            height: 230px;
+            padding: 15px 5px 35px;
+            border-bottom: 1px solid #444;
+            overflow-x: auto;
+        }
 
-th{
-    color:#ffd700;
-    text-align:left;
-    padding:12px;
-    border-bottom:1px solid #555;
-}
+        .bar-box {
+            min-width: 55px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            position: relative;
+        }
 
-td{
-    padding:12px;
-    border-bottom:1px solid #292929;
-    color:#ddd;
-}
+        .bar {
+            width: 34px;
+            background: linear-gradient(to top, #a67c00, #ffd700);
+            border-radius: 6px 6px 0 0;
+            min-height: 3px;
+            box-shadow: 0 0 10px rgba(255,215,0,.25);
+        }
 
-.status{
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    display:inline-block;
-}
+        .bar-value {
+            font-size: 10px;
+            color: #ffd700;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
 
-.confirmado{
-    background:#183b1c;
-    color:#62ff72;
-}
+        .bar-label {
+            position: absolute;
+            bottom: -28px;
+            font-size: 11px;
+            color: #aaa;
+            white-space: nowrap;
+        }
 
-.pendente{
-    background:#403719;
-    color:#ffd700;
-}
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
 
-.concluido{
-    background:#163d3d;
-    color:#55ffff;
-}
+        .payment-card {
+            padding: 18px;
+            border-radius: 12px;
+            background: #080808;
+            border: 1px solid #333;
+        }
 
-.cancelado{
-    background:#411919;
-    color:#ff6b6b;
-}
+        .payment-card h3 {
+            color: #bbb;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-.vazio{
-    color:#888;
-    text-align:center;
-    padding:20px;
-}
+        .payment-card strong {
+            color: #ffd700;
+            font-size: 22px;
+        }
 
-.menu{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:20px;
-}
+        .table-wrapper {
+            overflow-x: auto;
+        }
 
-.menu a{
-    text-decoration:none;
-    color:#ddd;
-    border:1px solid #333;
-    padding:10px 14px;
-    border-radius:8px;
-    font-size:13px;
-}
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
 
-.menu a:hover{
-    border-color:#ffd700;
-    color:#ffd700;
-}
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #292929;
+            text-align: left;
+        }
 
-.rodape{
-    text-align:center;
-    color:#777;
-    padding:30px 10px;
-    font-size:12px;
-}
+        th {
+            color: #ffd700;
+            background: #151515;
+        }
 
-@media(max-width:600px){
+        td {
+            color: #ddd;
+        }
 
-    .container{
-        padding:12px;
-    }
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #888;
+        }
 
-    header{
-        padding:16px;
-    }
+        .loading {
+            color: #ffd700;
+            text-align: center;
+            padding: 30px;
+        }
 
-    .logo{
-        font-size:21px;
-    }
+        .error {
+            color: #ff6b6b;
+            background: #210d0d;
+            border: 1px solid #6b2222;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
 
-    .card{
-        padding:16px;
-    }
+        .footer {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
 
-    .valor,
-    .numero{
-        font-size:22px;
-    }
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 23px;
+            }
 
-}
+            .container {
+                width: 92%;
+            }
 
-</style>
+            .card .value {
+                font-size: 21px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        GOLD STYLE BARBEARIA
-    </div>
-
-    <div class="subtitulo">
-        Relatórios administrativos
-    </div>
-
+    <h1>📊 RELATÓRIOS GOLD STYLE</h1>
+    <p>Visão completa do desempenho da barbearia</p>
 </header>
 
 <div class="container">
 
-    <div class="menu">
-
-        <a href="admin.html">🏠 Dashboard</a>
-
-        <a href="agendamento.html">📅 Agenda</a>
-
-        <a href="servicos.html">✂️ Serviços</a>
-
-        <a href="clientes.html">👥 Clientes</a>
-
-        <a href="produtos.html">🛍️ Produtos</a>
-
-        <a href="financeiro.html">💰 Financeiro</a>
-
-        <a href="relatorios.html">📊 Relatórios</a>
-
+    <div class="top-actions">
+        <a class="btn dark" href="admin.html">← Dashboard</a>
+        <a class="btn dark" href="financeiro.html">💰 Financeiro</a>
+        <a class="btn dark" href="vendas.html">🛍️ Vendas</a>
+        <button class="btn" onclick="carregarRelatorios()">🔄 Atualizar</button>
     </div>
 
+    <div id="erro" class="error"></div>
 
-    <div class="filtros">
+    <div class="filters">
+        <h2>📅 Período do relatório</h2>
 
-        <h2>🔎 Filtros do relatório</h2>
-
-        <div class="filtro-grid">
+        <div class="filter-grid">
 
             <div>
                 <label>Data inicial</label>
-                <input type="date" id="dataInicial">
+                <input type="date" id="dataInicio">
             </div>
 
             <div>
                 <label>Data final</label>
-                <input type="date" id="dataFinal">
+                <input type="date" id="dataFim">
             </div>
 
-            <div>
-                <label>Status</label>
-
-                <select id="filtroStatus">
-
-                    <option value="">Todos</option>
-
-                    <option value="Pendente">
-                        Pendente
-                    </option>
-
-                    <option value="Confirmado">
-                        Confirmado
-                    </option>
-
-                    <option value="Concluído">
-                        Concluído
-                    </option>
-
-                    <option value="Cancelado">
-                        Cancelado
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div>
-                <label>Pagamento</label>
-
-                <select id="filtroPagamento">
-
-                    <option value="">Todos</option>
-
-                    <option value="Pago">
-                        Pago
-                    </option>
-
-                    <option value="Pendente">
-                        Pendente
-                    </option>
-
-                </select>
-
+            <div style="display:flex;align-items:end;">
+                <button class="btn" style="width:100%;" onclick="carregarRelatorios()">
+                    Gerar relatório
+                </button>
             </div>
 
         </div>
-
-        <button onclick="gerarRelatorio()">
-            GERAR RELATÓRIO
-        </button>
-
     </div>
 
-
-    <div class="cards">
-
-        <div class="card">
-
-            <h3>💰 Faturamento</h3>
-
-            <div class="valor" id="faturamento">
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>💳 Recebido</h3>
-
-            <div class="valor" id="recebido">
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>⏳ Pendente</h3>
-
-            <div class="valor" id="pendente">
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>📅 Agendamentos</h3>
-
-            <div class="numero" id="agendamentos">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>✂️ Concluídos</h3>
-
-            <div class="numero" id="concluidos">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>❌ Cancelados</h3>
-
-            <div class="numero" id="cancelados">
-                0
-            </div>
-
-        </div>
-
+    <div id="loading" class="loading">
+        Carregando relatórios...
     </div>
 
+    <div id="conteudo" style="display:none;">
 
-    <div class="secao">
+        <div class="cards">
 
-        <h2>📋 Detalhamento dos agendamentos</h2>
+            <div class="card">
+                <h3>💰 Faturamento total</h3>
+                <div class="value" id="faturamentoTotal">R$ 0,00</div>
+            </div>
 
-        <div class="tabela-container">
+            <div class="card">
+                <h3>💈 Serviços</h3>
+                <div class="value" id="totalServicos">0</div>
+            </div>
 
-            <table>
+            <div class="card">
+                <h3>🛍️ Produtos vendidos</h3>
+                <div class="value" id="totalProdutos">0</div>
+            </div>
 
-                <thead>
+            <div class="card">
+                <h3>👥 Clientes atendidos</h3>
+                <div class="value" id="totalClientes">0</div>
+            </div>
 
-                    <tr>
+            <div class="card">
+                <h3>🎯 Ticket médio</h3>
+                <div class="value" id="ticketMedio">R$ 0,00</div>
+            </div>
 
-                        <th>Data</th>
-
-                        <th>Horário</th>
-
-                        <th>Serviço</th>
-
-                        <th>Valor</th>
-
-                        <th>Status</th>
-
-                        <th>Pagamento</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="tabelaRelatorio">
-
-                    <tr>
-
-                        <td colspan="6" class="vazio">
-                            Carregando...
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+            <div class="card">
+                <h3>📅 Agendamentos</h3>
+                <div class="value" id="totalAgendamentos">0</div>
+            </div>
 
         </div>
 
-    </div>
+        <div class="section">
 
+            <h2>📈 Faturamento por dia</h2>
 
-    <div class="secao">
-
-        <h2>✂️ Resumo por serviço</h2>
-
-        <div class="tabela-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Serviço</th>
-
-                        <th>Quantidade</th>
-
-                        <th>Faturamento</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="tabelaServicos">
-
-                </tbody>
-
-            </table>
+            <div id="grafico" class="chart"></div>
 
         </div>
 
-    </div>
+        <div class="section">
 
+            <h2>💳 Faturamento por forma de pagamento</h2>
 
-    <div class="rodape">
+            <div class="payment-grid">
 
-        GOLD STYLE BARBEARIA<br>
+                <div class="payment-card">
+                    <h3>PIX</h3>
+                    <strong id="totalPix">R$ 0,00</strong>
+                </div>
 
-        BARBEARIA DESDE 2022
+                <div class="payment-card">
+                    <h3>Cartão</h3>
+                    <strong id="totalCartao">R$ 0,00</strong>
+                </div>
+
+                <div class="payment-card">
+                    <h3>Dinheiro</h3>
+                    <strong id="totalDinheiro">R$ 0,00</strong>
+                </div>
+
+                <div class="payment-card">
+                    <h3>Outros</h3>
+                    <strong id="totalOutros">R$ 0,00</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>💈 Serviços realizados</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Quantidade</th>
+                            <th>Faturamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaServicos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>🛍️ Produtos vendidos</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Faturamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaProdutos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>📋 Movimentações</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Cliente</th>
+                            <th>Item</th>
+                            <th>Valor</th>
+                            <th>Pagamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaMovimentos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
 
+<div class="footer">
+    Gold Style Barbearia — BARBEARIA DESDE 2022
+</div>
 
 <script>
 
@@ -541,617 +519,837 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
+let pagamentos = [];
+let vendas = [];
+let agendamentos = [];
+let clientes = [];
 
-let todosAgendamentos = [];
+function dinheiro(valor) {
 
-
-async function verificarAdministrador(){
-
-    const {
-        data:{session}
-    } = await supabaseClient.auth.getSession();
-
-
-    if(!session){
-
-        window.location.href="login.html";
-
-        return null;
-
-    }
-
-
-    const {
-        data:admin,
-        error
-    } =
-    await supabaseClient
-
-    .from("administradores")
-
-    .select("id,ativo")
-
-    .eq(
-        "auth_user_id",
-        session.user.id
-    )
-
-    .eq(
-        "ativo",
-        true
-    )
-
-    .maybeSingle();
-
-
-    if(error || !admin){
-
-        alert(
-            "Acesso permitido somente para administrador."
-        );
-
-        window.location.href="cliente.html";
-
-        return null;
-
-    }
-
-
-    return session;
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
 
+function dataBR(data) {
 
-async function carregarDados(){
+    if (!data) return "-";
 
-    const autorizado =
-        await verificarAdministrador();
+    const d = new Date(data);
 
+    return d.toLocaleDateString("pt-BR");
 
-    if(!autorizado) return;
+}
 
+function normalizarPagamento(valor) {
+
+    return String(valor || "")
+        .trim()
+        .toLowerCase();
+
+}
+
+function mostrarErro(mensagem) {
+
+    const erro = document.getElementById("erro");
+
+    erro.innerText = mensagem;
+    erro.style.display = "block";
+
+}
+
+function esconderErro() {
+
+    document.getElementById("erro").style.display = "none";
+
+}
+
+async function verificarAdmin() {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href = "login.html";
+        return false;
+
+    }
 
     const {
         data,
         error
-    } =
-    await supabaseClient
+    } = await supabaseClient
+        .from("administradores")
+        .select("id,nome,ativo")
+        .eq("auth_user_id", session.user.id)
+        .eq("ativo", true)
+        .maybeSingle();
 
-    .from("agendamentos")
+    if (error || !data) {
 
-    .select("*")
+        alert("Acesso permitido somente para administradores.");
+        window.location.href = "cliente.html";
 
-    .order(
-        "Data",
-        {ascending:false}
-    );
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "Erro ao carregar os agendamentos."
-        );
-
-        return;
+        return false;
 
     }
 
-
-    todosAgendamentos =
-        data || [];
-
-
-    definirDatasPadrao();
-
-    gerarRelatorio();
+    return true;
 
 }
 
+function definirDatas() {
 
-function definirDatasPadrao(){
+    const hoje = new Date();
 
-    const hoje =
-        new Date();
+    const primeiroDia = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth(),
+        1
+    );
 
+    const ultimoDia = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth() + 1,
+        0
+    );
 
-    const primeiroDia =
-        new Date(
-            hoje.getFullYear(),
-            hoje.getMonth(),
-            1
+    const formatar = data => {
+
+        const ano = data.getFullYear();
+
+        const mes = String(
+            data.getMonth() + 1
+        ).padStart(2, "0");
+
+        const dia = String(
+            data.getDate()
+        ).padStart(2, "0");
+
+        return `${ano}-${mes}-${dia}`;
+
+    };
+
+    document.getElementById("dataInicio").value =
+        formatar(primeiroDia);
+
+    document.getElementById("dataFim").value =
+        formatar(ultimoDia);
+
+}
+
+function dentroDoPeriodo(data) {
+
+    const inicio =
+        document.getElementById("dataInicio").value;
+
+    const fim =
+        document.getElementById("dataFim").value;
+
+    if (!data) return false;
+
+    const dia = String(data).substring(0, 10);
+
+    return dia >= inicio && dia <= fim;
+
+}
+
+async function buscarDados() {
+
+    const [
+        pagamentosResult,
+        vendasResult,
+        agendamentosResult,
+        clientesResult
+    ] = await Promise.all([
+
+        supabaseClient
+            .from("pagamentos")
+            .select("*")
+            .order("criado_em", { ascending: false }),
+
+        supabaseClient
+            .from("vendas")
+            .select("*")
+            .order("criado_em", { ascending: false }),
+
+        supabaseClient
+            .from("agendamentos")
+            .select("*")
+            .order("Data", { ascending: false }),
+
+        supabaseClient
+            .from("clientes")
+            .select("*")
+
+    ]);
+
+    if (pagamentosResult.error)
+        throw pagamentosResult.error;
+
+    if (vendasResult.error)
+        throw vendasResult.error;
+
+    if (agendamentosResult.error)
+        throw agendamentosResult.error;
+
+    if (clientesResult.error)
+        throw clientesResult.error;
+
+    pagamentos =
+        pagamentosResult.data || [];
+
+    vendas =
+        vendasResult.data || [];
+
+    agendamentos =
+        agendamentosResult.data || [];
+
+    clientes =
+        clientesResult.data || [];
+
+}
+
+function nomeCliente(id) {
+
+    const cliente =
+        clientes.find(c => c.id === id);
+
+    if (!cliente) return "Cliente";
+
+    return cliente.Nome || "Cliente";
+
+}
+
+function processarRelatorio() {
+
+    const pagamentosPeriodo =
+        pagamentos.filter(p =>
+            dentroDoPeriodo(p.criado_em)
         );
 
+    const vendasPeriodo =
+        vendas.filter(v =>
+            dentroDoPeriodo(v.criado_em)
+        );
 
-    const ultimoDia =
-        new Date(
-            hoje.getFullYear(),
-            hoje.getMonth()+1,
+    const agendamentosPeriodo =
+        agendamentos.filter(a =>
+            dentroDoPeriodo(a.Data)
+        );
+
+    const pagamentosPagos =
+        pagamentosPeriodo.filter(p =>
+            String(p.status || "").toLowerCase() === "pago"
+        );
+
+    const valorServicos =
+        pagamentosPagos.reduce(
+            (total, p) =>
+                total + Number(p.valor || 0),
             0
         );
 
+    const valorProdutos =
+        vendasPeriodo
+            .filter(v =>
+                String(v.status || "").toLowerCase() === "pago"
+            )
+            .reduce(
+                (total, v) =>
+                    total + Number(v.valor_total || 0),
+                0
+            );
 
-    document.getElementById(
-        "dataInicial"
-    ).value =
-        formatarDataInput(
-            primeiroDia
+    const faturamento =
+        valorServicos + valorProdutos;
+
+    const produtosPagos =
+        vendasPeriodo.filter(v =>
+            String(v.status || "").toLowerCase() === "pago"
         );
 
+    const clientesIds = new Set();
 
-    document.getElementById(
-        "dataFinal"
-    ).value =
-        formatarDataInput(
-            ultimoDia
-        );
+    pagamentosPagos.forEach(p => {
 
-}
-
-
-function formatarDataInput(data){
-
-    const ano =
-        data.getFullYear();
-
-
-    const mes =
-        String(
-            data.getMonth()+1
-        ).padStart(2,"0");
-
-
-    const dia =
-        String(
-            data.getDate()
-        ).padStart(2,"0");
-
-
-    return `${ano}-${mes}-${dia}`;
-
-}
-
-
-function gerarRelatorio(){
-
-    const dataInicial =
-        document.getElementById(
-            "dataInicial"
-        ).value;
-
-
-    const dataFinal =
-        document.getElementById(
-            "dataFinal"
-        ).value;
-
-
-    const status =
-        document.getElementById(
-            "filtroStatus"
-        ).value;
-
-
-    const pagamento =
-        document.getElementById(
-            "filtroPagamento"
-        ).value;
-
-
-    let dados =
-        [...todosAgendamentos];
-
-
-    if(dataInicial){
-
-        dados =
-            dados.filter(
-                item =>
-                    item.Data >= dataInicial
-            );
-
-    }
-
-
-    if(dataFinal){
-
-        dados =
-            dados.filter(
-                item =>
-                    item.Data <= dataFinal
-            );
-
-    }
-
-
-    if(status){
-
-        dados =
-            dados.filter(
-                item =>
-                    item.Status === status
-            );
-
-    }
-
-
-    if(pagamento){
-
-        dados =
-            dados.filter(
-                item =>
-                    item.Pagamento === pagamento
-            );
-
-    }
-
-
-    atualizarCards(dados);
-
-    mostrarTabela(dados);
-
-    mostrarResumoServicos(dados);
-
-}
-
-
-function atualizarCards(dados){
-
-    let faturamento = 0;
-
-    let recebido = 0;
-
-    let pendente = 0;
-
-    let concluidos = 0;
-
-    let cancelados = 0;
-
-
-    dados.forEach(item => {
-
-        const valor =
-            Number(item.Valor) || 0;
-
-
-        if(item.Status !== "Cancelado"){
-
-            faturamento += valor;
-
-        }
-
-
-        if(item.Pagamento === "Pago"){
-
-            recebido += valor;
-
-        }
-
-
-        if(
-            item.Status !== "Cancelado" &&
-            item.Pagamento !== "Pago"
-        ){
-
-            pendente += valor;
-
-        }
-
-
-        if(
-            item.Status === "Concluído"
-        ){
-
-            concluidos++;
-
-        }
-
-
-        if(
-            item.Status === "Cancelado"
-        ){
-
-            cancelados++;
-
-        }
+        if (p.cliente_id)
+            clientesIds.add(p.cliente_id);
 
     });
 
+    produtosPagos.forEach(v => {
 
-    document.getElementById(
-        "faturamento"
-    ).textContent =
+        if (v.cliente_id)
+            clientesIds.add(v.cliente_id);
+
+    });
+
+    document.getElementById("faturamentoTotal").innerText =
         dinheiro(faturamento);
 
+    document.getElementById("totalServicos").innerText =
+        pagamentosPagos.length;
 
-    document.getElementById(
-        "recebido"
-    ).textContent =
-        dinheiro(recebido);
+    document.getElementById("totalProdutos").innerText =
+        produtosPagos.reduce(
+            (total, v) =>
+                total + Number(v.quantidade || 0),
+            0
+        );
 
+    document.getElementById("totalClientes").innerText =
+        clientesIds.size;
 
-    document.getElementById(
-        "pendente"
-    ).textContent =
-        dinheiro(pendente);
+    document.getElementById("totalAgendamentos").innerText =
+        agendamentosPeriodo.length;
 
+    document.getElementById("ticketMedio").innerText =
+        dinheiro(
+            faturamento /
+            Math.max(
+                pagamentosPagos.length +
+                produtosPagos.length,
+                1
+            )
+        );
 
-    document.getElementById(
-        "agendamentos"
-    ).textContent =
-        dados.length;
+    calcularPagamentos(
+        pagamentosPagos,
+        produtosPagos
+    );
 
+    gerarGrafico(
+        pagamentosPagos,
+        produtosPagos
+    );
 
-    document.getElementById(
-        "concluidos"
-    ).textContent =
-        concluidos;
+    gerarTabelaServicos(
+        pagamentosPagos
+    );
 
+    gerarTabelaProdutos(
+        produtosPagos
+    );
 
-    document.getElementById(
-        "cancelados"
-    ).textContent =
-        cancelados;
+    gerarTabelaMovimentos(
+        pagamentosPagos,
+        produtosPagos
+    );
 
 }
 
+function calcularPagamentos(
+    servicos,
+    produtos
+) {
 
-function mostrarTabela(dados){
+    let pix = 0;
+    let cartao = 0;
+    let dinheiroValor = 0;
+    let outros = 0;
 
-    const tabela =
-        document.getElementById(
-            "tabelaRelatorio"
+    servicos.forEach(p => {
+
+        const valor =
+            Number(p.valor || 0);
+
+        const metodo =
+            normalizarPagamento(p.metodo);
+
+        if (metodo.includes("pix"))
+            pix += valor;
+
+        else if (
+            metodo.includes("cart")
+        )
+            cartao += valor;
+
+        else if (
+            metodo.includes("dinheiro")
+        )
+            dinheiroValor += valor;
+
+        else
+            outros += valor;
+
+    });
+
+    produtos.forEach(v => {
+
+        const valor =
+            Number(v.valor_total || 0);
+
+        const metodo =
+            normalizarPagamento(
+                v.metodo_pagamento
+            );
+
+        if (metodo.includes("pix"))
+            pix += valor;
+
+        else if (
+            metodo.includes("cart")
+        )
+            cartao += valor;
+
+        else if (
+            metodo.includes("dinheiro")
+        )
+            dinheiroValor += valor;
+
+        else
+            outros += valor;
+
+    });
+
+    document.getElementById("totalPix").innerText =
+        dinheiro(pix);
+
+    document.getElementById("totalCartao").innerText =
+        dinheiro(cartao);
+
+    document.getElementById("totalDinheiro").innerText =
+        dinheiro(dinheiroValor);
+
+    document.getElementById("totalOutros").innerText =
+        dinheiro(outros);
+
+}
+
+function gerarGrafico(
+    servicos,
+    produtos
+) {
+
+    const dias = {};
+
+    servicos.forEach(p => {
+
+        const dia =
+            String(p.criado_em).substring(0, 10);
+
+        if (!dias[dia])
+            dias[dia] = 0;
+
+        dias[dia] += Number(p.valor || 0);
+
+    });
+
+    produtos.forEach(v => {
+
+        const dia =
+            String(v.criado_em).substring(0, 10);
+
+        if (!dias[dia])
+            dias[dia] = 0;
+
+        dias[dia] += Number(v.valor_total || 0);
+
+    });
+
+    const lista =
+        Object.entries(dias)
+            .sort((a, b) =>
+                a[0].localeCompare(b[0])
+            );
+
+    const maior =
+        Math.max(
+            ...lista.map(item => item[1]),
+            1
         );
 
+    const grafico =
+        document.getElementById("grafico");
 
-    if(!dados.length){
+    if (!lista.length) {
 
-        tabela.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    class="vazio"
-                >
-                    Nenhum agendamento encontrado.
-                </td>
-
-            </tr>
-
-        `;
+        grafico.innerHTML =
+            '<div class="empty">Nenhum faturamento no período.</div>';
 
         return;
 
     }
 
+    grafico.innerHTML =
+        lista.map(([dia, valor]) => {
 
-    tabela.innerHTML =
-        dados.map(item => {
-
-            const statusClass =
-                classeStatus(
-                    item.Status
+            const altura =
+                Math.max(
+                    5,
+                    (valor / maior) * 160
                 );
 
+            const partes =
+                dia.split("-");
+
+            const label =
+                `${partes[2]}/${partes[1]}`;
 
             return `
+                <div class="bar-box">
 
-                <tr>
+                    <div class="bar-value">
+                        ${dinheiro(valor)}
+                    </div>
 
-                    <td>
-                        ${formatarData(item.Data)}
-                    </td>
+                    <div
+                        class="bar"
+                        style="height:${altura}px">
+                    </div>
 
-                    <td>
-                        ${formatarHora(item.Horário)}
-                    </td>
+                    <div class="bar-label">
+                        ${label}
+                    </div>
 
-                    <td>
-                        ${item.Serviços || "-"}
-                    </td>
-
-                    <td>
-                        ${dinheiro(item.Valor)}
-                    </td>
-
-                    <td>
-
-                        <span
-                            class="status ${statusClass}"
-                        >
-                            ${item.Status || "-"}
-                        </span>
-
-                    </td>
-
-                    <td>
-                        ${item.Pagamento || "-"}
-                    </td>
-
-                </tr>
-
+                </div>
             `;
 
         }).join("");
 
 }
 
-
-function mostrarResumoServicos(dados){
+function gerarTabelaServicos(
+    pagamentos
+) {
 
     const tabela =
         document.getElementById(
             "tabelaServicos"
         );
 
+    const dados = {};
 
-    const resumo = {};
+    pagamentos.forEach(p => {
 
+        let nome = "Serviço";
 
-    dados.forEach(item => {
+        const agendamento =
+            agendamentos.find(
+                a => a.id === p.agendamento_id
+            );
 
-        const nome =
-            item.Serviços ||
-            "Serviço não informado";
+        if (agendamento)
+            nome =
+                agendamento["Serviços"] ||
+                "Serviço";
 
+        if (!dados[nome]) {
 
-        const valor =
-            Number(item.Valor) || 0;
-
-
-        if(!resumo[nome]){
-
-            resumo[nome] = {
-
-                quantidade:0,
-
-                faturamento:0
-
+            dados[nome] = {
+                quantidade: 0,
+                valor: 0
             };
 
         }
 
+        dados[nome].quantidade++;
 
-        resumo[nome].quantidade++;
-
-        if(item.Status !== "Cancelado"){
-
-            resumo[nome].faturamento += valor;
-
-        }
+        dados[nome].valor +=
+            Number(p.valor || 0);
 
     });
 
-
     const lista =
-        Object.entries(resumo)
-        .sort(
-            (a,b) =>
-                b[1].faturamento -
-                a[1].faturamento
-        );
+        Object.entries(dados)
+            .sort(
+                (a,b) =>
+                    b[1].valor -
+                    a[1].valor
+            );
 
+    if (!lista.length) {
 
-    if(!lista.length){
-
-        tabela.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="3"
-                    class="vazio"
-                >
+        tabela.innerHTML =
+            `<tr>
+                <td colspan="3" class="empty">
                     Nenhum serviço encontrado.
                 </td>
-
-            </tr>
-
-        `;
+            </tr>`;
 
         return;
 
     }
 
-
     tabela.innerHTML =
-        lista.map(
-            ([nome,dadosServico]) => `
+        lista.map(([nome, item]) => `
 
-                <tr>
+            <tr>
 
-                    <td>
-                        ${nome}
-                    </td>
+                <td>${nome}</td>
 
-                    <td>
-                        ${dadosServico.quantidade}
-                    </td>
+                <td>${item.quantidade}</td>
 
-                    <td>
-                        ${dinheiro(
-                            dadosServico.faturamento
-                        )}
-                    </td>
+                <td>${dinheiro(item.valor)}</td>
 
-                </tr>
+            </tr>
 
-            `
-        ).join("");
+        `).join("");
 
 }
 
+function gerarTabelaProdutos(
+    produtos
+) {
 
-function classeStatus(status){
-
-    if(status === "Confirmado")
-        return "confirmado";
-
-
-    if(status === "Concluído")
-        return "concluido";
-
-
-    if(status === "Cancelado")
-        return "cancelado";
-
-
-    return "pendente";
-
-}
-
-
-function formatarData(data){
-
-    if(!data) return "-";
-
-
-    const partes =
-        data.split("-");
-
-
-    if(partes.length !== 3)
-        return data;
-
-
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-}
-
-
-function formatarHora(hora){
-
-    if(!hora) return "-";
-
-
-    return hora.substring(
-        0,
-        5
-    );
-
-}
-
-
-function dinheiro(valor){
-
-    return Number(valor || 0)
-        .toLocaleString(
-            "pt-BR",
-            {
-                style:"currency",
-                currency:"BRL"
-            }
+    const tabela =
+        document.getElementById(
+            "tabelaProdutos"
         );
 
+    const dados = {};
+
+    produtos.forEach(v => {
+
+        const nome =
+            v.produto_nome ||
+            "Produto";
+
+        if (!dados[nome]) {
+
+            dados[nome] = {
+                quantidade: 0,
+                valor: 0
+            };
+
+        }
+
+        dados[nome].quantidade +=
+            Number(v.quantidade || 0);
+
+        dados[nome].valor +=
+            Number(v.valor_total || 0);
+
+    });
+
+    const lista =
+        Object.entries(dados)
+            .sort(
+                (a,b) =>
+                    b[1].valor -
+                    a[1].valor
+            );
+
+    if (!lista.length) {
+
+        tabela.innerHTML =
+            `<tr>
+                <td colspan="3" class="empty">
+                    Nenhum produto vendido.
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+    tabela.innerHTML =
+        lista.map(([nome, item]) => `
+
+            <tr>
+
+                <td>${nome}</td>
+
+                <td>${item.quantidade}</td>
+
+                <td>${dinheiro(item.valor)}</td>
+
+            </tr>
+
+        `).join("");
+
 }
 
+function gerarTabelaMovimentos(
+    servicos,
+    produtos
+) {
 
-carregarDados();
+    const movimentos = [];
+
+    servicos.forEach(p => {
+
+        const agendamento =
+            agendamentos.find(
+                a => a.id === p.agendamento_id
+            );
+
+        movimentos.push({
+
+            data: p.criado_em,
+
+            tipo: "Serviço",
+
+            cliente:
+                nomeCliente(p.cliente_id),
+
+            item:
+                agendamento
+                    ? agendamento["Serviços"]
+                    : "Serviço",
+
+            valor:
+                Number(p.valor || 0),
+
+            pagamento:
+                p.metodo || "-"
+
+        });
+
+    });
+
+    produtos.forEach(v => {
+
+        movimentos.push({
+
+            data: v.criado_em,
+
+            tipo: "Produto",
+
+            cliente:
+                nomeCliente(v.cliente_id),
+
+            item:
+                v.produto_nome || "Produto",
+
+            valor:
+                Number(v.valor_total || 0),
+
+            pagamento:
+                v.metodo_pagamento || "-"
+
+        });
+
+    });
+
+    movimentos.sort(
+        (a,b) =>
+            new Date(b.data) -
+            new Date(a.data)
+    );
+
+    const tabela =
+        document.getElementById(
+            "tabelaMovimentos"
+        );
+
+    if (!movimentos.length) {
+
+        tabela.innerHTML =
+            `<tr>
+                <td colspan="6" class="empty">
+                    Nenhuma movimentação encontrada.
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+    tabela.innerHTML =
+        movimentos.map(m => `
+
+            <tr>
+
+                <td>
+                    ${dataBR(m.data)}
+                </td>
+
+                <td>
+                    ${m.tipo}
+                </td>
+
+                <td>
+                    ${m.cliente}
+                </td>
+
+                <td>
+                    ${m.item}
+                </td>
+
+                <td>
+                    ${dinheiro(m.valor)}
+                </td>
+
+                <td>
+                    ${m.pagamento}
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+async function carregarRelatorios() {
+
+    esconderErro();
+
+    document.getElementById(
+        "loading"
+    ).style.display = "block";
+
+    document.getElementById(
+        "conteudo"
+    ).style.display = "none";
+
+    try {
+
+        await buscarDados();
+
+        processarRelatorio();
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+        document.getElementById(
+            "conteudo"
+        ).style.display = "block";
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        document.getElementById(
+            "loading"
+        ).style.display = "none";
+
+        mostrarErro(
+            "Não foi possível carregar os relatórios. Verifique as tabelas e as permissões do Supabase."
+        );
+
+    }
+
+}
+
+async function iniciar() {
+
+    const permitido =
+        await verificarAdmin();
+
+    if (!permitido)
+        return;
+
+    definirDatas();
+
+    await carregarRelatorios();
+
+}
+
+iniciar();
 
 </script>
 
 </body>
-  </html>
+                        </html>
