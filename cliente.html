@@ -1,713 +1,943 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Gold Style — Área do Cliente</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(circle at top, #302300 0%, #0d0d0d 35%, #050505 75%);
-            color: white;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        /* TOPO */
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 0 25px;
-        }
-
-        .logo {
-            font-size: 25px;
-            font-weight: 900;
-            color: #ffd700;
-            text-shadow:
-                0 0 5px #ffd700,
-                0 0 15px #d4af37,
-                0 0 30px #b8860b;
-        }
-
-        .logo span {
-            display: block;
-            font-size: 11px;
-            letter-spacing: 3px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-
-        .btn-sair {
-            border: 1px solid #d4af37;
-            background: transparent;
-            color: #ffd700;
-            padding: 10px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .btn-sair:hover {
-            background: #ffd700;
-            color: #000;
-        }
-
-        /* HERO */
-
-        .hero {
-            background:
-                linear-gradient(135deg, rgba(255,215,0,.15), rgba(0,0,0,.9));
-            border: 1px solid #806b16;
-            border-radius: 22px;
-            padding: 30px 25px;
-            margin-bottom: 22px;
-            box-shadow:
-                0 0 25px rgba(255,215,0,.08),
-                inset 0 0 25px rgba(255,215,0,.03);
-        }
-
-        .hero small {
-            color: #ffd700;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .hero h1 {
-            margin-top: 10px;
-            font-size: 30px;
-        }
-
-        .hero p {
-            margin-top: 10px;
-            color: #cfcfcf;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 22px;
-        }
-
-        .btn-principal {
-            display: inline-block;
-            text-decoration: none;
-            background: linear-gradient(135deg, #fff000, #d4af37, #a87800);
-            color: #000;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-weight: 900;
-            box-shadow: 0 0 20px rgba(255,215,0,.25);
-        }
-
-        .btn-whatsapp {
-            display: inline-block;
-            text-decoration: none;
-            background: #111;
-            color: #fff;
-            border: 1px solid #25d366;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-weight: bold;
-        }
-
-        .btn-whatsapp:hover {
-            background: #25d366;
-            color: #000;
-        }
-
-        /* CARDS */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-bottom: 22px;
-        }
-
-        .card {
-            background: rgba(15,15,15,.95);
-            border: 1px solid #332d15;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.3);
-        }
-
-        .card .icone {
-            font-size: 25px;
-        }
-
-        .card h3 {
-            color: #aaa;
-            font-size: 13px;
-            margin-top: 10px;
-        }
-
-        .card strong {
-            display: block;
-            color: #ffd700;
-            font-size: 25px;
-            margin-top: 5px;
-        }
-
-        /* SEÇÕES */
-
-        .section {
-            background: rgba(12,12,12,.96);
-            border: 1px solid #2e2915;
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .section-title h2 {
-            color: #ffd700;
-            font-size: 21px;
-        }
-
-        .section-title span {
-            color: #777;
-            font-size: 12px;
-        }
-
-        /* PRÓXIMO ATENDIMENTO */
-
-        .proximo {
-            border: 1px solid #d4af37;
-            background:
-                linear-gradient(135deg, rgba(255,215,0,.10), rgba(0,0,0,.8));
-            border-radius: 15px;
-            padding: 20px;
-        }
-
-        .proximo-label {
-            color: #ffd700;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .proximo h3 {
-            font-size: 23px;
-            margin: 10px 0;
-        }
-
-        .proximo-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .info-box {
-            background: #090909;
-            border-radius: 10px;
-            padding: 12px;
-        }
-
-        .info-box small {
-            color: #777;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .info-box strong {
-            color: #fff;
-        }
-
-        /* AGENDAMENTOS */
-
-        .agendamento {
-            border: 1px solid #292929;
-            background: #090909;
-            border-radius: 14px;
-            padding: 17px;
-            margin-bottom: 12px;
-        }
-
-        .agendamento:last-child {
-            margin-bottom: 0;
-        }
-
-        .agendamento-topo {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .agendamento h3 {
-            color: #fff;
-            font-size: 17px;
-        }
-
-        .data {
-            color: #ffd700;
-            font-weight: bold;
-        }
-
-        .agendamento-detalhes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .tag {
-            background: #171717;
-            border: 1px solid #292929;
-            padding: 7px 10px;
-            border-radius: 8px;
-            color: #bbb;
-            font-size: 13px;
-        }
-
-        /* STATUS */
-
-        .status {
-            display: inline-block;
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status-pendente {
-            background: #332b08;
-            color: #ffd700;
-        }
-
-        .status-confirmado {
-            background: #102b1a;
-            color: #50e889;
-        }
-
-        .status-concluido {
-            background: #132538;
-            color: #55baff;
-        }
-
-        .status-cancelado {
-            background: #351313;
-            color: #ff7070;
-        }
-
-        .pagamento-pago {
-            color: #50e889;
-        }
-
-        .pagamento-pendente {
-            color: #ffd700;
-        }
-
-        /* PERFIL */
-
-        .perfil {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .perfil-item {
-            background: #090909;
-            border: 1px solid #252525;
-            border-radius: 12px;
-            padding: 15px;
-        }
-
-        .perfil-item small {
-            color: #777;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .perfil-item strong {
-            word-break: break-word;
-        }
-
-        /* VAZIO */
-
-        .vazio {
-            text-align: center;
-            padding: 30px 15px;
-            color: #888;
-        }
-
-        .vazio strong {
-            display: block;
-            color: #ffd700;
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-
-        /* CARREGANDO */
-
-        #carregando {
-            position: fixed;
-            inset: 0;
-            background: #050505;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .loader {
-            text-align: center;
-        }
-
-        .loader-logo {
-            color: #ffd700;
-            font-size: 30px;
-            font-weight: 900;
-            text-shadow: 0 0 20px #ffd700;
-        }
-
-        .loader p {
-            color: #888;
-            margin-top: 10px;
-        }
-
-        /* RODAPÉ */
-
-        footer {
-            text-align: center;
-            padding: 25px 10px 35px;
-            color: #666;
-            font-size: 12px;
-        }
-
-        footer strong {
-            color: #ffd700;
-        }
-
-        /* RESPONSIVO */
-
-        @media (max-width: 850px) {
-
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .perfil {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .container {
-                padding: 14px;
-            }
-
-            header {
-                padding-top: 8px;
-            }
-
-            .logo {
-                font-size: 21px;
-            }
-
-            .hero {
-                padding: 24px 18px;
-            }
-
-            .hero h1 {
-                font-size: 25px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .btn-principal,
-            .btn-whatsapp {
-                text-align: center;
-                width: 100%;
-            }
-
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 9px;
-            }
-
-            .card {
-                padding: 15px;
-            }
-
-            .card strong {
-                font-size: 21px;
-            }
-
-            .proximo-info {
-                grid-template-columns: 1fr;
-            }
-
-            .section {
-                padding: 17px;
-            }
-
-            .agendamento-topo {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gold Style — Área do Cliente</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            #302300 0%,
+            #0d0d0d 35%,
+            #050505 75%
+        );
+    color:#fff;
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+/* TOPO */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:15px 0 25px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    color:#ffd700;
+    text-shadow:
+        0 0 5px #ffd700,
+        0 0 15px #d4af37,
+        0 0 30px #b8860b;
+}
+
+.logo span{
+    display:block;
+    font-size:11px;
+    letter-spacing:3px;
+    color:#aaa;
+    margin-top:4px;
+}
+
+.btn-sair{
+    border:1px solid #d4af37;
+    background:transparent;
+    color:#ffd700;
+    padding:10px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn-sair:hover{
+    background:#ffd700;
+    color:#000;
+}
+
+/* HERO */
+
+.hero{
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,0,.15),
+            rgba(0,0,0,.9)
+        );
+
+    border:1px solid #806b16;
+    border-radius:22px;
+    padding:30px 25px;
+    margin-bottom:22px;
+
+    box-shadow:
+        0 0 25px rgba(255,215,0,.08),
+        inset 0 0 25px rgba(255,215,0,.03);
+}
+
+.hero small{
+    color:#ffd700;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.hero h1{
+    margin-top:10px;
+    font-size:30px;
+}
+
+.hero p{
+    margin-top:10px;
+    color:#cfcfcf;
+    line-height:1.6;
+}
+
+.hero-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:22px;
+}
+
+.btn-principal{
+    display:inline-block;
+    text-decoration:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff000,
+            #d4af37,
+            #a87800
+        );
+
+    color:#000;
+    padding:14px 20px;
+    border-radius:12px;
+    font-weight:900;
+
+    box-shadow:
+        0 0 20px rgba(255,215,0,.25);
+}
+
+.btn-principal:hover{
+    transform:translateY(-2px);
+}
+
+.btn-whatsapp{
+    display:inline-block;
+    text-decoration:none;
+    background:#111;
+    color:#fff;
+    border:1px solid #25d366;
+    padding:14px 20px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.btn-whatsapp:hover{
+    background:#25d366;
+    color:#000;
+}
+
+/* BOTÃO PRODUTOS */
+
+.btn-produtos{
+    display:inline-block;
+    text-decoration:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff000,
+            #ffd700,
+            #a87800
+        );
+
+    color:#000;
+    border:1px solid #ffd700;
+
+    padding:14px 20px;
+    border-radius:12px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 0 20px rgba(255,215,0,.35);
+}
+
+.btn-produtos:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 30px rgba(255,215,0,.55);
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:22px;
+}
+
+.card{
+    background:rgba(15,15,15,.95);
+    border:1px solid #332d15;
+    border-radius:16px;
+    padding:20px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.3);
+}
+
+.card .icone{
+    font-size:25px;
+}
+
+.card h3{
+    color:#aaa;
+    font-size:13px;
+    margin-top:10px;
+}
+
+.card strong{
+    display:block;
+    color:#ffd700;
+    font-size:25px;
+    margin-top:5px;
+}
+
+/* SEÇÕES */
+
+.section{
+    background:rgba(12,12,12,.96);
+    border:1px solid #2e2915;
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.section-title h2{
+    color:#ffd700;
+    font-size:21px;
+}
+
+.section-title span{
+    color:#777;
+    font-size:12px;
+}
+
+/* PRÓXIMO ATENDIMENTO */
+
+.proximo{
+    border:1px solid #d4af37;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,215,0,.10),
+            rgba(0,0,0,.8)
+        );
+
+    border-radius:15px;
+    padding:20px;
+}
+
+.proximo-label{
+    color:#ffd700;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.proximo h3{
+    font-size:23px;
+    margin:10px 0;
+}
+
+.proximo-info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.info-box{
+    background:#090909;
+    border-radius:10px;
+    padding:12px;
+}
+
+.info-box small{
+    color:#777;
+    display:block;
+    margin-bottom:5px;
+}
+
+.info-box strong{
+    color:#fff;
+}
+
+/* AGENDAMENTOS */
+
+.agendamento{
+    border:1px solid #292929;
+    background:#090909;
+    border-radius:14px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.agendamento:last-child{
+    margin-bottom:0;
+}
+
+.agendamento-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.agendamento h3{
+    color:#fff;
+    font-size:17px;
+}
+
+.data{
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.agendamento-detalhes{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:12px;
+}
+
+.tag{
+    background:#171717;
+    border:1px solid #292929;
+    padding:7px 10px;
+    border-radius:8px;
+    color:#bbb;
+    font-size:13px;
+}
+
+/* STATUS */
+
+.status{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.status-pendente{
+    background:#332b08;
+    color:#ffd700;
+}
+
+.status-confirmado{
+    background:#102b1a;
+    color:#50e889;
+}
+
+.status-concluido{
+    background:#132538;
+    color:#55baff;
+}
+
+.status-cancelado{
+    background:#351313;
+    color:#ff7070;
+}
+
+.pagamento-pago{
+    color:#50e889;
+}
+
+.pagamento-pendente{
+    color:#ffd700;
+}
+
+/* PERFIL */
+
+.perfil{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.perfil-item{
+    background:#090909;
+    border:1px solid #252525;
+    border-radius:12px;
+    padding:15px;
+}
+
+.perfil-item small{
+    color:#777;
+    display:block;
+    margin-bottom:6px;
+}
+
+.perfil-item strong{
+    word-break:break-word;
+}
+
+/* VAZIO */
+
+.vazio{
+    text-align:center;
+    padding:30px 15px;
+    color:#888;
+}
+
+.vazio strong{
+    display:block;
+    color:#ffd700;
+    margin-bottom:8px;
+    font-size:18px;
+}
+
+/* CARREGANDO */
+
+#carregando{
+    position:fixed;
+    inset:0;
+    background:#050505;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    z-index:9999;
+}
+
+.loader{
+    text-align:center;
+}
+
+.loader-logo{
+    color:#ffd700;
+    font-size:30px;
+    font-weight:900;
+    text-shadow:0 0 20px #ffd700;
+}
+
+.loader p{
+    color:#888;
+    margin-top:10px;
+}
+
+/* RODAPÉ */
+
+footer{
+    text-align:center;
+    padding:25px 10px 35px;
+    color:#666;
+    font-size:12px;
+}
+
+footer strong{
+    color:#ffd700;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:850px){
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .perfil{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .container{
+        padding:14px;
+    }
+
+    header{
+        padding-top:8px;
+    }
+
+    .logo{
+        font-size:21px;
+    }
+
+    .hero{
+        padding:24px 18px;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+    }
+
+    .btn-principal,
+    .btn-produtos,
+    .btn-whatsapp{
+        text-align:center;
+        width:100%;
+    }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+        gap:9px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .card strong{
+        font-size:21px;
+    }
+
+    .proximo-info{
+        grid-template-columns:1fr;
+    }
+
+    .section{
+        padding:17px;
+    }
+
+    .agendamento-topo{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div id="carregando">
+
     <div class="loader">
-        <div class="loader-logo">GOLD STYLE</div>
-        <p>Carregando sua área...</p>
+
+        <div class="loader-logo">
+            GOLD STYLE
+        </div>
+
+        <p>
+            Carregando sua área...
+        </p>
+
     </div>
+
 </div>
+
 
 <div class="container">
 
-    <header>
+<header>
 
-        <div class="logo">
-            GOLD STYLE
-            <span>BARBEARIA DESDE 2022</span>
+    <div class="logo">
+
+        GOLD STYLE
+
+        <span>
+            BARBEARIA DESDE 2022
+        </span>
+
+    </div>
+
+    <button
+        class="btn-sair"
+        onclick="sair()"
+    >
+        SAIR
+    </button>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <small>
+        ÁREA EXCLUSIVA DO CLIENTE
+    </small>
+
+    <h1>
+        Olá,
+        <span id="nomeHero">
+            Cliente
+        </span>!
+        👋
+    </h1>
+
+    <p>
+        Seja bem-vindo à Gold Style Barbearia.
+        Aqui você acompanha seus horários,
+        serviços e agendamentos de forma rápida
+        e prática.
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <a
+            href="agendamento.html"
+            class="btn-principal"
+        >
+            📅 AGENDAR HORÁRIO
+        </a>
+
+
+        <a
+            href="produtos-cliente.html"
+            class="btn-produtos"
+        >
+            🛍️ COMPRAR PRODUTOS
+        </a>
+
+
+        <a
+            href="https://wa.me/556899853643"
+            target="_blank"
+            class="btn-whatsapp"
+        >
+            💬 FALAR NO WHATSAPP
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- RESUMO -->
+
+<section class="cards">
+
+    <div class="card">
+
+        <div class="icone">
+            📅
         </div>
 
-        <button class="btn-sair" onclick="sair()">
-            SAIR
-        </button>
+        <h3>
+            AGENDAMENTOS
+        </h3>
 
-    </header>
+        <strong id="totalAgendamentos">
+            0
+        </strong>
+
+    </div>
 
 
-    <!-- HERO -->
+    <div class="card">
 
-    <section class="hero">
-
-        <small>ÁREA EXCLUSIVA DO CLIENTE</small>
-
-        <h1>
-            Olá, <span id="nomeHero">Cliente</span>! 👋
-        </h1>
-
-        <p>
-            Seja bem-vindo à Gold Style Barbearia.
-            Aqui você acompanha seus horários, serviços e
-            agendamentos de forma rápida e prática.
-        </p>
-
-        <div class="hero-buttons">
-
-            <a
-                href="agendamento.html"
-                class="btn-principal"
-            >
-                📅 AGENDAR HORÁRIO
-            </a>
-
-            <a
-                href="https://wa.me/5568999853643"
-                target="_blank"
-                class="btn-whatsapp"
-            >
-                💬 FALAR NO WHATSAPP
-            </a>
-
+        <div class="icone">
+            ✅
         </div>
 
-    </section>
+        <h3>
+            CONFIRMADOS
+        </h3>
+
+        <strong id="totalConfirmados">
+            0
+        </strong>
+
+    </div>
 
 
-    <!-- RESUMO -->
+    <div class="card">
 
-    <section class="cards">
-
-        <div class="card">
-            <div class="icone">📅</div>
-            <h3>AGENDAMENTOS</h3>
-            <strong id="totalAgendamentos">0</strong>
+        <div class="icone">
+            ✂️
         </div>
 
-        <div class="card">
-            <div class="icone">✅</div>
-            <h3>CONFIRMADOS</h3>
-            <strong id="totalConfirmados">0</strong>
+        <h3>
+            CONCLUÍDOS
+        </h3>
+
+        <strong id="totalConcluidos">
+            0
+        </strong>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="icone">
+            💰
         </div>
 
-        <div class="card">
-            <div class="icone">✂️</div>
-            <h3>CONCLUÍDOS</h3>
-            <strong id="totalConcluidos">0</strong>
-        </div>
+        <h3>
+            VALOR DOS SERVIÇOS
+        </h3>
 
-        <div class="card">
-            <div class="icone">💰</div>
-            <h3>VALOR DOS SERVIÇOS</h3>
-            <strong id="totalServicos">R$ 0,00</strong>
-        </div>
+        <strong id="totalServicos">
+            R$ 0,00
+        </strong>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- PRÓXIMO ATENDIMENTO -->
+<!-- PRÓXIMO ATENDIMENTO -->
 
-    <section class="section">
+<section class="section">
 
-        <div class="section-title">
+    <div class="section-title">
 
-            <h2>⭐ Próximo atendimento</h2>
+        <h2>
+            ⭐ Próximo atendimento
+        </h2>
 
-            <span>Gold Style</span>
+        <span>
+            Gold Style
+        </span>
 
-        </div>
-
-        <div id="proximoAtendimento">
-
-            <div class="vazio">
-                <strong>Nenhum horário próximo</strong>
-                Você ainda não possui um próximo atendimento agendado.
-            </div>
-
-        </div>
-
-    </section>
+    </div>
 
 
-    <!-- AGENDAMENTOS -->
+    <div id="proximoAtendimento">
 
-    <section class="section">
+        <div class="vazio">
 
-        <div class="section-title">
+            <strong>
+                Nenhum horário próximo
+            </strong>
 
-            <h2>📋 Meus agendamentos</h2>
-
-            <span id="quantidadeAgendamentos">0 horários</span>
-
-        </div>
-
-        <div id="listaAgendamentos">
-
-            <div class="vazio">
-                <strong>Carregando...</strong>
-                Buscando seus agendamentos.
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- PERFIL -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>👤 Meu perfil</h2>
-
-            <span>Dados da conta</span>
-
-        </div>
-
-        <div class="perfil">
-
-            <div class="perfil-item">
-                <small>NOME</small>
-                <strong id="nomePerfil">---</strong>
-            </div>
-
-            <div class="perfil-item">
-                <small>WHATSAPP</small>
-                <strong id="telefonePerfil">---</strong>
-            </div>
-
-            <div class="perfil-item">
-                <small>E-MAIL</small>
-                <strong id="emailPerfil">---</strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- AÇÕES -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <h2>⚡ Acesso rápido</h2>
-
-            <span>Gold Style</span>
-
-        </div>
-
-        <div class="hero-buttons">
-
-            <a
-                href="agendamento.html"
-                class="btn-principal"
-            >
-                ✂️ NOVO AGENDAMENTO
-            </a>
-
-            <a
-                href="servicos.html"
-                class="btn-whatsapp"
-                style="border-color:#d4af37;color:#ffd700;"
-            >
-                💈 VER SERVIÇOS
-            </a>
-
-            <a
-                href="https://wa.me/5568999853643?text=Olá%20Gold%20Style,%20preciso%20de%20ajuda."
-                target="_blank"
-                class="btn-whatsapp"
-            >
-                📲 TIRAR DÚVIDAS
-            </a>
+            Você ainda não possui
+            um próximo atendimento agendado.
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <footer>
-        <strong>GOLD STYLE BARBEARIA</strong><br>
-        Barbearia desde 2022 • Rio Branco - Acre<br>
-        Rua Preciosa 557
-    </footer>
+<!-- AGENDAMENTOS -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            📋 Meus agendamentos
+        </h2>
+
+        <span id="quantidadeAgendamentos">
+            0 horários
+        </span>
+
+    </div>
+
+
+    <div id="listaAgendamentos">
+
+        <div class="vazio">
+
+            <strong>
+                Carregando...
+            </strong>
+
+            Buscando seus agendamentos.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PERFIL -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            👤 Meu perfil
+        </h2>
+
+        <span>
+            Dados da conta
+        </span>
+
+    </div>
+
+
+    <div class="perfil">
+
+        <div class="perfil-item">
+
+            <small>
+                NOME
+            </small>
+
+            <strong id="nomePerfil">
+                ---
+            </strong>
+
+        </div>
+
+
+        <div class="perfil-item">
+
+            <small>
+                WHATSAPP
+            </small>
+
+            <strong id="telefonePerfil">
+                ---
+            </strong>
+
+        </div>
+
+
+        <div class="perfil-item">
+
+            <small>
+                E-MAIL
+            </small>
+
+            <strong id="emailPerfil">
+                ---
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACESSO RÁPIDO -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            ⚡ Acesso rápido
+        </h2>
+
+        <span>
+            Gold Style
+        </span>
+
+    </div>
+
+
+    <div class="hero-buttons">
+
+
+        <a
+            href="agendamento.html"
+            class="btn-principal"
+        >
+            ✂️ NOVO AGENDAMENTO
+        </a>
+
+
+        <a
+            href="produtos-cliente.html"
+            class="btn-produtos"
+        >
+            🛍️ COMPRAR PRODUTOS
+        </a>
+
+
+        <a
+            href="servicos.html"
+            class="btn-whatsapp"
+            style="
+                border-color:#d4af37;
+                color:#ffd700;
+            "
+        >
+            💈 VER SERVIÇOS
+        </a>
+
+
+        <a
+            href="https://wa.me/556899853643?text=Olá%20Gold%20Style,%20preciso%20de%20ajuda."
+            target="_blank"
+            class="btn-whatsapp"
+        >
+            📲 TIRAR DÚVIDAS
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <strong>
+        GOLD STYLE BARBEARIA
+    </strong>
+
+    <br>
+
+    Barbearia desde 2022 • Rio Branco - Acre
+
+    <br>
+
+    Rua Preciosa 557
+
+</footer>
 
 </div>
 
@@ -729,11 +959,13 @@ window.supabase.createClient(
 
 function dinheiro(valor){
 
-    return Number(valor || 0).toLocaleString(
+    return Number(
+        valor || 0
+    ).toLocaleString(
         "pt-BR",
         {
-            style: "currency",
-            currency: "BRL"
+            style:"currency",
+            currency:"BRL"
         }
     );
 
@@ -746,7 +978,8 @@ function formatarData(data){
         return "---";
     }
 
-    const partes = data.split("-");
+    const partes =
+        data.split("-");
 
     if(partes.length !== 3){
         return data;
@@ -767,11 +1000,9 @@ function formatarHorario(horario){
 
         if(horario.includes("T")){
 
-            const hora = horario
+            return horario
                 .split("T")[1]
                 .substring(0,5);
-
-            return hora;
 
         }
 
@@ -809,11 +1040,19 @@ function textoPagamento(pagamento){
 
     if(pagamento === "Pago"){
 
-        return `<span class="pagamento-pago">✓ Pago</span>`;
+        return `
+            <span class="pagamento-pago">
+                ✓ Pago
+            </span>
+        `;
 
     }
 
-    return `<span class="pagamento-pendente">● Pendente</span>`;
+    return `
+        <span class="pagamento-pendente">
+            ● Pendente
+        </span>
+    `;
 
 }
 
@@ -823,77 +1062,122 @@ async function carregarCliente(){
     try{
 
         const {
-            data: sessionData,
-            error: sessionError
-        } = await supabaseClient.auth.getSession();
+            data:sessionData,
+            error:sessionError
+        } =
+        await supabaseClient
+            .auth
+            .getSession();
 
 
         if(sessionError){
 
-            console.error(sessionError);
+            console.error(
+                sessionError
+            );
 
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
 
             return;
 
         }
 
 
-        const session = sessionData.session;
+        const session =
+            sessionData.session;
 
 
         if(!session){
 
-            window.location.href = "login.html";
+            window.location.href =
+                "login.html";
 
             return;
 
         }
 
 
-        const usuarioId = session.user.id;
+        const usuarioId =
+            session.user.id;
 
 
         /* CLIENTE */
 
         const {
-            data: cliente,
-            error: clienteError
-        } = await supabaseClient
+            data:cliente,
+            error:clienteError
+        } =
+        await supabaseClient
+
             .from("clientes")
-            .select("id,Nome,Telefone,E-mail,Data_cadastro")
-            .eq("auth_user_id", usuarioId)
+
+            .select(
+                "id,Nome,Telefone,E-mail,Data_cadastro"
+            )
+
+            .eq(
+                "auth_user_id",
+                usuarioId
+            )
+
             .maybeSingle();
 
 
         if(clienteError){
 
-            console.error(clienteError);
+            console.error(
+                clienteError
+            );
 
         }
 
 
         if(cliente){
 
-            document.getElementById("nomeHero").textContent =
-                cliente.Nome || "Cliente";
+            document.getElementById(
+                "nomeHero"
+            ).textContent =
+                cliente.Nome ||
+                "Cliente";
 
-            document.getElementById("nomePerfil").textContent =
-                cliente.Nome || "---";
 
-            document.getElementById("telefonePerfil").textContent =
-                cliente.Telefone || "---";
+            document.getElementById(
+                "nomePerfil"
+            ).textContent =
+                cliente.Nome ||
+                "---";
 
-            document.getElementById("emailPerfil").textContent =
-                cliente["E-mail"] || session.user.email || "---";
+
+            document.getElementById(
+                "telefonePerfil"
+            ).textContent =
+                cliente.Telefone ||
+                "---";
+
+
+            document.getElementById(
+                "emailPerfil"
+            ).textContent =
+                cliente["E-mail"] ||
+                session.user.email ||
+                "---";
 
         }else{
 
-            document.getElementById("nomeHero").textContent =
-                session.user.email?.split("@")[0] || "Cliente";
+            document.getElementById(
+                "nomeHero"
+            ).textContent =
+                session.user.email
+                ?.split("@")[0] ||
+                "Cliente";
 
-            document.getElementById("emailPerfil").textContent =
-                session.user.email || "---";
+
+            document.getElementById(
+                "emailPerfil"
+            ).textContent =
+                session.user.email ||
+                "---";
 
         }
 
@@ -901,19 +1185,40 @@ async function carregarCliente(){
         /* AGENDAMENTOS */
 
         const {
-            data: agendamentos,
-            error: agendamentosError
-        } = await supabaseClient
+            data:agendamentos,
+            error:agendamentosError
+        } =
+        await supabaseClient
+
             .from("agendamentos")
+
             .select("*")
-            .eq("auth_user_id", usuarioId)
-            .order("Data", { ascending: true })
-            .order("Horário", { ascending: true });
+
+            .eq(
+                "auth_user_id",
+                usuarioId
+            )
+
+            .order(
+                "Data",
+                {
+                    ascending:true
+                }
+            )
+
+            .order(
+                "Horário",
+                {
+                    ascending:true
+                }
+            );
 
 
         if(agendamentosError){
 
-            console.error(agendamentosError);
+            console.error(
+                agendamentosError
+            );
 
             mostrarErro(
                 "Não foi possível carregar seus agendamentos."
@@ -924,7 +1229,8 @@ async function carregarCliente(){
         }
 
 
-        const lista = agendamentos || [];
+        const lista =
+            agendamentos || [];
 
 
         /* RESUMOS */
@@ -935,58 +1241,80 @@ async function carregarCliente(){
 
         const confirmados =
             lista.filter(
-                item => item.Status === "Confirmado"
+                item =>
+                    item.Status === "Confirmado"
             ).length;
 
 
         const concluidos =
             lista.filter(
-                item => item.Status === "Concluído"
+                item =>
+                    item.Status === "Concluído"
             ).length;
 
 
         const valorTotal =
             lista.reduce(
                 (soma,item) =>
-                    soma + Number(item.Valor || 0),
+                    soma +
+                    Number(
+                        item.Valor || 0
+                    ),
                 0
             );
 
 
         document.getElementById(
             "totalAgendamentos"
-        ).textContent = total;
+        ).textContent =
+            total;
 
 
         document.getElementById(
             "totalConfirmados"
-        ).textContent = confirmados;
+        ).textContent =
+            confirmados;
 
 
         document.getElementById(
             "totalConcluidos"
-        ).textContent = concluidos;
+        ).textContent =
+            concluidos;
 
 
         document.getElementById(
             "totalServicos"
-        ).textContent = dinheiro(valorTotal);
+        ).textContent =
+            dinheiro(
+                valorTotal
+            );
 
 
         document.getElementById(
             "quantidadeAgendamentos"
         ).textContent =
-            `${total} ${total === 1 ? "horário" : "horários"}`;
+            `${total} ${
+                total === 1
+                ? "horário"
+                : "horários"
+            }`;
 
 
-        mostrarProximo(lista);
+        mostrarProximo(
+            lista
+        );
 
-        mostrarLista(lista);
+
+        mostrarLista(
+            lista
+        );
 
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         mostrarErro(
             "Ocorreu um erro ao carregar sua área."
@@ -996,7 +1324,8 @@ async function carregarCliente(){
 
         document.getElementById(
             "carregando"
-        ).style.display = "none";
+        ).style.display =
+            "none";
 
     }
 
@@ -1016,33 +1345,51 @@ function mostrarProximo(lista){
 
 
     const futuros =
-        lista.filter(item => {
+        lista.filter(
+            item => {
 
-            if(item.Status === "Cancelado"){
-                return false;
+                if(
+                    item.Status ===
+                    "Cancelado"
+                ){
+
+                    return false;
+
+                }
+
+
+                if(!item.Data){
+                    return false;
+                }
+
+
+                const dataHora =
+                    new Date(
+                        `${item.Data}T${formatarHorario(item.Horário)}:00`
+                    );
+
+
+                return dataHora >= agora;
+
             }
-
-            if(!item.Data){
-                return false;
-            }
-
-            const dataHora =
-                new Date(
-                    `${item.Data}T${formatarHorario(item.Horário)}:00`
-                );
-
-            return dataHora >= agora;
-
-        });
+        );
 
 
     if(!futuros.length){
 
         elemento.innerHTML = `
+
             <div class="vazio">
-                <strong>Nenhum horário próximo</strong>
-                Você não possui um atendimento futuro agendado.
+
+                <strong>
+                    Nenhum horário próximo
+                </strong>
+
+                Você não possui um
+                atendimento futuro agendado.
+
             </div>
+
         `;
 
         return;
@@ -1069,36 +1416,69 @@ function mostrarProximo(lista){
             <div class="proximo-info">
 
                 <div class="info-box">
-                    <small>DATA</small>
+
+                    <small>
+                        DATA
+                    </small>
+
                     <strong>
-                        ${formatarData(proximo.Data)}
+                        ${formatarData(
+                            proximo.Data
+                        )}
                     </strong>
+
                 </div>
 
-                <div class="info-box">
-                    <small>HORÁRIO</small>
-                    <strong>
-                        ${formatarHorario(proximo.Horário)}
-                    </strong>
-                </div>
 
                 <div class="info-box">
-                    <small>VALOR</small>
+
+                    <small>
+                        HORÁRIO
+                    </small>
+
                     <strong>
-                        ${dinheiro(proximo.Valor)}
+                        ${formatarHorario(
+                            proximo.Horário
+                        )}
                     </strong>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <small>
+                        VALOR
+                    </small>
+
+                    <strong>
+                        ${dinheiro(
+                            proximo.Valor
+                        )}
+                    </strong>
+
                 </div>
 
             </div>
 
+
             <div style="margin-top:15px;">
 
-                <span class="${classeStatus(proximo.Status)}">
+                <span
+                    class="${classeStatus(
+                        proximo.Status
+                    )}"
+                >
                     ${proximo.Status || "Pendente"}
                 </span>
 
+
                 <span style="margin-left:8px;">
-                    ${textoPagamento(proximo.Pagamento)}
+
+                    ${textoPagamento(
+                        proximo.Pagamento
+                    )}
+
                 </span>
 
             </div>
@@ -1129,9 +1509,11 @@ function mostrarLista(lista){
                 </strong>
 
                 Clique em
+
                 <b style="color:#ffd700;">
                     AGENDAR HORÁRIO
                 </b>
+
                 para marcar seu atendimento.
 
             </div>
@@ -1144,7 +1526,9 @@ function mostrarLista(lista){
 
 
     elemento.innerHTML =
-        lista.map(item => `
+        lista
+        .map(
+            item => `
 
             <div class="agendamento">
 
@@ -1153,22 +1537,48 @@ function mostrarLista(lista){
                     <div>
 
                         <h3>
-                            ${item["Serviços"] || "Serviço"}
+                            ${
+                                item["Serviços"]
+                                ||
+                                "Serviço"
+                            }
                         </h3>
 
                         <div
                             class="data"
                             style="margin-top:5px;"
                         >
-                            ${formatarData(item.Data)}
+
+                            ${
+                                formatarData(
+                                    item.Data
+                                )
+                            }
+
                             •
-                            ${formatarHorario(item.Horário)}
+
+                            ${
+                                formatarHorario(
+                                    item.Horário
+                                )
+                            }
+
                         </div>
 
                     </div>
 
-                    <span class="${classeStatus(item.Status)}">
-                        ${item.Status || "Pendente"}
+
+                    <span
+                        class="${classeStatus(
+                            item.Status
+                        )}"
+                    >
+
+                        ${
+                            item.Status ||
+                            "Pendente"
+                        }
+
                     </span>
 
                 </div>
@@ -1177,20 +1587,37 @@ function mostrarLista(lista){
                 <div class="agendamento-detalhes">
 
                     <div class="tag">
+
                         💰
-                        ${dinheiro(item.Valor)}
+
+                        ${
+                            dinheiro(
+                                item.Valor
+                            )
+                        }
+
                     </div>
 
+
                     <div class="tag">
+
                         Pagamento:
-                        ${textoPagamento(item.Pagamento)}
+
+                        ${
+                            textoPagamento(
+                                item.Pagamento
+                            )
+                        }
+
                     </div>
 
                 </div>
 
             </div>
 
-        `).join("");
+        `
+        )
+        .join("");
 
 }
 
@@ -1203,7 +1630,9 @@ function mostrarErro(mensagem){
 
         <div class="vazio">
 
-            <strong>Ops!</strong>
+            <strong>
+                Ops!
+            </strong>
 
             ${mensagem}
 
@@ -1216,7 +1645,9 @@ function mostrarErro(mensagem){
 
 async function sair(){
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+        .auth
+        .signOut();
 
     window.location.href =
         "login.html";
@@ -1229,4 +1660,4 @@ carregarCliente();
 </script>
 
 </body>
-   </html>
+    </html>
