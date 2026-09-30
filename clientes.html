@@ -36,6 +36,7 @@ header{
     font-size:30px;
     font-weight:bold;
     letter-spacing:2px;
+    text-shadow:0 0 12px rgba(255,215,0,.35);
 }
 
 .slogan{
@@ -45,7 +46,7 @@ header{
 
 .container{
     width:94%;
-    max-width:1250px;
+    max-width:1350px;
     margin:25px auto;
 }
 
@@ -113,6 +114,30 @@ h1{
     font-weight:bold;
 }
 
+.card.verde{
+    border-left-color:#40d878;
+}
+
+.card.verde .numero{
+    color:#6dff6d;
+}
+
+.card.vermelho{
+    border-left-color:#ff5555;
+}
+
+.card.vermelho .numero{
+    color:#ff7777;
+}
+
+.card.azul{
+    border-left-color:#4db8ff;
+}
+
+.card.azul .numero{
+    color:#70d9ff;
+}
+
 .filtro-area{
     background:#111;
     border:1px solid #333;
@@ -159,7 +184,7 @@ input:focus{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1200px;
+    min-width:1250px;
 }
 
 th{
@@ -167,6 +192,7 @@ th{
     text-align:left;
     padding:13px;
     border-bottom:1px solid #444;
+    white-space:nowrap;
 }
 
 td{
@@ -191,8 +217,18 @@ td{
     font-weight:bold;
 }
 
-.verde{
+.verde-texto{
     color:#6dff6d;
+    font-weight:bold;
+}
+
+.vermelho-texto{
+    color:#ff7777;
+    font-weight:bold;
+}
+
+.azul-texto{
+    color:#70d9ff;
     font-weight:bold;
 }
 
@@ -234,7 +270,7 @@ td{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.82);
+    background:rgba(0,0,0,.88);
     z-index:1000;
     padding:20px;
     overflow-y:auto;
@@ -242,7 +278,7 @@ td{
 
 .modal-conteudo{
     width:100%;
-    max-width:750px;
+    max-width:850px;
     margin:40px auto;
     background:#111;
     border:1px solid #ffd700;
@@ -301,6 +337,56 @@ td{
     font-size:18px;
 }
 
+.resumo-financeiro{
+    background:linear-gradient(135deg,#171717,#090909);
+    border:1px solid #333;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:20px;
+}
+
+.resumo-financeiro h3{
+    color:#ffd700;
+    margin-top:0;
+}
+
+.resumo-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:10px;
+}
+
+.resumo-box{
+    background:#050505;
+    border:1px solid #292929;
+    border-radius:9px;
+    padding:13px;
+}
+
+.resumo-box span{
+    display:block;
+    color:#888;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.resumo-box strong{
+    color:#ffd700;
+    font-size:18px;
+}
+
+.resumo-box.verde strong{
+    color:#6dff6d;
+}
+
+.resumo-box.vermelho strong{
+    color:#ff7777;
+}
+
+.resumo-box.azul strong{
+    color:#70d9ff;
+}
+
 .historico{
     margin-top:15px;
 }
@@ -323,6 +409,24 @@ td{
 
 .historico-item small{
     color:#999;
+}
+
+.tipo-servico{
+    border-left:3px solid #ffd700;
+}
+
+.tipo-produto{
+    border-left:3px solid #70d9ff;
+}
+
+.tipo-pagamento{
+    border-left:3px solid #6dff6d;
+}
+
+.vazio-historico{
+    text-align:center;
+    color:#888;
+    padding:20px;
 }
 
 @media(max-width:600px){
@@ -349,6 +453,11 @@ td{
 
     .modal-conteudo{
         margin:10px auto;
+        padding:15px;
+    }
+
+    .modal-topo{
+        align-items:flex-start;
     }
 
 }
@@ -399,6 +508,10 @@ td{
             🛍️ Produtos
         </a>
 
+        <a href="vendas.html">
+            💵 Vendas
+        </a>
+
         <a href="financeiro.html">
             💰 Financeiro
         </a>
@@ -414,7 +527,7 @@ td{
         <a
             href="#"
             class="sair"
-            onclick="sair()">
+            onclick="sair(); return false;">
 
             🚪 Sair
 
@@ -428,7 +541,7 @@ td{
     </h1>
 
     <div class="subtitulo">
-        Cadastro, histórico e movimentação dos clientes
+        Cadastro, histórico de serviços, pagamentos e compras
     </div>
 
 
@@ -469,7 +582,7 @@ td{
         </div>
 
 
-        <div class="card">
+        <div class="card verde">
 
             <strong>
                 💰 Total recebido
@@ -486,7 +599,7 @@ td{
         </div>
 
 
-        <div class="card">
+        <div class="card vermelho">
 
             <strong>
                 ⏳ Total pendente
@@ -497,6 +610,23 @@ td{
                 id="totalPendente">
 
                 R$ 0,00
+
+            </div>
+
+        </div>
+
+
+        <div class="card azul">
+
+            <strong>
+                🛍️ Produtos vendidos
+            </strong>
+
+            <div
+                class="numero"
+                id="totalProdutos">
+
+                0
 
             </div>
 
@@ -603,6 +733,8 @@ let agendamentos = [];
 
 let pagamentos = [];
 
+let vendas = [];
+
 let mapaClientes = {};
 
 
@@ -612,10 +744,15 @@ let mapaClientes = {};
 
 function dinheiro(valor){
 
-    return "R$ " +
-        Number(valor || 0)
-        .toFixed(2)
-        .replace(".",",");
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
 
 }
 
@@ -713,46 +850,26 @@ async function carregarDados(){
 
             supabaseClient
                 .from("pagamentos")
+                .select("*"),
+
+            supabaseClient
+                .from("vendas")
                 .select("*")
 
         ]);
 
 
-    const erroCliente =
-        resultado[0].error;
+    if(resultado[0].error)
+        throw resultado[0].error;
 
-    const erroAgendamento =
-        resultado[1].error;
+    if(resultado[1].error)
+        throw resultado[1].error;
 
-    const erroPagamento =
-        resultado[2].error;
+    if(resultado[2].error)
+        throw resultado[2].error;
 
-
-    if(erroCliente){
-
-        console.error(
-            erroCliente
-        );
-
-    }
-
-
-    if(erroAgendamento){
-
-        console.error(
-            erroAgendamento
-        );
-
-    }
-
-
-    if(erroPagamento){
-
-        console.error(
-            erroPagamento
-        );
-
-    }
+    if(resultado[3].error)
+        throw resultado[3].error;
 
 
     clientes =
@@ -765,6 +882,10 @@ async function carregarDados(){
 
     pagamentos =
         resultado[2].data || [];
+
+
+    vendas =
+        resultado[3].data || [];
 
 
     mapaClientes = {};
@@ -791,7 +912,7 @@ async function carregarDados(){
 
 
 /* =========================
-   RESUMO
+   RESUMO GERAL
 ========================= */
 
 function atualizarResumo(){
@@ -842,7 +963,7 @@ function atualizarResumo(){
                     pagamento.status || ""
                 )
                 .toLowerCase()
-                === "pendente"
+                !== "pago"
         )
 
         .reduce(
@@ -853,6 +974,31 @@ function atualizarResumo(){
                 total +
                 Number(
                     pagamento.valor || 0
+                ),
+            0
+        );
+
+
+    const quantidadeProdutos =
+        vendas
+
+        .filter(
+            venda =>
+                String(
+                    venda.status || ""
+                )
+                .toLowerCase()
+                === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                venda
+            ) =>
+                total +
+                Number(
+                    venda.quantidade || 0
                 ),
             0
         );
@@ -872,6 +1018,12 @@ function atualizarResumo(){
         dinheiro(
             pendente
         );
+
+
+    document.getElementById(
+        "totalProdutos"
+    ).textContent =
+        quantidadeProdutos;
 
 }
 
@@ -900,7 +1052,15 @@ function dadosCliente(
         );
 
 
-    const recebido =
+    const vendasCliente =
+        vendas.filter(
+            venda =>
+                venda.cliente_id ===
+                clienteId
+        );
+
+
+    const recebidoServicos =
         pagamentosCliente
 
         .filter(
@@ -934,7 +1094,7 @@ function dadosCliente(
                     pagamento.status || ""
                 )
                 .toLowerCase()
-                === "pendente"
+                !== "pago"
         )
 
         .reduce(
@@ -950,6 +1110,61 @@ function dadosCliente(
         );
 
 
+    const totalProdutos =
+        vendasCliente
+
+        .filter(
+            venda =>
+                String(
+                    venda.status || ""
+                )
+                .toLowerCase()
+                === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                venda
+            ) =>
+                total +
+                Number(
+                    venda.valor_total || 0
+                ),
+            0
+        );
+
+
+    const quantidadeProdutos =
+        vendasCliente
+
+        .filter(
+            venda =>
+                String(
+                    venda.status || ""
+                )
+                .toLowerCase()
+                === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                venda
+            ) =>
+                total +
+                Number(
+                    venda.quantidade || 0
+                ),
+            0
+        );
+
+
+    const totalGeral =
+        recebidoServicos +
+        totalProdutos;
+
+
     return {
 
         agenda:agenda,
@@ -957,9 +1172,23 @@ function dadosCliente(
         pagamentos:
             pagamentosCliente,
 
-        recebido:recebido,
+        vendas:
+            vendasCliente,
 
-        pendente:pendente
+        recebido:
+            recebidoServicos,
+
+        produtos:
+            totalProdutos,
+
+        quantidadeProdutos:
+            quantidadeProdutos,
+
+        totalGeral:
+            totalGeral,
+
+        pendente:
+            pendente
 
     };
 
@@ -1004,11 +1233,13 @@ function mostrarClientes(
 
                     <th>Agendamentos</th>
 
-                    <th>Recebido</th>
+                    <th>Serviços pagos</th>
+
+                    <th>Produtos</th>
+
+                    <th>Total gasto</th>
 
                     <th>Pendente</th>
-
-                    <th>Último serviço</th>
 
                     <th>Ações</th>
 
@@ -1029,34 +1260,6 @@ function mostrarClientes(
                 dadosCliente(
                     cliente.id
                 );
-
-
-            const ultimo =
-                dados.agenda
-                .slice()
-                .sort(
-                    (
-                        a,
-                        b
-                    ) =>
-                        String(
-                            b.Data || ""
-                        )
-                        .localeCompare(
-                            String(
-                                a.Data || ""
-                            )
-                        )
-                )[0];
-
-
-            const ultimoServico =
-                ultimo
-                ? (
-                    ultimo["Serviços"]
-                    || "-"
-                )
-                : "-";
 
 
             html += `
@@ -1110,7 +1313,7 @@ function mostrarClientes(
                     <td>
 
                         <span
-                            class="verde">
+                            class="verde-texto">
 
                             ${
                                 dinheiro(
@@ -1126,11 +1329,38 @@ function mostrarClientes(
                     <td>
 
                         <span
-                            class="amarelo">
+                            class="azul-texto">
 
                             ${
                                 dinheiro(
-                                    dados.pendente
+                                    dados.produtos
+                                )
+                            }
+
+                        </span>
+
+                        <br>
+
+                        <small>
+
+                            ${
+                                dados.quantidadeProdutos
+                            }
+                            item(ns)
+
+                        </small>
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="valor">
+
+                            ${
+                                dinheiro(
+                                    dados.totalGeral
                                 )
                             }
 
@@ -1141,9 +1371,16 @@ function mostrarClientes(
 
                     <td>
 
-                        ${
-                            ultimoServico
-                        }
+                        <span
+                            class="vermelho-texto">
+
+                            ${
+                                dinheiro(
+                                    dados.pendente
+                                )
+                            }
+
+                        </span>
 
                     </td>
 
@@ -1275,6 +1512,39 @@ function filtrarClientes(){
 
 
 /* =========================
+   DATA
+========================= */
+
+function dataBR(
+    data
+){
+
+    if(!data)
+        return "-";
+
+
+    const partes =
+        String(data)
+        .substring(0,10)
+        .split("-");
+
+
+    if(partes.length !== 3)
+        return data;
+
+
+    return (
+        partes[2] +
+        "/" +
+        partes[1] +
+        "/" +
+        partes[0]
+    );
+
+}
+
+
+/* =========================
    DETALHES
 ========================= */
 
@@ -1288,11 +1558,8 @@ function abrirDetalhes(
         ];
 
 
-    if(!cliente){
-
+    if(!cliente)
         return;
-
-    }
 
 
     const dados =
@@ -1310,106 +1577,72 @@ function abrirDetalhes(
     let historico = "";
 
 
-    if(!dados.agenda.length){
-
-        historico =
-            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
-
-    }else{
-
-        const ordenados =
-            dados.agenda
-            .slice()
-            .sort(
-                (
-                    a,
-                    b
-                ) =>
-                    (
-                        String(
-                            b.Data || ""
-                        )
-                        +
-                        String(
-                            b["Horário"] || ""
-                        )
-                    )
-                    .localeCompare(
-                        String(
-                            a.Data || ""
-                        )
-                        +
-                        String(
-                            a["Horário"] || ""
-                        )
-                    )
-            );
+    const eventos = [];
 
 
-        ordenados.forEach(
-            agendamento => {
+    /* AGENDAMENTOS */
 
+    dados.agenda.forEach(
+        agendamento => {
 
-                const data =
-                    agendamento.Data
-                    ? new Date(
-                        agendamento.Data +
-                        "T00:00:00"
-                      )
-                      .toLocaleDateString(
-                          "pt-BR"
-                      )
-                    : "-";
+            eventos.push({
 
+                tipo:"servico",
 
-                const horario =
-                    agendamento["Horário"]
-                    ? String(
-                        agendamento["Horário"]
-                    )
-                    .substring(
-                        0,
-                        5
-                    )
-                    : "-";
+                data:
+                    String(
+                        agendamento.Data || ""
+                    ),
 
-
-                historico += `
+                html:`
 
                     <div
-                        class="historico-item">
+                        class="historico-item tipo-servico">
 
                         <strong>
-
-                            ${
+                            💈 ${
                                 agendamento["Serviços"]
-                                || "-"
+                                || "Serviço"
                             }
-
                         </strong>
 
                         <br>
 
                         <small>
 
-                            ${data}
-                            às
-                            ${horario}
+                            📅 ${
+                                dataBR(
+                                    agendamento.Data
+                                )
+                            }
 
-                            |
                             ${
+                                agendamento["Horário"]
+                                ? " às " +
+                                  String(
+                                      agendamento["Horário"]
+                                  ).substring(0,5)
+                                : ""
+                            }
+
+                            <br>
+
+                            💰 ${
                                 dinheiro(
                                     agendamento.Valor
                                 )
                             }
 
-                            |
+                            <br>
+
+                            Status:
                             ${
                                 agendamento.Status
                                 || "-"
                             }
 
                             |
+
                             Pagamento:
                             ${
                                 agendamento.Pagamento
@@ -1420,10 +1653,184 @@ function abrirDetalhes(
 
                     </div>
 
-                `;
+                `
 
-            }
-        );
+            });
+
+        }
+    );
+
+
+    /* PAGAMENTOS */
+
+    dados.pagamentos.forEach(
+        pagamento => {
+
+            eventos.push({
+
+                tipo:"pagamento",
+
+                data:
+                    String(
+                        pagamento.criado_em || ""
+                    ),
+
+                html:`
+
+                    <div
+                        class="historico-item tipo-pagamento">
+
+                        <strong>
+                            💳 Pagamento de serviço
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            💰 ${
+                                dinheiro(
+                                    pagamento.valor
+                                )
+                            }
+
+                            <br>
+
+                            Método:
+                            ${
+                                pagamento.metodo
+                                || "-"
+                            }
+
+                            <br>
+
+                            Status:
+                            ${
+                                pagamento.status
+                                || "-"
+                            }
+
+                        </small>
+
+                    </div>
+
+                `
+
+            });
+
+        }
+    );
+
+
+    /* PRODUTOS */
+
+    dados.vendas.forEach(
+        venda => {
+
+            eventos.push({
+
+                tipo:"produto",
+
+                data:
+                    String(
+                        venda.criado_em || ""
+                    ),
+
+                html:`
+
+                    <div
+                        class="historico-item tipo-produto">
+
+                        <strong>
+                            🛍️ ${
+                                venda.produto_nome
+                                || "Produto"
+                            }
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            Quantidade:
+                            ${
+                                venda.quantidade
+                                || 0
+                            }
+
+                            <br>
+
+                            Valor unitário:
+                            ${
+                                dinheiro(
+                                    venda.valor_unitario
+                                )
+                            }
+
+                            <br>
+
+                            Total:
+                            ${
+                                dinheiro(
+                                    venda.valor_total
+                                )
+                            }
+
+                            <br>
+
+                            Pagamento:
+                            ${
+                                venda.metodo_pagamento
+                                || "-"
+                            }
+
+                            |
+
+                            Status:
+                            ${
+                                venda.status
+                                || "-"
+                            }
+
+                        </small>
+
+                    </div>
+
+                `
+
+            });
+
+        }
+    );
+
+
+    eventos.sort(
+        (
+            a,
+            b
+        ) =>
+            b.data.localeCompare(
+                a.data
+            )
+    );
+
+
+    if(!eventos.length){
+
+        historico =
+            `<div class="vazio-historico">
+                Nenhuma movimentação encontrada.
+            </div>`;
+
+    }else{
+
+        historico =
+            eventos
+            .map(
+                evento =>
+                    evento.html
+            )
+            .join("");
 
     }
 
@@ -1490,7 +1897,7 @@ function abrirDetalhes(
             <div class="info-box">
 
                 <span>
-                    Total de agendamentos
+                    Agendamentos
                 </span>
 
                 <strong>
@@ -1504,43 +1911,113 @@ function abrirDetalhes(
             </div>
 
 
-            <div class="info-box">
+        </div>
 
-                <span>
-                    Total recebido
-                </span>
 
-                <strong>
+        <div class="resumo-financeiro">
 
-                    ${
-                        dinheiro(
-                            dados.recebido
-                        )
-                    }
+            <h3>
+                💰 Resumo financeiro do cliente
+            </h3>
 
-                </strong>
+
+            <div class="resumo-grid">
+
+
+                <div class="resumo-box verde">
+
+                    <span>
+                        Serviços pagos
+                    </span>
+
+                    <strong>
+
+                        ${
+                            dinheiro(
+                                dados.recebido
+                            )
+                        }
+
+                    </strong>
+
+                </div>
+
+
+                <div class="resumo-box azul">
+
+                    <span>
+                        Produtos comprados
+                    </span>
+
+                    <strong>
+
+                        ${
+                            dinheiro(
+                                dados.produtos
+                            )
+                        }
+
+                    </strong>
+
+                </div>
+
+
+                <div class="resumo-box">
+
+                    <span>
+                        Total gasto
+                    </span>
+
+                    <strong>
+
+                        ${
+                            dinheiro(
+                                dados.totalGeral
+                            )
+                        }
+
+                    </strong>
+
+                </div>
+
+
+                <div class="resumo-box vermelho">
+
+                    <span>
+                        Pendente
+                    </span>
+
+                    <strong>
+
+                        ${
+                            dinheiro(
+                                dados.pendente
+                            )
+                        }
+
+                    </strong>
+
+                </div>
+
+
+                <div class="resumo-box azul">
+
+                    <span>
+                        Produtos adquiridos
+                    </span>
+
+                    <strong>
+
+                        ${
+                            dados.quantidadeProdutos
+                        }
+
+                    </strong>
+
+                </div>
+
 
             </div>
-
-
-            <div class="info-box">
-
-                <span>
-                    Total pendente
-                </span>
-
-                <strong>
-
-                    ${
-                        dinheiro(
-                            dados.pendente
-                        )
-                    }
-
-                </strong>
-
-            </div>
-
 
         </div>
 
@@ -1548,7 +2025,7 @@ function abrirDetalhes(
         <div class="historico">
 
             <h3>
-                📅 Histórico de agendamentos
+                📋 Histórico completo
             </h3>
 
             ${historico}
@@ -1619,8 +2096,7 @@ function abrirWhatsApp(
 
 
     if(
-        numero.length ===
-        11
+        numero.length === 11
     ){
 
         numero =
@@ -1653,7 +2129,7 @@ function abrirWhatsApp(
 
 
 /* =========================
-   FECHAR MODAL AO CLICAR FORA
+   FECHAR MODAL FORA
 ========================= */
 
 window.onclick =
@@ -1700,13 +2176,43 @@ async function sair(){
 
 (async()=>{
 
-    const autorizado =
-        await verificarAdmin();
+    try{
+
+        const autorizado =
+            await verificarAdmin();
 
 
-    if(autorizado){
+        if(autorizado){
 
-        await carregarDados();
+            await carregarDados();
+
+        }
+
+    }catch(erro){
+
+        console.error(
+            erro
+        );
+
+
+        document.getElementById(
+            "listaClientes"
+        ).innerHTML = `
+
+            <div class="mensagem">
+
+                Erro ao carregar clientes.
+
+                <br><br>
+
+                ${
+                    erro.message
+                    || ""
+                }
+
+            </div>
+
+        `;
 
     }
 
