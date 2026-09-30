@@ -1,713 +1,728 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Financeiro - Gold Style</title>
+<meta charset="UTF-8">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<title>Financeiro - Gold Style</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-            min-height: 100vh;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        header {
-            background: linear-gradient(135deg, #050505, #181818);
-            border-bottom: 1px solid #d4af37;
-            padding: 22px 15px;
-            text-align: center;
-        }
+<style>
 
-        header h1 {
-            color: #ffd700;
-            font-size: 28px;
-            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        header p {
-            color: #aaa;
-            margin-top: 7px;
-        }
+body{
+    font-family:Arial,sans-serif;
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
 
-        .container {
-            width: 95%;
-            max-width: 1300px;
-            margin: 25px auto;
-        }
+header{
+    background:linear-gradient(135deg,#050505,#181818);
+    border-bottom:1px solid #d4af37;
+    padding:22px 15px;
+    text-align:center;
+}
 
-        .acoes {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
+header h1{
+    color:#ffd700;
+    font-size:28px;
+    text-shadow:0 0 12px rgba(255,215,0,.6);
+}
 
-        .btn {
-            border: none;
-            border-radius: 10px;
-            padding: 12px 18px;
-            font-weight: bold;
-            cursor: pointer;
-            background: #d4af37;
-            color: #000;
-            text-decoration: none;
-            display: inline-block;
-        }
+header p{
+    color:#aaa;
+    margin-top:7px;
+}
 
-        .btn:hover {
-            background: #ffd700;
-        }
+.container{
+    width:95%;
+    max-width:1300px;
+    margin:25px auto;
+}
 
-        .btn.dark {
-            background: #151515;
-            color: #ffd700;
-            border: 1px solid #d4af37;
-        }
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
 
-        .filtros {
-            background: #101010;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.btn{
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#d4af37;
+    color:#000;
+    text-decoration:none;
+    display:inline-block;
+}
 
-        .filtros h2 {
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
+.btn:hover{
+    background:#ffd700;
+}
 
-        .grid-filtros {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-        }
+.btn.dark{
+    background:#151515;
+    color:#ffd700;
+    border:1px solid #d4af37;
+}
 
-        label {
-            display: block;
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
+.filtros{
+    background:#101010;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #050505;
-            color: white;
-            outline: none;
-        }
+.filtros h2{
+    color:#ffd700;
+    margin-bottom:15px;
+}
 
-        input:focus,
-        select:focus {
-            border-color: #ffd700;
-        }
+.grid-filtros{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+label{
+    display:block;
+    color:#ccc;
+    font-size:14px;
+    margin-bottom:6px;
+}
 
-        .card {
-            background: linear-gradient(145deg, #151515, #080808);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-        }
+input,
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #444;
+    background:#050505;
+    color:white;
+    outline:none;
+}
 
-        .card h3 {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
+input:focus,
+select:focus{
+    border-color:#ffd700;
+}
 
-        .card .valor {
-            color: #ffd700;
-            font-size: 24px;
-            font-weight: bold;
-        }
+.cards{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(190px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
 
-        .card.lucro .valor {
-            color: #70e890;
-        }
+.card{
+    background:
+        linear-gradient(145deg,#151515,#080808);
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+}
 
-        .card.despesa .valor {
-            color: #ff7777;
-        }
+.card h3{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:10px;
+}
 
-        .card.pendente .valor {
-            color: #ffbd4a;
-        }
+.card .valor{
+    color:#ffd700;
+    font-size:24px;
+    font-weight:bold;
+}
 
-        .section {
-            background: #101010;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.card.lucro .valor{
+    color:#70e890;
+}
 
-        .section h2 {
-            color: #ffd700;
-            margin-bottom: 18px;
-        }
+.card.despesa .valor{
+    color:#ff7777;
+}
 
-        .resumo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
+.card.pendente .valor{
+    color:#ffbd4a;
+}
 
-        .resumo {
-            background: #080808;
-            border: 1px solid #292929;
-            border-radius: 12px;
-            padding: 18px;
-        }
+.section{
+    background:#101010;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
 
-        .resumo h3 {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
+.section h2{
+    color:#ffd700;
+    margin-bottom:18px;
+}
 
-        .resumo strong {
-            color: #ffd700;
-            font-size: 22px;
-        }
+.resumo-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+}
 
-        .resumo.verde strong {
-            color: #70e890;
-        }
+.resumo{
+    background:#080808;
+    border:1px solid #292929;
+    border-radius:12px;
+    padding:18px;
+}
 
-        .resumo.vermelho strong {
-            color: #ff7777;
-        }
+.resumo h3{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:8px;
+}
 
-        .grafico {
-            display: flex;
-            align-items: end;
-            gap: 8px;
-            height: 240px;
-            padding: 15px 5px 40px;
-            border-bottom: 1px solid #444;
-            overflow-x: auto;
-        }
+.resumo strong{
+    color:#ffd700;
+    font-size:22px;
+}
 
-        .barra-box {
-            min-width: 60px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            align-items: center;
-            position: relative;
-        }
+.resumo.verde strong{
+    color:#70e890;
+}
 
-        .barra {
-            width: 32px;
-            background: linear-gradient(
-                to top,
-                #8c6800,
-                #ffd700
-            );
-            border-radius: 6px 6px 0 0;
-            min-height: 3px;
-        }
+.resumo.vermelho strong{
+    color:#ff7777;
+}
 
-        .barra.despesa {
-            background: linear-gradient(
-                to top,
-                #7a1515,
-                #ff5c5c
-            );
-        }
+.grafico{
+    display:flex;
+    align-items:end;
+    gap:8px;
+    height:240px;
+    padding:15px 5px 40px;
+    border-bottom:1px solid #444;
+    overflow-x:auto;
+}
 
-        .barra.lucro {
-            background: linear-gradient(
-                to top,
-                #12652b,
-                #70e890
-            );
-        }
+.barra-box{
+    min-width:65px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    align-items:center;
+    position:relative;
+}
 
-        .barra-valor {
-            font-size: 10px;
-            color: #ddd;
-            margin-bottom: 4px;
-            white-space: nowrap;
-        }
+.barra{
+    width:32px;
+    background:linear-gradient(
+        to top,
+        #8c6800,
+        #ffd700
+    );
+    border-radius:6px 6px 0 0;
+    min-height:3px;
+}
 
-        .barra-label {
-            position: absolute;
-            bottom: -30px;
-            font-size: 11px;
-            color: #aaa;
-            white-space: nowrap;
-        }
+.barra.despesa{
+    background:linear-gradient(
+        to top,
+        #7a1515,
+        #ff5c5c
+    );
+}
 
-        .tabela-wrapper {
-            overflow-x: auto;
-        }
+.barra.lucro{
+    background:linear-gradient(
+        to top,
+        #12652b,
+        #70e890
+    );
+}
 
-        table {
-            width: 100%;
-            min-width: 850px;
-            border-collapse: collapse;
-        }
+.barra-valor{
+    font-size:10px;
+    color:#ddd;
+    margin-bottom:4px;
+    white-space:nowrap;
+}
 
-        th,
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #292929;
-            text-align: left;
-        }
+.barra-label{
+    position:absolute;
+    bottom:-30px;
+    font-size:11px;
+    color:#aaa;
+    white-space:nowrap;
+}
 
-        th {
-            color: #ffd700;
-            background: #151515;
-        }
+.tabela-wrapper{
+    overflow-x:auto;
+}
 
-        td {
-            color: #ddd;
-        }
+table{
+    width:100%;
+    min-width:850px;
+    border-collapse:collapse;
+}
 
-        .entrada {
-            color: #70e890;
-            font-weight: bold;
-        }
+th,
+td{
+    padding:12px;
+    border-bottom:1px solid #292929;
+    text-align:left;
+}
 
-        .saida {
-            color: #ff7777;
-            font-weight: bold;
-        }
+th{
+    color:#ffd700;
+    background:#151515;
+}
 
-        .loading {
-            text-align: center;
-            color: #ffd700;
-            padding: 30px;
-        }
+td{
+    color:#ddd;
+}
 
-        .erro {
-            display: none;
-            background: #260909;
-            border: 1px solid #6b2222;
-            color: #ff7777;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+.entrada{
+    color:#70e890;
+    font-weight:bold;
+}
 
-        .vazio {
-            text-align: center;
-            padding: 30px;
-            color: #888;
-        }
+.saida{
+    color:#ff7777;
+    font-weight:bold;
+}
 
-        .rodape {
-            text-align: center;
-            color: #777;
-            padding: 30px 10px;
-        }
+.loading{
+    text-align:center;
+    color:#ffd700;
+    padding:30px;
+}
 
-        @media (max-width: 600px) {
+.erro{
+    display:none;
+    background:#260909;
+    border:1px solid #6b2222;
+    color:#ff7777;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
 
-            header h1 {
-                font-size: 23px;
-            }
+.vazio{
+    text-align:center;
+    padding:30px;
+    color:#888;
+}
 
-            .container {
-                width: 92%;
-            }
+.rodape{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
 
-            .section {
-                padding: 15px;
-            }
+@media(max-width:600px){
 
-            .card .valor {
-                font-size: 21px;
-            }
-        }
-    </style>
+    header h1{
+        font-size:23px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .section{
+        padding:15px;
+    }
+
+    .card .valor{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header>
 
-    <h1>💰 FINANCEIRO GOLD STYLE</h1>
+<h1>
+💰 FINANCEIRO GOLD STYLE
+</h1>
 
-    <p>
-        Entradas, despesas, lucro e movimentações
-    </p>
+<p>
+Entradas, despesas, lucro e movimentações
+</p>
 
 </header>
 
 <div class="container">
 
-    <div class="acoes">
-
-        <a
-            href="admin.html"
-            class="btn dark"
-        >
-            ← Dashboard
-        </a>
-
-        <a
-            href="despesas.html"
-            class="btn dark"
-        >
-            💸 Despesas
-        </a>
-
-        <a
-            href="vendas.html"
-            class="btn dark"
-        >
-            🛍️ Vendas
-        </a>
-
-        <a
-            href="relatorios.html"
-            class="btn dark"
-        >
-            📊 Relatórios
-        </a>
-
-        <button
-            class="btn"
-            onclick="carregarFinanceiro()"
-        >
-            🔄 Atualizar
-        </button>
-
-    </div>
-
-    <div
-        id="erro"
-        class="erro"
-    ></div>
+<div class="acoes">
+
+<a
+href="admin.html"
+class="btn dark"
+>
+← Dashboard
+</a>
+
+<a
+href="despesas.html"
+class="btn dark"
+>
+💸 Despesas
+</a>
+
+<a
+href="vendas.html"
+class="btn dark"
+>
+🛍️ Vendas
+</a>
+
+<a
+href="pedidos.html"
+class="btn dark"
+>
+📦 Pedidos
+</a>
+
+<a
+href="relatorios.html"
+class="btn dark"
+>
+📊 Relatórios
+</a>
+
+<button
+class="btn"
+onclick="carregarFinanceiro()"
+>
+🔄 Atualizar
+</button>
+
+</div>
+
+<div
+id="erro"
+class="erro"
+></div>
+
+<div class="filtros">
+
+<h2>
+📅 Período
+</h2>
+
+<div class="grid-filtros">
+
+<div>
+
+<label>
+Data inicial
+</label>
 
-    <div class="filtros">
-
-        <h2>
-            📅 Período
-        </h2>
-
-        <div class="grid-filtros">
-
-            <div>
-
-                <label>
-                    Data inicial
-                </label>
+<input
+type="date"
+id="dataInicio"
+>
+
+</div>
+
+<div>
+
+<label>
+Data final
+</label>
+
+<input
+type="date"
+id="dataFim"
+>
+
+</div>
 
-                <input
-                    type="date"
-                    id="dataInicio"
-                >
+<div
+style="display:flex;align-items:end;"
+>
+
+<button
+class="btn"
+style="width:100%;"
+onclick="carregarFinanceiro()"
+>
+Gerar financeiro
+</button>
 
-            </div>
+</div>
 
-            <div>
-
-                <label>
-                    Data final
-                </label>
+</div>
 
-                <input
-                    type="date"
-                    id="dataFim"
-                >
+</div>
 
-            </div>
+<div
+id="loading"
+class="loading"
+>
+Carregando informações financeiras...
+</div>
 
-            <div
-                style="display:flex;align-items:end;"
-            >
-
-                <button
-                    class="btn"
-                    style="width:100%;"
-                    onclick="carregarFinanceiro()"
-                >
-                    Gerar financeiro
-                </button>
+<div
+id="conteudo"
+style="display:none;"
+>
 
-            </div>
+<div class="cards">
 
-        </div>
+<div class="card">
 
-    </div>
+<h3>
+💰 Entradas
+</h3>
 
-    <div
-        id="loading"
-        class="loading"
-    >
-        Carregando informações financeiras...
-    </div>
+<div
+class="valor"
+id="entradas"
+>
+R$ 0,00
+</div>
 
-    <div
-        id="conteudo"
-        style="display:none;"
-    >
+</div>
 
-        <div class="cards">
+<div class="card despesa">
 
-            <div class="card">
+<h3>
+💸 Despesas
+</h3>
 
-                <h3>
-                    💰 Entradas
-                </h3>
+<div
+class="valor"
+id="despesas"
+>
+R$ 0,00
+</div>
 
-                <div
-                    class="valor"
-                    id="entradas"
-                >
-                    R$ 0,00
-                </div>
+</div>
 
-            </div>
+<div class="card lucro">
 
-            <div class="card despesa">
+<h3>
+📈 Lucro
+</h3>
 
-                <h3>
-                    💸 Despesas
-                </h3>
+<div
+class="valor"
+id="lucro"
+>
+R$ 0,00
+</div>
 
-                <div
-                    class="valor"
-                    id="despesas"
-                >
-                    R$ 0,00
-                </div>
+</div>
 
-            </div>
+<div class="card pendente">
 
-            <div class="card lucro">
+<h3>
+⏳ Pendente
+</h3>
 
-                <h3>
-                    📈 Lucro
-                </h3>
+<div
+class="valor"
+id="pendente"
+>
+R$ 0,00
+</div>
 
-                <div
-                    class="valor"
-                    id="lucro"
-                >
-                    R$ 0,00
-                </div>
+</div>
 
-            </div>
+<div class="card">
 
-            <div class="card pendente">
+<h3>
+💈 Serviços pagos
+</h3>
 
-                <h3>
-                    ⏳ Pendente
-                </h3>
+<div
+class="valor"
+id="servicosPagos"
+>
+0
+</div>
 
-                <div
-                    class="valor"
-                    id="pendente"
-                >
-                    R$ 0,00
-                </div>
+</div>
 
-            </div>
+<div class="card">
 
-            <div class="card">
+<h3>
+🛍️ Produtos vendidos
+</h3>
 
-                <h3>
-                    💈 Serviços pagos
-                </h3>
+<div
+class="valor"
+id="produtosVendidos"
+>
+0
+</div>
 
-                <div
-                    class="valor"
-                    id="servicosPagos"
-                >
-                    0
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="card">
+<div class="section">
 
-                <h3>
-                    🛍️ Produtos vendidos
-                </h3>
+<h2>
+📊 Resumo financeiro
+</h2>
 
-                <div
-                    class="valor"
-                    id="produtosVendidos"
-                >
-                    0
-                </div>
+<div class="resumo-grid">
 
-            </div>
+<div class="resumo">
 
-        </div>
+<h3>
+💈 Serviços recebidos
+</h3>
 
-        <div class="section">
+<strong id="receitaServicos">
+R$ 0,00
+</strong>
 
-            <h2>
-                📊 Resumo financeiro
-            </h2>
+</div>
 
-            <div class="resumo-grid">
+<div class="resumo">
 
-                <div class="resumo">
+<h3>
+🛍️ Produtos recebidos
+</h3>
 
-                    <h3>
-                        💈 Serviços recebidos
-                    </h3>
+<strong id="receitaProdutos">
+R$ 0,00
+</strong>
 
-                    <strong
-                        id="receitaServicos"
-                    >
-                        R$ 0,00
-                    </strong>
+</div>
 
-                </div>
+<div class="resumo vermelho">
 
-                <div class="resumo">
+<h3>
+💸 Total de despesas
+</h3>
 
-                    <h3>
-                        🛍️ Produtos recebidos
-                    </h3>
+<strong id="totalDespesas">
+R$ 0,00
+</strong>
 
-                    <strong
-                        id="receitaProdutos"
-                    >
-                        R$ 0,00
-                    </strong>
+</div>
 
-                </div>
+<div class="resumo verde">
 
-                <div class="resumo vermelho">
+<h3>
+📈 Resultado líquido
+</h3>
 
-                    <h3>
-                        💸 Total de despesas
-                    </h3>
+<strong id="resultadoLiquido">
+R$ 0,00
+</strong>
 
-                    <strong
-                        id="totalDespesas"
-                    >
-                        R$ 0,00
-                    </strong>
+</div>
 
-                </div>
+</div>
 
-                <div class="resumo verde">
+</div>
 
-                    <h3>
-                        📈 Resultado líquido
-                    </h3>
+<div class="section">
 
-                    <strong
-                        id="resultadoLiquido"
-                    >
-                        R$ 0,00
-                    </strong>
+<h2>
+📈 Movimento financeiro por dia
+</h2>
 
-                </div>
+<div
+id="grafico"
+class="grafico"
+></div>
 
-            </div>
+</div>
 
-        </div>
+<div class="section">
 
-        <div class="section">
+<h2>
+📋 Movimentações financeiras
+</h2>
 
-            <h2>
-                📈 Movimento financeiro por dia
-            </h2>
+<div class="tabela-wrapper">
 
-            <div
-                id="grafico"
-                class="grafico"
-            ></div>
+<table>
 
-        </div>
+<thead>
 
-        <div class="section">
+<tr>
 
-            <h2>
-                📋 Movimentações financeiras
-            </h2>
+<th>
+Data
+</th>
 
-            <div class="tabela-wrapper">
+<th>
+Tipo
+</th>
 
-                <table>
+<th>
+Descrição
+</th>
 
-                    <thead>
+<th>
+Cliente
+</th>
 
-                        <tr>
+<th>
+Valor
+</th>
 
-                            <th>
-                                Data
-                            </th>
+<th>
+Pagamento
+</th>
 
-                            <th>
-                                Tipo
-                            </th>
+<th>
+Status
+</th>
 
-                            <th>
-                                Descrição
-                            </th>
+</tr>
 
-                            <th>
-                                Cliente
-                            </th>
+</thead>
 
-                            <th>
-                                Valor
-                            </th>
+<tbody
+id="tabelaMovimentos"
+></tbody>
 
-                            <th>
-                                Pagamento
-                            </th>
+</table>
 
-                            <th>
-                                Status
-                            </th>
+</div>
 
-                        </tr>
+</div>
 
-                    </thead>
-
-                    <tbody
-                        id="tabelaMovimentos"
-                    ></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 <div class="rodape">
 
-    Gold Style Barbearia
-    — BARBEARIA DESDE 2022
+Gold Style Barbearia
+— BARBEARIA DESDE 2022
 
 </div>
 
@@ -721,980 +736,1183 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 let pagamentos = [];
 let vendas = [];
+let pedidos = [];
+let itensPedidos = [];
 let despesas = [];
 let clientes = [];
 let agendamentos = [];
 
-function dinheiro(valor) {
+function dinheiro(valor){
 
-    return Number(
-        valor || 0
-    ).toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
+return Number(
+valor || 0
+).toLocaleString(
+"pt-BR",
+{
+style:"currency",
+currency:"BRL"
+}
+);
 
 }
 
-function dataBR(data) {
+function dataBR(data){
 
-    if (!data)
-        return "-";
+if(!data)
+return "-";
 
-    return new Date(
-        data
-    ).toLocaleDateString(
-        "pt-BR"
-    );
-
-}
-
-function mostrarErro(mensagem) {
-
-    const erro =
-        document.getElementById(
-            "erro"
-        );
-
-    erro.innerText =
-        mensagem;
-
-    erro.style.display =
-        "block";
+return new Date(
+data
+).toLocaleDateString(
+"pt-BR"
+);
 
 }
 
-function esconderErro() {
+function mostrarErro(mensagem){
 
-    document.getElementById(
-        "erro"
-    ).style.display =
-        "none";
+const erro =
+document.getElementById(
+"erro"
+);
 
-}
+erro.innerText =
+mensagem;
 
-function definirDatas() {
-
-    const hoje =
-        new Date();
-
-    const primeiroDia =
-        new Date(
-            hoje.getFullYear(),
-            hoje.getMonth(),
-            1
-        );
-
-    const ultimoDia =
-        new Date(
-            hoje.getFullYear(),
-            hoje.getMonth() + 1,
-            0
-        );
-
-    function formatar(data) {
-
-        const ano =
-            data.getFullYear();
-
-        const mes =
-            String(
-                data.getMonth() + 1
-            ).padStart(2, "0");
-
-        const dia =
-            String(
-                data.getDate()
-            ).padStart(2, "0");
-
-        return `${ano}-${mes}-${dia}`;
-
-    }
-
-    document.getElementById(
-        "dataInicio"
-    ).value =
-        formatar(primeiroDia);
-
-    document.getElementById(
-        "dataFim"
-    ).value =
-        formatar(ultimoDia);
+erro.style.display =
+"block";
 
 }
 
-function dentroDoPeriodo(data) {
+function esconderErro(){
 
-    if (!data)
-        return false;
-
-    const inicio =
-        document.getElementById(
-            "dataInicio"
-        ).value;
-
-    const fim =
-        document.getElementById(
-            "dataFim"
-        ).value;
-
-    const dia =
-        String(data)
-            .substring(0, 10);
-
-    return (
-        dia >= inicio &&
-        dia <= fim
-    );
+document.getElementById(
+"erro"
+).style.display =
+"none";
 
 }
 
-async function verificarAdmin() {
+function definirDatas(){
 
-    const {
-        data: {
-            session
-        }
-    } =
-        await supabaseClient.auth.getSession();
+const hoje =
+new Date();
 
-    if (!session) {
+const primeiroDia =
+new Date(
+hoje.getFullYear(),
+hoje.getMonth(),
+1
+);
 
-        window.location.href =
-            "login.html";
+const ultimoDia =
+new Date(
+hoje.getFullYear(),
+hoje.getMonth()+1,
+0
+);
 
-        return false;
+function formatar(data){
 
-    }
+const ano =
+data.getFullYear();
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("administradores")
-            .select(
-                "id,nome,ativo"
-            )
-            .eq(
-                "auth_user_id",
-                session.user.id
-            )
-            .eq(
-                "ativo",
-                true
-            )
-            .maybeSingle();
+const mes =
+String(
+data.getMonth()+1
+).padStart(2,"0");
 
-    if (error || !data) {
+const dia =
+String(
+data.getDate()
+).padStart(2,"0");
 
-        alert(
-            "Acesso permitido somente para administradores."
-        );
-
-        window.location.href =
-            "cliente.html";
-
-        return false;
-
-    }
-
-    return true;
+return `${ano}-${mes}-${dia}`;
 
 }
 
-async function buscarDados() {
+document.getElementById(
+"dataInicio"
+).value =
+formatar(
+primeiroDia
+);
 
-    const resultados =
-        await Promise.all([
-
-            supabaseClient
-                .from("pagamentos")
-                .select("*")
-                .order(
-                    "criado_em",
-                    {
-                        ascending: false
-                    }
-                ),
-
-            supabaseClient
-                .from("vendas")
-                .select("*")
-                .order(
-                    "criado_em",
-                    {
-                        ascending: false
-                    }
-                ),
-
-            supabaseClient
-                .from("despesas")
-                .select("*")
-                .order(
-                    "criado_em",
-                    {
-                        ascending: false
-                    }
-                ),
-
-            supabaseClient
-                .from("clientes")
-                .select("*"),
-
-            supabaseClient
-                .from("agendamentos")
-                .select("*")
-
-        ]);
-
-    const pagamentoResult =
-        resultados[0];
-
-    const vendaResult =
-        resultados[1];
-
-    const despesaResult =
-        resultados[2];
-
-    const clienteResult =
-        resultados[3];
-
-    const agendamentoResult =
-        resultados[4];
-
-    if (pagamentoResult.error)
-        throw pagamentoResult.error;
-
-    if (vendaResult.error)
-        throw vendaResult.error;
-
-    if (despesaResult.error)
-        throw despesaResult.error;
-
-    if (clienteResult.error)
-        throw clienteResult.error;
-
-    if (agendamentoResult.error)
-        throw agendamentoResult.error;
-
-    pagamentos =
-        pagamentoResult.data || [];
-
-    vendas =
-        vendaResult.data || [];
-
-    despesas =
-        despesaResult.data || [];
-
-    clientes =
-        clienteResult.data || [];
-
-    agendamentos =
-        agendamentoResult.data || [];
+document.getElementById(
+"dataFim"
+).value =
+formatar(
+ultimoDia
+);
 
 }
 
-function nomeCliente(id) {
+function dentroDoPeriodo(data){
 
-    const cliente =
-        clientes.find(
-            c => c.id === id
-        );
+if(!data)
+return false;
 
-    if (!cliente)
-        return "Cliente";
+const inicio =
+document.getElementById(
+"dataInicio"
+).value;
 
-    return (
-        cliente.Nome ||
-        "Cliente"
-    );
+const fim =
+document.getElementById(
+"dataFim"
+).value;
+
+const dia =
+String(data)
+.substring(0,10);
+
+return (
+dia >= inicio &&
+dia <= fim
+);
 
 }
 
-function processar() {
+async function verificarAdmin(){
 
-    const pagamentosPeriodo =
-        pagamentos.filter(
-            p =>
-                dentroDoPeriodo(
-                    p.criado_em
-                )
-        );
+const {
+data:{
+session
+}
+} =
+await supabaseClient.auth.getSession();
 
-    const vendasPeriodo =
-        vendas.filter(
-            v =>
-                dentroDoPeriodo(
-                    v.criado_em
-                )
-        );
+if(!session){
 
-    const despesasPeriodo =
-        despesas.filter(
-            d =>
-                dentroDoPeriodo(
-                    d.criado_em
-                )
-        );
+window.location.href =
+"login.html";
 
-    const pagamentosPagos =
-        pagamentosPeriodo.filter(
-            p =>
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                === "pago"
-        );
+return false;
 
-    const pagamentosPendentes =
-        pagamentosPeriodo.filter(
-            p =>
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                !== "pago"
-        );
+}
 
-    const vendasPagas =
-        vendasPeriodo.filter(
-            v =>
-                String(
-                    v.status || ""
-                ).toLowerCase()
-                === "pago"
-        );
+const {
+data,
+error
+} =
+await supabaseClient
+.from("administradores")
+.select(
+"id,nome,ativo"
+)
+.eq(
+"auth_user_id",
+session.user.id
+)
+.eq(
+"ativo",
+true
+)
+.maybeSingle();
 
-    const receitaServicos =
-        pagamentosPagos.reduce(
-            (
-                total,
-                p
-            ) =>
-                total +
-                Number(
-                    p.valor || 0
-                ),
-            0
-        );
+if(error || !data){
 
-    const receitaProdutos =
-        vendasPagas.reduce(
-            (
-                total,
-                v
-            ) =>
-                total +
-                Number(
-                    v.valor_total || 0
-                ),
-            0
-        );
+alert(
+"Acesso permitido somente para administradores."
+);
 
-    const totalEntradas =
-        receitaServicos +
-        receitaProdutos;
+window.location.href =
+"cliente.html";
 
-    const totalDespesas =
-        despesasPeriodo.reduce(
-            (
-                total,
-                d
-            ) =>
-                total +
-                Number(
-                    d.valor || 0
-                ),
-            0
-        );
+return false;
 
-    const totalPendente =
-        pagamentosPendentes.reduce(
-            (
-                total,
-                p
-            ) =>
-                total +
-                Number(
-                    p.valor || 0
-                ),
-            0
-        );
+}
 
-    const lucro =
-        totalEntradas -
-        totalDespesas;
+return true;
 
-    const produtosQuantidade =
-        vendasPagas.reduce(
-            (
-                total,
-                v
-            ) =>
-                total +
-                Number(
-                    v.quantidade || 0
-                ),
-            0
-        );
+}
 
-    document.getElementById(
-        "entradas"
-    ).innerText =
-        dinheiro(totalEntradas);
+async function buscarDados(){
 
-    document.getElementById(
-        "despesas"
-    ).innerText =
-        dinheiro(totalDespesas);
+const resultados =
+await Promise.all([
 
-    document.getElementById(
-        "lucro"
-    ).innerText =
-        dinheiro(lucro);
+supabaseClient
+.from("pagamentos")
+.select("*")
+.order(
+"criado_em",
+{
+ascending:false
+}
+),
 
-    document.getElementById(
-        "pendente"
-    ).innerText =
-        dinheiro(totalPendente);
+supabaseClient
+.from("vendas")
+.select("*")
+.order(
+"criado_em",
+{
+ascending:false
+}
+),
 
-    document.getElementById(
-        "servicosPagos"
-    ).innerText =
-        pagamentosPagos.length;
+supabaseClient
+.from("pedidos_produtos")
+.select("*")
+.order(
+"criado_em",
+{
+ascending:false
+}
+),
 
-    document.getElementById(
-        "produtosVendidos"
-    ).innerText =
-        produtosQuantidade;
+supabaseClient
+.from("itens_pedido")
+.select("*"),
 
-    document.getElementById(
-        "receitaServicos"
-    ).innerText =
-        dinheiro(receitaServicos);
+supabaseClient
+.from("despesas")
+.select("*")
+.order(
+"criado_em",
+{
+ascending:false
+}
+),
 
-    document.getElementById(
-        "receitaProdutos"
-    ).innerText =
-        dinheiro(receitaProdutos);
+supabaseClient
+.from("clientes")
+.select("*"),
 
-    document.getElementById(
-        "totalDespesas"
-    ).innerText =
-        dinheiro(totalDespesas);
+supabaseClient
+.from("agendamentos")
+.select("*")
 
-    document.getElementById(
-        "resultadoLiquido"
-    ).innerText =
-        dinheiro(lucro);
+]);
 
-    gerarGrafico(
-        pagamentosPagos,
-        vendasPagas,
-        despesasPeriodo
-    );
+const pagamentoResult =
+resultados[0];
 
-    gerarMovimentos(
-        pagamentosPagos,
-        vendasPagas,
-        despesasPeriodo
-    );
+const vendaResult =
+resultados[1];
+
+const pedidoResult =
+resultados[2];
+
+const itemPedidoResult =
+resultados[3];
+
+const despesaResult =
+resultados[4];
+
+const clienteResult =
+resultados[5];
+
+const agendamentoResult =
+resultados[6];
+
+if(pagamentoResult.error)
+throw pagamentoResult.error;
+
+if(vendaResult.error)
+throw vendaResult.error;
+
+if(pedidoResult.error)
+throw pedidoResult.error;
+
+if(itemPedidoResult.error)
+throw itemPedidoResult.error;
+
+if(despesaResult.error)
+throw despesaResult.error;
+
+if(clienteResult.error)
+throw clienteResult.error;
+
+if(agendamentoResult.error)
+throw agendamentoResult.error;
+
+pagamentos =
+pagamentoResult.data || [];
+
+vendas =
+vendaResult.data || [];
+
+pedidos =
+pedidoResult.data || [];
+
+itensPedidos =
+itemPedidoResult.data || [];
+
+despesas =
+despesaResult.data || [];
+
+clientes =
+clienteResult.data || [];
+
+agendamentos =
+agendamentoResult.data || [];
+
+}
+
+function nomeCliente(id){
+
+const cliente =
+clientes.find(
+c => c.id === id
+);
+
+if(!cliente)
+return "Cliente";
+
+return (
+cliente.Nome ||
+"Cliente"
+);
+
+}
+
+function pedidosConcluidosPeriodo(){
+
+return pedidos.filter(
+p =>
+
+p.status_pagamento ===
+"Pago"
+
+&&
+
+p.status_pedido ===
+"Concluído"
+
+&&
+
+dentroDoPeriodo(
+p.criado_em
+)
+
+);
+
+}
+
+function valorPedidosConcluidos(){
+
+return pedidosConcluidosPeriodo()
+.reduce(
+(
+total,
+pedido
+) =>
+total +
+Number(
+pedido.total || 0
+),
+0
+);
+
+}
+
+function quantidadeProdutosPedidos(){
+
+const pedidosValidos =
+pedidosConcluidosPeriodo();
+
+const ids =
+new Set(
+pedidosValidos.map(
+p => p.id
+)
+);
+
+return itensPedidos
+.filter(
+item =>
+ids.has(
+item.pedido_id
+)
+)
+.reduce(
+(
+total,
+item
+) =>
+total +
+Number(
+item.quantidade || 0
+),
+0
+);
+
+}
+
+function processar(){
+
+const pagamentosPeriodo =
+pagamentos.filter(
+p =>
+dentroDoPeriodo(
+p.criado_em
+)
+);
+
+const vendasPeriodo =
+vendas.filter(
+v =>
+dentroDoPeriodo(
+v.criado_em
+)
+);
+
+const despesasPeriodo =
+despesas.filter(
+d =>
+dentroDoPeriodo(
+d.criado_em
+)
+);
+
+const pedidosPeriodo =
+pedidosConcluidosPeriodo();
+
+const pagamentosPagos =
+pagamentosPeriodo.filter(
+p =>
+String(
+p.status || ""
+).toLowerCase()
+===
+"pago"
+);
+
+const pagamentosPendentes =
+pagamentosPeriodo.filter(
+p =>
+String(
+p.status || ""
+).toLowerCase()
+!==
+"pago"
+);
+
+const vendasPagas =
+vendasPeriodo.filter(
+v =>
+String(
+v.status || ""
+).toLowerCase()
+===
+"pago"
+);
+
+const receitaServicos =
+pagamentosPagos.reduce(
+(
+total,
+p
+) =>
+total +
+Number(
+p.valor || 0
+),
+0
+);
+
+const receitaVendas =
+vendasPagas.reduce(
+(
+total,
+v
+) =>
+total +
+Number(
+v.valor_total || 0
+),
+0
+);
+
+const receitaPedidos =
+pedidosPeriodo.reduce(
+(
+total,
+p
+) =>
+total +
+Number(
+p.total || 0
+),
+0
+);
+
+const receitaProdutos =
+receitaVendas +
+receitaPedidos;
+
+const totalEntradas =
+receitaServicos +
+receitaProdutos;
+
+const totalDespesas =
+despesasPeriodo.reduce(
+(
+total,
+d
+) =>
+total +
+Number(
+d.valor || 0
+),
+0
+);
+
+const totalPendente =
+pagamentosPendentes.reduce(
+(
+total,
+p
+) =>
+total +
+Number(
+p.valor || 0
+),
+0
+);
+
+const lucro =
+totalEntradas -
+totalDespesas;
+
+const produtosQuantidade =
+vendasPagas.reduce(
+(
+total,
+v
+) =>
+total +
+Number(
+v.quantidade || 0
+),
+0
+)
++
+quantidadeProdutosPedidos();
+
+document.getElementById(
+"entradas"
+).innerText =
+dinheiro(
+totalEntradas
+);
+
+document.getElementById(
+"despesas"
+).innerText =
+dinheiro(
+totalDespesas
+);
+
+document.getElementById(
+"lucro"
+).innerText =
+dinheiro(
+lucro
+);
+
+document.getElementById(
+"pendente"
+).innerText =
+dinheiro(
+totalPendente
+);
+
+document.getElementById(
+"servicosPagos"
+).innerText =
+pagamentosPagos.length;
+
+document.getElementById(
+"produtosVendidos"
+).innerText =
+produtosQuantidade;
+
+document.getElementById(
+"receitaServicos"
+).innerText =
+dinheiro(
+receitaServicos
+);
+
+document.getElementById(
+"receitaProdutos"
+).innerText =
+dinheiro(
+receitaProdutos
+);
+
+document.getElementById(
+"totalDespesas"
+).innerText =
+dinheiro(
+totalDespesas
+);
+
+document.getElementById(
+"resultadoLiquido"
+).innerText =
+dinheiro(
+lucro
+);
+
+gerarGrafico(
+pagamentosPagos,
+vendasPagas,
+pedidosPeriodo,
+despesasPeriodo
+);
+
+gerarMovimentos(
+pagamentosPagos,
+vendasPagas,
+pedidosPeriodo,
+despesasPeriodo
+);
 
 }
 
 function gerarGrafico(
-    servicos,
-    produtos,
-    saidas
-) {
+servicos,
+produtos,
+pedidosConcluidos,
+saidas
+){
 
-    const dias = {};
+const dias = {};
 
-    function adicionar(
-        data,
-        entrada,
-        despesa
-    ) {
+function adicionar(
+data,
+entrada,
+despesa
+){
 
-        const dia =
-            String(data)
-                .substring(0, 10);
+const dia =
+String(data)
+.substring(0,10);
 
-        if (!dias[dia]) {
+if(!dias[dia]){
 
-            dias[dia] = {
-                entrada: 0,
-                despesa: 0
-            };
+dias[dia] = {
+entrada:0,
+despesa:0
+};
 
-        }
+}
 
-        dias[dia].entrada +=
-            entrada;
+dias[dia].entrada +=
+entrada;
 
-        dias[dia].despesa +=
-            despesa;
+dias[dia].despesa +=
+despesa;
 
-    }
+}
 
-    servicos.forEach(
-        p =>
-            adicionar(
-                p.criado_em,
-                Number(
-                    p.valor || 0
-                ),
-                0
-            )
-    );
+servicos.forEach(
+p =>
+adicionar(
+p.criado_em,
+Number(
+p.valor || 0
+),
+0
+)
+);
 
-    produtos.forEach(
-        v =>
-            adicionar(
-                v.criado_em,
-                Number(
-                    v.valor_total || 0
-                ),
-                0
-            )
-    );
+produtos.forEach(
+v =>
+adicionar(
+v.criado_em,
+Number(
+v.valor_total || 0
+),
+0
+)
+);
 
-    saidas.forEach(
-        d =>
-            adicionar(
-                d.criado_em,
-                0,
-                Number(
-                    d.valor || 0
-                )
-            )
-    );
+pedidosConcluidos.forEach(
+p =>
+adicionar(
+p.criado_em,
+Number(
+p.total || 0
+),
+0
+)
+);
 
-    const lista =
-        Object.entries(dias)
-            .sort(
-                (a, b) =>
-                    a[0].localeCompare(
-                        b[0]
-                    )
-            );
+saidas.forEach(
+d =>
+adicionar(
+d.criado_em,
+0,
+Number(
+d.valor || 0
+)
+)
+);
 
-    const grafico =
-        document.getElementById(
-            "grafico"
-        );
+const lista =
+Object.entries(dias)
+.sort(
+(a,b) =>
+a[0].localeCompare(
+b[0]
+)
+);
 
-    if (!lista.length) {
+const grafico =
+document.getElementById(
+"grafico"
+);
 
-        grafico.innerHTML =
-            `<div class="vazio">
-                Nenhuma movimentação no período.
-            </div>`;
+if(!lista.length){
 
-        return;
+grafico.innerHTML =
+`
+<div class="vazio">
+Nenhuma movimentação no período.
+</div>
+`;
 
-    }
+return;
 
-    const maior =
-        Math.max(
-            ...lista.flatMap(
-                ([dia, valores]) => [
-                    valores.entrada,
-                    valores.despesa,
-                    Math.abs(
-                        valores.entrada -
-                        valores.despesa
-                    )
-                ]
-            ),
-            1
-        );
+}
 
-    grafico.innerHTML =
-        lista.map(
-            ([dia, valores]) => {
+const maior =
+Math.max(
+...lista.flatMap(
+([dia,valores]) => [
+valores.entrada,
+valores.despesa,
+Math.abs(
+valores.entrada -
+valores.despesa
+)
+]
+),
+1
+);
 
-                const lucro =
-                    valores.entrada -
-                    valores.despesa;
+grafico.innerHTML =
+lista.map(
+([dia,valores]) => {
 
-                const alturaEntrada =
-                    Math.max(
-                        3,
-                        (
-                            valores.entrada /
-                            maior
-                        ) * 160
-                    );
+const lucro =
+valores.entrada -
+valores.despesa;
 
-                const alturaDespesa =
-                    Math.max(
-                        3,
-                        (
-                            valores.despesa /
-                            maior
-                        ) * 160
-                    );
+const alturaEntrada =
+Math.max(
+3,
+(
+valores.entrada /
+maior
+) * 160
+);
 
-                const alturaLucro =
-                    Math.max(
-                        3,
-                        (
-                            Math.abs(lucro) /
-                            maior
-                        ) * 160
-                    );
+const alturaDespesa =
+Math.max(
+3,
+(
+valores.despesa /
+maior
+) * 160
+);
 
-                const partes =
-                    dia.split("-");
+const alturaLucro =
+Math.max(
+3,
+(
+Math.abs(lucro) /
+maior
+) * 160
+);
 
-                const label =
-                    `${partes[2]}/${partes[1]}`;
+const partes =
+dia.split("-");
 
-                return `
+const label =
+`${partes[2]}/${partes[1]}`;
 
-                    <div class="barra-box">
+return `
 
-                        <div class="barra-valor">
-                            ${dinheiro(lucro)}
-                        </div>
+<div class="barra-box">
 
-                        <div
-                            class="barra lucro"
-                            style="
-                                height:
-                                ${alturaLucro}px
-                            "
-                        ></div>
+<div class="barra-valor">
+${dinheiro(lucro)}
+</div>
 
-                        <div
-                            class="barra-valor"
-                            style="margin-top:4px;"
-                        >
-                            ${dinheiro(
-                                valores.entrada
-                            )}
-                        </div>
+<div
+class="barra lucro"
+style="
+height:${alturaLucro}px
+"
+></div>
 
-                        <div
-                            class="barra"
-                            style="
-                                height:
-                                ${alturaEntrada}px
-                            "
-                        ></div>
+<div
+class="barra-valor"
+style="margin-top:4px;"
+>
+${dinheiro(
+valores.entrada
+)}
+</div>
 
-                        <div
-                            class="barra despesa"
-                            style="
-                                height:
-                                ${alturaDespesa}px
-                            "
-                        ></div>
+<div
+class="barra"
+style="
+height:${alturaEntrada}px
+"
+></div>
 
-                        <div class="barra-label">
-                            ${label}
-                        </div>
+<div
+class="barra despesa"
+style="
+height:${alturaDespesa}px
+"
+></div>
 
-                    </div>
+<div class="barra-label">
+${label}
+</div>
 
-                `;
+</div>
 
-            }
-        ).join("");
+`;
+
+}
+).join("");
 
 }
 
 function gerarMovimentos(
-    servicos,
-    produtos,
-    saidas
-) {
+servicos,
+produtos,
+pedidosConcluidos,
+saidas
+){
 
-    const movimentos = [];
+const movimentos = [];
 
-    servicos.forEach(
-        p => {
+servicos.forEach(
+p => {
 
-            const agendamento =
-                agendamentos.find(
-                    a =>
-                        a.id ===
-                        p.agendamento_id
-                );
+const agendamento =
+agendamentos.find(
+a =>
+a.id ===
+p.agendamento_id
+);
 
-            movimentos.push({
+movimentos.push({
 
-                data:
-                    p.criado_em,
+data:
+p.criado_em,
 
-                tipo:
-                    "Entrada",
+tipo:
+"Entrada",
 
-                descricao:
-                    agendamento
-                        ? (
-                            agendamento["Serviços"] ||
-                            "Serviço"
-                        )
-                        : "Serviço",
+descricao:
+agendamento
+?
+(
+agendamento["Serviços"] ||
+"Serviço"
+)
+:
+"Serviço",
 
-                cliente:
-                    nomeCliente(
-                        p.cliente_id
-                    ),
+cliente:
+nomeCliente(
+p.cliente_id
+),
 
-                valor:
-                    Number(
-                        p.valor || 0
-                    ),
+valor:
+Number(
+p.valor || 0
+),
 
-                pagamento:
-                    p.metodo || "-",
+pagamento:
+p.metodo ||
+"-",
 
-                status:
-                    "Pago"
+status:
+"Pago"
 
-            });
+});
 
-        }
-    );
+}
+);
 
-    produtos.forEach(
-        v => {
+produtos.forEach(
+v => {
 
-            movimentos.push({
+movimentos.push({
 
-                data:
-                    v.criado_em,
+data:
+v.criado_em,
 
-                tipo:
-                    "Entrada",
+tipo:
+"Entrada",
 
-                descricao:
-                    v.produto_nome ||
-                    "Produto",
+descricao:
+"Venda: " +
+(
+v.produto_nome ||
+"Produto"
+),
 
-                cliente:
-                    nomeCliente(
-                        v.cliente_id
-                    ),
+cliente:
+nomeCliente(
+v.cliente_id
+),
 
-                valor:
-                    Number(
-                        v.valor_total || 0
-                    ),
+valor:
+Number(
+v.valor_total || 0
+),
 
-                pagamento:
-                    v.metodo_pagamento ||
-                    "-",
+pagamento:
+v.metodo_pagamento ||
+"-",
 
-                status:
-                    "Pago"
+status:
+"Pago"
 
-            });
+});
 
-        }
-    );
+}
+);
 
-    saidas.forEach(
-        d => {
+pedidosConcluidos.forEach(
+p => {
 
-            movimentos.push({
+movimentos.push({
 
-                data:
-                    d.criado_em,
+data:
+p.criado_em,
 
-                tipo:
-                    "Saída",
+tipo:
+"Entrada",
 
-                descricao:
-                    d.descricao,
+descricao:
+"Pedido de produtos",
 
-                cliente:
-                    "-",
+cliente:
+nomeCliente(
+p.cliente_id
+),
 
-                valor:
-                    Number(
-                        d.valor || 0
-                    ),
+valor:
+Number(
+p.total || 0
+),
 
-                pagamento:
-                    d.metodo_pagamento ||
-                    "-",
+pagamento:
+p.metodo_pagamento ||
+"-",
 
-                status:
-                    "Pago"
+status:
+"Pedido concluído"
 
-            });
+});
 
-        }
-    );
+}
+);
 
-    movimentos.sort(
-        (a, b) =>
-            new Date(b.data) -
-            new Date(a.data)
-    );
+saidas.forEach(
+d => {
 
-    const tabela =
-        document.getElementById(
-            "tabelaMovimentos"
-        );
+movimentos.push({
 
-    if (!movimentos.length) {
+data:
+d.criado_em,
 
-        tabela.innerHTML =
-            `<tr>
-                <td
-                    colspan="7"
-                    class="vazio"
-                >
-                    Nenhuma movimentação encontrada.
-                </td>
-            </tr>`;
+tipo:
+"Saída",
 
-        return;
+descricao:
+d.descricao,
 
-    }
+cliente:
+"-",
 
-    tabela.innerHTML =
-        movimentos.map(
-            movimento => `
+valor:
+Number(
+d.valor || 0
+),
 
-                <tr>
+pagamento:
+d.metodo_pagamento ||
+"-",
 
-                    <td>
-                        ${dataBR(
-                            movimento.data
-                        )}
-                    </td>
+status:
+"Pago"
 
-                    <td class="${
-                        movimento.tipo ===
-                        "Entrada"
-                            ? "entrada"
-                            : "saida"
-                    }">
-                        ${
-                            movimento.tipo
-                        }
-                    </td>
+});
 
-                    <td>
-                        ${
-                            movimento.descricao
-                        }
-                    </td>
+}
+);
 
-                    <td>
-                        ${
-                            movimento.cliente
-                        }
-                    </td>
+movimentos.sort(
+(a,b) =>
+new Date(b.data) -
+new Date(a.data)
+);
 
-                    <td class="${
-                        movimento.tipo ===
-                        "Entrada"
-                            ? "entrada"
-                            : "saida"
-                    }">
-                        ${
-                            dinheiro(
-                                movimento.valor
-                            )
-                        }
-                    </td>
+const tabela =
+document.getElementById(
+"tabelaMovimentos"
+);
 
-                    <td>
-                        ${
-                            movimento.pagamento
-                        }
-                    </td>
+if(!movimentos.length){
 
-                    <td>
-                        ${
-                            movimento.status
-                        }
-                    </td>
+tabela.innerHTML =
+`
+<tr>
+<td
+colspan="7"
+class="vazio"
+>
+Nenhuma movimentação encontrada.
+</td>
+</tr>
+`;
 
-                </tr>
-
-            `
-        ).join("");
+return;
 
 }
 
-async function carregarFinanceiro() {
+tabela.innerHTML =
+movimentos.map(
+movimento =>
+`
 
-    esconderErro();
+<tr>
 
-    document.getElementById(
-        "loading"
-    ).style.display =
-        "block";
+<td>
+${dataBR(
+movimento.data
+)}
+</td>
 
-    document.getElementById(
-        "conteudo"
-    ).style.display =
-        "none";
+<td class="${
+movimento.tipo ===
+"Entrada"
+?
+"entrada"
+:
+"saida"
+}">
+${movimento.tipo}
+</td>
 
-    try {
+<td>
+${movimento.descricao}
+</td>
 
-        await buscarDados();
+<td>
+${movimento.cliente}
+</td>
 
-        processar();
+<td class="${
+movimento.tipo ===
+"Entrada"
+?
+"entrada"
+:
+"saida"
+}">
+${dinheiro(
+movimento.valor
+)}
+</td>
 
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
+<td>
+${movimento.pagamento}
+</td>
 
-        document.getElementById(
-            "conteudo"
-        ).style.display =
-            "block";
+<td>
+${movimento.status}
+</td>
 
-    } catch (erro) {
+</tr>
 
-        console.error(
-            erro
-        );
-
-        document.getElementById(
-            "loading"
-        ).style.display =
-            "none";
-
-        mostrarErro(
-            "Erro ao carregar o financeiro: " +
-            erro.message
-        );
-
-    }
+`
+).join("");
 
 }
 
-async function iniciar() {
+async function carregarFinanceiro(){
 
-    const permitido =
-        await verificarAdmin();
+esconderErro();
 
-    if (!permitido)
-        return;
+document.getElementById(
+"loading"
+).style.display =
+"block";
 
-    definirDatas();
+document.getElementById(
+"conteudo"
+).style.display =
+"none";
 
-    await carregarFinanceiro();
+try{
+
+await buscarDados();
+
+processar();
+
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+document.getElementById(
+"conteudo"
+).style.display =
+"block";
+
+}catch(erro){
+
+console.error(
+erro
+);
+
+document.getElementById(
+"loading"
+).style.display =
+"none";
+
+mostrarErro(
+"Erro ao carregar o financeiro: " +
+erro.message
+);
+
+}
+
+}
+
+async function iniciar(){
+
+const permitido =
+await verificarAdmin();
+
+if(!permitido)
+return;
+
+definirDatas();
+
+await carregarFinanceiro();
 
 }
 
@@ -1703,4 +1921,5 @@ iniciar();
 </script>
 
 </body>
+
     </html>
