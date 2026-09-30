@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Despesas - Gold Style</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #050505, #181818);
+            border-bottom: 1px solid #d4af37;
+            padding: 22px 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: #ffd700;
+            font-size: 28px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
+        }
+
+        header p {
+            color: #aaa;
+            margin-top: 7px;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 25px auto;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #d4af37;
+            color: #000;
+        }
+
+        .btn:hover {
+            background: #ffd700;
+        }
+
+        .btn.dark {
+            background: #151515;
+            color: #ffd700;
+            border: 1px solid #d4af37;
+        }
+
+        .btn.danger {
+            background: #260909;
+            color: #ff7070;
+            border: 1px solid #6b2222;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #151515, #080808);
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .card h3 {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card .valor {
+            color: #ffd700;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .formulario,
+        .lista {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .formulario h2,
+        .lista h2 {
+            color: #ffd700;
+            margin-bottom: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo label {
+            color: #ccc;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            background: #050505;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #ffd700;
+        }
+
+        .campo-completo {
+            grid-column: 1 / -1;
+        }
+
+        .mensagem {
+            display: none;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+        }
+
+        .sucesso {
+            background: #09200f;
+            border: 1px solid #26733b;
+            color: #75e890;
+        }
+
+        .erro {
+            background: #260909;
+            border: 1px solid #6b2222;
+            color: #ff7777;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #292929;
+            text-align: left;
+        }
+
+        th {
+            color: #ffd700;
+            background: #151515;
+        }
+
+        td {
+            color: #ddd;
+        }
+
+        .categoria {
+            color: #ffd700;
+        }
+
+        .valor-despesa {
+            color: #ff7777;
+            font-weight: bold;
+        }
+
+        .vazio {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+        }
+
+        .carregando {
+            text-align: center;
+            color: #ffd700;
+            padding: 25px;
+        }
+
+        .rodape {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .formulario,
+            .lista {
+                padding: 15px;
+            }
+
+            .card .valor {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>💸 DESPESAS GOLD STYLE</h1>
+
+    <p>
+        Controle de saídas e gastos da barbearia
+    </p>
+
+</header>
+
+<div class="container">
+
+    <div class="acoes">
+
+        <a
+            href="admin.html"
+            class="btn dark"
+        >
+            ← Dashboard
+        </a>
+
+        <a
+            href="financeiro.html"
+            class="btn dark"
+        >
+            💰 Financeiro
+        </a>
+
+        <a
+            href="relatorios.html"
+            class="btn dark"
+        >
+            📊 Relatórios
+        </a>
+
+    </div>
+
+    <div
+        id="mensagemSucesso"
+        class="mensagem sucesso"
+    ></div>
+
+    <div
+        id="mensagemErro"
+        class="mensagem erro"
+    ></div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>
+                💸 Total de despesas
+            </h3>
+
+            <div
+                class="valor"
+                id="totalDespesas"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                📅 Despesas este mês
+            </h3>
+
+            <div
+                class="valor"
+                id="despesasMes"
+            >
+                R$ 0,00
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+                🧾 Quantidade de despesas
+            </h3>
+
+            <div
+                class="valor"
+                id="quantidadeDespesas"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="formulario">
+
+        <h2>
+            ➕ Registrar nova despesa
+        </h2>
+
+        <div class="grid">
+
+            <div class="campo">
+
+                <label>
+                    Descrição
+                </label>
+
+                <input
+                    type="text"
+                    id="descricao"
+                    placeholder="Ex.: Conta de energia"
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label>
+                    Categoria
+                </label>
+
+                <select id="categoria">
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Aluguel">
+                        Aluguel
+                    </option>
+
+                    <option value="Energia">
+                        Energia
+                    </option>
+
+                    <option value="Água">
+                        Água
+                    </option>
+
+                    <option value="Internet">
+                        Internet
+                    </option>
+
+                    <option value="Estoque">
+                        Estoque
+                    </option>
+
+                    <option value="Materiais">
+                        Materiais
+                    </option>
+
+                    <option value="Equipamentos">
+                        Equipamentos
+                    </option>
+
+                    <option value="Marketing">
+                        Marketing
+                    </option>
+
+                    <option value="Transporte">
+                        Transporte
+                    </option>
+
+                    <option value="Outros">
+                        Outros
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="campo">
+
+                <label>
+                    Valor
+                </label>
+
+                <input
+                    type="number"
+                    id="valor"
+                    placeholder="0,00"
+                    step="0.01"
+                    min="0"
+                >
+
+            </div>
+
+            <div class="campo">
+
+                <label>
+                    Forma de pagamento
+                </label>
+
+                <select id="metodoPagamento">
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Pix">
+                        Pix
+                    </option>
+
+                    <option value="Dinheiro">
+                        Dinheiro
+                    </option>
+
+                    <option value="Cartão">
+                        Cartão
+                    </option>
+
+                    <option value="Transferência">
+                        Transferência
+                    </option>
+
+                    <option value="Outro">
+                        Outro
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="campo campo-completo">
+
+                <label>
+                    Observação
+                </label>
+
+                <textarea
+                    id="observacao"
+                    placeholder="Detalhes da despesa..."
+                ></textarea>
+
+            </div>
+
+            <div class="campo campo-completo">
+
+                <button
+                    class="btn"
+                    onclick="registrarDespesa()"
+                >
+                    💾 Registrar despesa
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="lista">
+
+        <h2>
+            📋 Histórico de despesas
+        </h2>
+
+        <div
+            id="carregando"
+            class="carregando"
+        >
+            Carregando despesas...
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Data
+                        </th>
+
+                        <th>
+                            Descrição
+                        </th>
+
+                        <th>
+                            Categoria
+                        </th>
+
+                        <th>
+                            Valor
+                        </th>
+
+                        <th>
+                            Pagamento
+                        </th>
+
+                        <th>
+                            Observação
+                        </th>
+
+                        <th>
+                            Ação
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaDespesas"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="rodape">
+
+    Gold Style Barbearia
+    — BARBEARIA DESDE 2022
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+function dinheiro(valor) {
+
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+
+}
+
+function dataBR(data) {
+
+    if (!data)
+        return "-";
+
+    return new Date(data).toLocaleDateString(
+        "pt-BR"
+    );
+
+}
+
+function mostrarSucesso(mensagem) {
+
+    const elemento =
+        document.getElementById(
+            "mensagemSucesso"
+        );
+
+    elemento.innerText = mensagem;
+
+    elemento.style.display = "block";
+
+    document.getElementById(
+        "mensagemErro"
+    ).style.display = "none";
+
+    setTimeout(() => {
+
+        elemento.style.display = "none";
+
+    }, 4000);
+
+}
+
+function mostrarErro(mensagem) {
+
+    const elemento =
+        document.getElementById(
+            "mensagemErro"
+        );
+
+    elemento.innerText = mensagem;
+
+    elemento.style.display = "block";
+
+    document.getElementById(
+        "mensagemSucesso"
+    ).style.display = "none";
+
+}
+
+async function verificarAdmin() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+        await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href =
+            "login.html";
+
+        return false;
+
+    }
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("administradores")
+            .select("id,nome,ativo")
+            .eq(
+                "auth_user_id",
+                session.user.id
+            )
+            .eq(
+                "ativo",
+                true
+            )
+            .maybeSingle();
+
+    if (error || !data) {
+
+        alert(
+            "Acesso permitido somente para administradores."
+        );
+
+        window.location.href =
+            "cliente.html";
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+async function carregarDespesas() {
+
+    document.getElementById(
+        "carregando"
+    ).style.display = "block";
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("despesas")
+            .select("*")
+            .order(
+                "criado_em",
+                {
+                    ascending: false
+                }
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        mostrarErro(
+            "Erro ao carregar despesas: " +
+            error.message
+        );
+
+        document.getElementById(
+            "carregando"
+        ).style.display = "none";
+
+        return;
+
+    }
+
+    const despesas =
+        data || [];
+
+    atualizarCards(
+        despesas
+    );
+
+    montarTabela(
+        despesas
+    );
+
+    document.getElementById(
+        "carregando"
+    ).style.display = "none";
+
+}
+
+function atualizarCards(
+    despesas
+) {
+
+    const total =
+        despesas.reduce(
+            (soma, despesa) =>
+                soma +
+                Number(
+                    despesa.valor || 0
+                ),
+            0
+        );
+
+    const agora =
+        new Date();
+
+    const mesAtual =
+        agora.getMonth();
+
+    const anoAtual =
+        agora.getFullYear();
+
+    const totalMes =
+        despesas
+            .filter(despesa => {
+
+                const data =
+                    new Date(
+                        despesa.criado_em
+                    );
+
+                return (
+                    data.getMonth() ===
+                    mesAtual &&
+                    data.getFullYear() ===
+                    anoAtual
+                );
+
+            })
+            .reduce(
+                (soma, despesa) =>
+                    soma +
+                    Number(
+                        despesa.valor || 0
+                    ),
+                0
+            );
+
+    document.getElementById(
+        "totalDespesas"
+    ).innerText =
+        dinheiro(total);
+
+    document.getElementById(
+        "despesasMes"
+    ).innerText =
+        dinheiro(totalMes);
+
+    document.getElementById(
+        "quantidadeDespesas"
+    ).innerText =
+        despesas.length;
+
+}
+
+function escaparHTML(valor) {
+
+    return String(
+        valor || ""
+    )
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+function montarTabela(
+    despesas
+) {
+
+    const tabela =
+        document.getElementById(
+            "tabelaDespesas"
+        );
+
+    if (!despesas.length) {
+
+        tabela.innerHTML = `
+            <tr>
+                <td
+                    colspan="7"
+                    class="vazio"
+                >
+                    Nenhuma despesa cadastrada.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    tabela.innerHTML =
+        despesas.map(despesa => `
+
+            <tr>
+
+                <td>
+                    ${dataBR(
+                        despesa.criado_em
+                    )}
+                </td>
+
+                <td>
+                    ${escaparHTML(
+                        despesa.descricao
+                    )}
+                </td>
+
+                <td class="categoria">
+                    ${escaparHTML(
+                        despesa.categoria
+                    )}
+                </td>
+
+                <td class="valor-despesa">
+                    ${dinheiro(
+                        despesa.valor
+                    )}
+                </td>
+
+                <td>
+                    ${escaparHTML(
+                        despesa.metodo_pagamento
+                    )}
+                </td>
+
+                <td>
+                    ${escaparHTML(
+                        despesa.observacao
+                    ) || "-"}
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn danger"
+                        onclick="excluirDespesa('${despesa.id}')"
+                    >
+                        🗑️ Excluir
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+async function registrarDespesa() {
+
+    const descricao =
+        document.getElementById(
+            "descricao"
+        ).value.trim();
+
+    const categoria =
+        document.getElementById(
+            "categoria"
+        ).value;
+
+    const valor =
+        Number(
+            document.getElementById(
+                "valor"
+            ).value
+        );
+
+    const metodoPagamento =
+        document.getElementById(
+            "metodoPagamento"
+        ).value;
+
+    const observacao =
+        document.getElementById(
+            "observacao"
+        ).value.trim();
+
+    if (!descricao) {
+
+        mostrarErro(
+            "Digite a descrição da despesa."
+        );
+
+        return;
+
+    }
+
+    if (!categoria) {
+
+        mostrarErro(
+            "Selecione uma categoria."
+        );
+
+        return;
+
+    }
+
+    if (!valor || valor <= 0) {
+
+        mostrarErro(
+            "Digite um valor válido."
+        );
+
+        return;
+
+    }
+
+    if (!metodoPagamento) {
+
+        mostrarErro(
+            "Selecione a forma de pagamento."
+        );
+
+        return;
+
+    }
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("despesas")
+            .insert({
+
+                descricao:
+                    descricao,
+
+                categoria:
+                    categoria,
+
+                valor:
+                    valor,
+
+                metodo_pagamento:
+                    metodoPagamento,
+
+                observacao:
+                    observacao || null
+
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        mostrarErro(
+            "Erro ao registrar despesa: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+    document.getElementById(
+        "descricao"
+    ).value = "";
+
+    document.getElementById(
+        "categoria"
+    ).value = "";
+
+    document.getElementById(
+        "valor"
+    ).value = "";
+
+    document.getElementById(
+        "metodoPagamento"
+    ).value = "";
+
+    document.getElementById(
+        "observacao"
+    ).value = "";
+
+    mostrarSucesso(
+        "Despesa registrada com sucesso!"
+    );
+
+    await carregarDespesas();
+
+}
+
+async function excluirDespesa(id) {
+
+    const confirmar =
+        confirm(
+            "Tem certeza que deseja excluir esta despesa?"
+        );
+
+    if (!confirmar)
+        return;
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("despesas")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
+
+    if (error) {
+
+        console.error(error);
+
+        mostrarErro(
+            "Erro ao excluir despesa: " +
+            error.message
+        );
+
+        return;
+
+    }
+
+    mostrarSucesso(
+        "Despesa excluída com sucesso!"
+    );
+
+    await carregarDespesas();
+
+}
+
+async function iniciar() {
+
+    const permitido =
+        await verificarAdmin();
+
+    if (!permitido)
+        return;
+
+    await carregarDespesas();
+
+}
+
+iniciar();
+
+</script>
+
+</body>
+  </html>
