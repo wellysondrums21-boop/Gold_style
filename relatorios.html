@@ -172,7 +172,7 @@
         }
 
         .bar-box {
-            min-width: 55px;
+            min-width: 65px;
             height: 100%;
             display: flex;
             flex-direction: column;
@@ -282,7 +282,18 @@
             padding: 30px 10px;
         }
 
+        .badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #211d08;
+            border: 1px solid #806b00;
+            color: #ffd700;
+            font-size: 12px;
+        }
+
         @media (max-width: 600px) {
+
             header h1 {
                 font-size: 23px;
             }
@@ -312,15 +323,33 @@
 <div class="container">
 
     <div class="top-actions">
-        <a class="btn dark" href="admin.html">← Dashboard</a>
-        <a class="btn dark" href="financeiro.html">💰 Financeiro</a>
-        <a class="btn dark" href="vendas.html">🛍️ Vendas</a>
-        <button class="btn" onclick="carregarRelatorios()">🔄 Atualizar</button>
+
+        <a class="btn dark" href="admin.html">
+            ← Dashboard
+        </a>
+
+        <a class="btn dark" href="financeiro.html">
+            💰 Financeiro
+        </a>
+
+        <a class="btn dark" href="vendas.html">
+            🛍️ Vendas
+        </a>
+
+        <a class="btn dark" href="pedidos.html">
+            📦 Pedidos
+        </a>
+
+        <button class="btn" onclick="carregarRelatorios()">
+            🔄 Atualizar
+        </button>
+
     </div>
 
     <div id="erro" class="error"></div>
 
     <div class="filters">
+
         <h2>📅 Período do relatório</h2>
 
         <div class="filter-grid">
@@ -336,12 +365,19 @@
             </div>
 
             <div style="display:flex;align-items:end;">
-                <button class="btn" style="width:100%;" onclick="carregarRelatorios()">
+
+                <button
+                    class="btn"
+                    style="width:100%;"
+                    onclick="carregarRelatorios()"
+                >
                     Gerar relatório
                 </button>
+
             </div>
 
         </div>
+
     </div>
 
     <div id="loading" class="loading">
@@ -354,32 +390,51 @@
 
             <div class="card">
                 <h3>💰 Faturamento total</h3>
-                <div class="value" id="faturamentoTotal">R$ 0,00</div>
+                <div class="value" id="faturamentoTotal">
+                    R$ 0,00
+                </div>
             </div>
 
             <div class="card">
-                <h3>💈 Serviços</h3>
-                <div class="value" id="totalServicos">0</div>
+                <h3>💈 Serviços pagos</h3>
+                <div class="value" id="totalServicos">
+                    0
+                </div>
             </div>
 
             <div class="card">
                 <h3>🛍️ Produtos vendidos</h3>
-                <div class="value" id="totalProdutos">0</div>
+                <div class="value" id="totalProdutos">
+                    0
+                </div>
             </div>
 
             <div class="card">
-                <h3>👥 Clientes atendidos</h3>
-                <div class="value" id="totalClientes">0</div>
+                <h3>📦 Pedidos concluídos</h3>
+                <div class="value" id="totalPedidos">
+                    0
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>👥 Clientes</h3>
+                <div class="value" id="totalClientes">
+                    0
+                </div>
             </div>
 
             <div class="card">
                 <h3>🎯 Ticket médio</h3>
-                <div class="value" id="ticketMedio">R$ 0,00</div>
+                <div class="value" id="ticketMedio">
+                    R$ 0,00
+                </div>
             </div>
 
             <div class="card">
                 <h3>📅 Agendamentos</h3>
-                <div class="value" id="totalAgendamentos">0</div>
+                <div class="value" id="totalAgendamentos">
+                    0
+                </div>
             </div>
 
         </div>
@@ -400,22 +455,30 @@
 
                 <div class="payment-card">
                     <h3>PIX</h3>
-                    <strong id="totalPix">R$ 0,00</strong>
+                    <strong id="totalPix">
+                        R$ 0,00
+                    </strong>
                 </div>
 
                 <div class="payment-card">
                     <h3>Cartão</h3>
-                    <strong id="totalCartao">R$ 0,00</strong>
+                    <strong id="totalCartao">
+                        R$ 0,00
+                    </strong>
                 </div>
 
                 <div class="payment-card">
                     <h3>Dinheiro</h3>
-                    <strong id="totalDinheiro">R$ 0,00</strong>
+                    <strong id="totalDinheiro">
+                        R$ 0,00
+                    </strong>
                 </div>
 
                 <div class="payment-card">
                     <h3>Outros</h3>
-                    <strong id="totalOutros">R$ 0,00</strong>
+                    <strong id="totalOutros">
+                        R$ 0,00
+                    </strong>
                 </div>
 
             </div>
@@ -431,11 +494,13 @@
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Serviço</th>
                             <th>Quantidade</th>
                             <th>Faturamento</th>
                         </tr>
+
                     </thead>
 
                     <tbody id="tabelaServicos"></tbody>
@@ -455,14 +520,45 @@
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Produto</th>
                             <th>Quantidade</th>
                             <th>Faturamento</th>
+                            <th>Origem</th>
                         </tr>
+
                     </thead>
 
                     <tbody id="tabelaProdutos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>📦 Pedidos de produtos concluídos</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Pedido</th>
+                            <th>Valor</th>
+                            <th>Pagamento</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tabelaPedidos"></tbody>
 
                 </table>
 
@@ -479,6 +575,7 @@
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Data</th>
                             <th>Tipo</th>
@@ -487,6 +584,7 @@
                             <th>Valor</th>
                             <th>Pagamento</th>
                         </tr>
+
                     </thead>
 
                     <tbody id="tabelaMovimentos"></tbody>
@@ -521,8 +619,11 @@ window.supabase.createClient(
 
 let pagamentos = [];
 let vendas = [];
+let pedidos = [];
+let itensPedidos = [];
 let agendamentos = [];
 let clientes = [];
+
 
 function dinheiro(valor) {
 
@@ -536,6 +637,7 @@ function dinheiro(valor) {
 
 }
 
+
 function dataBR(data) {
 
     if (!data) return "-";
@@ -546,28 +648,43 @@ function dataBR(data) {
 
 }
 
-function normalizarPagamento(valor) {
+
+function normalizar(valor) {
 
     return String(valor || "")
         .trim()
-        .toLowerCase();
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
 }
 
+
+function normalizarPagamento(valor) {
+
+    return normalizar(valor);
+
+}
+
+
 function mostrarErro(mensagem) {
 
-    const erro = document.getElementById("erro");
+    const erro =
+        document.getElementById("erro");
 
     erro.innerText = mensagem;
     erro.style.display = "block";
 
 }
 
+
 function esconderErro() {
 
-    document.getElementById("erro").style.display = "none";
+    document.getElementById("erro")
+        .style.display = "none";
 
 }
+
 
 async function verificarAdmin() {
 
@@ -596,7 +713,10 @@ async function verificarAdmin() {
 
     if (error || !data) {
 
-        alert("Acesso permitido somente para administradores.");
+        alert(
+            "Acesso permitido somente para administradores."
+        );
+
         window.location.href = "cliente.html";
 
         return false;
@@ -607,33 +727,39 @@ async function verificarAdmin() {
 
 }
 
+
 function definirDatas() {
 
     const hoje = new Date();
 
-    const primeiroDia = new Date(
-        hoje.getFullYear(),
-        hoje.getMonth(),
-        1
-    );
+    const primeiroDia =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            1
+        );
 
-    const ultimoDia = new Date(
-        hoje.getFullYear(),
-        hoje.getMonth() + 1,
-        0
-    );
+    const ultimoDia =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth() + 1,
+            0
+        );
 
     const formatar = data => {
 
-        const ano = data.getFullYear();
+        const ano =
+            data.getFullYear();
 
-        const mes = String(
-            data.getMonth() + 1
-        ).padStart(2, "0");
+        const mes =
+            String(
+                data.getMonth() + 1
+            ).padStart(2, "0");
 
-        const dia = String(
-            data.getDate()
-        ).padStart(2, "0");
+        const dia =
+            String(
+                data.getDate()
+            ).padStart(2, "0");
 
         return `${ano}-${mes}-${dia}`;
 
@@ -647,6 +773,7 @@ function definirDatas() {
 
 }
 
+
 function dentroDoPeriodo(data) {
 
     const inicio =
@@ -657,17 +784,21 @@ function dentroDoPeriodo(data) {
 
     if (!data) return false;
 
-    const dia = String(data).substring(0, 10);
+    const dia =
+        String(data).substring(0, 10);
 
     return dia >= inicio && dia <= fim;
 
 }
+
 
 async function buscarDados() {
 
     const [
         pagamentosResult,
         vendasResult,
+        pedidosResult,
+        itensResult,
         agendamentosResult,
         clientesResult
     ] = await Promise.all([
@@ -675,17 +806,37 @@ async function buscarDados() {
         supabaseClient
             .from("pagamentos")
             .select("*")
-            .order("criado_em", { ascending: false }),
+            .order("criado_em", {
+                ascending: false
+            }),
 
         supabaseClient
             .from("vendas")
             .select("*")
-            .order("criado_em", { ascending: false }),
+            .order("criado_em", {
+                ascending: false
+            }),
+
+        supabaseClient
+            .from("pedidos_produtos")
+            .select("*")
+            .order("criado_em", {
+                ascending: false
+            }),
+
+        supabaseClient
+            .from("itens_pedido")
+            .select("*")
+            .order("criado_em", {
+                ascending: false
+            }),
 
         supabaseClient
             .from("agendamentos")
             .select("*")
-            .order("Data", { ascending: false }),
+            .order("Data", {
+                ascending: false
+            }),
 
         supabaseClient
             .from("clientes")
@@ -693,11 +844,18 @@ async function buscarDados() {
 
     ]);
 
+
     if (pagamentosResult.error)
         throw pagamentosResult.error;
 
     if (vendasResult.error)
         throw vendasResult.error;
+
+    if (pedidosResult.error)
+        throw pedidosResult.error;
+
+    if (itensResult.error)
+        throw itensResult.error;
 
     if (agendamentosResult.error)
         throw agendamentosResult.error;
@@ -705,11 +863,18 @@ async function buscarDados() {
     if (clientesResult.error)
         throw clientesResult.error;
 
+
     pagamentos =
         pagamentosResult.data || [];
 
     vendas =
         vendasResult.data || [];
+
+    pedidos =
+        pedidosResult.data || [];
+
+    itensPedidos =
+        itensResult.data || [];
 
     agendamentos =
         agendamentosResult.data || [];
@@ -719,243 +884,452 @@ async function buscarDados() {
 
 }
 
+
 function nomeCliente(id) {
 
     const cliente =
-        clientes.find(c => c.id === id);
+        clientes.find(
+            c => c.id === id
+        );
 
-    if (!cliente) return "Cliente";
+    if (!cliente)
+        return "Cliente";
 
     return cliente.Nome || "Cliente";
 
 }
 
+
+function pedidoConcluido(pedido) {
+
+    return (
+        normalizar(
+            pedido.status_pagamento
+        ) === "pago"
+        &&
+        normalizar(
+            pedido.status_pedido
+        ) === "concluido"
+    );
+
+}
+
+
+function pedidosDoPeriodo() {
+
+    return pedidos.filter(p =>
+
+        pedidoConcluido(p)
+        &&
+        dentroDoPeriodo(p.criado_em)
+
+    );
+
+}
+
+
+function vendasPagasPeriodo() {
+
+    return vendas.filter(v =>
+
+        normalizar(v.status) === "pago"
+        &&
+        dentroDoPeriodo(v.criado_em)
+
+    );
+
+}
+
+
+function pagamentosPagosPeriodo() {
+
+    return pagamentos.filter(p =>
+
+        normalizar(p.status) === "pago"
+        &&
+        dentroDoPeriodo(p.criado_em)
+
+    );
+
+}
+
+
+function itensDosPedidosConcluidos() {
+
+    const ids =
+        new Set(
+            pedidosDoPeriodo()
+                .map(p => p.id)
+        );
+
+    return itensPedidos.filter(
+        item => ids.has(item.pedido_id)
+    );
+
+}
+
+
 function processarRelatorio() {
 
     const pagamentosPeriodo =
-        pagamentos.filter(p =>
-            dentroDoPeriodo(p.criado_em)
-        );
+        pagamentosPagosPeriodo();
 
     const vendasPeriodo =
-        vendas.filter(v =>
-            dentroDoPeriodo(v.criado_em)
-        );
+        vendasPagasPeriodo();
 
-    const agendamentosPeriodo =
-        agendamentos.filter(a =>
-            dentroDoPeriodo(a.Data)
-        );
+    const pedidosPeriodo =
+        pedidosDoPeriodo();
 
-    const pagamentosPagos =
-        pagamentosPeriodo.filter(p =>
-            String(p.status || "").toLowerCase() === "pago"
-        );
+    const itensPedidosPeriodo =
+        itensDosPedidosConcluidos();
+
 
     const valorServicos =
-        pagamentosPagos.reduce(
+        pagamentosPeriodo.reduce(
             (total, p) =>
-                total + Number(p.valor || 0),
+                total +
+                Number(p.valor || 0),
             0
         );
 
-    const valorProdutos =
-        vendasPeriodo
-            .filter(v =>
-                String(v.status || "").toLowerCase() === "pago"
-            )
-            .reduce(
-                (total, v) =>
-                    total + Number(v.valor_total || 0),
-                0
-            );
+
+    const valorVendas =
+        vendasPeriodo.reduce(
+            (total, v) =>
+                total +
+                Number(v.valor_total || 0),
+            0
+        );
+
+
+    const valorPedidos =
+        pedidosPeriodo.reduce(
+            (total, p) =>
+                total +
+                Number(p.total || 0),
+            0
+        );
+
 
     const faturamento =
-        valorServicos + valorProdutos;
+        valorServicos +
+        valorVendas +
+        valorPedidos;
 
-    const produtosPagos =
-        vendasPeriodo.filter(v =>
-            String(v.status || "").toLowerCase() === "pago"
-        );
 
-    const clientesIds = new Set();
-
-    pagamentosPagos.forEach(p => {
-
-        if (p.cliente_id)
-            clientesIds.add(p.cliente_id);
-
-    });
-
-    produtosPagos.forEach(v => {
-
-        if (v.cliente_id)
-            clientesIds.add(v.cliente_id);
-
-    });
-
-    document.getElementById("faturamentoTotal").innerText =
-        dinheiro(faturamento);
-
-    document.getElementById("totalServicos").innerText =
-        pagamentosPagos.length;
-
-    document.getElementById("totalProdutos").innerText =
-        produtosPagos.reduce(
+    const quantidadeProdutosVendas =
+        vendasPeriodo.reduce(
             (total, v) =>
-                total + Number(v.quantidade || 0),
+                total +
+                Number(v.quantidade || 0),
             0
         );
 
-    document.getElementById("totalClientes").innerText =
+
+    const quantidadeProdutosPedidos =
+        itensPedidosPeriodo.reduce(
+            (total, item) =>
+                total +
+                Number(item.quantidade || 0),
+            0
+        );
+
+
+    const totalProdutos =
+        quantidadeProdutosVendas +
+        quantidadeProdutosPedidos;
+
+
+    const clientesIds =
+        new Set();
+
+
+    pagamentosPeriodo.forEach(p => {
+
+        if (p.cliente_id)
+            clientesIds.add(
+                p.cliente_id
+            );
+
+    });
+
+
+    vendasPeriodo.forEach(v => {
+
+        if (v.cliente_id)
+            clientesIds.add(
+                v.cliente_id
+            );
+
+    });
+
+
+    pedidosPeriodo.forEach(p => {
+
+        if (p.cliente_id)
+            clientesIds.add(
+                p.cliente_id
+            );
+
+    });
+
+
+    document.getElementById(
+        "faturamentoTotal"
+    ).innerText =
+        dinheiro(faturamento);
+
+
+    document.getElementById(
+        "totalServicos"
+    ).innerText =
+        pagamentosPeriodo.length;
+
+
+    document.getElementById(
+        "totalProdutos"
+    ).innerText =
+        totalProdutos;
+
+
+    document.getElementById(
+        "totalPedidos"
+    ).innerText =
+        pedidosPeriodo.length;
+
+
+    document.getElementById(
+        "totalClientes"
+    ).innerText =
         clientesIds.size;
 
-    document.getElementById("totalAgendamentos").innerText =
-        agendamentosPeriodo.length;
 
-    document.getElementById("ticketMedio").innerText =
+    document.getElementById(
+        "totalAgendamentos"
+    ).innerText =
+        agendamentos.filter(
+            a => dentroDoPeriodo(a.Data)
+        ).length;
+
+
+    const quantidadeMovimentos =
+        pagamentosPeriodo.length +
+        vendasPeriodo.length +
+        pedidosPeriodo.length;
+
+
+    document.getElementById(
+        "ticketMedio"
+    ).innerText =
         dinheiro(
             faturamento /
             Math.max(
-                pagamentosPagos.length +
-                produtosPagos.length,
+                quantidadeMovimentos,
                 1
             )
         );
 
+
     calcularPagamentos(
-        pagamentosPagos,
-        produtosPagos
+        pagamentosPeriodo,
+        vendasPeriodo,
+        pedidosPeriodo
     );
+
 
     gerarGrafico(
-        pagamentosPagos,
-        produtosPagos
+        pagamentosPeriodo,
+        vendasPeriodo,
+        pedidosPeriodo
     );
+
 
     gerarTabelaServicos(
-        pagamentosPagos
+        pagamentosPeriodo
     );
+
 
     gerarTabelaProdutos(
-        produtosPagos
+        vendasPeriodo,
+        itensPedidosPeriodo
     );
 
+
+    gerarTabelaPedidos(
+        pedidosPeriodo
+    );
+
+
     gerarTabelaMovimentos(
-        pagamentosPagos,
-        produtosPagos
+        pagamentosPeriodo,
+        vendasPeriodo,
+        pedidosPeriodo
     );
 
 }
+
+
+function adicionarPagamento(
+    metodo,
+    valor,
+    totais
+) {
+
+    const m =
+        normalizarPagamento(metodo);
+
+    if (m.includes("pix")) {
+
+        totais.pix += valor;
+
+    }
+
+    else if (m.includes("cart")) {
+
+        totais.cartao += valor;
+
+    }
+
+    else if (m.includes("dinheiro")) {
+
+        totais.dinheiro += valor;
+
+    }
+
+    else {
+
+        totais.outros += valor;
+
+    }
+
+}
+
 
 function calcularPagamentos(
     servicos,
-    produtos
+    vendasDiretas,
+    pedidosConcluidos
 ) {
 
-    let pix = 0;
-    let cartao = 0;
-    let dinheiroValor = 0;
-    let outros = 0;
+    const totais = {
+        pix: 0,
+        cartao: 0,
+        dinheiro: 0,
+        outros: 0
+    };
+
 
     servicos.forEach(p => {
 
-        const valor =
-            Number(p.valor || 0);
-
-        const metodo =
-            normalizarPagamento(p.metodo);
-
-        if (metodo.includes("pix"))
-            pix += valor;
-
-        else if (
-            metodo.includes("cart")
-        )
-            cartao += valor;
-
-        else if (
-            metodo.includes("dinheiro")
-        )
-            dinheiroValor += valor;
-
-        else
-            outros += valor;
+        adicionarPagamento(
+            p.metodo,
+            Number(p.valor || 0),
+            totais
+        );
 
     });
 
-    produtos.forEach(v => {
 
-        const valor =
-            Number(v.valor_total || 0);
+    vendasDiretas.forEach(v => {
 
-        const metodo =
-            normalizarPagamento(
-                v.metodo_pagamento
-            );
-
-        if (metodo.includes("pix"))
-            pix += valor;
-
-        else if (
-            metodo.includes("cart")
-        )
-            cartao += valor;
-
-        else if (
-            metodo.includes("dinheiro")
-        )
-            dinheiroValor += valor;
-
-        else
-            outros += valor;
+        adicionarPagamento(
+            v.metodo_pagamento,
+            Number(v.valor_total || 0),
+            totais
+        );
 
     });
 
-    document.getElementById("totalPix").innerText =
-        dinheiro(pix);
 
-    document.getElementById("totalCartao").innerText =
-        dinheiro(cartao);
+    pedidosConcluidos.forEach(p => {
 
-    document.getElementById("totalDinheiro").innerText =
-        dinheiro(dinheiroValor);
+        adicionarPagamento(
+            p.metodo_pagamento,
+            Number(p.total || 0),
+            totais
+        );
 
-    document.getElementById("totalOutros").innerText =
-        dinheiro(outros);
+    });
+
+
+    document.getElementById(
+        "totalPix"
+    ).innerText =
+        dinheiro(totais.pix);
+
+
+    document.getElementById(
+        "totalCartao"
+    ).innerText =
+        dinheiro(totais.cartao);
+
+
+    document.getElementById(
+        "totalDinheiro"
+    ).innerText =
+        dinheiro(totais.dinheiro);
+
+
+    document.getElementById(
+        "totalOutros"
+    ).innerText =
+        dinheiro(totais.outros);
 
 }
 
+
 function gerarGrafico(
     servicos,
-    produtos
+    vendasDiretas,
+    pedidosConcluidos
 ) {
 
     const dias = {};
 
+
+    function adicionar(data, valor) {
+
+        const dia =
+            String(data).substring(0, 10);
+
+        if (!dias[dia])
+            dias[dia] = 0;
+
+        dias[dia] +=
+            Number(valor || 0);
+
+    }
+
+
     servicos.forEach(p => {
 
-        const dia =
-            String(p.criado_em).substring(0, 10);
-
-        if (!dias[dia])
-            dias[dia] = 0;
-
-        dias[dia] += Number(p.valor || 0);
+        adicionar(
+            p.criado_em,
+            p.valor
+        );
 
     });
 
-    produtos.forEach(v => {
 
-        const dia =
-            String(v.criado_em).substring(0, 10);
+    vendasDiretas.forEach(v => {
 
-        if (!dias[dia])
-            dias[dia] = 0;
-
-        dias[dia] += Number(v.valor_total || 0);
+        adicionar(
+            v.criado_em,
+            v.valor_total
+        );
 
     });
+
+
+    pedidosConcluidos.forEach(p => {
+
+        adicionar(
+            p.criado_em,
+            p.total
+        );
+
+    });
+
 
     const lista =
         Object.entries(dias)
@@ -963,14 +1337,21 @@ function gerarGrafico(
                 a[0].localeCompare(b[0])
             );
 
+
     const maior =
         Math.max(
-            ...lista.map(item => item[1]),
+            ...lista.map(
+                item => item[1]
+            ),
             1
         );
 
+
     const grafico =
-        document.getElementById("grafico");
+        document.getElementById(
+            "grafico"
+        );
+
 
     if (!lista.length) {
 
@@ -981,46 +1362,55 @@ function gerarGrafico(
 
     }
 
+
     grafico.innerHTML =
-        lista.map(([dia, valor]) => {
+        lista.map(
+            ([dia, valor]) => {
 
-            const altura =
-                Math.max(
-                    5,
-                    (valor / maior) * 160
-                );
+                const altura =
+                    Math.max(
+                        5,
+                        (valor / maior) * 160
+                    );
 
-            const partes =
-                dia.split("-");
 
-            const label =
-                `${partes[2]}/${partes[1]}`;
+                const partes =
+                    dia.split("-");
 
-            return `
-                <div class="bar-box">
 
-                    <div class="bar-value">
-                        ${dinheiro(valor)}
+                const label =
+                    `${partes[2]}/${partes[1]}`;
+
+
+                return `
+
+                    <div class="bar-box">
+
+                        <div class="bar-value">
+                            ${dinheiro(valor)}
+                        </div>
+
+                        <div
+                            class="bar"
+                            style="height:${altura}px">
+                        </div>
+
+                        <div class="bar-label">
+                            ${label}
+                        </div>
+
                     </div>
 
-                    <div
-                        class="bar"
-                        style="height:${altura}px">
-                    </div>
+                `;
 
-                    <div class="bar-label">
-                        ${label}
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 }
 
+
 function gerarTabelaServicos(
-    pagamentos
+    pagamentosPeriodo
 ) {
 
     const tabela =
@@ -1028,21 +1418,32 @@ function gerarTabelaServicos(
             "tabelaServicos"
         );
 
+
     const dados = {};
 
-    pagamentos.forEach(p => {
 
-        let nome = "Serviço";
+    pagamentosPeriodo.forEach(p => {
+
+        let nome =
+            "Serviço";
+
 
         const agendamento =
             agendamentos.find(
-                a => a.id === p.agendamento_id
+                a =>
+                    a.id ===
+                    p.agendamento_id
             );
 
-        if (agendamento)
+
+        if (agendamento) {
+
             nome =
                 agendamento["Serviços"] ||
                 "Serviço";
+
+        }
+
 
         if (!dados[nome]) {
 
@@ -1053,53 +1454,69 @@ function gerarTabelaServicos(
 
         }
 
+
         dados[nome].quantidade++;
+
 
         dados[nome].valor +=
             Number(p.valor || 0);
 
     });
 
+
     const lista =
         Object.entries(dados)
             .sort(
-                (a,b) =>
+                (a, b) =>
                     b[1].valor -
                     a[1].valor
             );
 
+
     if (!lista.length) {
 
-        tabela.innerHTML =
-            `<tr>
+        tabela.innerHTML = `
+            <tr>
                 <td colspan="3" class="empty">
                     Nenhum serviço encontrado.
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
 
+
     tabela.innerHTML =
-        lista.map(([nome, item]) => `
+        lista.map(
+            ([nome, item]) => `
 
-            <tr>
+                <tr>
 
-                <td>${nome}</td>
+                    <td>
+                        ${nome}
+                    </td>
 
-                <td>${item.quantidade}</td>
+                    <td>
+                        ${item.quantidade}
+                    </td>
 
-                <td>${dinheiro(item.valor)}</td>
+                    <td>
+                        ${dinheiro(item.valor)}
+                    </td>
 
-            </tr>
+                </tr>
 
-        `).join("");
+            `
+        ).join("");
 
 }
 
+
 function gerarTabelaProdutos(
-    produtos
+    vendasDiretas,
+    itensPedidosPeriodo
 ) {
 
     const tabela =
@@ -1107,91 +1524,244 @@ function gerarTabelaProdutos(
             "tabelaProdutos"
         );
 
+
     const dados = {};
 
-    produtos.forEach(v => {
+
+    vendasDiretas.forEach(v => {
 
         const nome =
             v.produto_nome ||
             "Produto";
 
+
         if (!dados[nome]) {
 
             dados[nome] = {
                 quantidade: 0,
-                valor: 0
+                valor: 0,
+                origem: "Venda direta"
             };
 
         }
 
+
         dados[nome].quantidade +=
             Number(v.quantidade || 0);
+
 
         dados[nome].valor +=
             Number(v.valor_total || 0);
 
     });
 
+
+    itensPedidosPeriodo.forEach(item => {
+
+        const nome =
+            item.produto_nome ||
+            "Produto";
+
+
+        if (!dados[nome]) {
+
+            dados[nome] = {
+                quantidade: 0,
+                valor: 0,
+                origem: "Pedido"
+            };
+
+        }
+
+
+        dados[nome].quantidade +=
+            Number(item.quantidade || 0);
+
+
+        dados[nome].valor +=
+            Number(item.valor_total || 0);
+
+
+        if (
+            dados[nome].origem !==
+            "Venda + Pedido"
+        ) {
+
+            if (
+                dados[nome].origem ===
+                "Venda direta"
+            ) {
+
+                dados[nome].origem =
+                    "Venda + Pedido";
+
+            }
+            else {
+
+                dados[nome].origem =
+                    "Pedido";
+
+            }
+
+        }
+
+    });
+
+
     const lista =
         Object.entries(dados)
             .sort(
-                (a,b) =>
+                (a, b) =>
                     b[1].valor -
                     a[1].valor
             );
 
+
     if (!lista.length) {
 
-        tabela.innerHTML =
-            `<tr>
-                <td colspan="3" class="empty">
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="4" class="empty">
                     Nenhum produto vendido.
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
 
+
     tabela.innerHTML =
-        lista.map(([nome, item]) => `
+        lista.map(
+            ([nome, item]) => `
 
-            <tr>
+                <tr>
 
-                <td>${nome}</td>
+                    <td>
+                        ${nome}
+                    </td>
 
-                <td>${item.quantidade}</td>
+                    <td>
+                        ${item.quantidade}
+                    </td>
 
-                <td>${dinheiro(item.valor)}</td>
+                    <td>
+                        ${dinheiro(item.valor)}
+                    </td>
 
-            </tr>
+                    <td>
+                        <span class="badge">
+                            ${item.origem}
+                        </span>
+                    </td>
 
-        `).join("");
+                </tr>
+
+            `
+        ).join("");
 
 }
 
+
+function gerarTabelaPedidos(
+    pedidosPeriodo
+) {
+
+    const tabela =
+        document.getElementById(
+            "tabelaPedidos"
+        );
+
+
+    if (!pedidosPeriodo.length) {
+
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    Nenhum pedido concluído no período.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tabela.innerHTML =
+        pedidosPeriodo.map(
+            pedido => `
+
+                <tr>
+
+                    <td>
+                        ${dataBR(
+                            pedido.criado_em
+                        )}
+                    </td>
+
+                    <td>
+                        ${nomeCliente(
+                            pedido.cliente_id
+                        )}
+                    </td>
+
+                    <td>
+                        #${String(
+                            pedido.id
+                        ).substring(0, 8)}
+                    </td>
+
+                    <td>
+                        ${dinheiro(
+                            pedido.total
+                        )}
+                    </td>
+
+                    <td>
+                        ${pedido.metodo_pagamento || "-"}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+
 function gerarTabelaMovimentos(
     servicos,
-    produtos
+    vendasDiretas,
+    pedidosConcluidos
 ) {
 
     const movimentos = [];
+
 
     servicos.forEach(p => {
 
         const agendamento =
             agendamentos.find(
-                a => a.id === p.agendamento_id
+                a =>
+                    a.id ===
+                    p.agendamento_id
             );
+
 
         movimentos.push({
 
-            data: p.criado_em,
+            data:
+                p.criado_em,
 
-            tipo: "Serviço",
+            tipo:
+                "Serviço",
 
             cliente:
-                nomeCliente(p.cliente_id),
+                nomeCliente(
+                    p.cliente_id
+                ),
 
             item:
                 agendamento
@@ -1199,7 +1769,9 @@ function gerarTabelaMovimentos(
                     : "Serviço",
 
             valor:
-                Number(p.valor || 0),
+                Number(
+                    p.valor || 0
+                ),
 
             pagamento:
                 p.metodo || "-"
@@ -1208,22 +1780,30 @@ function gerarTabelaMovimentos(
 
     });
 
-    produtos.forEach(v => {
+
+    vendasDiretas.forEach(v => {
 
         movimentos.push({
 
-            data: v.criado_em,
+            data:
+                v.criado_em,
 
-            tipo: "Produto",
+            tipo:
+                "Venda direta",
 
             cliente:
-                nomeCliente(v.cliente_id),
+                nomeCliente(
+                    v.cliente_id
+                ),
 
             item:
-                v.produto_nome || "Produto",
+                v.produto_nome ||
+                "Produto",
 
             valor:
-                Number(v.valor_total || 0),
+                Number(
+                    v.valor_total || 0
+                ),
 
             pagamento:
                 v.metodo_pagamento || "-"
@@ -1232,76 +1812,119 @@ function gerarTabelaMovimentos(
 
     });
 
+
+    pedidosConcluidos.forEach(p => {
+
+        movimentos.push({
+
+            data:
+                p.criado_em,
+
+            tipo:
+                "Pedido de produtos",
+
+            cliente:
+                nomeCliente(
+                    p.cliente_id
+                ),
+
+            item:
+                "Pedido #" +
+                String(p.id).substring(0, 8),
+
+            valor:
+                Number(
+                    p.total || 0
+                ),
+
+            pagamento:
+                p.metodo_pagamento || "-"
+
+        });
+
+    });
+
+
     movimentos.sort(
-        (a,b) =>
+        (a, b) =>
             new Date(b.data) -
             new Date(a.data)
     );
+
 
     const tabela =
         document.getElementById(
             "tabelaMovimentos"
         );
 
+
     if (!movimentos.length) {
 
-        tabela.innerHTML =
-            `<tr>
+        tabela.innerHTML = `
+            <tr>
                 <td colspan="6" class="empty">
                     Nenhuma movimentação encontrada.
                 </td>
-            </tr>`;
+            </tr>
+        `;
 
         return;
 
     }
 
+
     tabela.innerHTML =
-        movimentos.map(m => `
+        movimentos.map(
+            m => `
 
-            <tr>
+                <tr>
 
-                <td>
-                    ${dataBR(m.data)}
-                </td>
+                    <td>
+                        ${dataBR(m.data)}
+                    </td>
 
-                <td>
-                    ${m.tipo}
-                </td>
+                    <td>
+                        ${m.tipo}
+                    </td>
 
-                <td>
-                    ${m.cliente}
-                </td>
+                    <td>
+                        ${m.cliente}
+                    </td>
 
-                <td>
-                    ${m.item}
-                </td>
+                    <td>
+                        ${m.item}
+                    </td>
 
-                <td>
-                    ${dinheiro(m.valor)}
-                </td>
+                    <td>
+                        ${dinheiro(m.valor)}
+                    </td>
 
-                <td>
-                    ${m.pagamento}
-                </td>
+                    <td>
+                        ${m.pagamento}
+                    </td>
 
-            </tr>
+                </tr>
 
-        `).join("");
+            `
+        ).join("");
 
 }
+
 
 async function carregarRelatorios() {
 
     esconderErro();
 
+
     document.getElementById(
         "loading"
     ).style.display = "block";
 
+
     document.getElementById(
         "conteudo"
     ).style.display = "none";
+
 
     try {
 
@@ -1309,21 +1932,26 @@ async function carregarRelatorios() {
 
         processarRelatorio();
 
+
         document.getElementById(
             "loading"
         ).style.display = "none";
+
 
         document.getElementById(
             "conteudo"
         ).style.display = "block";
 
+
     } catch (erro) {
 
         console.error(erro);
 
+
         document.getElementById(
             "loading"
         ).style.display = "none";
+
 
         mostrarErro(
             "Não foi possível carregar os relatórios. Verifique as tabelas e as permissões do Supabase."
@@ -1333,23 +1961,28 @@ async function carregarRelatorios() {
 
 }
 
+
 async function iniciar() {
 
     const permitido =
         await verificarAdmin();
 
+
     if (!permitido)
         return;
 
+
     definirDatas();
+
 
     await carregarRelatorios();
 
 }
+
 
 iniciar();
 
 </script>
 
 </body>
-                        </html>
+        </html>
