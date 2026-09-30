@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pedidos | Gold Style</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #050505;
+    color: #fff;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, #050505, #171717);
+    border-bottom: 2px solid #d4af37;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255,215,0,.5);
+}
+
+.subtitulo {
+    color: #aaa;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 25px auto;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.topo h1 {
+    color: #ffd700;
+}
+
+.btn {
+    border: 1px solid #ffd700;
+    background: #111;
+    color: #ffd700;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #ffd700;
+    color: #000;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(212,175,55,.08);
+}
+
+.card h3 {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.card strong {
+    color: #ffd700;
+    font-size: 25px;
+}
+
+.pedido {
+    background: #101010;
+    border: 1px solid #333;
+    border-left: 4px solid #ffd700;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.pedido-topo {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.numero {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.status {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pendente {
+    background: #3b3000;
+    color: #ffd700;
+}
+
+.pago {
+    background: #063b1d;
+    color: #4cff88;
+}
+
+.cancelado {
+    background: #3b0909;
+    color: #ff6b6b;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.info-box {
+    background: #181818;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.info-box span {
+    display: block;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.info-box strong {
+    color: #fff;
+}
+
+.produtos {
+    background: #080808;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.produtos h3 {
+    color: #ffd700;
+    margin-bottom: 10px;
+}
+
+.produto {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+.produto:last-child {
+    border-bottom: none;
+}
+
+.total {
+    font-size: 22px;
+    color: #ffd700;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-pagar {
+    background: #0c5;
+    color: #fff;
+    border: none;
+}
+
+.btn-processar {
+    background: #ffd700;
+    color: #000;
+    border: none;
+}
+
+.btn-cancelar {
+    background: #8b1111;
+    color: #fff;
+    border: none;
+}
+
+.mensagem {
+    text-align: center;
+    padding: 30px;
+    color: #aaa;
+}
+
+.erro {
+    color: #ff5555;
+    background: #210808;
+    border: 1px solid #7b1c1c;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.sucesso {
+    color: #4cff88;
+    background: #062112;
+    border: 1px solid #1c7b42;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 92%;
+    }
+
+    .produto {
+        flex-direction: column;
+    }
+
+    .acoes .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">✂ GOLD STYLE</div>
+    <div class="subtitulo">Painel administrativo • Pedidos de produtos</div>
+</header>
+
+<div class="container">
+
+    <div class="topo">
+        <h1>📦 Pedidos</h1>
+
+        <div>
+            <a href="admin.html" class="btn">← Painel</a>
+            <button class="btn" onclick="carregarPedidos()">🔄 Atualizar</button>
+        </div>
+    </div>
+
+    <div id="erro" class="erro"></div>
+    <div id="sucesso" class="sucesso"></div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total de pedidos</h3>
+            <strong id="totalPedidos">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Aguardando pagamento</h3>
+            <strong id="aguardandoPagamento">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Pedidos pagos</h3>
+            <strong id="pedidosPagos">0</strong>
+        </div>
+
+        <div class="card">
+            <h3>Valor dos pedidos</h3>
+            <strong id="valorTotal">R$ 0,00</strong>
+        </div>
+
+    </div>
+
+    <div id="listaPedidos">
+        <div class="mensagem">
+            Carregando pedidos...
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+function mostrarErro(mensagem) {
+
+    const erro = document.getElementById("erro");
+
+    erro.textContent = mensagem;
+    erro.style.display = "block";
+
+    document.getElementById("sucesso").style.display = "none";
+}
+
+function mostrarSucesso(mensagem) {
+
+    const sucesso = document.getElementById("sucesso");
+
+    sucesso.textContent = mensagem;
+    sucesso.style.display = "block";
+
+    document.getElementById("erro").style.display = "none";
+
+    setTimeout(() => {
+        sucesso.style.display = "none";
+    }, 4000);
+}
+
+function dinheiro(valor) {
+
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+}
+
+function formatarData(data) {
+
+    if (!data) return "-";
+
+    return new Date(data).toLocaleString(
+        "pt-BR"
+    );
+}
+
+async function verificarAdministrador() {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href = "login.html";
+
+        return false;
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("administradores")
+        .select("id")
+        .eq("auth_user_id", session.user.id)
+        .eq("ativo", true)
+        .maybeSingle();
+
+    if (error || !data) {
+
+        document.body.innerHTML = `
+            <div style="
+                min-height:100vh;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:#050505;
+                color:#ffd700;
+                text-align:center;
+                padding:30px;
+                font-family:Arial;
+            ">
+                <div>
+                    <h1>Acesso negado</h1>
+                    <p style="color:#aaa;margin-top:10px;">
+                        Esta área é exclusiva do administrador.
+                    </p>
+
+                    <a href="cliente.html"
+                       style="
+                       display:inline-block;
+                       margin-top:20px;
+                       padding:12px 18px;
+                       background:#ffd700;
+                       color:#000;
+                       border-radius:10px;
+                       text-decoration:none;
+                       font-weight:bold;
+                       ">
+                       Voltar
+                    </a>
+                </div>
+            </div>
+        `;
+
+        return false;
+    }
+
+    return true;
+}
+
+async function carregarPedidos() {
+
+    document.getElementById("listaPedidos").innerHTML = `
+        <div class="mensagem">
+            Carregando pedidos...
+        </div>
+    `;
+
+    const {
+        data: pedidos,
+        error
+    } = await supabaseClient
+        .from("pedidos_produtos")
+        .select("*")
+        .order("criado_em", {
+            ascending: false
+        });
+
+    if (error) {
+
+        mostrar
