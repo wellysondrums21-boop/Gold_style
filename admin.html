@@ -1,628 +1,741 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Administração - Gold Style</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<title>Gold Style - Painel Administrativo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        body {
+            font-family: Arial, sans-serif;
+            background: #050505;
+            color: white;
+            min-height: 100vh;
+        }
 
-<style>
+        header {
+            background: linear-gradient(135deg, #050505, #181818);
+            border-bottom: 1px solid #d4af37;
+            padding: 22px 15px;
+            text-align: center;
+        }
 
-*{
-    box-sizing:border-box;
-}
+        header h1 {
+            color: #ffd700;
+            font-size: 28px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
+        }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#050505;
-    color:white;
-}
+        header p {
+            color: #aaa;
+            margin-top: 7px;
+        }
 
-header{
-    background:linear-gradient(135deg,#050505,#181818);
-    border-bottom:2px solid #ffd700;
-    padding:22px 15px;
-    text-align:center;
-}
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 25px auto;
+        }
 
-.logo{
-    color:#ffd700;
-    font-size:30px;
-    font-weight:bold;
-    letter-spacing:2px;
-}
+        .boas-vindas {
+            background: linear-gradient(
+                135deg,
+                #151515,
+                #080808
+            );
+            border: 1px solid #d4af37;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
 
-.slogan{
-    color:#aaa;
-    margin-top:6px;
-}
+        .boas-vindas h2 {
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
 
-.container{
-    width:94%;
-    max-width:1250px;
-    margin:25px auto;
-}
+        .boas-vindas p {
+            color: #bbb;
+        }
 
-.menu{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:12px;
-    margin-bottom:25px;
-}
+        .acoes {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(145px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-.menu a{
-    background:#111;
-    border:1px solid #333;
-    color:white;
-    text-decoration:none;
-    padding:15px 10px;
-    border-radius:10px;
-    text-align:center;
-    font-weight:bold;
-    transition:.2s;
-}
+        .btn {
+            border: none;
+            border-radius: 10px;
+            padding: 13px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #d4af37;
+            color: #000;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
 
-.menu a:hover{
-    border-color:#ffd700;
-    color:#ffd700;
-    transform:translateY(-2px);
-}
+        .btn:hover {
+            background: #ffd700;
+        }
 
-.menu .sair{
-    color:#ff5555;
-}
+        .btn.dark {
+            background: #151515;
+            color: #ffd700;
+            border: 1px solid #d4af37;
+        }
 
-h1{
-    color:#ffd700;
-    margin-bottom:5px;
-}
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(190px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
 
-.subtitulo{
-    color:#999;
-    margin-bottom:20px;
-}
+        .card {
+            background: linear-gradient(
+                145deg,
+                #151515,
+                #080808
+            );
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow:
+                0 0 15px rgba(212,175,55,.06);
+        }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:15px;
-    margin:20px 0;
-}
+        .card h3 {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
 
-.card{
-    background:linear-gradient(145deg,#111,#080808);
-    border:1px solid #333;
-    border-left:4px solid #ffd700;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 0 15px rgba(255,215,0,.05);
-}
+        .card .valor {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+        }
 
-.card strong{
-    display:block;
-    color:#aaa;
-    margin-bottom:8px;
-}
+        .card.verde .valor {
+            color: #70e890;
+        }
 
-.numero{
-    color:#ffd700;
-    font-size:27px;
-    font-weight:bold;
-}
+        .card.vermelho .valor {
+            color: #ff7777;
+        }
 
-.card.pequeno .numero{
-    font-size:23px;
-}
+        .card.laranja .valor {
+            color: #ffbd4a;
+        }
 
-.section{
-    background:#111;
-    border:1px solid #333;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:20px;
-    overflow-x:auto;
-}
+        .section {
+            background: #101010;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-.section h2{
-    color:#ffd700;
-    margin-top:0;
-}
+        .section h2 {
+            color: #ffd700;
+            margin-bottom: 18px;
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
-}
+        .resumo-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
 
-th{
-    color:#ffd700;
-    text-align:left;
-    padding:12px;
-    border-bottom:1px solid #444;
-}
+        .resumo {
+            background: #080808;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            padding: 18px;
+        }
 
-td{
-    padding:12px;
-    border-bottom:1px solid #222;
-}
+        .resumo h3 {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
 
-.status{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-}
+        .resumo strong {
+            color: #ffd700;
+            font-size: 21px;
+        }
 
-.status-pago{
-    background:#173d17;
-    color:#6dff6d;
-}
+        .resumo.verde strong {
+            color: #70e890;
+        }
 
-.status-pendente{
-    background:#3d3517;
-    color:#ffd700;
-}
+        .resumo.vermelho strong {
+            color: #ff7777;
+        }
 
-.status-confirmado{
-    background:#172e3d;
-    color:#66c7ff;
-}
+        .resumo.laranja strong {
+            color: #ffbd4a;
+        }
 
-.status-concluido{
-    background:#203d30;
-    color:#7dffbd;
-}
+        .grafico {
+            display: flex;
+            align-items: end;
+            gap: 9px;
+            height: 240px;
+            padding:
+                15px 5px 40px;
+            border-bottom: 1px solid #444;
+            overflow-x: auto;
+        }
 
-.status-cancelado{
-    background:#401717;
-    color:#ff6666;
-}
+        .barra-box {
+            min-width: 60px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            position: relative;
+        }
 
-.grafico{
-    margin-top:15px;
-}
+        .barra {
+            width: 32px;
+            background: linear-gradient(
+                to top,
+                #8c6800,
+                #ffd700
+            );
+            border-radius: 6px 6px 0 0;
+            min-height: 3px;
+        }
 
-.barra-item{
-    margin-bottom:15px;
-}
+        .barra.despesa {
+            background: linear-gradient(
+                to top,
+                #7a1515,
+                #ff5c5c
+            );
+        }
 
-.barra-topo{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    margin-bottom:5px;
-    color:#ddd;
-    font-size:14px;
-}
+        .barra.lucro {
+            background: linear-gradient(
+                to top,
+                #12652b,
+                #70e890
+            );
+        }
 
-.barra-fundo{
-    width:100%;
-    height:12px;
-    background:#222;
-    border-radius:20px;
-    overflow:hidden;
-}
+        .barra-valor {
+            font-size: 10px;
+            color: #ddd;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
 
-.barra{
-    height:100%;
-    background:linear-gradient(90deg,#b8860b,#ffd700);
-    border-radius:20px;
-    transition:width .5s;
-}
+        .barra-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 11px;
+            color: #aaa;
+            white-space: nowrap;
+        }
 
-.grafico-financeiro{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap:8px;
-    height:260px;
-    padding:20px 5px 5px;
-    border-bottom:1px solid #333;
-}
+        .tabela-wrapper {
+            overflow-x: auto;
+        }
 
-.coluna-dia{
-    flex:1;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;
-    align-items:center;
-    min-width:35px;
-}
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
 
-.valor-grafico{
-    color:#ffd700;
-    font-size:11px;
-    margin-bottom:5px;
-    white-space:nowrap;
-}
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #292929;
+            text-align: left;
+        }
 
-.coluna{
-    width:70%;
-    max-width:55px;
-    min-height:3px;
-    background:linear-gradient(180deg,#ffd700,#9b7500);
-    border-radius:6px 6px 0 0;
-    transition:height .5s;
-}
+        th {
+            color: #ffd700;
+            background: #151515;
+        }
 
-.dia-grafico{
-    color:#aaa;
-    font-size:11px;
-    margin-top:7px;
-}
+        td {
+            color: #ddd;
+        }
 
-.resumo{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-    margin-top:15px;
-}
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-.resumo-box{
-    background:#080808;
-    border:1px solid #292929;
-    border-radius:10px;
-    padding:15px;
-}
+        .status.pendente {
+            background: #332500;
+            color: #ffbd4a;
+        }
 
-.resumo-box span{
-    display:block;
-    color:#999;
-    font-size:13px;
-    margin-bottom:5px;
-}
+        .status.confirmado {
+            background: #062b19;
+            color: #70e890;
+        }
 
-.resumo-box strong{
-    color:#ffd700;
-    font-size:20px;
-}
+        .status.concluido {
+            background: #082a35;
+            color: #70d9ff;
+        }
 
-.mensagem{
-    text-align:center;
-    color:#aaa;
-    padding:20px;
-}
+        .status.cancelado {
+            background: #300909;
+            color: #ff7777;
+        }
 
-.atualizacao{
-    color:#777;
-    font-size:12px;
-    margin-top:10px;
-}
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            padding: 30px;
+        }
 
-@media(max-width:600px){
+        .erro {
+            display: none;
+            background: #260909;
+            border: 1px solid #6b2222;
+            color: #ff7777;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-    .container{
-        width:92%;
-    }
+        .vazio {
+            text-align: center;
+            padding: 30px;
+            color: #888;
+        }
 
-    .logo{
-        font-size:25px;
-    }
+        .rodape {
+            text-align: center;
+            color: #777;
+            padding: 30px 10px;
+        }
 
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
+        @media (max-width: 600px) {
 
-    .card{
-        padding:15px;
-    }
+            header h1 {
+                font-size: 23px;
+            }
 
-    .numero{
-        font-size:22px;
-    }
+            .container {
+                width: 92%;
+            }
 
-    .grafico-financeiro{
-        height:220px;
-    }
+            .section {
+                padding: 15px;
+            }
 
-}
-
-</style>
-
+            .card .valor {
+                font-size: 21px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
 
-    <div class="logo">
-        GOLD STYLE
-    </div>
+    <h1>
+        👑 GOLD STYLE
+    </h1>
 
-    <div class="slogan">
-        BARBEARIA DESDE 2022
-    </div>
+    <p>
+        Painel Administrativo
+    </p>
 
 </header>
 
-
 <div class="container">
 
+    <div class="boas-vindas">
 
-    <div class="menu">
-
-        <a href="admin.html">🏠 Dashboard</a>
-
-        <a href="agenda-admin.html">📅 Agenda</a>
-
-        <a href="servicos.html">✂️ Serviços</a>
-
-        <a href="clientes.html">👥 Clientes</a>
-
-        <a href="produtos.html">🛍️ Produtos</a>
-
-        <a href="financeiro.html">💰 Financeiro</a>
-
-        <a href="relatorios.html">📊 Relatórios</a>
-
-        <a href="configuracoes.html">⚙️ Configurações</a>
-
-        <a href="#" class="sair" onclick="sair()">🚪 Sair</a>
-
-    </div>
-
-
-    <h1>📊 Dashboard</h1>
-
-    <div class="subtitulo">
-        Visão geral da Gold Style Barbearia
-    </div>
-
-
-    <div class="cards">
-
-        <div class="card">
-
-            <strong>📅 Agendamentos</strong>
-
-            <div
-                class="numero"
-                id="totalAgendamentos">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <strong>👥 Clientes</strong>
-
-            <div
-                class="numero"
-                id="totalClientes">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <strong>💰 Recebido</strong>
-
-            <div
-                class="numero"
-                id="totalRecebido">
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <strong>⏳ Pagamentos pendentes</strong>
-
-            <div
-                class="numero"
-                id="totalPendente">
-                R$ 0,00
-            </div>
-
-        </div>
-
-
-        <div class="card pequeno">
-
-            <strong>📆 Agendamentos hoje</strong>
-
-            <div
-                class="numero"
-                id="agendamentosHoje">
-                0
-            </div>
-
-        </div>
-
-
-        <div class="card pequeno">
-
-            <strong>🔔 Pendentes</strong>
-
-            <div
-                class="numero"
-                id="agendamentosPendentes">
-                0
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- GRÁFICO FINANCEIRO -->
-
-    <div class="section">
-
-        <h2>
-            📈 Faturamento dos últimos 7 dias
+        <h2 id="boasVindas">
+            Olá!
         </h2>
 
-        <div id="graficoFinanceiro">
-
-            <div class="mensagem">
-                Carregando gráfico...
-            </div>
-
-        </div>
+        <p>
+            Bem-vindo ao painel administrativo
+            da Gold Style Barbearia.
+        </p>
 
     </div>
 
+    <div class="acoes">
 
-    <!-- RESUMO -->
+        <a
+            href="agenda-admin.html"
+            class="btn dark"
+        >
+            📅 Agenda
+        </a>
 
-    <div class="section">
+        <a
+            href="clientes.html"
+            class="btn dark"
+        >
+            👥 Clientes
+        </a>
 
-        <h2>
-            💰 Resumo financeiro
-        </h2>
+        <a
+            href="servicos.html"
+            class="btn dark"
+        >
+            💈 Serviços
+        </a>
 
-        <div class="resumo">
+        <a
+            href="produtos.html"
+            class="btn dark"
+        >
+            📦 Produtos
+        </a>
 
-            <div class="resumo-box">
+        <a
+            href="vendas.html"
+            class="btn dark"
+        >
+            🛍️ Vendas
+        </a>
 
-                <span>
-                    Total recebido
-                </span>
+        <a
+            href="financeiro.html"
+            class="btn dark"
+        >
+            💰 Financeiro
+        </a>
 
-                <strong id="resumoRecebido">
-                    R$ 0,00
-                </strong>
+        <a
+            href="despesas.html"
+            class="btn dark"
+        >
+            💸 Despesas
+        </a>
 
-            </div>
+        <a
+            href="relatorios.html"
+            class="btn dark"
+        >
+            📊 Relatórios
+        </a>
 
-
-            <div class="resumo-box">
-
-                <span>
-                    Total pendente
-                </span>
-
-                <strong id="resumoPendente">
-                    R$ 0,00
-                </strong>
-
-            </div>
-
-
-            <div class="resumo-box">
-
-                <span>
-                    Total previsto
-                </span>
-
-                <strong id="resumoPrevisto">
-                    R$ 0,00
-                </strong>
-
-            </div>
-
-
-            <div class="resumo-box">
-
-                <span>
-                    Ticket médio
-                </span>
-
-                <strong id="ticketMedio">
-                    R$ 0,00
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- AGENDAMENTOS -->
-
-    <div class="section">
-
-        <h2>
-            📅 Próximos agendamentos
-        </h2>
-
-        <div id="listaAgendamentos">
-
-            <div class="mensagem">
-                Carregando...
-            </div>
-
-        </div>
+        <a
+            href="configuracoes.html"
+            class="btn dark"
+        >
+            ⚙️ Configurações
+        </a>
 
     </div>
-
-
-    <!-- SERVIÇOS -->
-
-    <div class="section">
-
-        <h2>
-            ✂️ Serviços realizados
-        </h2>
-
-        <div
-            id="graficoServicos"
-            class="grafico">
-
-            <div class="mensagem">
-                Carregando...
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CLIENTES -->
-
-    <div class="section">
-
-        <h2>
-            👥 Clientes cadastrados
-        </h2>
-
-        <div id="listaClientes">
-
-            <div class="mensagem">
-                Carregando...
-            </div>
-
-        </div>
-
-    </div>
-
 
     <div
-        class="atualizacao"
-        id="ultimaAtualizacao">
-        Atualizando dados...
+        id="erro"
+        class="erro"
+    ></div>
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Carregando painel...
     </div>
 
+    <div
+        id="conteudo"
+        style="display:none;"
+    >
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>
+                    💰 Entradas
+                </h3>
+
+                <div
+                    class="valor"
+                    id="entradas"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+            <div class="card vermelho">
+
+                <h3>
+                    💸 Despesas
+                </h3>
+
+                <div
+                    class="valor"
+                    id="despesas"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+            <div class="card verde">
+
+                <h3>
+                    📈 Lucro
+                </h3>
+
+                <div
+                    class="valor"
+                    id="lucro"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+            <div class="card laranja">
+
+                <h3>
+                    ⏳ Pendentes
+                </h3>
+
+                <div
+                    class="valor"
+                    id="pendentes"
+                >
+                    R$ 0,00
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    📅 Agendamentos
+                </h3>
+
+                <div
+                    class="valor"
+                    id="totalAgendamentos"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    👥 Clientes
+                </h3>
+
+                <div
+                    class="valor"
+                    id="totalClientes"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h3>
+                    🛍️ Produtos vendidos
+                </h3>
+
+                <div
+                    class="valor"
+                    id="produtosVendidos"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>
+                📊 Resumo financeiro
+            </h2>
+
+            <div class="resumo-grid">
+
+                <div class="resumo">
+
+                    <h3>
+                        💈 Serviços recebidos
+                    </h3>
+
+                    <strong
+                        id="receitaServicos"
+                    >
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+                <div class="resumo">
+
+                    <h3>
+                        🛍️ Produtos recebidos
+                    </h3>
+
+                    <strong
+                        id="receitaProdutos"
+                    >
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+                <div class="resumo vermelho">
+
+                    <h3>
+                        💸 Total de despesas
+                    </h3>
+
+                    <strong
+                        id="totalDespesas"
+                    >
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+                <div class="resumo verde">
+
+                    <h3>
+                        📈 Resultado líquido
+                    </h3>
+
+                    <strong
+                        id="resultadoLiquido"
+                    >
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>
+                📈 Desempenho financeiro
+            </h2>
+
+            <div
+                id="grafico"
+                class="grafico"
+            ></div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>
+                📅 Próximos agendamentos
+            </h2>
+
+            <div class="tabela-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Data
+                            </th>
+
+                            <th>
+                                Horário
+                            </th>
+
+                            <th>
+                                Cliente
+                            </th>
+
+                            <th>
+                                Serviço
+                            </th>
+
+                            <th>
+                                Valor
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Pagamento
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody
+                        id="tabelaAgendamentos"
+                    ></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
+<div class="rodape">
+
+    Gold Style Barbearia
+    — BARBEARIA DESDE 2022
+
+</div>
 
 <script>
-
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -630,266 +743,291 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
+let pagamentos = [];
+let vendas = [];
+let despesas = [];
+let clientes = [];
+let agendamentos = [];
 
-/* =========================
-   DINHEIRO
-========================= */
+function dinheiro(valor) {
 
-function dinheiro(valor){
-
-    return "R$ " +
-        Number(valor || 0)
-        .toFixed(2)
-        .replace(".",",");
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
 
 }
 
+function dataBR(data) {
 
-/* =========================
-   VERIFICAR ADMIN
-========================= */
+    if (!data)
+        return "-";
 
-async function verificarAdmin(){
+    return new Date(
+        data
+    ).toLocaleDateString(
+        "pt-BR"
+    );
+
+}
+
+function mostrarErro(mensagem) {
+
+    const erro =
+        document.getElementById(
+            "erro"
+        );
+
+    erro.innerText =
+        mensagem;
+
+    erro.style.display =
+        "block";
+
+}
+
+function nomeCliente(id) {
+
+    const cliente =
+        clientes.find(
+            c =>
+                c.id === id
+        );
+
+    if (!cliente)
+        return "Cliente";
+
+    return (
+        cliente.Nome ||
+        "Cliente"
+    );
+
+}
+
+function dataHoje() {
+
+    const hoje =
+        new Date();
+
+    const ano =
+        hoje.getFullYear();
+
+    const mes =
+        String(
+            hoje.getMonth() + 1
+        ).padStart(2, "0");
+
+    const dia =
+        String(
+            hoje.getDate()
+        ).padStart(2, "0");
+
+    return `${ano}-${mes}-${dia}`;
+
+}
+
+function dentroDosUltimosDias(
+    data,
+    dias
+) {
+
+    if (!data)
+        return false;
+
+    const agora =
+        new Date();
+
+    const limite =
+        new Date();
+
+    limite.setDate(
+        agora.getDate() - dias
+    );
+
+    return (
+        new Date(data) >=
+        limite
+    );
+
+}
+
+async function verificarAdmin() {
 
     const {
-        data:{
+        data: {
             session
         }
     } =
-    await supabaseClient
-    .auth
-    .getSession();
+        await supabaseClient.auth.getSession();
 
-
-    if(!session){
+    if (!session) {
 
         window.location.href =
             "login.html";
 
-        return false;
+        return null;
 
     }
-
 
     const {
         data,
         error
     } =
-    await supabaseClient
+        await supabaseClient
+            .from("administradores")
+            .select(
+                "id,nome,ativo"
+            )
+            .eq(
+                "auth_user_id",
+                session.user.id
+            )
+            .eq(
+                "ativo",
+                true
+            )
+            .maybeSingle();
 
-        .from("administradores")
-
-        .select("id")
-
-        .eq(
-            "auth_user_id",
-            session.user.id
-        )
-
-        .eq(
-            "ativo",
-            true
-        )
-
-        .maybeSingle();
-
-
-    if(error || !data){
+    if (error || !data) {
 
         alert(
-            "Acesso administrativo não autorizado."
+            "Acesso permitido somente para administradores."
         );
 
         window.location.href =
             "cliente.html";
 
-        return false;
+        return null;
 
     }
-
-
-    return true;
-
-}
-
-
-/* =========================
-   AGENDAMENTOS
-========================= */
-
-async function carregarAgendamentos(){
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-
-        .from("agendamentos")
-
-        .select("*")
-
-        .order(
-            "Data",
-            {
-                ascending:true
-            }
-        )
-
-        .order(
-            "Horário",
-            {
-                ascending:true
-            }
-        );
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        return [];
-
-    }
-
-
-    return data || [];
-
-}
-
-
-/* =========================
-   CLIENTES
-========================= */
-
-async function carregarClientes(){
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-
-        .from("clientes")
-
-        .select("*");
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        return [];
-
-    }
-
-
-    return data || [];
-
-}
-
-
-/* =========================
-   PAGAMENTOS
-========================= */
-
-async function carregarPagamentos(){
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-
-        .from("pagamentos")
-
-        .select("*")
-
-        .order(
-            "criado_em",
-            {
-                ascending:false
-            }
-        );
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        return [];
-
-    }
-
-
-    return data || [];
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-async function carregarDashboard(){
-
-    const [
-        agendamentos,
-        clientes,
-        pagamentos
-    ] =
-    await Promise.all([
-
-        carregarAgendamentos(),
-
-        carregarClientes(),
-
-        carregarPagamentos()
-
-    ]);
-
 
     document.getElementById(
-        "totalAgendamentos"
-    ).textContent =
-        agendamentos.length;
+        "boasVindas"
+    ).innerText =
+        `Olá, ${data.nome}!`;
 
+    return session;
 
-    document.getElementById(
-        "totalClientes"
-    ).textContent =
-        clientes.length;
+}
 
+async function buscarDados() {
+
+    const resultados =
+        await Promise.all([
+
+            supabaseClient
+                .from("pagamentos")
+                .select("*")
+                .order(
+                    "criado_em",
+                    {
+                        ascending: false
+                    }
+                ),
+
+            supabaseClient
+                .from("vendas")
+                .select("*")
+                .order(
+                    "criado_em",
+                    {
+                        ascending: false
+                    }
+                ),
+
+            supabaseClient
+                .from("despesas")
+                .select("*")
+                .order(
+                    "criado_em",
+                    {
+                        ascending: false
+                    }
+                ),
+
+            supabaseClient
+                .from("clientes")
+                .select("*"),
+
+            supabaseClient
+                .from("agendamentos")
+                .select("*")
+                .order(
+                    "Data",
+                    {
+                        ascending: true
+                    }
+                )
+
+        ]);
+
+    if (resultados[0].error)
+        throw resultados[0].error;
+
+    if (resultados[1].error)
+        throw resultados[1].error;
+
+    if (resultados[2].error)
+        throw resultados[2].error;
+
+    if (resultados[3].error)
+        throw resultados[3].error;
+
+    if (resultados[4].error)
+        throw resultados[4].error;
+
+    pagamentos =
+        resultados[0].data || [];
+
+    vendas =
+        resultados[1].data || [];
+
+    despesas =
+        resultados[2].data || [];
+
+    clientes =
+        resultados[3].data || [];
+
+    agendamentos =
+        resultados[4].data || [];
+
+}
+
+function calcularFinanceiro() {
 
     const pagos =
         pagamentos.filter(
             p =>
                 String(
                     p.status || ""
-                )
-                .toLowerCase()
+                ).toLowerCase()
                 === "pago"
         );
 
+    const vendasPagas =
+        vendas.filter(
+            v =>
+                String(
+                    v.status || ""
+                ).toLowerCase()
+                === "pago"
+        );
 
     const pendentes =
         pagamentos.filter(
             p =>
                 String(
                     p.status || ""
-                )
-                .toLowerCase()
-                === "pendente"
+                ).toLowerCase()
+                !== "pago"
         );
 
-
-    const recebido =
+    const receitaServicos =
         pagos.reduce(
             (
                 total,
@@ -902,8 +1040,41 @@ async function carregarDashboard(){
             0
         );
 
+    const receitaProdutos =
+        vendasPagas.reduce(
+            (
+                total,
+                v
+            ) =>
+                total +
+                Number(
+                    v.valor_total || 0
+                ),
+            0
+        );
 
-    const pendente =
+    const totalDespesas =
+        despesas.reduce(
+            (
+                total,
+                d
+            ) =>
+                total +
+                Number(
+                    d.valor || 0
+                ),
+            0
+        );
+
+    const entradas =
+        receitaServicos +
+        receitaProdutos;
+
+    const lucro =
+        entradas -
+        totalDespesas;
+
+    const totalPendentes =
         pendentes.reduce(
             (
                 total,
@@ -916,793 +1087,511 @@ async function carregarDashboard(){
             0
         );
 
-
-    const previsto =
-        recebido +
-        pendente;
-
-
-    const ticket =
-        pagos.length
-        ? recebido / pagos.length
-        : 0;
-
-
-    document.getElementById(
-        "totalRecebido"
-    ).textContent =
-        dinheiro(recebido);
-
+    const produtosQuantidade =
+        vendasPagas.reduce(
+            (
+                total,
+                v
+            ) =>
+                total +
+                Number(
+                    v.quantidade || 0
+                ),
+            0
+        );
 
     document.getElementById(
-        "totalPendente"
-    ).textContent =
-        dinheiro(pendente);
-
-
-    document.getElementById(
-        "resumoRecebido"
-    ).textContent =
-        dinheiro(recebido);
-
+        "entradas"
+    ).innerText =
+        dinheiro(entradas);
 
     document.getElementById(
-        "resumoPendente"
-    ).textContent =
-        dinheiro(pendente);
-
-
-    document.getElementById(
-        "resumoPrevisto"
-    ).textContent =
-        dinheiro(previsto);
-
+        "despesas"
+    ).innerText =
+        dinheiro(totalDespesas);
 
     document.getElementById(
-        "ticketMedio"
-    ).textContent =
-        dinheiro(ticket);
-
-
-    const pendentesAgenda =
-        agendamentos.filter(
-            a =>
-                a.Status ===
-                "Pendente"
-        ).length;
-
+        "lucro"
+    ).innerText =
+        dinheiro(lucro);
 
     document.getElementById(
-        "agendamentosPendentes"
-    ).textContent =
-        pendentesAgenda;
-
-
-    const hoje =
-        new Date()
-        .toISOString()
-        .split("T")[0];
-
-
-    const hojeTotal =
-        agendamentos.filter(
-            a =>
-                a.Data === hoje &&
-                a.Status !==
-                "Cancelado"
-        ).length;
-
+        "pendentes"
+    ).innerText =
+        dinheiro(totalPendentes);
 
     document.getElementById(
-        "agendamentosHoje"
-    ).textContent =
-        hojeTotal;
-
-
-    mostrarGraficoFinanceiro(
-        pagamentos
-    );
-
-
-    mostrarAgendamentos(
-        agendamentos
-    );
-
-
-    mostrarClientes(
-        clientes
-    );
-
-
-    mostrarGraficoServicos(
-        agendamentos
-    );
-
+        "totalAgendamentos"
+    ).innerText =
+        agendamentos.length;
 
     document.getElementById(
-        "ultimaAtualizacao"
-    ).textContent =
-        "Última atualização: " +
-        new Date()
-        .toLocaleString(
-            "pt-BR"
+        "totalClientes"
+    ).innerText =
+        clientes.length;
+
+    document.getElementById(
+        "produtosVendidos"
+    ).innerText =
+        produtosQuantidade;
+
+    document.getElementById(
+        "receitaServicos"
+    ).innerText =
+        dinheiro(
+            receitaServicos
+        );
+
+    document.getElementById(
+        "receitaProdutos"
+    ).innerText =
+        dinheiro(
+            receitaProdutos
+        );
+
+    document.getElementById(
+        "totalDespesas"
+    ).innerText =
+        dinheiro(
+            totalDespesas
+        );
+
+    document.getElementById(
+        "resultadoLiquido"
+    ).innerText =
+        dinheiro(
+            lucro
         );
 
 }
 
+function gerarGrafico() {
 
-/* =========================
-   GRÁFICO FINANCEIRO
-========================= */
+    const dias = {};
 
-function mostrarGraficoFinanceiro(
-    pagamentos
-){
+    function adicionar(
+        data,
+        entrada,
+        saida
+    ) {
 
-    const elemento =
-        document.getElementById(
-            "graficoFinanceiro"
-        );
+        if (!data)
+            return;
 
+        const dia =
+            String(data)
+                .substring(0, 10);
 
-    const dias = [];
+        if (!dias[dia]) {
 
+            dias[dia] = {
+                entrada: 0,
+                saida: 0
+            };
 
-    for(
-        let i = 6;
-        i >= 0;
-        i--
-    ){
+        }
 
-        const data =
-            new Date();
+        dias[dia].entrada +=
+            entrada;
 
-
-        data.setDate(
-            data.getDate() - i
-        );
-
-
-        const chave =
-            data
-            .toISOString()
-            .split("T")[0];
-
-
-        dias.push({
-            chave:chave,
-            valor:0,
-            nome:data
-                .toLocaleDateString(
-                    "pt-BR",
-                    {
-                        weekday:"short"
-                    }
-                )
-                .replace(".","")
-        });
+        dias[dia].saida +=
+            saida;
 
     }
 
+    pagamentos.forEach(
+        p => {
 
-    pagamentos
-    .filter(
-        p =>
-            String(
-                p.status || ""
+            if (
+                String(
+                    p.status || ""
+                ).toLowerCase()
+                !== "pago"
             )
-            .toLowerCase()
-            === "pago"
-    )
-    .forEach(
-        pagamento => {
-
-            if(
-                !pagamento.criado_em
-            ){
-
                 return;
 
-            }
-
-
-            const chave =
-                new Date(
-                    pagamento.criado_em
-                )
-                .toISOString()
-                .split("T")[0];
-
-
-            const dia =
-                dias.find(
-                    d =>
-                        d.chave ===
-                        chave
-                );
-
-
-            if(dia){
-
-                dia.valor +=
-                    Number(
-                        pagamento.valor || 0
-                    );
-
-            }
+            adicionar(
+                p.criado_em,
+                Number(
+                    p.valor || 0
+                ),
+                0
+            );
 
         }
     );
 
+    vendas.forEach(
+        v => {
+
+            if (
+                String(
+                    v.status || ""
+                ).toLowerCase()
+                !== "pago"
+            )
+                return;
+
+            adicionar(
+                v.criado_em,
+                Number(
+                    v.valor_total || 0
+                ),
+                0
+            );
+
+        }
+    );
+
+    despesas.forEach(
+        d => {
+
+            adicionar(
+                d.criado_em,
+                0,
+                Number(
+                    d.valor || 0
+                )
+            );
+
+        }
+    );
+
+    let lista =
+        Object.entries(dias)
+            .sort(
+                (a, b) =>
+                    a[0].localeCompare(
+                        b[0]
+                    )
+            );
+
+    lista =
+        lista.slice(-14);
+
+    const grafico =
+        document.getElementById(
+            "grafico"
+        );
+
+    if (!lista.length) {
+
+        grafico.innerHTML =
+            `<div class="vazio">
+                Ainda não existem movimentações suficientes.
+            </div>`;
+
+        return;
+
+    }
 
     const maior =
         Math.max(
-            ...dias.map(
-                d => d.valor
+            ...lista.map(
+                ([dia, valores]) =>
+                    Math.max(
+                        valores.entrada,
+                        valores.saida
+                    )
             ),
             1
         );
 
-
-    let html = `
-
-        <div class="grafico-financeiro">
-
-    `;
-
-
-    dias.forEach(
-        dia => {
-
-            const altura =
-                dia.valor > 0
-                ? (
-                    dia.valor /
-                    maior
-                  ) * 180
-                : 3;
-
-
-            html += `
-
-                <div
-                    class="coluna-dia">
-
-                    <div
-                        class="valor-grafico">
-
-                        ${dinheiro(
-                            dia.valor
-                        )}
-
-                    </div>
-
-                    <div
-                        class="coluna"
-                        style="
-                            height:${altura}px;
-                        ">
-
-                    </div>
-
-                    <div
-                        class="dia-grafico">
-
-                        ${dia.nome}
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }
-    );
-
-
-    html += `
-
-        </div>
-
-    `;
-
-
-    elemento.innerHTML =
-        html;
-
-}
-
-
-/* =========================
-   AGENDAMENTOS
-========================= */
-
-function mostrarAgendamentos(
-    lista
-){
-
-    const elemento =
-        document.getElementById(
-            "listaAgendamentos"
-        );
-
-
-    const validos =
-        lista.filter(
-            a =>
-                a.Status !==
-                "Cancelado"
-        );
-
-
-    if(!validos.length){
-
-        elemento.innerHTML =
-            '<div class="mensagem">Nenhum agendamento encontrado.</div>';
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Serviço</th>
-
-                    <th>Data</th>
-
-                    <th>Horário</th>
-
-                    <th>Valor</th>
-
-                    <th>Status</th>
-
-                    <th>Pagamento</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    validos
-    .slice(0,20)
-    .forEach(
-        agendamento => {
-
-
-            const data =
-                agendamento.Data
-                ? new Date(
-                    agendamento.Data +
-                    "T00:00:00"
-                  )
-                  .toLocaleDateString(
-                      "pt-BR"
-                  )
-                : "-";
-
-
-            const horario =
-                agendamento["Horário"]
-                ? String(
-                    agendamento["Horário"]
-                  )
-                  .substring(
-                      0,
-                      5
-                  )
-                : "-";
-
-
-            let classeStatus =
-                "status-pendente";
-
-
-            if(
-                agendamento.Status ===
-                "Confirmado"
-            ){
-
-                classeStatus =
-                    "status-confirmado";
-
-            }
-
-
-            if(
-                agendamento.Status ===
-                "Concluído"
-            ){
-
-                classeStatus =
-                    "status-concluido";
-
-            }
-
-
-            const classePagamento =
-                agendamento.Pagamento ===
-                "Pago"
-                ? "status-pago"
-                : "status-pendente";
-
-
-            html += `
-
-                <tr>
-
-                    <td>
-                        ${
-                            agendamento["Serviços"]
-                            || "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${data}
-                    </td>
-
-                    <td>
-                        ${horario}
-                    </td>
-
-                    <td>
-                        ${
-                            dinheiro(
-                                agendamento.Valor
-                            )
-                        }
-                    </td>
-
-                    <td>
-
-                        <span
-                            class="status ${classeStatus}">
-
-                            ${
-                                agendamento.Status
-                                || "-"
-                            }
-
-                        </span>
-
-                    </td>
-
-                    <td>
-
-                        <span
-                            class="status ${classePagamento}">
-
-                            ${
-                                agendamento.Pagamento
-                                || "-"
-                            }
-
-                        </span>
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        }
-    );
-
-
-    html += `
-
-            </tbody>
-
-        </table>
-
-    `;
-
-
-    elemento.innerHTML =
-        html;
-
-}
-
-
-/* =========================
-   CLIENTES
-========================= */
-
-function mostrarClientes(
-    lista
-){
-
-    const elemento =
-        document.getElementById(
-            "listaClientes"
-        );
-
-
-    if(!lista.length){
-
-        elemento.innerHTML =
-            '<div class="mensagem">Nenhum cliente cadastrado.</div>';
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Nome</th>
-
-                    <th>Telefone</th>
-
-                    <th>E-mail</th>
-
-                    <th>Cadastro</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
-
-
-    lista
-    .slice(0,20)
-    .forEach(
-        cliente => {
-
-
-            const cadastro =
-                cliente.Data_cadastro
-                ? new Date(
-                    cliente.Data_cadastro
-                  )
-                  .toLocaleDateString(
-                      "pt-BR"
-                  )
-                : "-";
-
-
-            html += `
-
-                <tr>
-
-                    <td>
-                        ${
-                            cliente.Nome
-                            || "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            cliente.Telefone
-                            || "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${
-                            cliente["E-mail"]
-                            || "-"
-                        }
-                    </td>
-
-                    <td>
-                        ${cadastro}
-                    </td>
-
-                </tr>
-
-            `;
-
-        }
-    );
-
-
-    html += `
-
-            </tbody>
-
-        </table>
-
-    `;
-
-
-    elemento.innerHTML =
-        html;
-
-}
-
-
-/* =========================
-   GRÁFICO DE SERVIÇOS
-========================= */
-
-function mostrarGraficoServicos(
-    lista
-){
-
-    const elemento =
-        document.getElementById(
-            "graficoServicos"
-        );
-
-
-    const contagem = {};
-
-
-    lista
-    .filter(
-        a =>
-            a.Status !==
-            "Cancelado"
-    )
-    .forEach(
-        a => {
-
-            const servico =
-                a["Serviços"]
-                || "Outro";
-
-
-            if(
-                !contagem[servico]
-            ){
-
-                contagem[servico] =
-                    0;
-
-            }
-
-
-            contagem[servico]++;
-
-        }
-    );
-
-
-    const servicos =
-        Object.entries(
-            contagem
-        )
-        .sort(
-            (a,b) =>
-                b[1] - a[1]
-        );
-
-
-    if(!servicos.length){
-
-        elemento.innerHTML =
-            '<div class="mensagem">Ainda não existem serviços registrados.</div>';
-
-        return;
-
-    }
-
-
-    const maior =
-        servicos[0][1];
-
-
-    let html = "";
-
-
-    servicos.forEach(
-        ([nome,quantidade]) => {
-
-
-            const porcentagem =
-                Math.max(
-                    5,
-                    (
-                        quantidade /
-                        maior
-                    ) * 100
-                );
-
-
-            html += `
-
-                <div
-                    class="barra-item">
-
-                    <div
-                        class="barra-topo">
-
-                        <span>
-                            ${nome}
-                        </span>
-
-                        <strong>
-                            ${quantidade}
-                        </strong>
-
-                    </div>
-
-
-                    <div
-                        class="barra-fundo">
+    grafico.innerHTML =
+        lista.map(
+            ([dia, valores]) => {
+
+                const lucro =
+                    valores.entrada -
+                    valores.saida;
+
+                const alturaEntrada =
+                    Math.max(
+                        3,
+                        (
+                            valores.entrada /
+                            maior
+                        ) * 150
+                    );
+
+                const alturaSaida =
+                    Math.max(
+                        3,
+                        (
+                            valores.saida /
+                            maior
+                        ) * 150
+                    );
+
+                const alturaLucro =
+                    Math.max(
+                        3,
+                        (
+                            Math.abs(lucro) /
+                            maior
+                        ) * 100
+                    );
+
+                const partes =
+                    dia.split("-");
+
+                const label =
+                    `${partes[2]}/${partes[1]}`;
+
+                return `
+
+                    <div class="barra-box">
+
+                        <div class="barra-valor">
+                            ${dinheiro(lucro)}
+                        </div>
+
+                        <div
+                            class="barra lucro"
+                            style="
+                                height:
+                                ${alturaLucro}px
+                            "
+                        ></div>
 
                         <div
                             class="barra"
                             style="
-                                width:${porcentagem}%
-                            ">
+                                height:
+                                ${alturaEntrada}px
+                            "
+                        ></div>
+
+                        <div
+                            class="barra despesa"
+                            style="
+                                height:
+                                ${alturaSaida}px
+                            "
+                        ></div>
+
+                        <div class="barra-label">
+                            ${label}
                         </div>
 
                     </div>
 
-                </div>
+                `;
 
-            `;
-
-        }
-    );
-
-
-    elemento.innerHTML =
-        html;
+            }
+        ).join("");
 
 }
 
+function statusClasse(status) {
 
-/* =========================
-   SAIR
-========================= */
+    const texto =
+        String(
+            status || ""
+        ).toLowerCase();
 
-async function sair(){
+    if (
+        texto.includes(
+            "confirm"
+        )
+    )
+        return "confirmado";
 
-    await supabaseClient
-        .auth
-        .signOut();
+    if (
+        texto.includes(
+            "conclu"
+        )
+    )
+        return "concluido";
 
+    if (
+        texto.includes(
+            "cancel"
+        )
+    )
+        return "cancelado";
 
-    window.location.href =
-        "login.html";
+    return "pendente";
 
 }
 
+function gerarAgendamentos() {
 
-/* =========================
-   INICIAR
-========================= */
+    const tabela =
+        document.getElementById(
+            "tabelaAgendamentos"
+        );
 
-(async()=>{
+    const hoje =
+        dataHoje();
 
-    const autorizado =
-        await verificarAdmin();
+    const proximos =
+        agendamentos
+            .filter(
+                a =>
+                    String(
+                        a.Data
+                    ) >= hoje &&
+                    String(
+                        a.Status ||
+                        ""
+                    ).toLowerCase()
+                    !== "cancelado"
+            )
+            .sort(
+                (a, b) => {
 
+                    const dataA =
+                        `${a.Data} ${a.Horário || ""}`;
 
-    if(autorizado){
+                    const dataB =
+                        `${b.Data} ${b.Horário || ""}`;
 
-        await carregarDashboard();
+                    return dataA.localeCompare(
+                        dataB
+                    );
+
+                }
+            )
+            .slice(0, 10);
+
+    if (!proximos.length) {
+
+        tabela.innerHTML =
+            `<tr>
+                <td
+                    colspan="7"
+                    class="vazio"
+                >
+                    Nenhum próximo agendamento.
+                </td>
+            </tr>`;
+
+        return;
 
     }
 
-})();
+    tabela.innerHTML =
+        proximos.map(
+            a => `
+
+                <tr>
+
+                    <td>
+                        ${dataBR(a.Data)}
+                    </td>
+
+                    <td>
+                        ${a.Horário || "-"}
+                    </td>
+
+                    <td>
+                        ${nomeCliente(
+                            a.Cliente_id
+                        )}
+                    </td>
+
+                    <td>
+                        ${a["Serviços"] || "-"}
+                    </td>
+
+                    <td>
+                        ${dinheiro(
+                            a.Valor
+                        )}
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="status
+                            ${statusClasse(
+                                a.Status
+                            )}"
+                        >
+                            ${a.Status || "Pendente"}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        ${a.Pagamento || "Pendente"}
+                    </td>
+
+                </tr>
+
+            `
+        ).join("");
+
+}
+
+async function carregar() {
+
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "conteudo"
+    ).style.display =
+        "none";
+
+    try {
+
+        await buscarDados();
+
+        calcularFinanceiro();
+
+        gerarGrafico();
+
+        gerarAgendamentos();
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+        document.getElementById(
+            "conteudo"
+        ).style.display =
+            "block";
+
+    } catch (erro) {
+
+        console.error(
+            erro
+        );
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+        mostrarErro(
+            "Erro ao carregar o painel: " +
+            erro.message
+        );
+
+    }
+
+}
+
+async function iniciar() {
+
+    const admin =
+        await verificarAdmin();
+
+    if (!admin)
+        return;
+
+    await carregar();
+
+}
+
+iniciar();
 
 </script>
 
 </body>
-
-    </html>
+            </html>
