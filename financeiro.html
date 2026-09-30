@@ -5,10 +5,8 @@
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Financeiro - Gold Style</title>
 
@@ -82,7 +80,8 @@ header p{
     border:1px solid #d4af37;
 }
 
-.filtros{
+.filtros,
+.section{
     background:#101010;
     border:1px solid #333;
     border-radius:15px;
@@ -90,15 +89,16 @@ header p{
     margin-bottom:20px;
 }
 
-.filtros h2{
+.filtros h2,
+.section h2{
     color:#ffd700;
-    margin-bottom:15px;
+    margin-bottom:18px;
 }
 
 .grid-filtros{
     display:grid;
     grid-template-columns:
-        repeat(auto-fit,minmax(180px,1fr));
+    repeat(auto-fit,minmax(180px,1fr));
     gap:12px;
 }
 
@@ -109,33 +109,25 @@ label{
     margin-bottom:6px;
 }
 
-input,
-select{
+input{
     width:100%;
     padding:12px;
     border-radius:8px;
     border:1px solid #444;
     background:#050505;
     color:white;
-    outline:none;
-}
-
-input:focus,
-select:focus{
-    border-color:#ffd700;
 }
 
 .cards{
     display:grid;
     grid-template-columns:
-        repeat(auto-fit,minmax(190px,1fr));
+    repeat(auto-fit,minmax(190px,1fr));
     gap:15px;
     margin-bottom:20px;
 }
 
 .card{
-    background:
-        linear-gradient(145deg,#151515,#080808);
+    background:linear-gradient(145deg,#151515,#080808);
     border:1px solid #333;
     border-radius:15px;
     padding:20px;
@@ -147,41 +139,28 @@ select:focus{
     margin-bottom:10px;
 }
 
-.card .valor{
+.valor{
     color:#ffd700;
     font-size:24px;
     font-weight:bold;
 }
 
-.card.lucro .valor{
+.lucro .valor{
     color:#70e890;
 }
 
-.card.despesa .valor{
+.despesa .valor{
     color:#ff7777;
 }
 
-.card.pendente .valor{
+.pendente .valor{
     color:#ffbd4a;
-}
-
-.section{
-    background:#101010;
-    border:1px solid #333;
-    border-radius:15px;
-    padding:20px;
-    margin-bottom:20px;
-}
-
-.section h2{
-    color:#ffd700;
-    margin-bottom:18px;
 }
 
 .resumo-grid{
     display:grid;
     grid-template-columns:
-        repeat(auto-fit,minmax(200px,1fr));
+    repeat(auto-fit,minmax(200px,1fr));
     gap:15px;
 }
 
@@ -214,16 +193,16 @@ select:focus{
 .grafico{
     display:flex;
     align-items:end;
-    gap:8px;
-    height:240px;
+    gap:10px;
+    min-height:240px;
     padding:15px 5px 40px;
     border-bottom:1px solid #444;
     overflow-x:auto;
 }
 
 .barra-box{
-    min-width:65px;
-    height:100%;
+    min-width:75px;
+    height:200px;
     display:flex;
     flex-direction:column;
     justify-content:end;
@@ -270,7 +249,6 @@ select:focus{
     bottom:-30px;
     font-size:11px;
     color:#aaa;
-    white-space:nowrap;
 }
 
 .tabela-wrapper{
@@ -351,7 +329,7 @@ td{
         padding:15px;
     }
 
-    .card .valor{
+    .valor{
         font-size:21px;
     }
 
@@ -365,13 +343,9 @@ td{
 
 <header>
 
-<h1>
-💰 FINANCEIRO GOLD STYLE
-</h1>
+<h1>💰 FINANCEIRO GOLD STYLE</h1>
 
-<p>
-Entradas, despesas, lucro e movimentações
-</p>
+<p>Entradas, despesas, lucro e movimentações</p>
 
 </header>
 
@@ -379,99 +353,68 @@ Entradas, despesas, lucro e movimentações
 
 <div class="acoes">
 
-<a
-href="admin.html"
-class="btn dark"
->
+<a href="admin.html" class="btn dark">
 ← Dashboard
 </a>
 
-<a
-href="despesas.html"
-class="btn dark"
->
+<a href="despesas.html" class="btn dark">
 💸 Despesas
 </a>
 
-<a
-href="vendas.html"
-class="btn dark"
->
+<a href="vendas.html" class="btn dark">
 🛍️ Vendas
 </a>
 
-<a
-href="pedidos.html"
-class="btn dark"
->
+<a href="pedidos.html" class="btn dark">
 📦 Pedidos
 </a>
 
-<a
-href="relatorios.html"
-class="btn dark"
->
+<a href="relatorios.html" class="btn dark">
 📊 Relatórios
 </a>
 
-<button
-class="btn"
-onclick="carregarFinanceiro()"
->
+<button class="btn"
+onclick="carregarFinanceiro()">
 🔄 Atualizar
 </button>
 
 </div>
 
-<div
-id="erro"
-class="erro"
-></div>
+<div id="erro" class="erro"></div>
 
 <div class="filtros">
 
-<h2>
-📅 Período
-</h2>
+<h2>📅 Período</h2>
 
 <div class="grid-filtros">
 
 <div>
 
-<label>
-Data inicial
-</label>
+<label>Data inicial</label>
 
-<input
-type="date"
-id="dataInicio"
->
+<input type="date"
+id="dataInicio">
 
 </div>
 
 <div>
 
-<label>
-Data final
-</label>
+<label>Data final</label>
 
-<input
-type="date"
-id="dataFim"
->
+<input type="date"
+id="dataFim">
 
 </div>
 
-<div
-style="display:flex;align-items:end;"
->
+<div style="display:flex;align-items:end;">
 
 <button
 class="btn"
 style="width:100%;"
-onclick="carregarFinanceiro()"
->
+onclick="carregarFinanceiro()">
+
 Gerar financeiro
+
 </button>
 
 </div>
@@ -480,106 +423,92 @@ Gerar financeiro
 
 </div>
 
-<div
-id="loading"
-class="loading"
->
+<div id="loading"
+class="loading">
+
 Carregando informações financeiras...
+
 </div>
 
-<div
-id="conteudo"
-style="display:none;"
->
+<div id="conteudo"
+style="display:none;">
 
 <div class="cards">
 
 <div class="card">
 
-<h3>
-💰 Entradas
-</h3>
+<h3>💰 Entradas</h3>
 
-<div
-class="valor"
-id="entradas"
->
+<div class="valor"
+id="entradas">
+
 R$ 0,00
+
 </div>
 
 </div>
 
 <div class="card despesa">
 
-<h3>
-💸 Despesas
-</h3>
+<h3>💸 Despesas</h3>
 
-<div
-class="valor"
-id="despesas"
->
+<div class="valor"
+id="despesas">
+
 R$ 0,00
+
 </div>
 
 </div>
 
 <div class="card lucro">
 
-<h3>
-📈 Lucro
-</h3>
+<h3>📈 Lucro</h3>
 
-<div
-class="valor"
-id="lucro"
->
+<div class="valor"
+id="lucro">
+
 R$ 0,00
+
 </div>
 
 </div>
 
 <div class="card pendente">
 
-<h3>
-⏳ Pendente
-</h3>
+<h3>⏳ Pendente</h3>
 
-<div
-class="valor"
-id="pendente"
->
+<div class="valor"
+id="pendente">
+
 R$ 0,00
-</div>
 
-</div>
-
-<div class="card">
-
-<h3>
-💈 Serviços pagos
-</h3>
-
-<div
-class="valor"
-id="servicosPagos"
->
-0
 </div>
 
 </div>
 
 <div class="card">
 
-<h3>
-🛍️ Produtos vendidos
-</h3>
+<h3>💈 Serviços pagos</h3>
 
-<div
-class="valor"
-id="produtosVendidos"
->
+<div class="valor"
+id="servicosPagos">
+
 0
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>🛍️ Produtos vendidos</h3>
+
+<div class="valor"
+id="produtosVendidos">
+
+0
+
 </div>
 
 </div>
@@ -588,17 +517,13 @@ id="produtosVendidos"
 
 <div class="section">
 
-<h2>
-📊 Resumo financeiro
-</h2>
+<h2>📊 Resumo financeiro</h2>
 
 <div class="resumo-grid">
 
 <div class="resumo">
 
-<h3>
-💈 Serviços recebidos
-</h3>
+<h3>💈 Serviços recebidos</h3>
 
 <strong id="receitaServicos">
 R$ 0,00
@@ -608,9 +533,7 @@ R$ 0,00
 
 <div class="resumo">
 
-<h3>
-🛍️ Produtos recebidos
-</h3>
+<h3>🛍️ Produtos recebidos</h3>
 
 <strong id="receitaProdutos">
 R$ 0,00
@@ -620,9 +543,7 @@ R$ 0,00
 
 <div class="resumo vermelho">
 
-<h3>
-💸 Total de despesas
-</h3>
+<h3>💸 Total de despesas</h3>
 
 <strong id="totalDespesas">
 R$ 0,00
@@ -632,9 +553,7 @@ R$ 0,00
 
 <div class="resumo verde">
 
-<h3>
-📈 Resultado líquido
-</h3>
+<h3>📈 Resultado líquido</h3>
 
 <strong id="resultadoLiquido">
 R$ 0,00
@@ -648,22 +567,17 @@ R$ 0,00
 
 <div class="section">
 
-<h2>
-📈 Movimento financeiro por dia
-</h2>
+<h2>📈 Movimento financeiro por dia</h2>
 
-<div
-id="grafico"
-class="grafico"
-></div>
+<div id="grafico"
+class="grafico">
+</div>
 
 </div>
 
 <div class="section">
 
-<h2>
-📋 Movimentações financeiras
-</h2>
+<h2>📋 Movimentações financeiras</h2>
 
 <div class="tabela-wrapper">
 
@@ -673,41 +587,26 @@ class="grafico"
 
 <tr>
 
-<th>
-Data
-</th>
+<th>Data</th>
 
-<th>
-Tipo
-</th>
+<th>Tipo</th>
 
-<th>
-Descrição
-</th>
+<th>Descrição</th>
 
-<th>
-Cliente
-</th>
+<th>Cliente</th>
 
-<th>
-Valor
-</th>
+<th>Valor</th>
 
-<th>
-Pagamento
-</th>
+<th>Pagamento</th>
 
-<th>
-Status
-</th>
+<th>Status</th>
 
 </tr>
 
 </thead>
 
-<tbody
-id="tabelaMovimentos"
-></tbody>
+<tbody id="tabelaMovimentos">
+</tbody>
 
 </table>
 
@@ -750,9 +649,7 @@ let agendamentos = [];
 
 function dinheiro(valor){
 
-return Number(
-valor || 0
-).toLocaleString(
+return Number(valor || 0).toLocaleString(
 "pt-BR",
 {
 style:"currency",
@@ -767,20 +664,26 @@ function dataBR(data){
 if(!data)
 return "-";
 
-return new Date(
-data
-).toLocaleDateString(
+return new Date(data).toLocaleDateString(
 "pt-BR"
 );
+
+}
+
+function normalizar(valor){
+
+return String(valor || "")
+.trim()
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"");
 
 }
 
 function mostrarErro(mensagem){
 
 const erro =
-document.getElementById(
-"erro"
-);
+document.getElementById("erro");
 
 erro.innerText =
 mensagem;
@@ -804,14 +707,14 @@ function definirDatas(){
 const hoje =
 new Date();
 
-const primeiroDia =
+const primeiro =
 new Date(
 hoje.getFullYear(),
 hoje.getMonth(),
 1
 );
 
-const ultimoDia =
+const ultimo =
 new Date(
 hoje.getFullYear(),
 hoje.getMonth()+1,
@@ -820,36 +723,31 @@ hoje.getMonth()+1,
 
 function formatar(data){
 
-const ano =
-data.getFullYear();
-
-const mes =
+return data.getFullYear()
++
+"-"
++
 String(
 data.getMonth()+1
-).padStart(2,"0");
-
-const dia =
+).padStart(2,"0")
++
+"-"
++
 String(
 data.getDate()
 ).padStart(2,"0");
-
-return `${ano}-${mes}-${dia}`;
 
 }
 
 document.getElementById(
 "dataInicio"
 ).value =
-formatar(
-primeiroDia
-);
+formatar(primeiro);
 
 document.getElementById(
 "dataFim"
 ).value =
-formatar(
-ultimoDia
-);
+formatar(ultimo);
 
 }
 
@@ -869,13 +767,10 @@ document.getElementById(
 ).value;
 
 const dia =
-String(data)
-.substring(0,10);
+String(data).substring(0,10);
 
-return (
-dia >= inicio &&
-dia <= fim
-);
+return dia >= inicio &&
+dia <= fim;
 
 }
 
@@ -903,17 +798,9 @@ error
 } =
 await supabaseClient
 .from("administradores")
-.select(
-"id,nome,ativo"
-)
-.eq(
-"auth_user_id",
-session.user.id
-)
-.eq(
-"ativo",
-true
-)
+.select("id,nome,ativo")
+.eq("auth_user_id",session.user.id)
+.eq("ativo",true)
 .maybeSingle();
 
 if(error || !data){
@@ -943,9 +830,7 @@ supabaseClient
 .select("*")
 .order(
 "criado_em",
-{
-ascending:false
-}
+{ascending:false}
 ),
 
 supabaseClient
@@ -953,9 +838,7 @@ supabaseClient
 .select("*")
 .order(
 "criado_em",
-{
-ascending:false
-}
+{ascending:false}
 ),
 
 supabaseClient
@@ -963,9 +846,7 @@ supabaseClient
 .select("*")
 .order(
 "criado_em",
-{
-ascending:false
-}
+{ascending:false}
 ),
 
 supabaseClient
@@ -977,9 +858,7 @@ supabaseClient
 .select("*")
 .order(
 "criado_em",
-{
-ascending:false
-}
+{ascending:false}
 ),
 
 supabaseClient
@@ -992,68 +871,37 @@ supabaseClient
 
 ]);
 
-const pagamentoResult =
-resultados[0];
+const erros =
+resultados.filter(
+r => r.error
+);
 
-const vendaResult =
-resultados[1];
+if(erros.length){
 
-const pedidoResult =
-resultados[2];
+throw erros[0].error;
 
-const itemPedidoResult =
-resultados[3];
-
-const despesaResult =
-resultados[4];
-
-const clienteResult =
-resultados[5];
-
-const agendamentoResult =
-resultados[6];
-
-if(pagamentoResult.error)
-throw pagamentoResult.error;
-
-if(vendaResult.error)
-throw vendaResult.error;
-
-if(pedidoResult.error)
-throw pedidoResult.error;
-
-if(itemPedidoResult.error)
-throw itemPedidoResult.error;
-
-if(despesaResult.error)
-throw despesaResult.error;
-
-if(clienteResult.error)
-throw clienteResult.error;
-
-if(agendamentoResult.error)
-throw agendamentoResult.error;
+}
 
 pagamentos =
-pagamentoResult.data || [];
+resultados[0].data || [];
 
 vendas =
-vendaResult.data || [];
+resultados[1].data || [];
 
 pedidos =
-pedidoResult.data || [];
+resultados[2].data || [];
 
 itensPedidos =
-itemPedidoResult.data || [];
+resultados[3].data || [];
 
 despesas =
-despesaResult.data || [];
+resultados[4].data || [];
 
 clientes =
-clienteResult.data || [];
+resultados[5].data || [];
 
 agendamentos =
-agendamentoResult.data || [];
+resultados[6].data || [];
 
 }
 
@@ -1064,64 +912,45 @@ clientes.find(
 c => c.id === id
 );
 
-if(!cliente)
-return "Cliente";
+return cliente
+?
+(cliente.Nome || "Cliente")
+:
+"Cliente";
+
+}
+
+function pedidoConcluido(pedido){
 
 return (
-cliente.Nome ||
-"Cliente"
+normalizar(
+pedido.status_pagamento
+) === "pago"
+&&
+normalizar(
+pedido.status_pedido
+) === "concluido"
+&&
+dentroDoPeriodo(
+pedido.criado_em
+)
 );
 
 }
 
-function pedidosConcluidosPeriodo(){
+function pedidosValidos(){
 
 return pedidos.filter(
-p =>
-
-p.status_pagamento ===
-"Pago"
-
-&&
-
-p.status_pedido ===
-"Concluído"
-
-&&
-
-dentroDoPeriodo(
-p.criado_em
-)
-
+pedidoConcluido
 );
 
 }
 
-function valorPedidosConcluidos(){
-
-return pedidosConcluidosPeriodo()
-.reduce(
-(
-total,
-pedido
-) =>
-total +
-Number(
-pedido.total || 0
-),
-0
-);
-
-}
-
-function quantidadeProdutosPedidos(){
-
-const pedidosValidos =
-pedidosConcluidosPeriodo();
+function quantidadeItensPedidos(){
 
 const ids =
 new Set(
-pedidosValidos.map(
+pedidosValidos().map(
 p => p.id
 )
 );
@@ -1134,13 +963,24 @@ item.pedido_id
 )
 )
 .reduce(
-(
-total,
-item
-) =>
+(total,item) =>
 total +
 Number(
 item.quantidade || 0
+),
+0
+);
+
+}
+
+function valorPedidos(){
+
+return pedidosValidos()
+.reduce(
+(total,pedido) =>
+total +
+Number(
+pedido.total || 0
 ),
 0
 );
@@ -1173,15 +1013,10 @@ d.criado_em
 )
 );
 
-const pedidosPeriodo =
-pedidosConcluidosPeriodo();
-
 const pagamentosPagos =
 pagamentosPeriodo.filter(
 p =>
-String(
-p.status || ""
-).toLowerCase()
+normalizar(p.status)
 ===
 "pago"
 );
@@ -1189,9 +1024,7 @@ p.status || ""
 const pagamentosPendentes =
 pagamentosPeriodo.filter(
 p =>
-String(
-p.status || ""
-).toLowerCase()
+normalizar(p.status)
 !==
 "pago"
 );
@@ -1199,132 +1032,90 @@ p.status || ""
 const vendasPagas =
 vendasPeriodo.filter(
 v =>
-String(
-v.status || ""
-).toLowerCase()
+normalizar(v.status)
 ===
 "pago"
 );
 
+const pedidosPeriodo =
+pedidosValidos();
+
 const receitaServicos =
 pagamentosPagos.reduce(
-(
-total,
-p
-) =>
+(total,p) =>
 total +
-Number(
-p.valor || 0
-),
+Number(p.valor || 0),
 0
 );
 
 const receitaVendas =
 vendasPagas.reduce(
-(
-total,
-v
-) =>
+(total,v) =>
 total +
-Number(
-v.valor_total || 0
-),
+Number(v.valor_total || 0),
 0
 );
 
 const receitaPedidos =
-pedidosPeriodo.reduce(
-(
-total,
-p
-) =>
-total +
-Number(
-p.total || 0
-),
-0
-);
+valorPedidos();
 
 const receitaProdutos =
 receitaVendas +
 receitaPedidos;
 
-const totalEntradas =
+const entradas =
 receitaServicos +
 receitaProdutos;
 
 const totalDespesas =
 despesasPeriodo.reduce(
-(
-total,
-d
-) =>
+(total,d) =>
 total +
-Number(
-d.valor || 0
-),
+Number(d.valor || 0),
 0
 );
 
-const totalPendente =
+const pendente =
 pagamentosPendentes.reduce(
-(
-total,
-p
-) =>
+(total,p) =>
 total +
-Number(
-p.valor || 0
-),
+Number(p.valor || 0),
 0
 );
 
 const lucro =
-totalEntradas -
+entradas -
 totalDespesas;
 
-const produtosQuantidade =
+const produtosVendidos =
 vendasPagas.reduce(
-(
-total,
-v
-) =>
+(total,v) =>
 total +
-Number(
-v.quantidade || 0
-),
+Number(v.quantidade || 0),
 0
 )
 +
-quantidadeProdutosPedidos();
+quantidadeItensPedidos();
 
 document.getElementById(
 "entradas"
 ).innerText =
-dinheiro(
-totalEntradas
-);
+dinheiro(entradas);
 
 document.getElementById(
 "despesas"
 ).innerText =
-dinheiro(
-totalDespesas
-);
+dinheiro(totalDespesas);
 
 document.getElementById(
 "lucro"
 ).innerText =
-dinheiro(
-lucro
-);
+dinheiro(lucro);
 
 document.getElementById(
 "pendente"
 ).innerText =
-dinheiro(
-totalPendente
-);
+dinheiro(pendente);
 
 document.getElementById(
 "servicosPagos"
@@ -1334,35 +1125,27 @@ pagamentosPagos.length;
 document.getElementById(
 "produtosVendidos"
 ).innerText =
-produtosQuantidade;
+produtosVendidos;
 
 document.getElementById(
 "receitaServicos"
 ).innerText =
-dinheiro(
-receitaServicos
-);
+dinheiro(receitaServicos);
 
 document.getElementById(
 "receitaProdutos"
 ).innerText =
-dinheiro(
-receitaProdutos
-);
+dinheiro(receitaProdutos);
 
 document.getElementById(
 "totalDespesas"
 ).innerText =
-dinheiro(
-totalDespesas
-);
+dinheiro(totalDespesas);
 
 document.getElementById(
 "resultadoLiquido"
 ).innerText =
-dinheiro(
-lucro
-);
+dinheiro(lucro);
 
 gerarGrafico(
 pagamentosPagos,
@@ -1382,8 +1165,8 @@ despesasPeriodo
 
 function gerarGrafico(
 servicos,
-produtos,
-pedidosConcluidos,
+vendasProdutos,
+pedidosProdutos,
 saidas
 ){
 
@@ -1392,18 +1175,17 @@ const dias = {};
 function adicionar(
 data,
 entrada,
-despesa
+saida
 ){
 
 const dia =
-String(data)
-.substring(0,10);
+String(data).substring(0,10);
 
 if(!dias[dia]){
 
 dias[dia] = {
 entrada:0,
-despesa:0
+saida:0
 };
 
 }
@@ -1411,8 +1193,8 @@ despesa:0
 dias[dia].entrada +=
 entrada;
 
-dias[dia].despesa +=
-despesa;
+dias[dia].saida +=
+saida;
 
 }
 
@@ -1420,31 +1202,25 @@ servicos.forEach(
 p =>
 adicionar(
 p.criado_em,
-Number(
-p.valor || 0
-),
+Number(p.valor || 0),
 0
 )
 );
 
-produtos.forEach(
+vendasProdutos.forEach(
 v =>
 adicionar(
 v.criado_em,
-Number(
-v.valor_total || 0
-),
+Number(v.valor_total || 0),
 0
 )
 );
 
-pedidosConcluidos.forEach(
+pedidosProdutos.forEach(
 p =>
 adicionar(
 p.criado_em,
-Number(
-p.total || 0
-),
+Number(p.total || 0),
 0
 )
 );
@@ -1454,9 +1230,7 @@ d =>
 adicionar(
 d.criado_em,
 0,
-Number(
-d.valor || 0
-)
+Number(d.valor || 0)
 )
 );
 
@@ -1464,9 +1238,7 @@ const lista =
 Object.entries(dias)
 .sort(
 (a,b) =>
-a[0].localeCompare(
-b[0]
-)
+a[0].localeCompare(b[0])
 );
 
 const grafico =
@@ -1489,15 +1261,12 @@ return;
 
 const maior =
 Math.max(
-...lista.flatMap(
-([dia,valores]) => [
-valores.entrada,
-valores.despesa,
-Math.abs(
-valores.entrada -
-valores.despesa
+...lista.map(
+item =>
+Math.max(
+item[1].entrada,
+item[1].saida
 )
-]
 ),
 1
 );
@@ -1506,87 +1275,54 @@ grafico.innerHTML =
 lista.map(
 ([dia,valores]) => {
 
-const lucro =
-valores.entrada -
-valores.despesa;
-
-const alturaEntrada =
-Math.max(
-3,
-(
-valores.entrada /
-maior
-) * 160
-);
-
-const alturaDespesa =
-Math.max(
-3,
-(
-valores.despesa /
-maior
-) * 160
-);
-
-const alturaLucro =
-Math.max(
-3,
-(
-Math.abs(lucro) /
-maior
-) * 160
-);
-
 const partes =
 dia.split("-");
 
 const label =
 `${partes[2]}/${partes[1]}`;
 
-return `
+const alturaEntrada =
+Math.max(
+3,
+(valores.entrada / maior) * 160
+);
 
+const alturaSaida =
+Math.max(
+3,
+(valores.saida / maior) * 160
+);
+
+return `
 <div class="barra-box">
 
 <div class="barra-valor">
-${dinheiro(lucro)}
-</div>
-
-<div
-class="barra lucro"
-style="
-height:${alturaLucro}px
-"
-></div>
-
-<div
-class="barra-valor"
-style="margin-top:4px;"
->
-${dinheiro(
+Entrada: ${dinheiro(
 valores.entrada
 )}
 </div>
 
 <div
 class="barra"
-style="
-height:${alturaEntrada}px
-"
-></div>
+style="height:${alturaEntrada}px">
+</div>
+
+<div class="barra-valor">
+Saída: ${dinheiro(
+valores.saida
+)}
+</div>
 
 <div
 class="barra despesa"
-style="
-height:${alturaDespesa}px
-"
-></div>
+style="height:${alturaSaida}px">
+</div>
 
 <div class="barra-label">
 ${label}
 </div>
 
 </div>
-
 `;
 
 }
@@ -1596,8 +1332,8 @@ ${label}
 
 function gerarMovimentos(
 servicos,
-produtos,
-pedidosConcluidos,
+vendasProdutos,
+pedidosProdutos,
 saidas
 ){
 
@@ -1609,23 +1345,21 @@ p => {
 const agendamento =
 agendamentos.find(
 a =>
-a.id ===
-p.agendamento_id
+a.id === p.agendamento_id
 );
 
 movimentos.push({
 
-data:
-p.criado_em,
+data:p.criado_em,
 
-tipo:
-"Entrada",
+tipo:"Entrada",
 
 descricao:
 agendamento
 ?
 (
-agendamento["Serviços"] ||
+agendamento["Serviços"]
+||
 "Serviço"
 )
 :
@@ -1637,32 +1371,26 @@ p.cliente_id
 ),
 
 valor:
-Number(
-p.valor || 0
-),
+Number(p.valor || 0),
 
 pagamento:
-p.metodo ||
-"-",
+p.metodo || "-",
 
-status:
-"Pago"
+status:"Pago"
 
 });
 
 }
 );
 
-produtos.forEach(
+vendasProdutos.forEach(
 v => {
 
 movimentos.push({
 
-data:
-v.criado_em,
+data:v.criado_em,
 
-tipo:
-"Entrada",
+tipo:"Entrada",
 
 descricao:
 "Venda: " +
@@ -1682,30 +1410,45 @@ v.valor_total || 0
 ),
 
 pagamento:
-v.metodo_pagamento ||
-"-",
+v.metodo_pagamento || "-",
 
-status:
-"Pago"
+status:"Pago"
 
 });
 
 }
 );
 
-pedidosConcluidos.forEach(
+pedidosProdutos.forEach(
 p => {
+
+const itens =
+itensPedidos.filter(
+item =>
+item.pedido_id === p.id
+);
+
+const nomes =
+itens.map(
+item =>
+`${item.produto_nome} (${item.quantidade}x)`
+);
 
 movimentos.push({
 
-data:
-p.criado_em,
+data:p.criado_em,
 
-tipo:
-"Entrada",
+tipo:"Entrada",
 
 descricao:
-"Pedido de produtos",
+"Pedido de produtos" +
+(
+nomes.length
+?
+": " + nomes.join(", ")
+:
+""
+),
 
 cliente:
 nomeCliente(
@@ -1718,11 +1461,10 @@ p.total || 0
 ),
 
 pagamento:
-p.metodo_pagamento ||
-"-",
+p.metodo_pagamento || "-",
 
 status:
-"Pedido concluído"
+"Pago / Concluído"
 
 });
 
@@ -1734,29 +1476,22 @@ d => {
 
 movimentos.push({
 
-data:
-d.criado_em,
+data:d.criado_em,
 
-tipo:
-"Saída",
+tipo:"Saída",
 
 descricao:
-d.descricao,
+d.descricao || "Despesa",
 
-cliente:
-"-",
+cliente:"-",
 
 valor:
-Number(
-d.valor || 0
-),
+Number(d.valor || 0),
 
 pagamento:
-d.metodo_pagamento ||
-"-",
+d.metodo_pagamento || "-",
 
-status:
-"Pago"
+status:"Pago"
 
 });
 
@@ -1781,9 +1516,10 @@ tabela.innerHTML =
 <tr>
 <td
 colspan="7"
-class="vazio"
->
+class="vazio">
+
 Nenhuma movimentação encontrada.
+
 </td>
 </tr>
 `;
@@ -1794,55 +1530,52 @@ return;
 
 tabela.innerHTML =
 movimentos.map(
-movimento =>
-`
+m => `
 
 <tr>
 
 <td>
-${dataBR(
-movimento.data
-)}
+${dataBR(m.data)}
 </td>
 
 <td class="${
-movimento.tipo ===
-"Entrada"
+m.tipo === "Entrada"
 ?
 "entrada"
 :
 "saida"
 }">
-${movimento.tipo}
+
+${m.tipo}
+
 </td>
 
 <td>
-${movimento.descricao}
+${m.descricao}
 </td>
 
 <td>
-${movimento.cliente}
+${m.cliente}
 </td>
 
 <td class="${
-movimento.tipo ===
-"Entrada"
+m.tipo === "Entrada"
 ?
 "entrada"
 :
 "saida"
 }">
-${dinheiro(
-movimento.valor
-)}
+
+${dinheiro(m.valor)}
+
 </td>
 
 <td>
-${movimento.pagamento}
+${m.pagamento}
 </td>
 
 <td>
-${movimento.status}
+${m.status}
 </td>
 
 </tr>
@@ -1884,9 +1617,7 @@ document.getElementById(
 
 }catch(erro){
 
-console.error(
-erro
-);
+console.error(erro);
 
 document.getElementById(
 "loading"
@@ -1894,7 +1625,8 @@ document.getElementById(
 "none";
 
 mostrarErro(
-"Erro ao carregar o financeiro: " +
+"Erro ao carregar o financeiro: "
++
 erro.message
 );
 
