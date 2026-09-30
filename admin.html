@@ -47,11 +47,7 @@
         }
 
         .boas-vindas {
-            background: linear-gradient(
-                135deg,
-                #151515,
-                #080808
-            );
+            background: linear-gradient(135deg, #151515, #080808);
             border: 1px solid #d4af37;
             border-radius: 16px;
             padding: 22px;
@@ -69,8 +65,7 @@
 
         .acoes {
             display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(145px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -98,25 +93,30 @@
             border: 1px solid #d4af37;
         }
 
+        .btn.pedidos {
+            background: linear-gradient(135deg, #d4af37, #ffd700);
+            color: #000;
+            border: 1px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, .25);
+        }
+
+        .btn.pedidos:hover {
+            background: #fff0a0;
+        }
+
         .cards {
             display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(190px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
 
         .card {
-            background: linear-gradient(
-                145deg,
-                #151515,
-                #080808
-            );
+            background: linear-gradient(145deg, #151515, #080808);
             border: 1px solid #333;
             border-radius: 15px;
             padding: 20px;
-            box-shadow:
-                0 0 15px rgba(212,175,55,.06);
+            box-shadow: 0 0 15px rgba(212,175,55,.06);
         }
 
         .card h3 {
@@ -158,8 +158,7 @@
 
         .resumo-grid {
             display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
 
@@ -198,8 +197,7 @@
             align-items: end;
             gap: 9px;
             height: 240px;
-            padding:
-                15px 5px 40px;
+            padding: 15px 5px 40px;
             border-bottom: 1px solid #444;
             overflow-x: auto;
         }
@@ -216,29 +214,17 @@
 
         .barra {
             width: 32px;
-            background: linear-gradient(
-                to top,
-                #8c6800,
-                #ffd700
-            );
+            background: linear-gradient(to top, #8c6800, #ffd700);
             border-radius: 6px 6px 0 0;
             min-height: 3px;
         }
 
         .barra.despesa {
-            background: linear-gradient(
-                to top,
-                #7a1515,
-                #ff5c5c
-            );
+            background: linear-gradient(to top, #7a1515, #ff5c5c);
         }
 
         .barra.lucro {
-            background: linear-gradient(
-                to top,
-                #12652b,
-                #70e890
-            );
+            background: linear-gradient(to top, #12652b, #70e890);
         }
 
         .barra-valor {
@@ -339,7 +325,6 @@
         }
 
         @media (max-width: 600px) {
-
             header h1 {
                 font-size: 23px;
             }
@@ -423,6 +408,13 @@
             class="btn dark"
         >
             🛍️ Vendas
+        </a>
+
+        <a
+            href="pedidos.html"
+            class="btn pedidos"
+        >
+            📦 Pedidos
         </a>
 
         <a
@@ -676,33 +668,13 @@
 
                         <tr>
 
-                            <th>
-                                Data
-                            </th>
-
-                            <th>
-                                Horário
-                            </th>
-
-                            <th>
-                                Cliente
-                            </th>
-
-                            <th>
-                                Serviço
-                            </th>
-
-                            <th>
-                                Valor
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Pagamento
-                            </th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Cliente</th>
+                            <th>Serviço</th>
+                            <th>Valor</th>
+                            <th>Status</th>
+                            <th>Pagamento</th>
 
                         </tr>
 
@@ -751,15 +723,14 @@ let agendamentos = [];
 
 function dinheiro(valor) {
 
-    return Number(
-        valor || 0
-    ).toLocaleString(
-        "pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        }
-    );
+    return Number(valor || 0)
+        .toLocaleString(
+            "pt-BR",
+            {
+                style: "currency",
+                currency: "BRL"
+            }
+        );
 
 }
 
@@ -768,11 +739,10 @@ function dataBR(data) {
     if (!data)
         return "-";
 
-    return new Date(
-        data
-    ).toLocaleDateString(
-        "pt-BR"
-    );
+    return new Date(data)
+        .toLocaleDateString(
+            "pt-BR"
+        );
 
 }
 
@@ -795,8 +765,7 @@ function nomeCliente(id) {
 
     const cliente =
         clientes.find(
-            c =>
-                c.id === id
+            c => c.id === id
         );
 
     if (!cliente)
@@ -831,31 +800,6 @@ function dataHoje() {
 
 }
 
-function dentroDosUltimosDias(
-    data,
-    dias
-) {
-
-    if (!data)
-        return false;
-
-    const agora =
-        new Date();
-
-    const limite =
-        new Date();
-
-    limite.setDate(
-        agora.getDate() - dias
-    );
-
-    return (
-        new Date(data) >=
-        limite
-    );
-
-}
-
 async function verificarAdmin() {
 
     const {
@@ -863,7 +807,8 @@ async function verificarAdmin() {
             session
         }
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient.auth
+            .getSession();
 
     if (!session) {
 
@@ -1433,8 +1378,7 @@ function gerarAgendamentos() {
                         a.Data
                     ) >= hoje &&
                     String(
-                        a.Status ||
-                        ""
+                        a.Status || ""
                     ).toLowerCase()
                     !== "cancelado"
             )
