@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -276,7 +277,9 @@ header{
     .logo{
         font-size:23px;
     }
+
 }
+
 </style>
 </head>
 
@@ -1292,7 +1295,7 @@ mostrarErro(
 error.message
 );
 
-return;
+return false;
 
 }
 
@@ -1301,6 +1304,8 @@ mensagem
 );
 
 await carregarPedidos();
+
+return true;
 
 }
 
@@ -1357,19 +1362,64 @@ id
 
 if(
 !confirm(
-"Marcar este pedido como concluído?"
+"Concluir este pedido e dar baixa no estoque?"
 )
 )
 return;
 
-await atualizarPedido(
-id,
+try{
+
+const {
+data,
+error
+} =
+await supabaseClient
+.rpc(
+"finalizar_pedido_produto",
 {
-status_pedido:
-"Concluído"
-},
-"Pedido concluído."
+p_pedido_id:id
+}
 );
+
+if(error){
+
+throw error;
+
+}
+
+if(
+data &&
+data.sucesso === false
+){
+
+throw new Error(
+data.mensagem ||
+"Não foi possível concluir o pedido."
+);
+
+}
+
+mostrarSucesso(
+(data && data.mensagem) ||
+"Pedido concluído e estoque atualizado."
+);
+
+await carregarPedidos();
+
+}catch(error){
+
+console.error(error);
+
+mostrarErro(
+"Não foi possível concluir o pedido: "
++
+(
+error.message ||
+"Erro desconhecido."
+)
+);
+
+}
 
 }
 
