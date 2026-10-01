@@ -1,624 +1,966 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Loja — Gold Style</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>Loja | Gold Style Barbearia</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:radial-gradient(circle at top,#302300 0%,#0d0d0d 35%,#050505 75%);
-    color:#fff;
-    min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(255,215,0,.16),
+      transparent 35%
+    ),
+    #050505;
+  color:#fff;
+  min-height:100vh;
 }
 
 .container{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-    padding:18px;
+  width:100%;
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    padding:10px 0 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:10px 0 25px;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:900;
-    color:#ffd700;
-    text-shadow:0 0 8px #ffd700,0 0 20px #d4af37;
+  color:#ffd700;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:4px;
+  text-shadow:
+    0 0 8px rgba(255,215,0,.8),
+    0 0 22px rgba(255,215,0,.35);
 }
 
 .logo span{
-    display:block;
-    font-size:11px;
-    letter-spacing:3px;
-    color:#aaa;
-    margin-top:4px;
+  display:block;
+  margin-top:4px;
+  color:#aaa;
+  font-size:11px;
+  letter-spacing:3px;
 }
 
 .top-botoes{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    justify-content:flex-end;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
-.btn-voltar,
-.btn-carrinho{
-    border:1px solid #d4af37;
-    background:#111;
-    color:#ffd700;
-    padding:10px 14px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:bold;
-    cursor:pointer;
+.btn-topo{
+  padding:11px 14px;
+  border-radius:11px;
+  border:1px solid rgba(255,215,0,.4);
+  background:#101010;
+  color:#ffd700;
+  text-decoration:none;
+  font-weight:900;
+  cursor:pointer;
 }
 
-.btn-carrinho{
-    background:linear-gradient(135deg,#fff000,#d4af37,#a87800);
-    color:#000;
-    border:none;
+.btn-topo.gold{
+  color:#050505;
+  border:none;
+  background:
+    linear-gradient(
+      135deg,
+      #fff2a6,
+      #ffd700,
+      #d4af37
+    );
 }
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
-    background:linear-gradient(135deg,rgba(255,215,0,.14),rgba(0,0,0,.9));
-    border:1px solid #806b16;
-    border-radius:20px;
-    padding:25px 20px;
-    margin-bottom:20px;
+  padding:30px 22px;
+  margin-bottom:25px;
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,215,0,.14),
+      rgba(255,255,255,.02)
+    );
+
+  border:1px solid rgba(255,215,0,.28);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.55);
 }
 
 .hero small{
-    color:#ffd700;
-    font-weight:bold;
-    letter-spacing:2px;
+  color:#ffd700;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
 .hero h1{
-    font-size:29px;
-    margin-top:8px;
+  margin-top:9px;
+  font-size:32px;
+  line-height:1.2;
 }
 
 .hero p{
-    color:#bbb;
-    line-height:1.6;
-    margin-top:9px;
+  margin-top:10px;
+  color:#bbb;
+  line-height:1.6;
 }
 
 .aviso{
-    margin-top:15px;
-    padding:12px;
-    border-radius:10px;
-    background:#111;
-    border:1px solid #333;
-    color:#aaa;
-    font-size:13px;
-    line-height:1.5;
+  margin-top:18px;
+  padding:14px;
+  border-radius:12px;
+  background:#0d0d0d;
+  border:1px solid rgba(255,215,0,.18);
+  color:#aaa;
+  font-size:13px;
+  line-height:1.6;
 }
 
+/* =========================
+   PRODUTOS
+========================= */
+
 .grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
 }
 
 .produto{
-    background:#101010;
-    border:1px solid #302a13;
-    border-radius:18px;
-    padding:18px;
-    box-shadow:0 8px 25px rgba(0,0,0,.3);
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      #151515,
+      #080808
+    );
+
+  border:1px solid rgba(255,215,0,.2);
+
+  border-radius:20px;
+
+  padding:16px;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.5);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.produto:hover{
+  transform:translateY(-4px);
+
+  border-color:rgba(255,215,0,.65);
+
+  box-shadow:
+    0 12px 35px rgba(255,215,0,.12);
 }
 
 .icone{
-    height:180px;
-    border-radius:14px;
-    background:linear-gradient(135deg,#1b1605,#080808);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:65px;
-    border:1px solid #3c3210;
-    margin-bottom:15px;
+  height:190px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:15px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,215,0,.14),
+      #090909 70%
+    );
+
+  border:1px solid rgba(255,215,0,.16);
+
+  margin-bottom:16px;
+
+  font-size:68px;
 }
 
 .produto h2{
-    font-size:18px;
+  font-size:19px;
+  color:#fff;
 }
 
 .descricao{
-    color:#888;
-    font-size:13px;
-    line-height:1.5;
-    margin-top:7px;
-    min-height:40px;
+  min-height:45px;
+
+  margin-top:7px;
+
+  color:#999;
+
+  font-size:13px;
+
+  line-height:1.5;
 }
 
 .preco{
-    color:#ffd700;
-    font-size:24px;
-    font-weight:900;
-    margin:14px 0;
+  margin:15px 0 8px;
+
+  color:#ffd700;
+
+  font-size:25px;
+
+  font-weight:900;
+
+  text-shadow:
+    0 0 8px rgba(255,215,0,.3);
 }
 
 .estoque{
-    font-size:12px;
-    color:#6dff8b;
-    margin-bottom:12px;
+  margin-bottom:13px;
+
+  color:#69f0ae;
+
+  font-size:12px;
+
+  font-weight:bold;
 }
 
 .estoque.baixo{
-    color:#ffd45c;
+  color:#ffd45c;
 }
 
 .btn-comprar,
 .btn-finalizar{
-    display:block;
-    width:100%;
-    padding:13px;
-    border:none;
-    border-radius:11px;
-    background:linear-gradient(135deg,#fff000,#d4af37,#a87800);
-    color:#000;
-    font-weight:900;
-    cursor:pointer;
+  width:100%;
+
+  padding:14px;
+
+  border:none;
+
+  border-radius:11px;
+
+  color:#050505;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff2a6,
+      #ffd700,
+      #d4af37
+    );
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 0 12px rgba(255,215,0,.2);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 }
 
-.btn-finalizar{
-    margin-top:16px;
-    padding:15px;
-    font-size:15px;
+.btn-comprar:hover,
+.btn-finalizar:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 0 22px rgba(255,215,0,.45);
 }
 
-.btn-finalizar:disabled{
-    opacity:.5;
-    cursor:not-allowed;
-}
-
-.btn-limpar{
-    width:100%;
-    margin-top:9px;
-    padding:11px;
-    border:1px solid #444;
-    border-radius:10px;
-    background:#111;
-    color:#aaa;
-    cursor:pointer;
-}
+/* =========================
+   CARRINHO
+========================= */
 
 .carrinho-box{
-    margin-top:25px;
-    background:#0e0e0e;
-    border:1px solid #705d12;
-    border-radius:20px;
-    padding:20px;
+  margin-top:30px;
+
+  padding:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #151515,
+      #080808
+    );
+
+  border:
+    1px solid rgba(255,215,0,.28);
+
+  border-radius:20px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.5);
 }
 
 .carrinho-box h2{
-    color:#ffd700;
-    margin-bottom:15px;
+  color:#ffd700;
+  margin-bottom:18px;
 }
 
 .item-carrinho{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:13px 0;
-    border-bottom:1px solid #292929;
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:15px 0;
+
+  border-bottom:
+    1px solid #292929;
 }
 
 .item-info{
-    flex:1;
+  flex:1;
 }
 
 .item-info strong{
-    color:#fff;
+  color:#fff;
 }
 
 .item-info small{
-    display:block;
-    color:#888;
-    margin-top:4px;
+  display:block;
+
+  margin-top:4px;
+
+  color:#888;
 }
 
 .quantidade{
-    display:flex;
-    align-items:center;
-    gap:8px;
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
 }
 
 .quantidade button{
-    width:32px;
-    height:32px;
-    border:1px solid #806b16;
-    background:#151515;
-    color:#ffd700;
-    border-radius:8px;
-    font-size:18px;
-    cursor:pointer;
+  width:34px;
+  height:34px;
+
+  border:
+    1px solid rgba(255,215,0,.4);
+
+  border-radius:8px;
+
+  background:#101010;
+
+  color:#ffd700;
+
+  font-size:18px;
+
+  cursor:pointer;
 }
 
 .total{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-top:18px;
-    font-size:20px;
-    font-weight:900;
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  padding-top:20px;
+
+  font-size:20px;
+
+  font-weight:900;
 }
 
 .total strong{
-    color:#ffd700;
-}
-
-.checkout{
-    display:none;
-    margin-top:20px;
-    padding:18px;
-    background:#111;
-    border:1px solid #3c3210;
-    border-radius:15px;
-}
-
-.checkout h3{
-    color:#ffd700;
-    margin-bottom:12px;
-}
-
-.checkout label{
-    display:block;
-    color:#aaa;
-    margin:10px 0 6px;
-    font-size:13px;
-}
-
-.checkout select{
-    width:100%;
-    padding:12px;
-    background:#080808;
-    color:#fff;
-    border:1px solid #444;
-    border-radius:9px;
-}
-
-.aviso-pagamento{
-    margin-top:12px;
-    padding:12px;
-    border-radius:10px;
-    background:#1b1605;
-    border:1px solid #5c4d12;
-    color:#bbb;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.resultado{
-    display:none;
-    margin-top:20px;
-    padding:22px;
-    border-radius:16px;
-    background:linear-gradient(135deg,#071b0b,#101010);
-    border:1px solid #39b54a;
-    text-align:center;
-}
-
-.resultado h2{
-    color:#6dff8b;
-    margin-bottom:12px;
-}
-
-.resultado p{
-    color:#ccc;
-    line-height:1.7;
-}
-
-.numero-pedido{
-    display:inline-block;
-    margin:12px 0;
-    padding:10px 18px;
-    border-radius:10px;
-    background:#050505;
-    border:1px solid #d4af37;
-    color:#ffd700;
-    font-size:20px;
-    font-weight:900;
-}
-
-.erro-pedido{
-    display:none;
-    margin-top:15px;
-    padding:15px;
-    border-radius:12px;
-    background:#250909;
-    border:1px solid #ff5555;
-    color:#ff9b9b;
-    line-height:1.5;
-}
-
-.vazio,
-.erro,
-.carregando{
-    text-align:center;
-    padding:35px;
-    color:#999;
-    background:#101010;
-    border:1px solid #292929;
-    border-radius:16px;
+  color:#ffd700;
 }
 
 .vazio-carrinho{
-    color:#777;
-    text-align:center;
-    padding:15px 0;
+  padding:20px;
+
+  text-align:center;
+
+  color:#777;
 }
 
+/* =========================
+   CHECKOUT
+========================= */
+
+.checkout{
+  display:none;
+
+  margin-top:20px;
+
+  padding:20px;
+
+  border-radius:16px;
+
+  background:#101010;
+
+  border:
+    1px solid rgba(255,215,0,.2);
+}
+
+.checkout h3{
+  color:#ffd700;
+  margin-bottom:15px;
+}
+
+.checkout label{
+  display:block;
+
+  margin:12px 0 6px;
+
+  color:#aaa;
+
+  font-size:13px;
+}
+
+.checkout select{
+  width:100%;
+
+  padding:13px;
+
+  border-radius:10px;
+
+  background:#050505;
+
+  border:1px solid #444;
+
+  color:#fff;
+
+  outline:none;
+}
+
+.aviso-pagamento{
+  margin-top:15px;
+
+  padding:14px;
+
+  border-radius:11px;
+
+  background:#171304;
+
+  border:1px solid rgba(255,215,0,.25);
+
+  color:#aaa;
+
+  font-size:13px;
+
+  line-height:1.6;
+}
+
+.btn-limpar{
+  width:100%;
+
+  margin-top:10px;
+
+  padding:12px;
+
+  border:
+    1px solid #444;
+
+  border-radius:10px;
+
+  background:#101010;
+
+  color:#999;
+
+  cursor:pointer;
+}
+
+.btn-finalizar:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* =========================
+   RESULTADO
+========================= */
+
+.resultado{
+  display:none;
+
+  margin-top:20px;
+
+  padding:25px;
+
+  border-radius:18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #071b0b,
+      #0b0b0b
+    );
+
+  border:
+    1px solid #39b54a;
+
+  text-align:center;
+}
+
+.resultado h2{
+  color:#69f0ae;
+  margin-bottom:12px;
+}
+
+.resultado p{
+  color:#ccc;
+  line-height:1.7;
+}
+
+.numero-pedido{
+  display:inline-block;
+
+  margin:14px 0;
+
+  padding:11px 20px;
+
+  border-radius:10px;
+
+  background:#050505;
+
+  border:1px solid #ffd700;
+
+  color:#ffd700;
+
+  font-size:20px;
+
+  font-weight:900;
+}
+
+.erro-pedido{
+  display:none;
+
+  margin-top:15px;
+
+  padding:14px;
+
+  border-radius:11px;
+
+  background:#250909;
+
+  border:1px solid #ff5555;
+
+  color:#ffaaaa;
+
+  line-height:1.5;
+}
+
+/* =========================
+   ESTADOS
+========================= */
+
+.carregando,
+.vazio,
+.erro{
+  grid-column:1/-1;
+
+  padding:40px;
+
+  text-align:center;
+
+  color:#999;
+
+  background:#101010;
+
+  border:1px solid #292929;
+
+  border-radius:18px;
+}
+
+/* =========================
+   RODAPÉ
+========================= */
+
 footer{
-    text-align:center;
-    color:#666;
-    font-size:12px;
-    padding:25px 10px;
+  padding:30px 10px;
+
+  text-align:center;
+
+  color:#666;
+
+  font-size:12px;
+
+  line-height:1.7;
 }
 
 footer strong{
-    color:#ffd700;
+  color:#ffd700;
+
+  font-size:17px;
 }
 
-@media(max-width:800px){
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media(max-width:850px){
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
 }
 
-@media(max-width:560px){
-    .container{
-        padding:14px;
-    }
+@media(max-width:600px){
 
-    .grid{
-        grid-template-columns:1fr;
-    }
+  .container{
+    padding:14px;
+  }
 
-    .hero h1{
-        font-size:25px;
-    }
+  header{
+    align-items:flex-start;
+  }
 
-    .logo{
-        font-size:21px;
-    }
+  .logo{
+    font-size:22px;
+  }
 
-    header{
-        align-items:flex-start;
-    }
+  .hero h1{
+    font-size:26px;
+  }
 
-    .item-carrinho{
-        align-items:flex-start;
-        flex-wrap:wrap;
-    }
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .item-carrinho{
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+
+  .total{
+    font-size:18px;
+  }
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
 <header>
 
-<div class="logo">
-GOLD STYLE
-<span>BARBEARIA DESDE 2022</span>
-</div>
+  <div class="logo">
 
-<div class="top-botoes">
+    GOLD STYLE
 
-<a href="cliente.html" class="btn-voltar">
-← VOLTAR
-</a>
+    <span>
+      BARBEARIA DESDE 2022
+    </span>
 
-<button class="btn-carrinho" onclick="irParaCarrinho()">
-🛒 CARRINHO
-(<span id="contadorCarrinho">0</span>)
-</button>
+  </div>
 
-</div>
+
+  <div class="top-botoes">
+
+    <a
+      href="cliente.html"
+      class="btn-topo"
+    >
+      ← VOLTAR
+    </a>
+
+
+    <button
+      class="btn-topo gold"
+      onclick="irParaCarrinho()"
+    >
+      🛒 CARRINHO
+      (<span id="contadorCarrinho">0</span>)
+    </button>
+
+  </div>
+
 </header>
 
 
 <section class="hero">
 
-<small>🛍️ LOJA GOLD STYLE</small>
+  <small>
+    🛍️ LOJA GOLD STYLE
+  </small>
 
-<h1>
-Produtos para você manter o estilo em casa
-</h1>
+  <h1>
+    Produtos para manter seu estilo em casa
+  </h1>
 
-<p>
-Escolha seus produtos, coloque no carrinho e prepare seu pedido.
-</p>
+  <p>
+    Escolha seus produtos, adicione ao carrinho
+    e faça seu pedido diretamente pela Gold Style.
+  </p>
 
-<div class="aviso">
-🔐 Seu pedido ficará vinculado à sua conta Gold Style.
-<br><br>
-O estoque só será alterado depois da confirmação do pagamento.
-</div>
+  <div class="aviso">
+
+    🔐 Seu pedido fica vinculado à sua conta Gold Style.
+
+    <br><br>
+
+    📦 O estoque só é baixado quando o pedido
+    é confirmado pela administração.
+
+  </div>
 
 </section>
 
 
-<div id="listaProdutos" class="grid">
-
-<div class="carregando">
-Carregando produtos...
-</div>
-
-</div>
-
-
-<section id="carrinhoBox" class="carrinho-box">
-
-<h2>🛒 Seu carrinho</h2>
-
-<div id="listaCarrinho">
-
-<div class="vazio-carrinho">
-Seu carrinho está vazio.
-</div>
-
-</div>
-
-<div class="total">
-
-<span>Total</span>
-
-<strong id="totalCarrinho">
-R$ 0,00
-</strong>
-
-</div>
-
-
-<button
-class="btn-finalizar"
-id="btnContinuar"
-onclick="abrirCheckout()"
+<div
+  id="listaProdutos"
+  class="grid"
 >
-CONTINUAR PARA PAGAMENTO
-</button>
+
+  <div class="carregando">
+    Carregando produtos...
+  </div>
+
+</div>
 
 
-<button
-class="btn-limpar"
-onclick="limparCarrinho()"
+<section
+  id="carrinhoBox"
+  class="carrinho-box"
 >
-LIMPAR CARRINHO
-</button>
+
+  <h2>
+    🛒 Seu carrinho
+  </h2>
 
 
-<div id="checkout" class="checkout">
+  <div id="listaCarrinho">
 
-<h3>💳 Finalizar pedido</h3>
+    <div class="vazio-carrinho">
+      Seu carrinho está vazio.
+    </div>
 
-<label for="metodoPagamento">
-Forma de pagamento
-</label>
-
-<select id="metodoPagamento">
-
-<option value="Pix">
-PIX
-</option>
-
-<option value="Cartão">
-CARTÃO DE CRÉDITO
-</option>
-
-</select>
+  </div>
 
 
-<div class="aviso-pagamento">
+  <div class="total">
 
-⚡ Estamos preparando seu pedido.
+    <span>
+      Total
+    </span>
 
-<br><br>
+    <strong id="totalCarrinho">
+      R$ 0,00
+    </strong>
 
-O pagamento real por Pix e cartão será conectado na próxima etapa.
-
-<br><br>
-
-Por enquanto, o pedido será registrado como
-<strong>Pendente</strong>.
-
-<br>
-
-Nenhuma baixa será feita no estoque enquanto o pagamento não for confirmado.
-
-</div>
+  </div>
 
 
-<button
-class="btn-finalizar"
-id="btnConfirmar"
-onclick="criarPedido()"
->
-CONFIRMAR PEDIDO
-</button>
+  <button
+    id="btnContinuar"
+    class="btn-finalizar"
+    onclick="abrirCheckout()"
+  >
+    CONTINUAR PARA PAGAMENTO
+  </button>
 
 
-<div id="erroPedido" class="erro-pedido"></div>
+  <button
+    class="btn-limpar"
+    onclick="limparCarrinho()"
+  >
+    LIMPAR CARRINHO
+  </button>
 
-</div>
+
+  <div
+    id="checkout"
+    class="checkout"
+  >
+
+    <h3>
+      💳 Finalizar pedido
+    </h3>
 
 
-<div id="resultadoPedido" class="resultado">
+    <label for="metodoPagamento">
+      Forma de pagamento
+    </label>
 
-<h2>✅ PEDIDO REGISTRADO!</h2>
 
-<p>
-Seu pedido foi registrado com sucesso.
-</p>
+    <select id="metodoPagamento">
 
-<div class="numero-pedido" id="numeroPedido">
---------
-</div>
+      <option value="Pix">
+        PIX
+      </option>
 
-<p>
-<strong>Total:</strong>
-<span id="valorPedido">R$ 0,00</span>
-<br>
+      <option value="Cartão">
+        CARTÃO DE CRÉDITO
+      </option>
 
-<strong>Pagamento:</strong>
-<span id="metodoPedido">---</span>
-<br><br>
+    </select>
 
-Seu pedido está aguardando a confirmação do pagamento.
-</p>
 
-<br>
+    <div class="aviso-pagamento">
 
-<a
-href="cliente.html"
-class="btn-voltar"
-style="display:inline-block"
->
-← VOLTAR PARA MINHA CONTA
-</a>
+      ⚡ Seu pedido será registrado como
+      <strong>Pendente</strong>.
 
-</div>
+      <br><br>
+
+      O pagamento online real ainda será conectado
+      posteriormente.
+
+      <br><br>
+
+      O estoque não será alterado nesta etapa.
+
+    </div>
+
+
+    <button
+      id="btnConfirmar"
+      class="btn-finalizar"
+      onclick="criarPedido()"
+    >
+      CONFIRMAR PEDIDO
+    </button>
+
+
+    <div
+      id="erroPedido"
+      class="erro-pedido"
+    ></div>
+
+  </div>
+
+
+  <div
+    id="resultadoPedido"
+    class="resultado"
+  >
+
+    <h2>
+      ✅ PEDIDO REGISTRADO!
+    </h2>
+
+    <p>
+      Seu pedido foi registrado com sucesso.
+    </p>
+
+
+    <div
+      id="numeroPedido"
+      class="numero-pedido"
+    >
+      --------
+    </div>
+
+
+    <p>
+
+      <strong>
+        Total:
+      </strong>
+
+      <span id="valorPedido">
+        R$ 0,00
+      </span>
+
+      <br>
+
+      <strong>
+        Pagamento:
+      </strong>
+
+      <span id="metodoPedido">
+        ---
+      </span>
+
+      <br><br>
+
+      Seu pedido está aguardando
+      a confirmação do pagamento.
+
+    </p>
+
+
+    <br>
+
+
+    <a
+      href="cliente.html"
+      class="btn-topo"
+      style="display:inline-block"
+    >
+      ← VOLTAR PARA MINHA CONTA
+    </a>
+
+  </div>
 
 </section>
 
 
 <footer>
 
-<strong>GOLD STYLE BARBEARIA</strong>
+  <strong>
+    GOLD STYLE BARBEARIA
+  </strong>
 
-<br>
+  <br>
 
-Barbearia desde 2022 • Rio Branco - Acre
+  Barbearia desde 2022
 
-<br>
+  <br>
 
-Rua Preciosa 557
+  Rua Preciosa 557
+
+  <br>
+
+  Rio Branco - Acre
 
 </footer>
+
 
 </div>
 
@@ -633,61 +975,63 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
 let produtosDisponiveis = [];
 
+
 let carrinho =
 JSON.parse(
-    localStorage.getItem(
-        "goldStyleCarrinho"
-    ) || "[]"
+  localStorage.getItem(
+    "goldStyleCarrinho"
+  ) || "[]"
 );
 
 
 /* =========================
-   DINHEIRO
+   MOEDA
 ========================= */
 
 function dinheiro(valor){
 
-    return Number(
-        valor || 0
-    ).toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
+  return Number(
+    valor || 0
+  ).toLocaleString(
+    "pt-BR",
+    {
+      style:"currency",
+      currency:"BRL"
+    }
+  );
 
 }
 
 
 /* =========================
-   ESCAPAR HTML
+   SEGURANÇA HTML
 ========================= */
 
 function escapeHtml(valor){
 
-    return String(valor || "")
-    .replace(
-        /[&<>"']/g,
-        function(c){
+  return String(
+    valor || ""
+  ).replace(
+    /[&<>"']/g,
+    function(c){
 
-            return {
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
-            }[c];
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c];
 
-        }
-    );
+    }
+  );
 
 }
 
@@ -698,158 +1042,199 @@ function escapeHtml(valor){
 
 function salvarCarrinho(){
 
-    localStorage.setItem(
-        "goldStyleCarrinho",
-        JSON.stringify(carrinho)
-    );
+  localStorage.setItem(
+    "goldStyleCarrinho",
+    JSON.stringify(carrinho)
+  );
 
-    atualizarCarrinho();
+  atualizarCarrinho();
 
 }
 
 
 /* =========================
-   ADICIONAR
+   ADICIONAR PRODUTO
 ========================= */
 
 function adicionarCarrinho(id){
 
-    const produto =
-        produtosDisponiveis.find(
-            function(p){
-                return p.id === id;
-            }
-        );
-
-    if(!produto){
-        alert("Produto não encontrado.");
-        return;
-    }
-
-    const estoque =
-        Number(produto.Estoque || 0);
-
-    const existente =
-        carrinho.find(
-            function(item){
-                return item.id === id;
-            }
-        );
-
-    const quantidadeAtual =
-        existente
-        ? Number(existente.quantidade)
-        : 0;
-
-    if(quantidadeAtual >= estoque){
-
-        alert(
-            "Você atingiu a quantidade disponível em estoque."
-        );
-
-        return;
-    }
-
-    if(existente){
-
-        existente.quantidade += 1;
-
-    }else{
-
-        carrinho.push({
-
-            id:produto.id,
-
-            nome:produto.Nome,
-
-            preco:Number(
-                produto["Preço"] || 0
-            ),
-
-            estoque:estoque,
-
-            quantidade:1
-
-        });
-
-    }
-
-    salvarCarrinho();
-
-    alert(
-        "Produto adicionado ao carrinho!"
+  const produto =
+    produtosDisponiveis.find(
+      function(p){
+        return p.id === id;
+      }
     );
 
+
+  if(!produto){
+
+    alert(
+      "Produto não encontrado."
+    );
+
+    return;
+
+  }
+
+
+  const estoque =
+    Number(
+      produto.Estoque || 0
+    );
+
+
+  const existente =
+    carrinho.find(
+      function(item){
+        return item.id === id;
+      }
+    );
+
+
+  const quantidadeAtual =
+    existente
+    ? Number(
+        existente.quantidade
+      )
+    : 0;
+
+
+  if(
+    quantidadeAtual >= estoque
+  ){
+
+    alert(
+      "Você atingiu a quantidade disponível em estoque."
+    );
+
+    return;
+
+  }
+
+
+  if(existente){
+
+    existente.quantidade += 1;
+
+  }else{
+
+    carrinho.push({
+
+      id:produto.id,
+
+      nome:produto.Nome,
+
+      preco:Number(
+        produto["Preço"] || 0
+      ),
+
+      estoque:estoque,
+
+      quantidade:1
+
+    });
+
+  }
+
+
+  salvarCarrinho();
+
+
+  alert(
+    "Produto adicionado ao carrinho!"
+  );
+
 }
 
 
 /* =========================
-   QUANTIDADE
+   ALTERAR QUANTIDADE
 ========================= */
 
-function alterarQuantidade(id,delta){
+function alterarQuantidade(
+  id,
+  delta
+){
 
-    const item =
-        carrinho.find(
-            function(produto){
-                return produto.id === id;
-            }
-        );
+  const item =
+    carrinho.find(
+      function(produto){
+        return produto.id === id;
+      }
+    );
 
-    if(!item){
-        return;
-    }
 
-    const produto =
-        produtosDisponiveis.find(
-            function(p){
-                return p.id === id;
-            }
-        );
+  if(!item){
+    return;
+  }
 
-    const estoque =
-        produto
-        ? Number(produto.Estoque || 0)
-        : Number(item.estoque || 0);
 
-    item.quantidade += delta;
+  const produto =
+    produtosDisponiveis.find(
+      function(p){
+        return p.id === id;
+      }
+    );
 
-    if(item.quantidade <= 0){
 
-        carrinho =
-            carrinho.filter(
-                function(p){
-                    return p.id !== id;
-                }
-            );
+  const estoque =
+    produto
+    ? Number(
+        produto.Estoque || 0
+      )
+    : Number(
+        item.estoque || 0
+      );
 
-    }else if(item.quantidade > estoque){
 
-        item.quantidade = estoque;
+  item.quantidade += delta;
 
-        alert(
-            "Quantidade máxima disponível atingida."
-        );
-    }
 
-    salvarCarrinho();
+  if(
+    item.quantidade <= 0
+  ){
+
+    carrinho =
+      carrinho.filter(
+        function(p){
+          return p.id !== id;
+        }
+      );
+
+  }
+  else if(
+    item.quantidade > estoque
+  ){
+
+    item.quantidade =
+      estoque;
+
+    alert(
+      "Quantidade máxima disponível atingida."
+    );
+
+  }
+
+
+  salvarCarrinho();
 
 }
 
 
 /* =========================
-   LIMPAR
+   LIMPAR CARRINHO
 ========================= */
 
 function limparCarrinho(){
 
-    carrinho = [];
+  carrinho = [];
 
-    salvarCarrinho();
+  salvarCarrinho();
 
-    document.getElementById(
-        "checkout"
-    ).style.display = "none";
+
+  document.getElementById(
+    "checkout"
+  ).style.display = "none";
 
 }
 
@@ -860,187 +1245,224 @@ function limparCarrinho(){
 
 function calcularTotal(){
 
-    return carrinho.reduce(
-        function(total,item){
+  return carrinho.reduce(
+    function(total,item){
 
-            return total +
-            Number(item.preco) *
-            Number(item.quantidade);
+      return total +
+        Number(item.preco) *
+        Number(item.quantidade);
 
-        },
-        0
-    );
+    },
+    0
+  );
 
 }
 
 
 /* =========================
-   ATUALIZAR
+   ATUALIZAR CARRINHO
 ========================= */
 
 function atualizarCarrinho(){
 
-    const lista =
-        document.getElementById(
-            "listaCarrinho"
-        );
+  const lista =
+    document.getElementById(
+      "listaCarrinho"
+    );
 
-    const contador =
-        document.getElementById(
-            "contadorCarrinho"
-        );
 
-    const total =
-        document.getElementById(
-            "totalCarrinho"
-        );
+  const contador =
+    document.getElementById(
+      "contadorCarrinho"
+    );
 
-    const btn =
-        document.getElementById(
-            "btnContinuar"
-        );
 
-    contador.textContent =
-        carrinho.reduce(
-            function(soma,item){
-                return soma +
-                Number(item.quantidade);
-            },
-            0
-        );
+  const total =
+    document.getElementById(
+      "totalCarrinho"
+    );
 
-    total.textContent =
-        dinheiro(calcularTotal());
 
-    if(!carrinho.length){
+  const btn =
+    document.getElementById(
+      "btnContinuar"
+    );
 
-        lista.innerHTML =
-        '<div class="vazio-carrinho">' +
-        'Seu carrinho está vazio.' +
-        '</div>';
 
-        btn.disabled = true;
+  contador.textContent =
+    carrinho.reduce(
+      function(soma,item){
 
-        return;
-    }
+        return soma +
+          Number(
+            item.quantidade
+          );
 
-    btn.disabled = false;
+      },
+      0
+    );
+
+
+  total.textContent =
+    dinheiro(
+      calcularTotal()
+    );
+
+
+  if(
+    !carrinho.length
+  ){
 
     lista.innerHTML =
-        carrinho.map(
-            function(item){
+      `
+      <div class="vazio-carrinho">
+        Seu carrinho está vazio.
+      </div>
+      `;
 
-                return `
+    btn.disabled = true;
 
-<div class="item-carrinho">
+    return;
 
-<div class="item-info">
+  }
 
-<strong>
-${escapeHtml(item.nome)}
-</strong>
 
-<small>
-${dinheiro(item.preco)} por unidade
-</small>
+  btn.disabled = false;
 
-</div>
 
-<div class="quantidade">
+  lista.innerHTML =
+    carrinho.map(
+      function(item){
 
-<button
-onclick="alterarQuantidade('${item.id}',-1)"
->
-−
-</button>
+        return `
 
-<strong>
-${item.quantidade}
-</strong>
+        <div class="item-carrinho">
 
-<button
-onclick="alterarQuantidade('${item.id}',1)"
->
-+
-</button>
+          <div class="item-info">
 
-</div>
+            <strong>
+              ${escapeHtml(item.nome)}
+            </strong>
 
-<strong>
-${dinheiro(
-    item.preco * item.quantidade
-)}
-</strong>
+            <small>
+              ${dinheiro(item.preco)}
+              por unidade
+            </small>
 
-</div>
+          </div>
 
-`;
 
-            }
-        ).join("");
+          <div class="quantidade">
+
+            <button
+              onclick="alterarQuantidade('${item.id}',-1)"
+            >
+              −
+            </button>
+
+            <strong>
+              ${item.quantidade}
+            </strong>
+
+            <button
+              onclick="alterarQuantidade('${item.id}',1)"
+            >
+              +
+            </button>
+
+          </div>
+
+
+          <strong>
+            ${dinheiro(
+              item.preco *
+              item.quantidade
+            )}
+          </strong>
+
+        </div>
+
+        `;
+
+      }
+    ).join("");
 
 }
 
 
 /* =========================
-   IR CARRINHO
+   IR PARA CARRINHO
 ========================= */
 
 function irParaCarrinho(){
 
-    document
-        .getElementById("carrinhoBox")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-
-}
-
-
-/* =========================
-   ABRIR CHECKOUT
-========================= */
-
-function abrirCheckout(){
-
-    if(!carrinho.length){
-
-        alert(
-            "Adicione pelo menos um produto ao carrinho."
-        );
-
-        return;
-    }
-
-    const checkout =
-        document.getElementById(
-            "checkout"
-        );
-
-    checkout.style.display = "block";
-
-    checkout.scrollIntoView({
-        behavior:"smooth"
+  document
+    .getElementById(
+      "carrinhoBox"
+    )
+    .scrollIntoView({
+      behavior:"smooth"
     });
 
 }
 
 
 /* =========================
-   MOSTRAR ERRO
+   CHECKOUT
 ========================= */
 
-function mostrarErroPedido(mensagem){
+function abrirCheckout(){
 
-    const erro =
-        document.getElementById(
-            "erroPedido"
-        );
+  if(
+    !carrinho.length
+  ){
 
-    erro.textContent =
-        "❌ " + mensagem;
+    alert(
+      "Adicione pelo menos um produto ao carrinho."
+    );
 
-    erro.style.display = "block";
+    return;
+
+  }
+
+
+  const checkout =
+    document.getElementById(
+      "checkout"
+    );
+
+
+  checkout.style.display =
+    "block";
+
+
+  checkout.scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   ERRO
+========================= */
+
+function mostrarErroPedido(
+  mensagem
+){
+
+  const erro =
+    document.getElementById(
+      "erroPedido"
+    );
+
+
+  erro.textContent =
+    "❌ " + mensagem;
+
+
+  erro.style.display =
+    "block";
 
 }
 
@@ -1051,364 +1473,317 @@ function mostrarErroPedido(mensagem){
 
 async function criarPedido(){
 
-    const botao =
-        document.getElementById(
-            "btnConfirmar"
-        );
-
-    const erro =
-        document.getElementById(
-            "erroPedido"
-        );
-
-    const resultado =
-        document.getElementById(
-            "resultadoPedido"
-        );
-
-    erro.style.display = "none";
-
-    resultado.style.display = "none";
+  const botao =
+    document.getElementById(
+      "btnConfirmar"
+    );
 
 
-    if(!carrinho.length){
+  const erro =
+    document.getElementById(
+      "erroPedido"
+    );
 
-        mostrarErroPedido(
-            "Seu carrinho está vazio."
-        );
 
-        return;
+  const resultado =
+    document.getElementById(
+      "resultadoPedido"
+    );
+
+
+  erro.style.display =
+    "none";
+
+
+  resultado.style.display =
+    "none";
+
+
+  if(
+    !carrinho.length
+  ){
+
+    mostrarErroPedido(
+      "Seu carrinho está vazio."
+    );
+
+    return;
+
+  }
+
+
+  botao.disabled =
+    true;
+
+
+  botao.textContent =
+    "PROCESSANDO PEDIDO...";
+
+
+  try{
+
+    const {
+      data:sessionData,
+      error:sessionError
+    } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+    if(
+      sessionError ||
+      !sessionData.session
+    ){
+
+      window.location.href =
+        "login.html";
+
+      return;
+
     }
 
 
-    botao.disabled = true;
+    const authUserId =
+      sessionData.session.user.id;
+
+
+    const {
+      data:cliente,
+      error:clienteError
+    } =
+    await supabaseClient
+
+      .from("clientes")
+
+      .select(
+        "id,Nome"
+      )
+
+      .eq(
+        "auth_user_id",
+        authUserId
+      )
+
+      .maybeSingle();
+
+
+    if(clienteError){
+
+      throw new Error(
+        "Erro ao localizar seu cadastro: " +
+        clienteError.message
+      );
+
+    }
+
+
+    if(!cliente){
+
+      throw new Error(
+        "Não encontramos seu cadastro de cliente."
+      );
+
+    }
+
+
+    const metodo =
+      document.getElementById(
+        "metodoPagamento"
+      ).value;
+
+
+    const total =
+      calcularTotal();
+
+
+    const {
+      data:pedido,
+      error:pedidoError
+    } =
+    await supabaseClient
+
+      .from(
+        "pedidos_produtos"
+      )
+
+      .insert({
+
+        cliente_id:
+          cliente.id,
+
+        total:
+          total,
+
+        metodo_pagamento:
+          metodo,
+
+        status_pagamento:
+          "Pendente",
+
+        status_pedido:
+          "Aguardando pagamento"
+
+      })
+
+      .select()
+
+      .single();
+
+
+    if(pedidoError){
+
+      throw new Error(
+        "Não foi possível criar o pedido: " +
+        pedidoError.message
+      );
+
+    }
+
+
+    if(!pedido){
+
+      throw new Error(
+        "O pedido não foi retornado pelo sistema."
+      );
+
+    }
+
+
+    const itens =
+      carrinho.map(
+        function(item){
+
+          return {
+
+            pedido_id:
+              pedido.id,
+
+            produto_id:
+              item.id,
+
+            produto_nome:
+              item.nome,
+
+            quantidade:
+              Number(
+                item.quantidade
+              ),
+
+            valor_unitario:
+              Number(
+                item.preco
+              ),
+
+            valor_total:
+              Number(
+                item.preco
+              ) *
+              Number(
+                item.quantidade
+              )
+
+          };
+
+        }
+      );
+
+
+    const {
+      error:itensError
+    } =
+    await supabaseClient
+
+      .from(
+        "itens_pedido"
+      )
+
+      .insert(
+        itens
+      );
+
+
+    if(itensError){
+
+      throw new Error(
+        "O pedido foi criado, mas os produtos não puderam ser registrados: " +
+        itensError.message
+      );
+
+    }
+
+
+    const numero =
+      pedido.id
+        .substring(
+          0,
+          8
+        )
+        .toUpperCase();
+
+
+    carrinho = [];
+
+    salvarCarrinho();
+
+
+    document.getElementById(
+      "checkout"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "numeroPedido"
+    ).textContent =
+      "#" + numero;
+
+
+    document.getElementById(
+      "valorPedido"
+    ).textContent =
+      dinheiro(total);
+
+
+    document.getElementById(
+      "metodoPedido"
+    ).textContent =
+      metodo;
+
+
+    resultado.style.display =
+      "block";
+
+
+    resultado.scrollIntoView({
+      behavior:"smooth"
+    });
+
+
+  }
+  catch(error){
+
+    console.error(
+      "ERRO AO CRIAR PEDIDO:",
+      error
+    );
+
+
+    mostrarErroPedido(
+      error.message ||
+      "Ocorreu um erro ao criar o pedido."
+    );
+
+  }
+  finally{
+
+    botao.disabled =
+      false;
 
     botao.textContent =
-        "PROCESSANDO PEDIDO...";
+      "CONFIRMAR PEDIDO";
 
-
-    try{
-
-        /*
-        ====================================
-        1. VERIFICAR LOGIN
-        ====================================
-        */
-
-        const {
-            data:sessionData,
-            error:sessionError
-        } =
-        await supabaseClient
-            .auth
-            .getSession();
-
-
-        if(
-            sessionError ||
-            !sessionData.session
-        ){
-
-            window.location.href =
-                "login.html";
-
-            return;
-        }
-
-
-        const authUserId =
-            sessionData.session.user.id;
-
-
-        /*
-        ====================================
-        2. LOCALIZAR CLIENTE
-        ====================================
-        */
-
-        const {
-            data:cliente,
-            error:clienteError
-        } =
-        await supabaseClient
-
-            .from("clientes")
-
-            .select("id,Nome")
-
-            .eq(
-                "auth_user_id",
-                authUserId
-            )
-
-            .maybeSingle();
-
-
-        if(clienteError){
-
-            throw new Error(
-                "Erro ao localizar seu cadastro: "
-                +
-                clienteError.message
-            );
-
-        }
-
-
-        if(!cliente){
-
-            throw new Error(
-                "Não encontramos seu cadastro de cliente."
-            );
-
-        }
-
-
-        /*
-        ====================================
-        3. FORMA DE PAGAMENTO
-        ====================================
-        */
-
-        const metodo =
-            document.getElementById(
-                "metodoPagamento"
-            ).value;
-
-
-        /*
-        ====================================
-        4. TOTAL
-        ====================================
-        */
-
-        const total =
-            calcularTotal();
-
-
-        /*
-        ====================================
-        5. CRIAR PEDIDO
-        ====================================
-        */
-
-        const {
-            data:pedido,
-            error:pedidoError
-        } =
-        await supabaseClient
-
-            .from(
-                "pedidos_produtos"
-            )
-
-            .insert({
-
-                cliente_id:
-                cliente.id,
-
-                total:
-                total,
-
-                metodo_pagamento:
-                metodo,
-
-                status_pagamento:
-                "Pendente",
-
-                status_pedido:
-                "Aguardando pagamento"
-
-            })
-
-            .select()
-
-            .single();
-
-
-        if(pedidoError){
-
-            throw new Error(
-                "Não foi possível criar o pedido: "
-                +
-                pedidoError.message
-            );
-
-        }
-
-
-        if(!pedido){
-
-            throw new Error(
-                "O pedido não foi retornado pelo sistema."
-            );
-
-        }
-
-
-        /*
-        ====================================
-        6. PREPARAR ITENS
-        ====================================
-        */
-
-        const itens =
-            carrinho.map(
-                function(item){
-
-                    return {
-
-                        pedido_id:
-                        pedido.id,
-
-                        produto_id:
-                        item.id,
-
-                        produto_nome:
-                        item.nome,
-
-                        quantidade:
-                        Number(
-                            item.quantidade
-                        ),
-
-                        valor_unitario:
-                        Number(
-                            item.preco
-                        ),
-
-                        valor_total:
-                        Number(
-                            item.preco
-                        ) *
-                        Number(
-                            item.quantidade
-                        )
-
-                    };
-
-                }
-            );
-
-
-        /*
-        ====================================
-        7. SALVAR ITENS
-        ====================================
-        */
-
-        const {
-            error:itensError
-        } =
-        await supabaseClient
-
-            .from(
-                "itens_pedido"
-            )
-
-            .insert(itens);
-
-
-        if(itensError){
-
-            throw new Error(
-                "O pedido foi criado, mas os produtos não puderam ser registrados: "
-                +
-                itensError.message
-            );
-
-        }
-
-
-        /*
-        ====================================
-        8. GUARDAR INFORMAÇÕES
-        ====================================
-        */
-
-        const numero =
-            pedido.id
-            .substring(0,8)
-            .toUpperCase();
-
-
-        /*
-        ====================================
-        9. AGORA SIM LIMPAR CARRINHO
-        ====================================
-        */
-
-        carrinho = [];
-
-        salvarCarrinho();
-
-
-        /*
-        ====================================
-        10. ESCONDER CHECKOUT
-        ====================================
-        */
-
-        document.getElementById(
-            "checkout"
-        ).style.display = "none";
-
-
-        /*
-        ====================================
-        11. MOSTRAR SUCESSO
-        ====================================
-        */
-
-        document.getElementById(
-            "numeroPedido"
-        ).textContent =
-            "#" + numero;
-
-
-        document.getElementById(
-            "valorPedido"
-        ).textContent =
-            dinheiro(total);
-
-
-        document.getElementById(
-            "metodoPedido"
-        ).textContent =
-            metodo;
-
-
-        resultado.style.display =
-            "block";
-
-
-        resultado.scrollIntoView({
-            behavior:"smooth"
-        });
-
-
-    }catch(error){
-
-        console.error(
-            "ERRO AO CRIAR PEDIDO:",
-            error
-        );
-
-
-        mostrarErroPedido(
-            error.message ||
-            "Ocorreu um erro ao criar o pedido."
-        );
-
-
-    }finally{
-
-        botao.disabled = false;
-
-        botao.textContent =
-            "CONFIRMAR PEDIDO";
-
-    }
+  }
 
 }
 
@@ -1419,177 +1794,215 @@ async function criarPedido(){
 
 async function carregarProdutos(){
 
-    const {
-        data:sessionData,
-        error:sessionError
-    } =
-    await supabaseClient
-        .auth
-        .getSession();
+  const {
+    data:sessionData,
+    error:sessionError
+  } =
+  await supabaseClient
+    .auth
+    .getSession();
 
 
-    if(
-        sessionError ||
-        !sessionData.session
-    ){
+  if(
+    sessionError ||
+    !sessionData.session
+  ){
 
-        window.location.href =
-            "login.html";
+    window.location.href =
+      "login.html";
 
-        return;
-    }
+    return;
 
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-
-        .from("produtos")
-
-        .select(
-            'id,Nome,"Descrição","Preço",Estoque,"Estoque minimo"'
-        )
-
-        .eq(
-            "Ativo",
-            true
-        )
-
-        .order(
-            "Nome",
-            {
-                ascending:true
-            }
-        );
+  }
 
 
-    const elemento =
-        document.getElementById(
-            "listaProdutos"
-        );
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+
+    .from("produtos")
+
+    .select(
+      'id,Nome,"Descrição","Preço",Estoque,"Estoque minimo"'
+    )
+
+    .eq(
+      "Ativo",
+      true
+    )
+
+    .order(
+      "Nome",
+      {
+        ascending:true
+      }
+    );
 
 
-    if(error){
-
-        console.error(error);
-
-        elemento.innerHTML =
-            '<div class="erro">' +
-            'Não foi possível carregar os produtos.' +
-            '<br><br>' +
-            escapeHtml(error.message) +
-            '</div>';
-
-        return;
-    }
+  const elemento =
+    document.getElementById(
+      "listaProdutos"
+    );
 
 
-    produtosDisponiveis =
-        (data || []).filter(
-            function(produto){
+  if(error){
 
-                return Number(
-                    produto.Estoque || 0
-                ) > 0;
-
-            }
-        );
-
-
-    if(!produtosDisponiveis.length){
-
-        elemento.innerHTML =
-            '<div class="vazio">' +
-            '🛍️<br><br>' +
-            '<strong>' +
-            'Nenhum produto disponível no momento.' +
-            '</strong>' +
-            '</div>';
-
-        atualizarCarrinho();
-
-        return;
-    }
+    console.error(error);
 
 
     elemento.innerHTML =
-        produtosDisponiveis.map(
-            function(produto){
+      `
+      <div class="erro">
 
-                const estoque =
-                    Number(
-                        produto.Estoque || 0
-                    );
+        Não foi possível carregar os produtos.
 
-                const minimo =
-                    Number(
-                        produto["Estoque minimo"] || 0
-                    );
+        <br><br>
 
-                const classe =
-                    estoque <= minimo
-                    ? "estoque baixo"
-                    : "estoque";
+        ${escapeHtml(
+          error.message
+        )}
+
+      </div>
+      `;
+
+    return;
+
+  }
 
 
-                return `
+  produtosDisponiveis =
+    (data || []).filter(
+      function(produto){
 
-<article class="produto">
+        return Number(
+          produto.Estoque || 0
+        ) > 0;
 
-<div class="icone">
-🧴
-</div>
+      }
+    );
 
-<h2>
-${escapeHtml(
-    produto.Nome || "Produto"
-)}
-</h2>
 
-<div class="descricao">
-${escapeHtml(
-    produto["Descrição"] ||
-    "Produto Gold Style."
-)}
-</div>
+  if(
+    !produtosDisponiveis.length
+  ){
 
-<div class="preco">
-${dinheiro(produto["Preço"])}
-</div>
+    elemento.innerHTML =
+      `
+      <div class="vazio">
 
-<div class="${classe}">
-✓ ${estoque} unidade(s) disponível(is)
-</div>
+        🛍️
 
-<button
-class="btn-comprar"
-onclick="adicionarCarrinho('${produto.id}')"
->
-🛒 ADICIONAR AO CARRINHO
-</button>
+        <br><br>
 
-</article>
+        <strong>
+          Nenhum produto disponível no momento.
+        </strong>
 
-`;
-
-            }
-        ).join("");
-
+      </div>
+      `;
 
     atualizarCarrinho();
 
+    return;
+
+  }
+
+
+  elemento.innerHTML =
+    produtosDisponiveis.map(
+      function(produto){
+
+        const estoque =
+          Number(
+            produto.Estoque || 0
+          );
+
+
+        const minimo =
+          Number(
+            produto["Estoque minimo"] || 0
+          );
+
+
+        const classe =
+          estoque <= minimo
+          ? "estoque baixo"
+          : "estoque";
+
+
+        return `
+
+        <article class="produto">
+
+          <div class="icone">
+            🧴
+          </div>
+
+
+          <h2>
+            ${escapeHtml(
+              produto.Nome ||
+              "Produto"
+            )}
+          </h2>
+
+
+          <div class="descricao">
+
+            ${escapeHtml(
+              produto["Descrição"] ||
+              "Produto Gold Style."
+            )}
+
+          </div>
+
+
+          <div class="preco">
+
+            ${dinheiro(
+              produto["Preço"]
+            )}
+
+          </div>
+
+
+          <div class="${classe}">
+
+            ✓ ${estoque}
+            unidade(s) disponível(is)
+
+          </div>
+
+
+          <button
+            class="btn-comprar"
+            onclick="adicionarCarrinho('${produto.id}')"
+          >
+
+            🛒 ADICIONAR AO CARRINHO
+
+          </button>
+
+        </article>
+
+        `;
+
+      }
+    ).join("");
+
+
+  atualizarCarrinho();
+
 }
 
-
-/* =========================
-   INICIAR
-========================= */
 
 carregarProdutos();
 
 </script>
 
+
 </body>
+
     </html>
