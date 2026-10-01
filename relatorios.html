@@ -1,316 +1,329 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Relatórios - Gold Style</title>
+<title>Relatórios - Gold Style</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-            min-height: 100vh;
-        }
+body{
+    font-family:Arial,sans-serif;
+    background:#050505;
+    color:#fff;
+    min-height:100vh;
+}
 
-        header {
-            background: linear-gradient(135deg, #050505, #171717);
-            border-bottom: 1px solid #d4af37;
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+header{
+    background:linear-gradient(135deg,#050505,#181818);
+    border-bottom:1px solid #d4af37;
+    padding:22px 15px;
+    text-align:center;
+}
 
-        header h1 {
-            color: #ffd700;
-            font-size: 28px;
-            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
-        }
+header h1{
+    color:#ffd700;
+    font-size:28px;
+    text-shadow:0 0 15px rgba(255,215,0,.6);
+}
 
-        header p {
-            color: #aaa;
-            margin-top: 6px;
-        }
+header p{
+    color:#aaa;
+    margin-top:7px;
+}
 
-        .container {
-            width: 95%;
-            max-width: 1300px;
-            margin: 25px auto;
-        }
+.container{
+    width:95%;
+    max-width:1350px;
+    margin:25px auto;
+}
 
-        .top-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
+.top-actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
 
-        .btn {
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
-            background: #d4af37;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
+.btn{
+    border:none;
+    padding:12px 17px;
+    border-radius:10px;
+    background:#d4af37;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
+}
 
-        .btn:hover {
-            background: #ffd700;
-        }
+.btn:hover{
+    background:#ffd700;
+}
 
-        .btn.dark {
-            background: #181818;
-            color: #ffd700;
-            border: 1px solid #d4af37;
-        }
+.btn.dark{
+    background:#181818;
+    color:#ffd700;
+    border:1px solid #d4af37;
+}
 
-        .filters {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.filters{
+    background:#111;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+}
 
-        .filters h2 {
-            color: #ffd700;
-            margin-bottom: 15px;
-        }
+.filters h2{
+    color:#ffd700;
+    margin-bottom:15px;
+}
 
-        .filter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-        }
+.filter-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+}
 
-        label {
-            display: block;
-            color: #ccc;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
+label{
+    display:block;
+    color:#ccc;
+    font-size:14px;
+    margin-bottom:6px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background: #050505;
-            color: white;
-            outline: none;
-        }
+input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #444;
+    background:#050505;
+    color:#fff;
+}
 
-        input:focus,
-        select:focus {
-            border-color: #ffd700;
-        }
+input:focus{
+    outline:none;
+    border-color:#ffd700;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
 
-        .card {
-            background: linear-gradient(145deg, #151515, #080808);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(212,175,55,.08);
-        }
+.card{
+    background:linear-gradient(145deg,#171717,#080808);
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 0 15px rgba(212,175,55,.08);
+}
 
-        .card h3 {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
+.card h3{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:10px;
+}
 
-        .card .value {
-            color: #ffd700;
-            font-size: 25px;
-            font-weight: bold;
-        }
+.card .value{
+    color:#ffd700;
+    font-size:25px;
+    font-weight:bold;
+}
 
-        .section {
-            background: #101010;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
+.card.lucro{
+    border-color:#d4af37;
+}
 
-        .section h2 {
-            color: #ffd700;
-            margin-bottom: 18px;
-        }
+.card.pendente{
+    border-color:#806b00;
+}
 
-        .chart {
-            display: flex;
-            align-items: end;
-            gap: 8px;
-            height: 230px;
-            padding: 15px 5px 35px;
-            border-bottom: 1px solid #444;
-            overflow-x: auto;
-        }
+.section{
+    background:#101010;
+    border:1px solid #333;
+    border-radius:15px;
+    padding:20px;
+    margin-bottom:20px;
+    overflow:hidden;
+}
 
-        .bar-box {
-            min-width: 65px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            align-items: center;
-            position: relative;
-        }
+.section h2{
+    color:#ffd700;
+    margin-bottom:18px;
+}
 
-        .bar {
-            width: 34px;
-            background: linear-gradient(to top, #a67c00, #ffd700);
-            border-radius: 6px 6px 0 0;
-            min-height: 3px;
-            box-shadow: 0 0 10px rgba(255,215,0,.25);
-        }
+.chart{
+    display:flex;
+    align-items:end;
+    gap:8px;
+    height:230px;
+    padding:15px 5px 35px;
+    border-bottom:1px solid #444;
+    overflow-x:auto;
+}
 
-        .bar-value {
-            font-size: 10px;
-            color: #ffd700;
-            margin-bottom: 4px;
-            white-space: nowrap;
-        }
+.bar-box{
+    min-width:65px;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    align-items:center;
+    position:relative;
+}
 
-        .bar-label {
-            position: absolute;
-            bottom: -28px;
-            font-size: 11px;
-            color: #aaa;
-            white-space: nowrap;
-        }
+.bar{
+    width:34px;
+    background:linear-gradient(to top,#a67c00,#ffd700);
+    border-radius:6px 6px 0 0;
+    min-height:3px;
+}
 
-        .payment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
+.bar-value{
+    font-size:10px;
+    color:#ffd700;
+    margin-bottom:4px;
+    white-space:nowrap;
+}
 
-        .payment-card {
-            padding: 18px;
-            border-radius: 12px;
-            background: #080808;
-            border: 1px solid #333;
-        }
+.bar-label{
+    position:absolute;
+    bottom:-28px;
+    font-size:11px;
+    color:#aaa;
+    white-space:nowrap;
+}
 
-        .payment-card h3 {
-            color: #bbb;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
+.payment-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
 
-        .payment-card strong {
-            color: #ffd700;
-            font-size: 22px;
-        }
+.payment-card{
+    padding:18px;
+    border-radius:12px;
+    background:#080808;
+    border:1px solid #333;
+}
 
-        .table-wrapper {
-            overflow-x: auto;
-        }
+.payment-card h3{
+    color:#bbb;
+    font-size:14px;
+    margin-bottom:8px;
+}
 
-        table {
-            width: 100%;
-            min-width: 750px;
-            border-collapse: collapse;
-        }
+.payment-card strong{
+    color:#ffd700;
+    font-size:22px;
+}
 
-        th,
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #292929;
-            text-align: left;
-        }
+.table-wrapper{
+    overflow-x:auto;
+}
 
-        th {
-            color: #ffd700;
-            background: #151515;
-        }
+table{
+    width:100%;
+    min-width:750px;
+    border-collapse:collapse;
+}
 
-        td {
-            color: #ddd;
-        }
+th,td{
+    padding:12px;
+    border-bottom:1px solid #292929;
+    text-align:left;
+}
 
-        .empty {
-            padding: 30px;
-            text-align: center;
-            color: #888;
-        }
+th{
+    color:#ffd700;
+    background:#151515;
+}
 
-        .loading {
-            color: #ffd700;
-            text-align: center;
-            padding: 30px;
-        }
+td{
+    color:#ddd;
+}
 
-        .error {
-            color: #ff6b6b;
-            background: #210d0d;
-            border: 1px solid #6b2222;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: none;
-        }
+.empty{
+    padding:30px;
+    text-align:center;
+    color:#888;
+}
 
-        .footer {
-            text-align: center;
-            color: #777;
-            padding: 30px 10px;
-        }
+.loading{
+    color:#ffd700;
+    text-align:center;
+    padding:30px;
+}
 
-        .badge {
-            display: inline-block;
-            padding: 5px 8px;
-            border-radius: 6px;
-            background: #211d08;
-            border: 1px solid #806b00;
-            color: #ffd700;
-            font-size: 12px;
-        }
+.error{
+    color:#ff6b6b;
+    background:#210d0d;
+    border:1px solid #6b2222;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    display:none;
+}
 
-        @media (max-width: 600px) {
+.footer{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
 
-            header h1 {
-                font-size: 23px;
-            }
+.badge{
+    display:inline-block;
+    padding:5px 8px;
+    border-radius:6px;
+    background:#211d08;
+    border:1px solid #806b00;
+    color:#ffd700;
+    font-size:12px;
+}
 
-            .container {
-                width: 92%;
-            }
+.verde{
+    color:#55d66b !important;
+}
 
-            .card .value {
-                font-size: 21px;
-            }
+.vermelho{
+    color:#ff6b6b !important;
+}
 
-            .section {
-                padding: 15px;
-            }
-        }
-    </style>
+.amarelo{
+    color:#ffd700 !important;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:23px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .card .value{
+        font-size:21px;
+    }
+
+    .section{
+        padding:15px;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -328,8 +341,8 @@
             ← Dashboard
         </a>
 
-        <a class="btn dark" href="financeiro.html">
-            💰 Financeiro
+        <a class="btn dark" href="agenda-admin.html">
+            📅 Agenda
         </a>
 
         <a class="btn dark" href="vendas.html">
@@ -338,6 +351,10 @@
 
         <a class="btn dark" href="pedidos.html">
             📦 Pedidos
+        </a>
+
+        <a class="btn dark" href="financeiro.html">
+            💰 Financeiro
         </a>
 
         <button class="btn" onclick="carregarRelatorios()">
@@ -389,8 +406,29 @@
         <div class="cards">
 
             <div class="card">
-                <h3>💰 Faturamento total</h3>
-                <div class="value" id="faturamentoTotal">
+                <h3>💰 Total recebido</h3>
+                <div class="value" id="totalRecebido">
+                    R$ 0,00
+                </div>
+            </div>
+
+            <div class="card pendente">
+                <h3>⏳ Total a receber</h3>
+                <div class="value" id="totalReceber">
+                    R$ 0,00
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💸 Despesas</h3>
+                <div class="value" id="totalDespesas">
+                    R$ 0,00
+                </div>
+            </div>
+
+            <div class="card lucro">
+                <h3>📈 Lucro líquido</h3>
+                <div class="value" id="lucroLiquido">
                     R$ 0,00
                 </div>
             </div>
@@ -410,8 +448,15 @@
             </div>
 
             <div class="card">
-                <h3>📦 Pedidos concluídos</h3>
-                <div class="value" id="totalPedidos">
+                <h3>📦 Pedidos pagos</h3>
+                <div class="value" id="totalPedidosPagos">
+                    0
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>✅ Pedidos concluídos</h3>
+                <div class="value" id="totalPedidosConcluidos">
                     0
                 </div>
             </div>
@@ -494,13 +539,11 @@
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>Serviço</th>
                             <th>Quantidade</th>
                             <th>Faturamento</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="tabelaServicos"></tbody>
@@ -520,14 +563,12 @@
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>Produto</th>
                             <th>Quantidade</th>
                             <th>Faturamento</th>
                             <th>Origem</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="tabelaProdutos"></tbody>
@@ -540,25 +581,50 @@
 
         <div class="section">
 
-            <h2>📦 Pedidos de produtos concluídos</h2>
+            <h2>📦 Pedidos de produtos</h2>
 
             <div class="table-wrapper">
 
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>Data</th>
                             <th>Cliente</th>
                             <th>Pedido</th>
                             <th>Valor</th>
                             <th>Pagamento</th>
+                            <th>Status</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="tabelaPedidos"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="section">
+
+            <h2>💸 Despesas do período</h2>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Pagamento</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaDespesas"></tbody>
 
                 </table>
 
@@ -575,7 +641,6 @@
                 <table>
 
                     <thead>
-
                         <tr>
                             <th>Data</th>
                             <th>Tipo</th>
@@ -584,7 +649,6 @@
                             <th>Valor</th>
                             <th>Pagamento</th>
                         </tr>
-
                     </thead>
 
                     <tbody id="tabelaMovimentos"></tbody>
@@ -623,24 +687,25 @@ let pedidos = [];
 let itensPedidos = [];
 let agendamentos = [];
 let clientes = [];
+let despesas = [];
 
 
-function dinheiro(valor) {
+function dinheiro(valor){
 
     return Number(valor || 0).toLocaleString(
         "pt-BR",
         {
-            style: "currency",
-            currency: "BRL"
+            style:"currency",
+            currency:"BRL"
         }
     );
 
 }
 
 
-function dataBR(data) {
+function dataBR(data){
 
-    if (!data) return "-";
+    if(!data) return "-";
 
     const d = new Date(data);
 
@@ -649,25 +714,18 @@ function dataBR(data) {
 }
 
 
-function normalizar(valor) {
+function normalizar(valor){
 
     return String(valor || "")
         .trim()
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+        .replace(/[\u0300-\u036f]/g,"");
 
 }
 
 
-function normalizarPagamento(valor) {
-
-    return normalizar(valor);
-
-}
-
-
-function mostrarErro(mensagem) {
+function mostrarErro(mensagem){
 
     const erro =
         document.getElementById("erro");
@@ -678,7 +736,7 @@ function mostrarErro(mensagem) {
 }
 
 
-function esconderErro() {
+function esconderErro(){
 
     document.getElementById("erro")
         .style.display = "none";
@@ -686,15 +744,15 @@ function esconderErro() {
 }
 
 
-async function verificarAdmin() {
+async function verificarAdmin(){
 
     const {
-        data: {
+        data:{
             session
         }
     } = await supabaseClient.auth.getSession();
 
-    if (!session) {
+    if(!session){
 
         window.location.href = "login.html";
         return false;
@@ -707,11 +765,11 @@ async function verificarAdmin() {
     } = await supabaseClient
         .from("administradores")
         .select("id,nome,ativo")
-        .eq("auth_user_id", session.user.id)
-        .eq("ativo", true)
+        .eq("auth_user_id",session.user.id)
+        .eq("ativo",true)
         .maybeSingle();
 
-    if (error || !data) {
+    if(error || !data){
 
         alert(
             "Acesso permitido somente para administradores."
@@ -728,7 +786,7 @@ async function verificarAdmin() {
 }
 
 
-function definirDatas() {
+function definirDatas(){
 
     const hoje = new Date();
 
@@ -742,7 +800,7 @@ function definirDatas() {
     const ultimoDia =
         new Date(
             hoje.getFullYear(),
-            hoje.getMonth() + 1,
+            hoje.getMonth()+1,
             0
         );
 
@@ -752,14 +810,12 @@ function definirDatas() {
             data.getFullYear();
 
         const mes =
-            String(
-                data.getMonth() + 1
-            ).padStart(2, "0");
+            String(data.getMonth()+1)
+                .padStart(2,"0");
 
         const dia =
-            String(
-                data.getDate()
-            ).padStart(2, "0");
+            String(data.getDate())
+                .padStart(2,"0");
 
         return `${ano}-${mes}-${dia}`;
 
@@ -774,7 +830,7 @@ function definirDatas() {
 }
 
 
-function dentroDoPeriodo(data) {
+function dentroDoPeriodo(data){
 
     const inicio =
         document.getElementById("dataInicio").value;
@@ -782,17 +838,57 @@ function dentroDoPeriodo(data) {
     const fim =
         document.getElementById("dataFim").value;
 
-    if (!data) return false;
+    if(!data) return false;
 
     const dia =
-        String(data).substring(0, 10);
+        String(data).substring(0,10);
 
     return dia >= inicio && dia <= fim;
 
 }
 
 
-async function buscarDados() {
+async function buscarDados(){
+
+    const resultados =
+        await Promise.all([
+
+            supabaseClient
+                .from("pagamentos")
+                .select("*")
+                .order("criado_em",{ascending:false}),
+
+            supabaseClient
+                .from("vendas")
+                .select("*")
+                .order("criado_em",{ascending:false}),
+
+            supabaseClient
+                .from("pedidos_produtos")
+                .select("*")
+                .order("criado_em",{ascending:false}),
+
+            supabaseClient
+                .from("itens_pedido")
+                .select("*")
+                .order("criado_em",{ascending:false}),
+
+            supabaseClient
+                .from("agendamentos")
+                .select("*")
+                .order("Data",{ascending:false}),
+
+            supabaseClient
+                .from("clientes")
+                .select("*"),
+
+            supabaseClient
+                .from("despesas")
+                .select("*")
+                .order("criado_em",{ascending:false})
+
+        ]);
+
 
     const [
         pagamentosResult,
@@ -800,68 +896,31 @@ async function buscarDados() {
         pedidosResult,
         itensResult,
         agendamentosResult,
-        clientesResult
-    ] = await Promise.all([
-
-        supabaseClient
-            .from("pagamentos")
-            .select("*")
-            .order("criado_em", {
-                ascending: false
-            }),
-
-        supabaseClient
-            .from("vendas")
-            .select("*")
-            .order("criado_em", {
-                ascending: false
-            }),
-
-        supabaseClient
-            .from("pedidos_produtos")
-            .select("*")
-            .order("criado_em", {
-                ascending: false
-            }),
-
-        supabaseClient
-            .from("itens_pedido")
-            .select("*")
-            .order("criado_em", {
-                ascending: false
-            }),
-
-        supabaseClient
-            .from("agendamentos")
-            .select("*")
-            .order("Data", {
-                ascending: false
-            }),
-
-        supabaseClient
-            .from("clientes")
-            .select("*")
-
-    ]);
+        clientesResult,
+        despesasResult
+    ] = resultados;
 
 
-    if (pagamentosResult.error)
+    if(pagamentosResult.error)
         throw pagamentosResult.error;
 
-    if (vendasResult.error)
+    if(vendasResult.error)
         throw vendasResult.error;
 
-    if (pedidosResult.error)
+    if(pedidosResult.error)
         throw pedidosResult.error;
 
-    if (itensResult.error)
+    if(itensResult.error)
         throw itensResult.error;
 
-    if (agendamentosResult.error)
+    if(agendamentosResult.error)
         throw agendamentosResult.error;
 
-    if (clientesResult.error)
+    if(clientesResult.error)
         throw clientesResult.error;
+
+    if(despesasResult.error)
+        throw despesasResult.error;
 
 
     pagamentos =
@@ -882,17 +941,20 @@ async function buscarDados() {
     clientes =
         clientesResult.data || [];
 
+    despesas =
+        despesasResult.data || [];
+
 }
 
 
-function nomeCliente(id) {
+function nomeCliente(id){
 
     const cliente =
         clientes.find(
             c => c.id === id
         );
 
-    if (!cliente)
+    if(!cliente)
         return "Cliente";
 
     return cliente.Nome || "Cliente";
@@ -900,12 +962,19 @@ function nomeCliente(id) {
 }
 
 
-function pedidoConcluido(pedido) {
+function pedidoPago(pedido){
+
+    return normalizar(
+        pedido.status_pagamento
+    ) === "pago";
+
+}
+
+
+function pedidoConcluido(pedido){
 
     return (
-        normalizar(
-            pedido.status_pagamento
-        ) === "pago"
+        pedidoPago(pedido)
         &&
         normalizar(
             pedido.status_pedido
@@ -915,33 +984,7 @@ function pedidoConcluido(pedido) {
 }
 
 
-function pedidosDoPeriodo() {
-
-    return pedidos.filter(p =>
-
-        pedidoConcluido(p)
-        &&
-        dentroDoPeriodo(p.criado_em)
-
-    );
-
-}
-
-
-function vendasPagasPeriodo() {
-
-    return vendas.filter(v =>
-
-        normalizar(v.status) === "pago"
-        &&
-        dentroDoPeriodo(v.criado_em)
-
-    );
-
-}
-
-
-function pagamentosPagosPeriodo() {
+function pagamentosPagosPeriodo(){
 
     return pagamentos.filter(p =>
 
@@ -954,11 +997,76 @@ function pagamentosPagosPeriodo() {
 }
 
 
-function itensDosPedidosConcluidos() {
+function vendasPagasPeriodo(){
+
+    return vendas.filter(v =>
+
+        normalizar(v.status) === "pago"
+        &&
+        dentroDoPeriodo(v.criado_em)
+
+    );
+
+}
+
+
+function pedidosPagosPeriodo(){
+
+    return pedidos.filter(p =>
+
+        pedidoPago(p)
+        &&
+        dentroDoPeriodo(p.criado_em)
+
+    );
+
+}
+
+
+function pedidosConcluidosPeriodo(){
+
+    return pedidos.filter(p =>
+
+        pedidoConcluido(p)
+        &&
+        dentroDoPeriodo(p.criado_em)
+
+    );
+
+}
+
+
+function pedidosPendentesPeriodo(){
+
+    return pedidos.filter(p =>
+
+        normalizar(p.status_pagamento) !== "pago"
+        &&
+        normalizar(p.status_pagamento) !== "cancelado"
+        &&
+        dentroDoPeriodo(p.criado_em)
+
+    );
+
+}
+
+
+function despesasPeriodo(){
+
+    return despesas.filter(d =>
+
+        dentroDoPeriodo(d.criado_em)
+
+    );
+
+}
+
+
+function itensDosPedidosConcluidos(){
 
     const ids =
         new Set(
-            pedidosDoPeriodo()
+            pedidosConcluidosPeriodo()
                 .map(p => p.id)
         );
 
@@ -969,68 +1077,111 @@ function itensDosPedidosConcluidos() {
 }
 
 
-function processarRelatorio() {
+function processarRelatorio(){
 
-    const pagamentosPeriodo =
+    const servicos =
         pagamentosPagosPeriodo();
 
-    const vendasPeriodo =
+    const vendasDiretas =
         vendasPagasPeriodo();
 
-    const pedidosPeriodo =
-        pedidosDoPeriodo();
+    const pedidosPagos =
+        pedidosPagosPeriodo();
 
-    const itensPedidosPeriodo =
+    const pedidosConcluidos =
+        pedidosConcluidosPeriodo();
+
+    const pedidosPendentes =
+        pedidosPendentesPeriodo();
+
+    const despesasPeriodoAtual =
+        despesasPeriodo();
+
+    const itensConcluidos =
         itensDosPedidosConcluidos();
 
 
     const valorServicos =
-        pagamentosPeriodo.reduce(
-            (total, p) =>
-                total +
-                Number(p.valor || 0),
+        servicos.reduce(
+            (total,p) =>
+                total + Number(p.valor || 0),
             0
         );
 
 
     const valorVendas =
-        vendasPeriodo.reduce(
-            (total, v) =>
-                total +
-                Number(v.valor_total || 0),
+        vendasDiretas.reduce(
+            (total,v) =>
+                total + Number(v.valor_total || 0),
             0
         );
 
 
-    const valorPedidos =
-        pedidosPeriodo.reduce(
-            (total, p) =>
-                total +
-                Number(p.total || 0),
+    const valorPedidosPagos =
+        pedidosPagos.reduce(
+            (total,p) =>
+                total + Number(p.total || 0),
             0
         );
 
 
-    const faturamento =
+    const valorPedidosPendentes =
+        pedidosPendentes.reduce(
+            (total,p) =>
+                total + Number(p.total || 0),
+            0
+        );
+
+
+    const valorDespesas =
+        despesasPeriodoAtual.reduce(
+            (total,d) =>
+                total + Number(d.valor || 0),
+            0
+        );
+
+
+    const totalRecebido =
         valorServicos +
         valorVendas +
-        valorPedidos;
+        valorPedidosPagos;
+
+
+    const lucro =
+        totalRecebido -
+        valorDespesas;
+
+
+    const valorAgendamentosPendentes =
+        agendamentos
+            .filter(a =>
+                dentroDoPeriodo(a.Data) &&
+                normalizar(a.Status) === "pendente"
+            )
+            .reduce(
+                (total,a) =>
+                    total + Number(a.Valor || 0),
+                0
+            );
+
+
+    const totalAReceber =
+        valorPedidosPendentes +
+        valorAgendamentosPendentes;
 
 
     const quantidadeProdutosVendas =
-        vendasPeriodo.reduce(
-            (total, v) =>
-                total +
-                Number(v.quantidade || 0),
+        vendasDiretas.reduce(
+            (total,v) =>
+                total + Number(v.quantidade || 0),
             0
         );
 
 
     const quantidadeProdutosPedidos =
-        itensPedidosPeriodo.reduce(
-            (total, item) =>
-                total +
-                Number(item.quantidade || 0),
+        itensConcluidos.reduce(
+            (total,item) =>
+                total + Number(item.quantidade || 0),
             0
         );
 
@@ -1044,126 +1195,138 @@ function processarRelatorio() {
         new Set();
 
 
-    pagamentosPeriodo.forEach(p => {
+    servicos.forEach(p => {
 
-        if (p.cliente_id)
-            clientesIds.add(
-                p.cliente_id
-            );
+        if(p.cliente_id)
+            clientesIds.add(p.cliente_id);
 
     });
 
 
-    vendasPeriodo.forEach(v => {
+    vendasDiretas.forEach(v => {
 
-        if (v.cliente_id)
-            clientesIds.add(
-                v.cliente_id
-            );
+        if(v.cliente_id)
+            clientesIds.add(v.cliente_id);
 
     });
 
 
-    pedidosPeriodo.forEach(p => {
+    pedidosPagos.forEach(p => {
 
-        if (p.cliente_id)
-            clientesIds.add(
-                p.cliente_id
-            );
+        if(p.cliente_id)
+            clientesIds.add(p.cliente_id);
 
     });
 
 
-    document.getElementById(
-        "faturamentoTotal"
-    ).innerText =
-        dinheiro(faturamento);
+    document.getElementById("totalRecebido")
+        .innerText =
+        dinheiro(totalRecebido);
 
 
-    document.getElementById(
-        "totalServicos"
-    ).innerText =
-        pagamentosPeriodo.length;
+    document.getElementById("totalReceber")
+        .innerText =
+        dinheiro(totalAReceber);
 
 
-    document.getElementById(
-        "totalProdutos"
-    ).innerText =
+    document.getElementById("totalDespesas")
+        .innerText =
+        dinheiro(valorDespesas);
+
+
+    document.getElementById("lucroLiquido")
+        .innerText =
+        dinheiro(lucro);
+
+
+    document.getElementById("lucroLiquido")
+        .className =
+        "value " +
+        (lucro >= 0 ? "verde" : "vermelho");
+
+
+    document.getElementById("totalServicos")
+        .innerText =
+        servicos.length;
+
+
+    document.getElementById("totalProdutos")
+        .innerText =
         totalProdutos;
 
 
-    document.getElementById(
-        "totalPedidos"
-    ).innerText =
-        pedidosPeriodo.length;
+    document.getElementById("totalPedidosPagos")
+        .innerText =
+        pedidosPagos.length;
 
 
-    document.getElementById(
-        "totalClientes"
-    ).innerText =
+    document.getElementById("totalPedidosConcluidos")
+        .innerText =
+        pedidosConcluidos.length;
+
+
+    document.getElementById("totalClientes")
+        .innerText =
         clientesIds.size;
 
 
-    document.getElementById(
-        "totalAgendamentos"
-    ).innerText =
+    document.getElementById("totalAgendamentos")
+        .innerText =
         agendamentos.filter(
             a => dentroDoPeriodo(a.Data)
         ).length;
 
 
-    const quantidadeMovimentos =
-        pagamentosPeriodo.length +
-        vendasPeriodo.length +
-        pedidosPeriodo.length;
+    const movimentos =
+        servicos.length +
+        vendasDiretas.length +
+        pedidosPagos.length;
 
 
-    document.getElementById(
-        "ticketMedio"
-    ).innerText =
+    document.getElementById("ticketMedio")
+        .innerText =
         dinheiro(
-            faturamento /
-            Math.max(
-                quantidadeMovimentos,
-                1
-            )
+            totalRecebido /
+            Math.max(movimentos,1)
         );
 
 
     calcularPagamentos(
-        pagamentosPeriodo,
-        vendasPeriodo,
-        pedidosPeriodo
+        servicos,
+        vendasDiretas,
+        pedidosPagos
     );
 
 
     gerarGrafico(
-        pagamentosPeriodo,
-        vendasPeriodo,
-        pedidosPeriodo
+        servicos,
+        vendasDiretas,
+        pedidosPagos
     );
 
 
-    gerarTabelaServicos(
-        pagamentosPeriodo
-    );
-
+    gerarTabelaServicos(servicos);
 
     gerarTabelaProdutos(
-        vendasPeriodo,
-        itensPedidosPeriodo
+        vendasDiretas,
+        itensConcluidos
     );
-
 
     gerarTabelaPedidos(
-        pedidosPeriodo
+        pedidos
+            .filter(p =>
+                dentroDoPeriodo(p.criado_em)
+            )
     );
 
+    gerarTabelaDespesas(
+        despesasPeriodoAtual
+    );
 
     gerarTabelaMovimentos(
-        pagamentosPeriodo,
-        vendasPeriodo,
-        pedidosPeriodo
+        servicos,
+        vendasDiretas,
+        pedidosPagos
     );
 
 }
@@ -1173,30 +1336,27 @@ function adicionarPagamento(
     metodo,
     valor,
     totais
-) {
+){
 
     const m =
-        normalizarPagamento(metodo);
+        normalizar(metodo);
 
-    if (m.includes("pix")) {
+    if(m.includes("pix")){
 
         totais.pix += valor;
 
     }
-
-    else if (m.includes("cart")) {
+    else if(m.includes("cart")){
 
         totais.cartao += valor;
 
     }
-
-    else if (m.includes("dinheiro")) {
+    else if(m.includes("dinheiro")){
 
         totais.dinheiro += valor;
 
     }
-
-    else {
+    else{
 
         totais.outros += valor;
 
@@ -1208,14 +1368,14 @@ function adicionarPagamento(
 function calcularPagamentos(
     servicos,
     vendasDiretas,
-    pedidosConcluidos
-) {
+    pedidosPagos
+){
 
     const totais = {
-        pix: 0,
-        cartao: 0,
-        dinheiro: 0,
-        outros: 0
+        pix:0,
+        cartao:0,
+        dinheiro:0,
+        outros:0
     };
 
 
@@ -1241,7 +1401,7 @@ function calcularPagamentos(
     });
 
 
-    pedidosConcluidos.forEach(p => {
+    pedidosPagos.forEach(p => {
 
         adicionarPagamento(
             p.metodo_pagamento,
@@ -1252,27 +1412,23 @@ function calcularPagamentos(
     });
 
 
-    document.getElementById(
-        "totalPix"
-    ).innerText =
+    document.getElementById("totalPix")
+        .innerText =
         dinheiro(totais.pix);
 
 
-    document.getElementById(
-        "totalCartao"
-    ).innerText =
+    document.getElementById("totalCartao")
+        .innerText =
         dinheiro(totais.cartao);
 
 
-    document.getElementById(
-        "totalDinheiro"
-    ).innerText =
+    document.getElementById("totalDinheiro")
+        .innerText =
         dinheiro(totais.dinheiro);
 
 
-    document.getElementById(
-        "totalOutros"
-    ).innerText =
+    document.getElementById("totalOutros")
+        .innerText =
         dinheiro(totais.outros);
 
 }
@@ -1281,79 +1437,59 @@ function calcularPagamentos(
 function gerarGrafico(
     servicos,
     vendasDiretas,
-    pedidosConcluidos
-) {
+    pedidosPagos
+){
 
     const dias = {};
 
 
-    function adicionar(data, valor) {
+    function adicionar(data,valor){
 
         const dia =
-            String(data).substring(0, 10);
+            String(data).substring(0,10);
 
-        if (!dias[dia])
+        if(!dias[dia])
             dias[dia] = 0;
 
-        dias[dia] +=
-            Number(valor || 0);
+        dias[dia] += Number(valor || 0);
 
     }
 
 
-    servicos.forEach(p => {
-
-        adicionar(
-            p.criado_em,
-            p.valor
-        );
-
-    });
+    servicos.forEach(p =>
+        adicionar(p.criado_em,p.valor)
+    );
 
 
-    vendasDiretas.forEach(v => {
-
-        adicionar(
-            v.criado_em,
-            v.valor_total
-        );
-
-    });
+    vendasDiretas.forEach(v =>
+        adicionar(v.criado_em,v.valor_total)
+    );
 
 
-    pedidosConcluidos.forEach(p => {
-
-        adicionar(
-            p.criado_em,
-            p.total
-        );
-
-    });
+    pedidosPagos.forEach(p =>
+        adicionar(p.criado_em,p.total)
+    );
 
 
     const lista =
         Object.entries(dias)
-            .sort((a, b) =>
+            .sort((a,b) =>
                 a[0].localeCompare(b[0])
             );
 
 
     const maior =
         Math.max(
-            ...lista.map(
-                item => item[1]
-            ),
+            ...lista.map(item => item[1]),
             1
         );
 
 
     const grafico =
-        document.getElementById(
-            "grafico"
-        );
+        document.getElementById("grafico");
 
 
-    if (!lista.length) {
+    if(!lista.length){
 
         grafico.innerHTML =
             '<div class="empty">Nenhum faturamento no período.</div>';
@@ -1364,54 +1500,48 @@ function gerarGrafico(
 
 
     grafico.innerHTML =
-        lista.map(
-            ([dia, valor]) => {
+        lista.map(([dia,valor]) => {
 
-                const altura =
-                    Math.max(
-                        5,
-                        (valor / maior) * 160
-                    );
-
-
-                const partes =
-                    dia.split("-");
+            const altura =
+                Math.max(
+                    5,
+                    (valor / maior) * 160
+                );
 
 
-                const label =
-                    `${partes[2]}/${partes[1]}`;
+            const partes =
+                dia.split("-");
 
 
-                return `
+            const label =
+                `${partes[2]}/${partes[1]}`;
 
-                    <div class="bar-box">
 
-                        <div class="bar-value">
-                            ${dinheiro(valor)}
-                        </div>
+            return `
+                <div class="bar-box">
 
-                        <div
-                            class="bar"
-                            style="height:${altura}px">
-                        </div>
-
-                        <div class="bar-label">
-                            ${label}
-                        </div>
-
+                    <div class="bar-value">
+                        ${dinheiro(valor)}
                     </div>
 
-                `;
+                    <div
+                        class="bar"
+                        style="height:${altura}px">
+                    </div>
 
-            }
-        ).join("");
+                    <div class="bar-label">
+                        ${label}
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
 
 }
 
 
-function gerarTabelaServicos(
-    pagamentosPeriodo
-) {
+function gerarTabelaServicos(servicos){
 
     const tabela =
         document.getElementById(
@@ -1422,21 +1552,19 @@ function gerarTabelaServicos(
     const dados = {};
 
 
-    pagamentosPeriodo.forEach(p => {
+    servicos.forEach(p => {
 
-        let nome =
-            "Serviço";
+        let nome = "Serviço";
 
 
         const agendamento =
             agendamentos.find(
                 a =>
-                    a.id ===
-                    p.agendamento_id
+                    a.id === p.agendamento_id
             );
 
 
-        if (agendamento) {
+        if(agendamento){
 
             nome =
                 agendamento["Serviços"] ||
@@ -1445,18 +1573,17 @@ function gerarTabelaServicos(
         }
 
 
-        if (!dados[nome]) {
+        if(!dados[nome]){
 
             dados[nome] = {
-                quantidade: 0,
-                valor: 0
+                quantidade:0,
+                valor:0
             };
 
         }
 
 
         dados[nome].quantidade++;
-
 
         dados[nome].valor +=
             Number(p.valor || 0);
@@ -1467,13 +1594,13 @@ function gerarTabelaServicos(
     const lista =
         Object.entries(dados)
             .sort(
-                (a, b) =>
+                (a,b) =>
                     b[1].valor -
                     a[1].valor
             );
 
 
-    if (!lista.length) {
+    if(!lista.length){
 
         tabela.innerHTML = `
             <tr>
@@ -1489,35 +1616,23 @@ function gerarTabelaServicos(
 
 
     tabela.innerHTML =
-        lista.map(
-            ([nome, item]) => `
+        lista.map(([nome,item]) => `
 
-                <tr>
+            <tr>
+                <td>${nome}</td>
+                <td>${item.quantidade}</td>
+                <td>${dinheiro(item.valor)}</td>
+            </tr>
 
-                    <td>
-                        ${nome}
-                    </td>
-
-                    <td>
-                        ${item.quantidade}
-                    </td>
-
-                    <td>
-                        ${dinheiro(item.valor)}
-                    </td>
-
-                </tr>
-
-            `
-        ).join("");
+        `).join("");
 
 }
 
 
 function gerarTabelaProdutos(
     vendasDiretas,
-    itensPedidosPeriodo
-) {
+    itensPedidos
+){
 
     const tabela =
         document.getElementById(
@@ -1535,12 +1650,12 @@ function gerarTabelaProdutos(
             "Produto";
 
 
-        if (!dados[nome]) {
+        if(!dados[nome]){
 
             dados[nome] = {
-                quantidade: 0,
-                valor: 0,
-                origem: "Venda direta"
+                quantidade:0,
+                valor:0,
+                origem:"Venda direta"
             };
 
         }
@@ -1549,26 +1664,25 @@ function gerarTabelaProdutos(
         dados[nome].quantidade +=
             Number(v.quantidade || 0);
 
-
         dados[nome].valor +=
             Number(v.valor_total || 0);
 
     });
 
 
-    itensPedidosPeriodo.forEach(item => {
+    itensPedidos.forEach(item => {
 
         const nome =
             item.produto_nome ||
             "Produto";
 
 
-        if (!dados[nome]) {
+        if(!dados[nome]){
 
             dados[nome] = {
-                quantidade: 0,
-                valor: 0,
-                origem: "Pedido"
+                quantidade:0,
+                valor:0,
+                origem:"Pedido"
             };
 
         }
@@ -1577,33 +1691,12 @@ function gerarTabelaProdutos(
         dados[nome].quantidade +=
             Number(item.quantidade || 0);
 
-
         dados[nome].valor +=
             Number(item.valor_total || 0);
 
 
-        if (
-            dados[nome].origem !==
-            "Venda + Pedido"
-        ) {
-
-            if (
-                dados[nome].origem ===
-                "Venda direta"
-            ) {
-
-                dados[nome].origem =
-                    "Venda + Pedido";
-
-            }
-            else {
-
-                dados[nome].origem =
-                    "Pedido";
-
-            }
-
-        }
+        if(dados[nome].origem === "Venda direta")
+            dados[nome].origem = "Venda + Pedido";
 
     });
 
@@ -1611,13 +1704,13 @@ function gerarTabelaProdutos(
     const lista =
         Object.entries(dados)
             .sort(
-                (a, b) =>
+                (a,b) =>
                     b[1].valor -
                     a[1].valor
             );
 
 
-    if (!lista.length) {
+    if(!lista.length){
 
         tabela.innerHTML = `
             <tr>
@@ -1633,40 +1726,34 @@ function gerarTabelaProdutos(
 
 
     tabela.innerHTML =
-        lista.map(
-            ([nome, item]) => `
+        lista.map(([nome,item]) => `
 
-                <tr>
+            <tr>
 
-                    <td>
-                        ${nome}
-                    </td>
+                <td>${nome}</td>
 
-                    <td>
-                        ${item.quantidade}
-                    </td>
+                <td>
+                    ${item.quantidade}
+                </td>
 
-                    <td>
-                        ${dinheiro(item.valor)}
-                    </td>
+                <td>
+                    ${dinheiro(item.valor)}
+                </td>
 
-                    <td>
-                        <span class="badge">
-                            ${item.origem}
-                        </span>
-                    </td>
+                <td>
+                    <span class="badge">
+                        ${item.origem}
+                    </span>
+                </td>
 
-                </tr>
+            </tr>
 
-            `
-        ).join("");
+        `).join("");
 
 }
 
 
-function gerarTabelaPedidos(
-    pedidosPeriodo
-) {
+function gerarTabelaPedidos(listaPedidos){
 
     const tabela =
         document.getElementById(
@@ -1674,12 +1761,12 @@ function gerarTabelaPedidos(
         );
 
 
-    if (!pedidosPeriodo.length) {
+    if(!listaPedidos.length){
 
         tabela.innerHTML = `
             <tr>
-                <td colspan="5" class="empty">
-                    Nenhum pedido concluído no período.
+                <td colspan="6" class="empty">
+                    Nenhum pedido encontrado no período.
                 </td>
             </tr>
         `;
@@ -1690,8 +1777,25 @@ function gerarTabelaPedidos(
 
 
     tabela.innerHTML =
-        pedidosPeriodo.map(
-            pedido => `
+        listaPedidos.map(pedido => {
+
+            const pago =
+                pedidoPago(pedido);
+
+            const concluido =
+                pedidoConcluido(pedido);
+
+
+            let status = "Aguardando pagamento";
+
+
+            if(concluido)
+                status = "Concluído";
+            else if(pago)
+                status = "Pago";
+
+
+            return `
 
                 <tr>
 
@@ -1710,7 +1814,7 @@ function gerarTabelaPedidos(
                     <td>
                         #${String(
                             pedido.id
-                        ).substring(0, 8)}
+                        ).substring(0,8)}
                     </td>
 
                     <td>
@@ -1723,10 +1827,72 @@ function gerarTabelaPedidos(
                         ${pedido.metodo_pagamento || "-"}
                     </td>
 
+                    <td>
+                        <span class="badge">
+                            ${status}
+                        </span>
+                    </td>
+
                 </tr>
 
-            `
-        ).join("");
+            `;
+
+        }).join("");
+
+}
+
+
+function gerarTabelaDespesas(lista){
+
+    const tabela =
+        document.getElementById(
+            "tabelaDespesas"
+        );
+
+
+    if(!lista.length){
+
+        tabela.innerHTML = `
+            <tr>
+                <td colspan="5" class="empty">
+                    Nenhuma despesa encontrada no período.
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tabela.innerHTML =
+        lista.map(d => `
+
+            <tr>
+
+                <td>
+                    ${dataBR(d.criado_em)}
+                </td>
+
+                <td>
+                    ${d.descricao || "-"}
+                </td>
+
+                <td>
+                    ${d.categoria || "-"}
+                </td>
+
+                <td>
+                    ${dinheiro(d.valor)}
+                </td>
+
+                <td>
+                    ${d.metodo_pagamento || "-"}
+                </td>
+
+            </tr>
+
+        `).join("");
 
 }
 
@@ -1734,8 +1900,8 @@ function gerarTabelaPedidos(
 function gerarTabelaMovimentos(
     servicos,
     vendasDiretas,
-    pedidosConcluidos
-) {
+    pedidosPagos
+){
 
     const movimentos = [];
 
@@ -1745,18 +1911,15 @@ function gerarTabelaMovimentos(
         const agendamento =
             agendamentos.find(
                 a =>
-                    a.id ===
-                    p.agendamento_id
+                    a.id === p.agendamento_id
             );
 
 
         movimentos.push({
 
-            data:
-                p.criado_em,
+            data:p.criado_em,
 
-            tipo:
-                "Serviço",
+            tipo:"Serviço",
 
             cliente:
                 nomeCliente(
@@ -1769,9 +1932,7 @@ function gerarTabelaMovimentos(
                     : "Serviço",
 
             valor:
-                Number(
-                    p.valor || 0
-                ),
+                Number(p.valor || 0),
 
             pagamento:
                 p.metodo || "-"
@@ -1785,11 +1946,9 @@ function gerarTabelaMovimentos(
 
         movimentos.push({
 
-            data:
-                v.criado_em,
+            data:v.criado_em,
 
-            tipo:
-                "Venda direta",
+            tipo:"Venda direta",
 
             cliente:
                 nomeCliente(
@@ -1813,15 +1972,13 @@ function gerarTabelaMovimentos(
     });
 
 
-    pedidosConcluidos.forEach(p => {
+    pedidosPagos.forEach(p => {
 
         movimentos.push({
 
-            data:
-                p.criado_em,
+            data:p.criado_em,
 
-            tipo:
-                "Pedido de produtos",
+            tipo:"Pedido de produtos",
 
             cliente:
                 nomeCliente(
@@ -1830,7 +1987,7 @@ function gerarTabelaMovimentos(
 
             item:
                 "Pedido #" +
-                String(p.id).substring(0, 8),
+                String(p.id).substring(0,8),
 
             valor:
                 Number(
@@ -1846,7 +2003,7 @@ function gerarTabelaMovimentos(
 
 
     movimentos.sort(
-        (a, b) =>
+        (a,b) =>
             new Date(b.data) -
             new Date(a.data)
     );
@@ -1858,7 +2015,7 @@ function gerarTabelaMovimentos(
         );
 
 
-    if (!movimentos.length) {
+    if(!movimentos.length){
 
         tabela.innerHTML = `
             <tr>
@@ -1874,83 +2031,75 @@ function gerarTabelaMovimentos(
 
 
     tabela.innerHTML =
-        movimentos.map(
-            m => `
+        movimentos.map(m => `
 
-                <tr>
+            <tr>
 
-                    <td>
-                        ${dataBR(m.data)}
-                    </td>
+                <td>
+                    ${dataBR(m.data)}
+                </td>
 
-                    <td>
-                        ${m.tipo}
-                    </td>
+                <td>
+                    ${m.tipo}
+                </td>
 
-                    <td>
-                        ${m.cliente}
-                    </td>
+                <td>
+                    ${m.cliente}
+                </td>
 
-                    <td>
-                        ${m.item}
-                    </td>
+                <td>
+                    ${m.item}
+                </td>
 
-                    <td>
-                        ${dinheiro(m.valor)}
-                    </td>
+                <td>
+                    ${dinheiro(m.valor)}
+                </td>
 
-                    <td>
-                        ${m.pagamento}
-                    </td>
+                <td>
+                    ${m.pagamento}
+                </td>
 
-                </tr>
+            </tr>
 
-            `
-        ).join("");
+        `).join("");
 
 }
 
 
-async function carregarRelatorios() {
+async function carregarRelatorios(){
 
     esconderErro();
 
 
-    document.getElementById(
-        "loading"
-    ).style.display = "block";
+    document.getElementById("loading")
+        .style.display = "block";
 
 
-    document.getElementById(
-        "conteudo"
-    ).style.display = "none";
+    document.getElementById("conteudo")
+        .style.display = "none";
 
 
-    try {
+    try{
 
         await buscarDados();
 
         processarRelatorio();
 
 
-        document.getElementById(
-            "loading"
-        ).style.display = "none";
+        document.getElementById("loading")
+            .style.display = "none";
 
 
-        document.getElementById(
-            "conteudo"
-        ).style.display = "block";
+        document.getElementById("conteudo")
+            .style.display = "block";
 
-
-    } catch (erro) {
+    }
+    catch(erro){
 
         console.error(erro);
 
-
-        document.getElementById(
-            "loading"
-        ).style.display = "none";
+        document.getElementById("loading")
+            .style.display = "none";
 
 
         mostrarErro(
@@ -1962,18 +2111,17 @@ async function carregarRelatorios() {
 }
 
 
-async function iniciar() {
+async function iniciar(){
 
     const permitido =
         await verificarAdmin();
 
 
-    if (!permitido)
+    if(!permitido)
         return;
 
 
     definirDatas();
-
 
     await carregarRelatorios();
 
@@ -1985,4 +2133,4 @@ iniciar();
 </script>
 
 </body>
-        </html>
+    </html>
