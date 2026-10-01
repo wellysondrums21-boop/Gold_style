@@ -1,945 +1,721 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gold Style — Área do Cliente</title>
+  <meta charset="UTF-8">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<style>
+  <title>Área do Cliente | Gold Style</title>
 
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
         radial-gradient(
-            circle at top,
-            #302300 0%,
-            #0d0d0d 35%,
-            #050505 75%
-        );
-    color:#fff;
-    min-height:100vh;
-}
+          circle at top,
+          rgba(255, 215, 0, 0.12),
+          transparent 35%
+        ),
+        #050505;
+      color: #ffffff;
+      min-height: 100vh;
+    }
 
-.container{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-    padding:20px;
-}
+    /* =========================
+       CABEÇALHO
+    ========================= */
 
-/* TOPO */
+    header {
+      text-align: center;
+      padding: 30px 15px;
+      background: #080808;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.35);
+      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.08);
+    }
 
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:15px 0 25px;
-}
+    .logo {
+      color: #ffd700;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.7),
+        0 0 20px rgba(255, 215, 0, 0.3);
+    }
 
-.logo{
-    font-size:25px;
-    font-weight:900;
-    color:#ffd700;
-    text-shadow:
-        0 0 5px #ffd700,
-        0 0 15px #d4af37,
-        0 0 30px #b8860b;
-}
+    .subtitle {
+      margin-top: 5px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: #ffffff;
+    }
 
-.logo span{
-    display:block;
-    font-size:11px;
-    letter-spacing:3px;
-    color:#aaa;
-    margin-top:4px;
-}
+    /* =========================
+       CONTEÚDO
+    ========================= */
 
-.btn-sair{
-    border:1px solid #d4af37;
-    background:transparent;
-    color:#ffd700;
-    padding:10px 16px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-}
+    main {
+      width: 100%;
+      max-width: 900px;
+      margin: auto;
+      padding: 25px 15px 50px;
+    }
 
-.btn-sair:hover{
-    background:#ffd700;
-    color:#000;
-}
+    .welcome {
+      text-align: center;
+      padding: 35px 20px;
+      margin-bottom: 25px;
 
-/* HERO */
+      border-radius: 20px;
 
-.hero{
-    background:
+      background:
         linear-gradient(
-            135deg,
-            rgba(255,215,0,.15),
-            rgba(0,0,0,.9)
+          145deg,
+          rgba(255, 215, 0, 0.13),
+          rgba(255, 255, 255, 0.02)
         );
 
-    border:1px solid #806b16;
-    border-radius:22px;
-    padding:30px 25px;
-    margin-bottom:22px;
+      border: 1px solid rgba(255, 215, 0, 0.25);
 
-    box-shadow:
-        0 0 25px rgba(255,215,0,.08),
-        inset 0 0 25px rgba(255,215,0,.03);
-}
+      box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.5);
+    }
 
-.hero small{
-    color:#ffd700;
-    font-weight:bold;
-    letter-spacing:2px;
-}
+    .welcome h1 {
+      color: #ffd700;
+      font-size: 30px;
+      margin-bottom: 10px;
 
-.hero h1{
-    margin-top:10px;
-    font-size:30px;
-}
+      text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.45);
+    }
 
-.hero p{
-    margin-top:10px;
-    color:#cfcfcf;
-    line-height:1.6;
-}
+    .welcome p {
+      color: #cccccc;
+    }
 
-.hero-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    margin-top:22px;
-}
+    /* =========================
+       CARDS
+    ========================= */
 
-.btn-principal{
-    display:inline-block;
-    text-decoration:none;
-
-    background:
+    .card {
+      background:
         linear-gradient(
-            135deg,
-            #fff000,
-            #d4af37,
-            #a87800
+          145deg,
+          #151515,
+          #080808
         );
 
-    color:#000;
-    padding:14px 20px;
-    border-radius:12px;
-    font-weight:900;
+      border: 1px solid rgba(255, 215, 0, 0.22);
 
-    box-shadow:
-        0 0 20px rgba(255,215,0,.25);
-}
+      border-radius: 18px;
 
-.btn-principal:hover{
-    transform:translateY(-2px);
-}
+      padding: 22px;
 
-.btn-whatsapp{
-    display:inline-block;
-    text-decoration:none;
-    background:#111;
-    color:#fff;
-    border:1px solid #25d366;
-    padding:14px 20px;
-    border-radius:12px;
-    font-weight:bold;
-}
+      margin-bottom: 20px;
 
-.btn-whatsapp:hover{
-    background:#25d366;
-    color:#000;
-}
+      box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.45);
+    }
 
-/* BOTÃO PRODUTOS */
+    .card h2 {
+      color: #ffd700;
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
 
-.btn-produtos{
-    display:inline-block;
-    text-decoration:none;
+    .card p {
+      color: #dddddd;
+      margin-bottom: 8px;
+    }
 
-    background:
+    .highlight {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    /* =========================
+       BOTÕES
+    ========================= */
+
+    .btn {
+      display: block;
+      width: 100%;
+      max-width: 430px;
+
+      margin: 12px auto;
+
+      padding: 15px 18px;
+
+      border-radius: 12px;
+
+      text-align: center;
+      text-decoration: none;
+
+      font-weight: 900;
+      font-size: 14px;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      color: #050505;
+
+      background:
         linear-gradient(
-            135deg,
-            #fff000,
-            #ffd700,
-            #a87800
+          135deg,
+          #fff2a6,
+          #ffd700,
+          #d4af37
         );
 
-    color:#000;
-    border:1px solid #ffd700;
+      box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.35);
+    }
 
-    padding:14px 20px;
-    border-radius:12px;
+    .btn-gold:hover {
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.65);
+    }
 
-    font-weight:900;
+    .btn-dark {
+      color: #ffd700;
+      background: #101010;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+    }
 
-    box-shadow:
-        0 0 20px rgba(255,215,0,.35);
-}
+    .btn-dark:hover {
+      border-color: #ffd700;
+      background: #181818;
+    }
 
-.btn-produtos:hover{
-    transform:translateY(-2px);
+    .btn-danger {
+      color: #ffffff;
+      background: #170707;
+      border: 1px solid rgba(255, 70, 70, 0.4);
+    }
 
-    box-shadow:
-        0 0 30px rgba(255,215,0,.55);
-}
+    /* =========================
+       MENU RÁPIDO
+    ========================= */
 
-/* CARDS */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:22px;
-}
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-.card{
-    background:rgba(15,15,15,.95);
-    border:1px solid #332d15;
-    border-radius:16px;
-    padding:20px;
+      min-height: 85px;
 
-    box-shadow:
-        0 5px 20px rgba(0,0,0,.3);
-}
+      padding: 15px;
 
-.card .icone{
-    font-size:25px;
-}
+      text-align: center;
 
-.card h3{
-    color:#aaa;
-    font-size:13px;
-    margin-top:10px;
-}
+      color: #ffd700;
+      text-decoration: none;
 
-.card strong{
-    display:block;
-    color:#ffd700;
-    font-size:25px;
-    margin-top:5px;
-}
+      background: #101010;
 
-/* SEÇÕES */
+      border: 1px solid rgba(255, 215, 0, 0.25);
 
-.section{
-    background:rgba(12,12,12,.96);
-    border:1px solid #2e2915;
-    border-radius:18px;
-    padding:22px;
-    margin-bottom:20px;
-}
+      border-radius: 15px;
 
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
-}
+      font-weight: bold;
 
-.section-title h2{
-    color:#ffd700;
-    font-size:21px;
-}
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
 
-.section-title span{
-    color:#777;
-    font-size:12px;
-}
+    .menu-item:hover {
+      transform: translateY(-3px);
 
-/* PRÓXIMO ATENDIMENTO */
+      border-color: #ffd700;
 
-.proximo{
-    border:1px solid #d4af37;
+      box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.2);
+    }
 
-    background:
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status {
+      display: inline-block;
+
+      padding: 5px 10px;
+
+      border-radius: 20px;
+
+      font-size: 12px;
+      font-weight: bold;
+
+      background: rgba(255, 215, 0, 0.12);
+
+      color: #ffd700;
+
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
+    /* =========================
+       LOADING / ERRO
+    ========================= */
+
+    #loading {
+      text-align: center;
+      color: #ffd700;
+      padding: 20px;
+    }
+
+    #erro {
+      display: none;
+
+      padding: 15px;
+
+      margin-bottom: 20px;
+
+      border-radius: 12px;
+
+      background: #210909;
+
+      border: 1px solid #6b2222;
+
+      color: #ffb0b0;
+
+      text-align: center;
+    }
+
+    /* =========================
+       RODAPÉ
+    ========================= */
+
+    footer {
+      text-align: center;
+
+      padding: 30px 15px;
+
+      background: #030303;
+
+      border-top: 1px solid rgba(255, 215, 0, 0.25);
+
+      color: #888888;
+
+      font-size: 13px;
+    }
+
+    footer strong {
+      color: #ffd700;
+      font-size: 17px;
+    }
+
+    /* =========================
+       WHATSAPP
+    ========================= */
+
+    .whatsapp {
+      position: fixed;
+
+      right: 18px;
+      bottom: 18px;
+
+      width: 58px;
+      height: 58px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+
+      background:
         linear-gradient(
-            135deg,
-            rgba(255,215,0,.10),
-            rgba(0,0,0,.8)
+          145deg,
+          #fff2a6,
+          #ffd700,
+          #d4af37
         );
 
-    border-radius:15px;
-    padding:20px;
-}
+      color: #050505;
 
-.proximo-label{
-    color:#ffd700;
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:2px;
-}
+      text-decoration: none;
 
-.proximo h3{
-    font-size:23px;
-    margin:10px 0;
-}
+      font-size: 26px;
+      font-weight: bold;
 
-.proximo-info{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:15px;
-}
+      box-shadow:
+        0 0 18px rgba(255, 215, 0, 0.55);
 
-.info-box{
-    background:#090909;
-    border-radius:10px;
-    padding:12px;
-}
-
-.info-box small{
-    color:#777;
-    display:block;
-    margin-bottom:5px;
-}
-
-.info-box strong{
-    color:#fff;
-}
-
-/* AGENDAMENTOS */
-
-.agendamento{
-    border:1px solid #292929;
-    background:#090909;
-    border-radius:14px;
-    padding:17px;
-    margin-bottom:12px;
-}
-
-.agendamento:last-child{
-    margin-bottom:0;
-}
-
-.agendamento-topo{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.agendamento h3{
-    color:#fff;
-    font-size:17px;
-}
-
-.data{
-    color:#ffd700;
-    font-weight:bold;
-}
-
-.agendamento-detalhes{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-top:12px;
-}
-
-.tag{
-    background:#171717;
-    border:1px solid #292929;
-    padding:7px 10px;
-    border-radius:8px;
-    color:#bbb;
-    font-size:13px;
-}
-
-/* STATUS */
-
-.status{
-    display:inline-block;
-    padding:7px 10px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.status-pendente{
-    background:#332b08;
-    color:#ffd700;
-}
-
-.status-confirmado{
-    background:#102b1a;
-    color:#50e889;
-}
-
-.status-concluido{
-    background:#132538;
-    color:#55baff;
-}
-
-.status-cancelado{
-    background:#351313;
-    color:#ff7070;
-}
-
-.pagamento-pago{
-    color:#50e889;
-}
-
-.pagamento-pendente{
-    color:#ffd700;
-}
-
-/* PERFIL */
-
-.perfil{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.perfil-item{
-    background:#090909;
-    border:1px solid #252525;
-    border-radius:12px;
-    padding:15px;
-}
-
-.perfil-item small{
-    color:#777;
-    display:block;
-    margin-bottom:6px;
-}
-
-.perfil-item strong{
-    word-break:break-word;
-}
-
-/* VAZIO */
-
-.vazio{
-    text-align:center;
-    padding:30px 15px;
-    color:#888;
-}
-
-.vazio strong{
-    display:block;
-    color:#ffd700;
-    margin-bottom:8px;
-    font-size:18px;
-}
-
-/* CARREGANDO */
-
-#carregando{
-    position:fixed;
-    inset:0;
-    background:#050505;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    z-index:9999;
-}
-
-.loader{
-    text-align:center;
-}
-
-.loader-logo{
-    color:#ffd700;
-    font-size:30px;
-    font-weight:900;
-    text-shadow:0 0 20px #ffd700;
-}
-
-.loader p{
-    color:#888;
-    margin-top:10px;
-}
-
-/* RODAPÉ */
-
-footer{
-    text-align:center;
-    padding:25px 10px 35px;
-    color:#666;
-    font-size:12px;
-}
-
-footer strong{
-    color:#ffd700;
-}
-
-/* RESPONSIVO */
-
-@media(max-width:850px){
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
+      z-index: 9999;
     }
 
-    .perfil{
-        grid-template-columns:1fr;
+    /* =========================
+       RESPONSIVO
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .logo {
+        font-size: 29px;
+      }
+
+      .welcome h1 {
+        font-size: 25px;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
     }
 
-}
-
-@media(max-width:600px){
-
-    .container{
-        padding:14px;
-    }
-
-    header{
-        padding-top:8px;
-    }
-
-    .logo{
-        font-size:21px;
-    }
-
-    .hero{
-        padding:24px 18px;
-    }
-
-    .hero h1{
-        font-size:25px;
-    }
-
-    .hero-buttons{
-        flex-direction:column;
-    }
-
-    .btn-principal,
-    .btn-produtos,
-    .btn-whatsapp{
-        text-align:center;
-        width:100%;
-    }
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-        gap:9px;
-    }
-
-    .card{
-        padding:15px;
-    }
-
-    .card strong{
-        font-size:21px;
-    }
-
-    .proximo-info{
-        grid-template-columns:1fr;
-    }
-
-    .section{
-        padding:17px;
-    }
-
-    .agendamento-topo{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-}
-
-</style>
+  </style>
 
 </head>
 
+
 <body>
 
-<div id="carregando">
-
-    <div class="loader">
-
-        <div class="loader-logo">
-            GOLD STYLE
-        </div>
-
-        <p>
-            Carregando sua área...
-        </p>
-
-    </div>
-
-</div>
-
-
-<div class="container">
 
 <header>
 
-    <div class="logo">
+  <div class="logo">
+    GOLD STYLE
+  </div>
 
-        GOLD STYLE
-
-        <span>
-            BARBEARIA DESDE 2022
-        </span>
-
-    </div>
-
-    <button
-        class="btn-sair"
-        onclick="sair()"
-    >
-        SAIR
-    </button>
+  <div class="subtitle">
+    BARBEARIA DESDE 2022
+  </div>
 
 </header>
 
 
-<!-- HERO -->
-
-<section class="hero">
-
-    <small>
-        ÁREA EXCLUSIVA DO CLIENTE
-    </small>
-
-    <h1>
-        Olá,
-        <span id="nomeHero">
-            Cliente
-        </span>!
-        👋
-    </h1>
-
-    <p>
-        Seja bem-vindo à Gold Style Barbearia.
-        Aqui você acompanha seus horários,
-        serviços e agendamentos de forma rápida
-        e prática.
-    </p>
+<main>
 
 
-    <div class="hero-buttons">
-
-        <a
-            href="agendamento.html"
-            class="btn-principal"
-        >
-            📅 AGENDAR HORÁRIO
-        </a>
+  <div id="loading">
+    Carregando sua área do cliente...
+  </div>
 
 
-        <a
-            href="produtos-cliente.html"
-            class="btn-produtos"
-        >
-            🛍️ COMPRAR PRODUTOS
-        </a>
+  <div id="erro"></div>
 
 
-        <a
-            href="https://wa.me/556899853643"
-            target="_blank"
-            class="btn-whatsapp"
-        >
-            💬 FALAR NO WHATSAPP
-        </a>
+  <section
+    id="conteudo"
+    style="display:none;"
+  >
+
+
+    <div class="welcome">
+
+      <h1 id="nomeCliente">
+        Olá!
+      </h1>
+
+      <p>
+        Seja bem-vindo à sua área exclusiva
+        da Gold Style Barbearia.
+      </p>
 
     </div>
 
-</section>
 
-
-<!-- RESUMO -->
-
-<section class="cards">
+    <!-- =========================
+         DADOS DO CLIENTE
+    ========================= -->
 
     <div class="card">
 
-        <div class="icone">
-            📅
-        </div>
+      <h2>
+        👤 Meus dados
+      </h2>
 
-        <h3>
-            AGENDAMENTOS
-        </h3>
+      <p>
+        <strong>Nome:</strong>
+        <span id="clienteNome"></span>
+      </p>
 
-        <strong id="totalAgendamentos">
-            0
-        </strong>
+      <p>
+        <strong>WhatsApp:</strong>
+        <span id="clienteTelefone"></span>
+      </p>
+
+      <p>
+        <strong>E-mail:</strong>
+        <span id="clienteEmail"></span>
+      </p>
 
     </div>
 
+
+    <!-- =========================
+         MENU RÁPIDO
+    ========================= -->
 
     <div class="card">
 
-        <div class="icone">
-            ✅
-        </div>
+      <h2>
+        ⚡ Acesso rápido
+      </h2>
 
-        <h3>
-            CONFIRMADOS
-        </h3>
 
-        <strong id="totalConfirmados">
-            0
-        </strong>
+      <div class="menu-grid">
+
+        <a
+          href="agendamento.html"
+          class="menu-item"
+        >
+          📅<br>
+          Agendar horário
+        </a>
+
+
+        <a
+          href="produtos-cliente.html"
+          class="menu-item"
+        >
+          🛍️<br>
+          Comprar produtos
+        </a>
+
+
+        <a
+          href="pagamento-pix.html"
+          class="menu-item"
+        >
+          💳<br>
+          Pagamentos
+        </a>
+
+
+        <a
+          href="https://wa.me/556899853643"
+          target="_blank"
+          class="menu-item"
+        >
+          💬<br>
+          Falar no WhatsApp
+        </a>
+
+      </div>
 
     </div>
 
+
+    <!-- =========================
+         AGENDAMENTOS
+    ========================= -->
 
     <div class="card">
 
-        <div class="icone">
-            ✂️
-        </div>
+      <h2>
+        📅 Meus agendamentos
+      </h2>
 
-        <h3>
-            CONCLUÍDOS
-        </h3>
+      <div id="agendamentos">
+        Carregando...
+      </div>
 
-        <strong id="totalConcluidos">
-            0
-        </strong>
+      <a
+        href="agendamento.html"
+        class="btn btn-gold"
+      >
+        + AGENDAR NOVO HORÁRIO
+      </a>
 
     </div>
 
+
+    <!-- =========================
+         PAGAMENTOS
+    ========================= -->
 
     <div class="card">
 
-        <div class="icone">
-            💰
-        </div>
+      <h2>
+        💳 Meus pagamentos
+      </h2>
 
-        <h3>
-            VALOR DOS SERVIÇOS
-        </h3>
+      <div id="pagamentos">
+        Carregando...
+      </div>
 
-        <strong id="totalServicos">
-            R$ 0,00
-        </strong>
-
-    </div>
-
-</section>
-
-
-<!-- PRÓXIMO ATENDIMENTO -->
-
-<section class="section">
-
-    <div class="section-title">
-
-        <h2>
-            ⭐ Próximo atendimento
-        </h2>
-
-        <span>
-            Gold Style
-        </span>
+      <a
+        href="pagamento-pix.html"
+        class="btn btn-dark"
+      >
+        VER PAGAMENTOS
+      </a>
 
     </div>
 
 
-    <div id="proximoAtendimento">
+    <!-- =========================
+         PRODUTOS
+    ========================= -->
 
-        <div class="vazio">
+    <div class="card">
 
-            <strong>
-                Nenhum horário próximo
-            </strong>
+      <h2>
+        🛍️ Produtos
+      </h2>
 
-            Você ainda não possui
-            um próximo atendimento agendado.
+      <p>
+        Encontre produtos para cuidar do seu
+        cabelo e da sua barba.
+      </p>
 
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- AGENDAMENTOS -->
-
-<section class="section">
-
-    <div class="section-title">
-
-        <h2>
-            📋 Meus agendamentos
-        </h2>
-
-        <span id="quantidadeAgendamentos">
-            0 horários
-        </span>
+      <a
+        href="produtos-cliente.html"
+        class="btn btn-gold"
+      >
+        VER PRODUTOS
+      </a>
 
     </div>
 
 
-    <div id="listaAgendamentos">
+    <!-- =========================
+         PEDIDOS
+    ========================= -->
 
-        <div class="vazio">
+    <div class="card">
 
-            <strong>
-                Carregando...
-            </strong>
+      <h2>
+        📦 Meus pedidos
+      </h2>
 
-            Buscando seus agendamentos.
+      <div id="pedidos">
+        Carregando...
+      </div>
 
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- PERFIL -->
-
-<section class="section">
-
-    <div class="section-title">
-
-        <h2>
-            👤 Meu perfil
-        </h2>
-
-        <span>
-            Dados da conta
-        </span>
+      <a
+        href="produtos-cliente.html"
+        class="btn btn-dark"
+      >
+        FAZER NOVO PEDIDO
+      </a>
 
     </div>
 
 
-    <div class="perfil">
+    <!-- =========================
+         WHATSAPP
+    ========================= -->
 
-        <div class="perfil-item">
+    <div class="card">
 
-            <small>
-                NOME
-            </small>
+      <h2>
+        💬 Precisa de ajuda?
+      </h2>
 
-            <strong id="nomePerfil">
-                ---
-            </strong>
+      <p>
+        Fale diretamente com a Gold Style
+        pelo WhatsApp.
+      </p>
 
-        </div>
-
-
-        <div class="perfil-item">
-
-            <small>
-                WHATSAPP
-            </small>
-
-            <strong id="telefonePerfil">
-                ---
-            </strong>
-
-        </div>
-
-
-        <div class="perfil-item">
-
-            <small>
-                E-MAIL
-            </small>
-
-            <strong id="emailPerfil">
-                ---
-            </strong>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ACESSO RÁPIDO -->
-
-<section class="section">
-
-    <div class="section-title">
-
-        <h2>
-            ⚡ Acesso rápido
-        </h2>
-
-        <span>
-            Gold Style
-        </span>
+      <a
+        href="https://wa.me/556899853643"
+        target="_blank"
+        class="btn btn-gold"
+      >
+        FALAR COM A BARBEARIA
+      </a>
 
     </div>
 
 
-    <div class="hero-buttons">
+    <!-- =========================
+         SAIR
+    ========================= -->
+
+    <button
+      id="sair"
+      class="btn btn-danger"
+    >
+      🚪 SAIR DA CONTA
+    </button>
 
 
-        <a
-            href="agendamento.html"
-            class="btn-principal"
-        >
-            ✂️ NOVO AGENDAMENTO
-        </a>
+  </section>
 
 
-        <a
-            href="produtos-cliente.html"
-            class="btn-produtos"
-        >
-            🛍️ COMPRAR PRODUTOS
-        </a>
-
-
-        <a
-            href="servicos.html"
-            class="btn-whatsapp"
-            style="
-                border-color:#d4af37;
-                color:#ffd700;
-            "
-        >
-            💈 VER SERVIÇOS
-        </a>
-
-
-        <a
-            href="https://wa.me/556899853643?text=Olá%20Gold%20Style,%20preciso%20de%20ajuda."
-            target="_blank"
-            class="btn-whatsapp"
-        >
-            📲 TIRAR DÚVIDAS
-        </a>
-
-    </div>
-
-</section>
+</main>
 
 
 <footer>
 
-    <strong>
-        GOLD STYLE BARBEARIA
-    </strong>
+  <strong>
+    Gold Style Barbearia
+  </strong>
 
-    <br>
+  <br>
 
-    Barbearia desde 2022 • Rio Branco - Acre
+  BARBEARIA DESDE 2022
 
-    <br>
+  <br>
 
-    Rua Preciosa 557
+  Rua Preciosa 557
+
+  <br>
+
+  Rio Branco - Acre
+
+  <br><br>
+
+  📸 @barbearia_Gold_style
+
+  <br><br>
+
+  © 2026 Gold Style
 
 </footer>
 
-</div>
+
+<a
+  href="https://wa.me/556899853643"
+  target="_blank"
+  class="whatsapp"
+  aria-label="Falar com a Gold Style"
+>
+  ☎
+</a>
 
 
 <script>
@@ -952,712 +728,548 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
-function dinheiro(valor){
+const loading =
+document.getElementById("loading");
 
-    return Number(
-        valor || 0
-    ).toLocaleString(
-        "pt-BR",
-        {
-            style:"currency",
-            currency:"BRL"
-        }
-    );
+const conteudo =
+document.getElementById("conteudo");
 
-}
+const erro =
+document.getElementById("erro");
 
 
-function formatarData(data){
+function mostrarErro(mensagem) {
 
-    if(!data){
-        return "---";
-    }
+  loading.style.display = "none";
 
-    const partes =
-        data.split("-");
+  erro.style.display = "block";
 
-    if(partes.length !== 3){
-        return data;
-    }
-
-    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+  erro.textContent = mensagem;
 
 }
 
 
-function formatarHorario(horario){
+function escaparHTML(valor) {
 
-    if(!horario){
-        return "---";
-    }
+  if (valor === null || valor === undefined) {
+    return "";
+  }
 
-    try{
-
-        if(horario.includes("T")){
-
-            return horario
-                .split("T")[1]
-                .substring(0,5);
-
-        }
-
-        return horario.substring(0,5);
-
-    }catch{
-
-        return horario;
-
-    }
+  return String(valor)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 
 }
 
 
-function classeStatus(status){
+function formatarMoeda(valor) {
 
-    if(status === "Confirmado"){
-        return "status status-confirmado";
+  return Number(valor || 0).toLocaleString(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: "BRL"
     }
-
-    if(status === "Concluído"){
-        return "status status-concluido";
-    }
-
-    if(status === "Cancelado"){
-        return "status status-cancelado";
-    }
-
-    return "status status-pendente";
+  );
 
 }
 
 
-function textoPagamento(pagamento){
+function formatarData(data) {
 
-    if(pagamento === "Pago"){
+  if (!data) {
+    return "-";
+  }
 
-        return `
-            <span class="pagamento-pago">
-                ✓ Pago
-            </span>
-        `;
+  const partes =
+    String(data).split("-");
 
-    }
+  if (partes.length !== 3) {
+    return data;
+  }
 
-    return `
-        <span class="pagamento-pendente">
-            ● Pendente
-        </span>
-    `;
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
 
 }
 
 
-async function carregarCliente(){
+async function carregarCliente() {
 
-    try{
+  try {
 
-        const {
-            data:sessionData,
-            error:sessionError
-        } =
-        await supabaseClient
-            .auth
-            .getSession();
+    const {
+      data: {
+        session
+      }
+    } =
+    await supabaseClient.auth.getSession();
 
 
-        if(sessionError){
+    if (!session) {
 
-            console.error(
-                sessionError
-            );
-
-            window.location.href =
-                "login.html";
-
-            return;
-
-        }
-
-
-        const session =
-            sessionData.session;
-
-
-        if(!session){
-
-            window.location.href =
-                "login.html";
-
-            return;
-
-        }
-
-
-        const usuarioId =
-            session.user.id;
-
-
-        /* CLIENTE */
-
-        const {
-            data:cliente,
-            error:clienteError
-        } =
-        await supabaseClient
-
-            .from("clientes")
-
-            .select(
-                "id,Nome,Telefone,E-mail,Data_cadastro"
-            )
-
-            .eq(
-                "auth_user_id",
-                usuarioId
-            )
-
-            .maybeSingle();
-
-
-        if(clienteError){
-
-            console.error(
-                clienteError
-            );
-
-        }
-
-
-        if(cliente){
-
-            document.getElementById(
-                "nomeHero"
-            ).textContent =
-                cliente.Nome ||
-                "Cliente";
-
-
-            document.getElementById(
-                "nomePerfil"
-            ).textContent =
-                cliente.Nome ||
-                "---";
-
-
-            document.getElementById(
-                "telefonePerfil"
-            ).textContent =
-                cliente.Telefone ||
-                "---";
-
-
-            document.getElementById(
-                "emailPerfil"
-            ).textContent =
-                cliente["E-mail"] ||
-                session.user.email ||
-                "---";
-
-        }else{
-
-            document.getElementById(
-                "nomeHero"
-            ).textContent =
-                session.user.email
-                ?.split("@")[0] ||
-                "Cliente";
-
-
-            document.getElementById(
-                "emailPerfil"
-            ).textContent =
-                session.user.email ||
-                "---";
-
-        }
-
-
-        /* AGENDAMENTOS */
-
-        const {
-            data:agendamentos,
-            error:agendamentosError
-        } =
-        await supabaseClient
-
-            .from("agendamentos")
-
-            .select("*")
-
-            .eq(
-                "auth_user_id",
-                usuarioId
-            )
-
-            .order(
-                "Data",
-                {
-                    ascending:true
-                }
-            )
-
-            .order(
-                "Horário",
-                {
-                    ascending:true
-                }
-            );
-
-
-        if(agendamentosError){
-
-            console.error(
-                agendamentosError
-            );
-
-            mostrarErro(
-                "Não foi possível carregar seus agendamentos."
-            );
-
-            return;
-
-        }
-
-
-        const lista =
-            agendamentos || [];
-
-
-        /* RESUMOS */
-
-        const total =
-            lista.length;
-
-
-        const confirmados =
-            lista.filter(
-                item =>
-                    item.Status === "Confirmado"
-            ).length;
-
-
-        const concluidos =
-            lista.filter(
-                item =>
-                    item.Status === "Concluído"
-            ).length;
-
-
-        const valorTotal =
-            lista.reduce(
-                (soma,item) =>
-                    soma +
-                    Number(
-                        item.Valor || 0
-                    ),
-                0
-            );
-
-
-        document.getElementById(
-            "totalAgendamentos"
-        ).textContent =
-            total;
-
-
-        document.getElementById(
-            "totalConfirmados"
-        ).textContent =
-            confirmados;
-
-
-        document.getElementById(
-            "totalConcluidos"
-        ).textContent =
-            concluidos;
-
-
-        document.getElementById(
-            "totalServicos"
-        ).textContent =
-            dinheiro(
-                valorTotal
-            );
-
-
-        document.getElementById(
-            "quantidadeAgendamentos"
-        ).textContent =
-            `${total} ${
-                total === 1
-                ? "horário"
-                : "horários"
-            }`;
-
-
-        mostrarProximo(
-            lista
-        );
-
-
-        mostrarLista(
-            lista
-        );
-
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-        mostrarErro(
-            "Ocorreu um erro ao carregar sua área."
-        );
-
-    }finally{
-
-        document.getElementById(
-            "carregando"
-        ).style.display =
-            "none";
-
-    }
-
-}
-
-
-function mostrarProximo(lista){
-
-    const elemento =
-        document.getElementById(
-            "proximoAtendimento"
-        );
-
-
-    const agora =
-        new Date();
-
-
-    const futuros =
-        lista.filter(
-            item => {
-
-                if(
-                    item.Status ===
-                    "Cancelado"
-                ){
-
-                    return false;
-
-                }
-
-
-                if(!item.Data){
-                    return false;
-                }
-
-
-                const dataHora =
-                    new Date(
-                        `${item.Data}T${formatarHorario(item.Horário)}:00`
-                    );
-
-
-                return dataHora >= agora;
-
-            }
-        );
-
-
-    if(!futuros.length){
-
-        elemento.innerHTML = `
-
-            <div class="vazio">
-
-                <strong>
-                    Nenhum horário próximo
-                </strong>
-
-                Você não possui um
-                atendimento futuro agendado.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    const proximo =
-        futuros[0];
-
-
-    elemento.innerHTML = `
-
-        <div class="proximo">
-
-            <div class="proximo-label">
-                SEU PRÓXIMO HORÁRIO
-            </div>
-
-            <h3>
-                ${proximo["Serviços"] || "Serviço"}
-            </h3>
-
-            <div class="proximo-info">
-
-                <div class="info-box">
-
-                    <small>
-                        DATA
-                    </small>
-
-                    <strong>
-                        ${formatarData(
-                            proximo.Data
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div class="info-box">
-
-                    <small>
-                        HORÁRIO
-                    </small>
-
-                    <strong>
-                        ${formatarHorario(
-                            proximo.Horário
-                        )}
-                    </strong>
-
-                </div>
-
-
-                <div class="info-box">
-
-                    <small>
-                        VALOR
-                    </small>
-
-                    <strong>
-                        ${dinheiro(
-                            proximo.Valor
-                        )}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div style="margin-top:15px;">
-
-                <span
-                    class="${classeStatus(
-                        proximo.Status
-                    )}"
-                >
-                    ${proximo.Status || "Pendente"}
-                </span>
-
-
-                <span style="margin-left:8px;">
-
-                    ${textoPagamento(
-                        proximo.Pagamento
-                    )}
-
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-function mostrarLista(lista){
-
-    const elemento =
-        document.getElementById(
-            "listaAgendamentos"
-        );
-
-
-    if(!lista.length){
-
-        elemento.innerHTML = `
-
-            <div class="vazio">
-
-                <strong>
-                    Você ainda não possui agendamentos.
-                </strong>
-
-                Clique em
-
-                <b style="color:#ffd700;">
-                    AGENDAR HORÁRIO
-                </b>
-
-                para marcar seu atendimento.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    elemento.innerHTML =
-        lista
-        .map(
-            item => `
-
-            <div class="agendamento">
-
-                <div class="agendamento-topo">
-
-                    <div>
-
-                        <h3>
-                            ${
-                                item["Serviços"]
-                                ||
-                                "Serviço"
-                            }
-                        </h3>
-
-                        <div
-                            class="data"
-                            style="margin-top:5px;"
-                        >
-
-                            ${
-                                formatarData(
-                                    item.Data
-                                )
-                            }
-
-                            •
-
-                            ${
-                                formatarHorario(
-                                    item.Horário
-                                )
-                            }
-
-                        </div>
-
-                    </div>
-
-
-                    <span
-                        class="${classeStatus(
-                            item.Status
-                        )}"
-                    >
-
-                        ${
-                            item.Status ||
-                            "Pendente"
-                        }
-
-                    </span>
-
-                </div>
-
-
-                <div class="agendamento-detalhes">
-
-                    <div class="tag">
-
-                        💰
-
-                        ${
-                            dinheiro(
-                                item.Valor
-                            )
-                        }
-
-                    </div>
-
-
-                    <div class="tag">
-
-                        Pagamento:
-
-                        ${
-                            textoPagamento(
-                                item.Pagamento
-                            )
-                        }
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `
-        )
-        .join("");
-
-}
-
-
-function mostrarErro(mensagem){
-
-    document.getElementById(
-        "listaAgendamentos"
-    ).innerHTML = `
-
-        <div class="vazio">
-
-            <strong>
-                Ops!
-            </strong>
-
-            ${mensagem}
-
-        </div>
-
-    `;
-
-}
-
-
-async function sair(){
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-    window.location.href =
+      window.location.href =
         "login.html";
 
+      return;
+
+    }
+
+
+    const usuario =
+      session.user;
+
+
+    const {
+      data: cliente,
+      error: erroCliente
+    } =
+    await supabaseClient
+      .from("clientes")
+      .select("*")
+      .eq(
+        "auth_user_id",
+        usuario.id
+      )
+      .maybeSingle();
+
+
+    if (erroCliente) {
+      throw erroCliente;
+    }
+
+
+    if (!cliente) {
+
+      mostrarErro(
+        "Seu cadastro de cliente não foi encontrado."
+      );
+
+      return;
+
+    }
+
+
+    document.getElementById(
+      "nomeCliente"
+    ).textContent =
+      `Olá, ${cliente.Nome || "cliente"}!`;
+
+
+    document.getElementById(
+      "clienteNome"
+    ).textContent =
+      cliente.Nome || "-";
+
+
+    document.getElementById(
+      "clienteTelefone"
+    ).textContent =
+      cliente.Telefone || "-";
+
+
+    document.getElementById(
+      "clienteEmail"
+    ).textContent =
+      cliente["E-mail"] ||
+      usuario.email ||
+      "-";
+
+
+    await Promise.all([
+      carregarAgendamentos(cliente.id),
+      carregarPagamentos(cliente.id),
+      carregarPedidos(cliente.id)
+    ]);
+
+
+    loading.style.display =
+      "none";
+
+    conteudo.style.display =
+      "block";
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    mostrarErro(
+      "Não foi possível carregar sua área do cliente."
+    );
+
+  }
+
 }
+
+
+async function carregarAgendamentos(
+  clienteId
+) {
+
+  const elemento =
+    document.getElementById(
+      "agendamentos"
+    );
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from("agendamentos")
+    .select("*")
+    .eq(
+      "Cliente_id",
+      clienteId
+    )
+    .order(
+      "Data",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    elemento.innerHTML =
+      "<p>Não foi possível carregar seus agendamentos.</p>";
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    elemento.innerHTML =
+      "<p>Você ainda não possui agendamentos.</p>";
+
+    return;
+
+  }
+
+
+  elemento.innerHTML =
+    data.map(item => {
+
+      return `
+
+        <div
+          style="
+            padding:15px;
+            margin-bottom:12px;
+            background:#0d0d0d;
+            border:1px solid rgba(255,215,0,.18);
+            border-radius:12px;
+          "
+        >
+
+          <p>
+            <strong>Serviço:</strong>
+            <span class="highlight">
+              ${escaparHTML(item["Serviços"])}
+            </span>
+          </p>
+
+          <p>
+            <strong>Data:</strong>
+            ${formatarData(item["Data"])}
+          </p>
+
+          <p>
+            <strong>Horário:</strong>
+            ${item["Horário"]
+              ? new Date(item["Horário"])
+                  .toLocaleTimeString(
+                    "pt-BR",
+                    {
+                      hour:"2-digit",
+                      minute:"2-digit"
+                    }
+                  )
+              : "-"
+            }
+          </p>
+
+          <p>
+            <strong>Valor:</strong>
+            ${formatarMoeda(item.Valor)}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            <span class="status">
+              ${escaparHTML(item.Status)}
+            </span>
+          </p>
+
+          <p>
+            <strong>Pagamento:</strong>
+            ${escaparHTML(item.Pagamento)}
+          </p>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+async function carregarPagamentos(
+  clienteId
+) {
+
+  const elemento =
+    document.getElementById(
+      "pagamentos"
+    );
+
+
+  const {
+    data,
+    error
+  } =
+  await supabaseClient
+    .from("pagamentos")
+    .select("*")
+    .eq(
+      "cliente_id",
+      clienteId
+    )
+    .order(
+      "criado_em",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    elemento.innerHTML =
+      "<p>Não foi possível carregar seus pagamentos.</p>";
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    elemento.innerHTML =
+      "<p>Nenhum pagamento registrado.</p>";
+
+    return;
+
+  }
+
+
+  elemento.innerHTML =
+    data.map(item => {
+
+      return `
+
+        <div
+          style="
+            padding:15px;
+            margin-bottom:12px;
+            background:#0d0d0d;
+            border:1px solid rgba(255,215,0,.18);
+            border-radius:12px;
+          "
+        >
+
+          <p>
+            <strong>Valor:</strong>
+            <span class="highlight">
+              ${formatarMoeda(item.valor)}
+            </span>
+          </p>
+
+          <p>
+            <strong>Método:</strong>
+            ${escaparHTML(item.metodo)}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            <span class="status">
+              ${escaparHTML(item.status)}
+            </span>
+          </p>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+async function carregarPedidos(
+  clienteId
+) {
+
+  const elemento =
+    document.getElementById(
+      "pedidos"
+    );
+
+
+  const {
+    data: pedidos,
+    error
+  } =
+  await supabaseClient
+    .from("pedidos_produtos")
+    .select("*")
+    .eq(
+      "cliente_id",
+      clienteId
+    )
+    .order(
+      "criado_em",
+      {
+        ascending: false
+      }
+    );
+
+
+  if (error) {
+
+    elemento.innerHTML =
+      "<p>Não foi possível carregar seus pedidos.</p>";
+
+    return;
+
+  }
+
+
+  if (!pedidos || pedidos.length === 0) {
+
+    elemento.innerHTML =
+      "<p>Você ainda não possui pedidos.</p>";
+
+    return;
+
+  }
+
+
+  elemento.innerHTML =
+    pedidos.map(pedido => {
+
+      return `
+
+        <div
+          style="
+            padding:15px;
+            margin-bottom:12px;
+            background:#0d0d0d;
+            border:1px solid rgba(255,215,0,.18);
+            border-radius:12px;
+          "
+        >
+
+          <p>
+            <strong>Pedido:</strong>
+            <span class="highlight">
+              #${String(pedido.id).slice(0,8)}
+            </span>
+          </p>
+
+          <p>
+            <strong>Total:</strong>
+            ${formatarMoeda(pedido.total)}
+          </p>
+
+          <p>
+            <strong>Pagamento:</strong>
+            <span class="status">
+              ${escaparHTML(
+                pedido.status_pagamento
+              )}
+            </span>
+          </p>
+
+          <p>
+            <strong>Pedido:</strong>
+            <span class="status">
+              ${escaparHTML(
+                pedido.status_pedido
+              )}
+            </span>
+          </p>
+
+          <p>
+            <strong>Data:</strong>
+            ${
+              pedido.criado_em
+              ? new Date(
+                  pedido.criado_em
+                ).toLocaleDateString(
+                  "pt-BR"
+                )
+              : "-"
+            }
+          </p>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+document
+  .getElementById("sair")
+  .addEventListener(
+    "click",
+    async () => {
+
+      const {
+        error
+      } =
+      await supabaseClient.auth.signOut();
+
+
+      if (error) {
+
+        alert(
+          "Não foi possível sair da conta."
+        );
+
+        return;
+
+      }
+
+
+      window.location.href =
+        "login.html";
+
+    }
+  );
 
 
 carregarCliente();
 
 </script>
 
+
 </body>
+
     </html>
