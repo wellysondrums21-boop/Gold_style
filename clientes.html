@@ -46,7 +46,7 @@ header{
 
 .container{
     width:94%;
-    max-width:1350px;
+    max-width:1400px;
     margin:25px auto;
 }
 
@@ -138,6 +138,14 @@ h1{
     color:#70d9ff;
 }
 
+.card.roxo{
+    border-left-color:#b56cff;
+}
+
+.card.roxo .numero{
+    color:#c58cff;
+}
+
 .filtro-area{
     background:#111;
     border:1px solid #333;
@@ -184,7 +192,7 @@ input:focus{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1250px;
+    min-width:1450px;
 }
 
 th{
@@ -229,6 +237,11 @@ td{
 
 .azul-texto{
     color:#70d9ff;
+    font-weight:bold;
+}
+
+.roxo-texto{
+    color:#c58cff;
     font-weight:bold;
 }
 
@@ -278,7 +291,7 @@ td{
 
 .modal-conteudo{
     width:100%;
-    max-width:850px;
+    max-width:950px;
     margin:40px auto;
     background:#111;
     border:1px solid #ffd700;
@@ -387,6 +400,10 @@ td{
     color:#70d9ff;
 }
 
+.resumo-box.roxo strong{
+    color:#c58cff;
+}
+
 .historico{
     margin-top:15px;
 }
@@ -421,6 +438,65 @@ td{
 
 .tipo-pagamento{
     border-left:3px solid #6dff6d;
+}
+
+.tipo-pedido{
+    border-left:3px solid #c58cff;
+}
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:6px;
+    font-size:11px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.badge-pago{
+    background:#164d2a;
+    color:#6dff6d;
+}
+
+.badge-pendente{
+    background:#5a4210;
+    color:#ffd700;
+}
+
+.badge-concluido{
+    background:#164d2a;
+    color:#6dff6d;
+}
+
+.badge-processando{
+    background:#103c5a;
+    color:#70d9ff;
+}
+
+.badge-cancelado{
+    background:#541919;
+    color:#ff7777;
+}
+
+.pedido-produtos{
+    margin-top:10px;
+    padding:10px;
+    background:#050505;
+    border:1px solid #222;
+    border-radius:7px;
+}
+
+.pedido-produto-item{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:6px 0;
+    border-bottom:1px solid #1e1e1e;
+    color:#ccc;
+}
+
+.pedido-produto-item:last-child{
+    border-bottom:none;
 }
 
 .vazio-historico{
@@ -512,6 +588,10 @@ td{
             💵 Vendas
         </a>
 
+        <a href="pedidos.html">
+            📦 Pedidos
+        </a>
+
         <a href="financeiro.html">
             💰 Financeiro
         </a>
@@ -541,7 +621,7 @@ td{
     </h1>
 
     <div class="subtitulo">
-        Cadastro, histórico de serviços, pagamentos e compras
+        Cadastro, histórico de serviços, pagamentos, vendas e pedidos de produtos
     </div>
 
 
@@ -625,6 +705,23 @@ td{
             <div
                 class="numero"
                 id="totalProdutos">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="card roxo">
+
+            <strong>
+                📦 Pedidos concluídos
+            </strong>
+
+            <div
+                class="numero"
+                id="totalPedidos">
 
                 0
 
@@ -735,7 +832,13 @@ let pagamentos = [];
 
 let vendas = [];
 
+let pedidos = [];
+
+let itensPedidos = [];
+
 let mapaClientes = {};
+
+let mapaItensPedidos = {};
 
 
 /* =========================
@@ -752,6 +855,58 @@ function dinheiro(valor){
             style:"currency",
             currency:"BRL"
         }
+    );
+
+}
+
+
+/* =========================
+   NORMALIZAR STATUS
+========================= */
+
+function normalizarStatus(valor){
+
+    return String(
+        valor || ""
+    )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+function pedidoPago(pedido){
+
+    return normalizarStatus(
+        pedido.status_pagamento
+    ) === "pago";
+
+}
+
+
+function pedidoConcluido(pedido){
+
+    return (
+        pedidoPago(pedido)
+        &&
+        normalizarStatus(
+            pedido.status_pedido
+        ) === "concluído"
+    );
+
+}
+
+
+function pedidoCancelado(pedido){
+
+    return (
+        normalizarStatus(
+            pedido.status_pagamento
+        ) === "cancelado"
+        ||
+        normalizarStatus(
+            pedido.status_pedido
+        ) === "cancelado"
     );
 
 }
@@ -854,6 +1009,14 @@ async function carregarDados(){
 
             supabaseClient
                 .from("vendas")
+                .select("*"),
+
+            supabaseClient
+                .from("pedidos_produtos")
+                .select("*"),
+
+            supabaseClient
+                .from("itens_pedido")
                 .select("*")
 
         ]);
@@ -870,6 +1033,12 @@ async function carregarDados(){
 
     if(resultado[3].error)
         throw resultado[3].error;
+
+    if(resultado[4].error)
+        throw resultado[4].error;
+
+    if(resultado[5].error)
+        throw resultado[5].error;
 
 
     clientes =
@@ -888,6 +1057,14 @@ async function carregarDados(){
         resultado[3].data || [];
 
 
+    pedidos =
+        resultado[4].data || [];
+
+
+    itensPedidos =
+        resultado[5].data || [];
+
+
     mapaClientes = {};
 
 
@@ -897,6 +1074,35 @@ async function carregarDados(){
             mapaClientes[
                 cliente.id
             ] = cliente;
+
+        }
+    );
+
+
+    mapaItensPedidos = {};
+
+
+    itensPedidos.forEach(
+        item => {
+
+            if(
+                !mapaItensPedidos[
+                    item.pedido_id
+                ]
+            ){
+
+                mapaItensPedidos[
+                    item.pedido_id
+                ] = [];
+
+            }
+
+
+            mapaItensPedidos[
+                item.pedido_id
+            ].push(
+                item
+            );
 
         }
     );
@@ -929,16 +1135,14 @@ function atualizarResumo(){
         agendamentos.length;
 
 
-    const recebido =
+    const recebidoServicos =
         pagamentos
 
         .filter(
             pagamento =>
-                String(
-                    pagamento.status || ""
-                )
-                .toLowerCase()
-                === "pago"
+                normalizarStatus(
+                    pagamento.status
+                ) === "pago"
         )
 
         .reduce(
@@ -949,46 +1153,126 @@ function atualizarResumo(){
                 total +
                 Number(
                     pagamento.valor || 0
+                ),
+            0
+        );
+
+
+    const recebidoVendas =
+        vendas
+
+        .filter(
+            venda =>
+                normalizarStatus(
+                    venda.status
+                ) === "pago"
+        )
+
+        .reduce(
+            (
+                total,
+                venda
+            ) =>
+                total +
+                Number(
+                    venda.valor_total || 0
+                ),
+            0
+        );
+
+
+    const recebidoPedidos =
+        pedidos
+
+        .filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
+        )
+
+        .reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+
+    const recebido =
+        recebidoServicos +
+        recebidoVendas +
+        recebidoPedidos;
+
+
+    const pendenteServicos =
+        pagamentos
+
+        .filter(
+            pagamento =>
+                normalizarStatus(
+                    pagamento.status
+                ) !== "pago"
+                &&
+                normalizarStatus(
+                    pagamento.status
+                ) !== "cancelado"
+        )
+
+        .reduce(
+            (
+                total,
+                pagamento
+            ) =>
+                total +
+                Number(
+                    pagamento.valor || 0
+                ),
+            0
+        );
+
+
+    const pendentePedidos =
+        pedidos
+
+        .filter(
+            pedido =>
+                !pedidoPago(pedido)
+                &&
+                !pedidoCancelado(pedido)
+        )
+
+        .reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
                 ),
             0
         );
 
 
     const pendente =
-        pagamentos
-
-        .filter(
-            pagamento =>
-                String(
-                    pagamento.status || ""
-                )
-                .toLowerCase()
-                !== "pago"
-        )
-
-        .reduce(
-            (
-                total,
-                pagamento
-            ) =>
-                total +
-                Number(
-                    pagamento.valor || 0
-                ),
-            0
-        );
+        pendenteServicos +
+        pendentePedidos;
 
 
-    const quantidadeProdutos =
+    const quantidadeVendas =
         vendas
 
         .filter(
             venda =>
-                String(
-                    venda.status || ""
-                )
-                .toLowerCase()
-                === "pago"
+                normalizarStatus(
+                    venda.status
+                ) === "pago"
         )
 
         .reduce(
@@ -1002,6 +1286,59 @@ function atualizarResumo(){
                 ),
             0
         );
+
+
+    const quantidadePedidos =
+        pedidos
+
+        .filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
+        )
+
+        .reduce(
+            (
+                total,
+                pedido
+            ) => {
+
+                const itens =
+                    mapaItensPedidos[
+                        pedido.id
+                    ] || [];
+
+                return total +
+                    itens.reduce(
+                        (
+                            soma,
+                            item
+                        ) =>
+                            soma +
+                            Number(
+                                item.quantidade || 0
+                            ),
+                        0
+                    );
+
+            },
+            0
+        );
+
+
+    const quantidadeProdutos =
+        quantidadeVendas +
+        quantidadePedidos;
+
+
+    const pedidosConcluidos =
+        pedidos.filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
+        ).length;
 
 
     document.getElementById(
@@ -1024,6 +1361,12 @@ function atualizarResumo(){
         "totalProdutos"
     ).textContent =
         quantidadeProdutos;
+
+
+    document.getElementById(
+        "totalPedidos"
+    ).textContent =
+        pedidosConcluidos;
 
 }
 
@@ -1060,16 +1403,22 @@ function dadosCliente(
         );
 
 
+    const pedidosCliente =
+        pedidos.filter(
+            pedido =>
+                pedido.cliente_id ===
+                clienteId
+        );
+
+
     const recebidoServicos =
         pagamentosCliente
 
         .filter(
             pagamento =>
-                String(
-                    pagamento.status || ""
-                )
-                .toLowerCase()
-                === "pago"
+                normalizarStatus(
+                    pagamento.status
+                ) === "pago"
         )
 
         .reduce(
@@ -1085,16 +1434,18 @@ function dadosCliente(
         );
 
 
-    const pendente =
+    const pendenteServicos =
         pagamentosCliente
 
         .filter(
             pagamento =>
-                String(
-                    pagamento.status || ""
-                )
-                .toLowerCase()
-                !== "pago"
+                normalizarStatus(
+                    pagamento.status
+                ) !== "pago"
+                &&
+                normalizarStatus(
+                    pagamento.status
+                ) !== "cancelado"
         )
 
         .reduce(
@@ -1110,16 +1461,14 @@ function dadosCliente(
         );
 
 
-    const totalProdutos =
+    const totalVendasProdutos =
         vendasCliente
 
         .filter(
             venda =>
-                String(
-                    venda.status || ""
-                )
-                .toLowerCase()
-                === "pago"
+                normalizarStatus(
+                    venda.status
+                ) === "pago"
         )
 
         .reduce(
@@ -1135,16 +1484,14 @@ function dadosCliente(
         );
 
 
-    const quantidadeProdutos =
+    const quantidadeVendasProdutos =
         vendasCliente
 
         .filter(
             venda =>
-                String(
-                    venda.status || ""
-                )
-                .toLowerCase()
-                === "pago"
+                normalizarStatus(
+                    venda.status
+                ) === "pago"
         )
 
         .reduce(
@@ -1160,9 +1507,100 @@ function dadosCliente(
         );
 
 
+    const pedidosConcluidos =
+        pedidosCliente.filter(
+            pedido =>
+                pedidoConcluido(
+                    pedido
+                )
+        );
+
+
+    const pedidosPendentes =
+        pedidosCliente.filter(
+            pedido =>
+                !pedidoPago(pedido)
+                &&
+                !pedidoCancelado(pedido)
+        );
+
+
+    const totalPedidosConcluidos =
+        pedidosConcluidos.reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+
+    const totalPedidosPendentes =
+        pedidosPendentes.reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+
+    const quantidadePedidosProdutos =
+        pedidosConcluidos.reduce(
+            (
+                total,
+                pedido
+            ) => {
+
+                const itens =
+                    mapaItensPedidos[
+                        pedido.id
+                    ] || [];
+
+                return total +
+                    itens.reduce(
+                        (
+                            soma,
+                            item
+                        ) =>
+                            soma +
+                            Number(
+                                item.quantidade || 0
+                            ),
+                        0
+                    );
+
+            },
+            0
+        );
+
+
+    const quantidadeProdutos =
+        quantidadeVendasProdutos +
+        quantidadePedidosProdutos;
+
+
+    const totalProdutos =
+        totalVendasProdutos +
+        totalPedidosConcluidos;
+
+
     const totalGeral =
         recebidoServicos +
         totalProdutos;
+
+
+    const pendente =
+        pendenteServicos +
+        totalPedidosPendentes;
 
 
     return {
@@ -1175,6 +1613,15 @@ function dadosCliente(
         vendas:
             vendasCliente,
 
+        pedidos:
+            pedidosCliente,
+
+        pedidosConcluidos:
+            pedidosConcluidos,
+
+        pedidosPendentes:
+            pedidosPendentes,
+
         recebido:
             recebidoServicos,
 
@@ -1183,6 +1630,21 @@ function dadosCliente(
 
         quantidadeProdutos:
             quantidadeProdutos,
+
+        totalVendasProdutos:
+            totalVendasProdutos,
+
+        totalPedidosConcluidos:
+            totalPedidosConcluidos,
+
+        totalPedidosPendentes:
+            totalPedidosPendentes,
+
+        quantidadeVendasProdutos:
+            quantidadeVendasProdutos,
+
+        quantidadePedidosProdutos:
+            quantidadePedidosProdutos,
 
         totalGeral:
             totalGeral,
@@ -1236,6 +1698,8 @@ function mostrarClientes(
                     <th>Serviços pagos</th>
 
                     <th>Produtos</th>
+
+                    <th>Pedidos</th>
 
                     <th>Total gasto</th>
 
@@ -1349,6 +1813,33 @@ function mostrarClientes(
                             item(ns)
 
                         </small>
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="roxo-texto">
+
+                            ${
+                                dados.pedidosConcluidos.length
+                            }
+                            concluído(s)
+
+                        </span>
+
+                        ${
+                            dados.pedidosPendentes.length
+                            ?
+                            `<br>
+                            <small class="vermelho-texto">
+                                ${dados.pedidosPendentes.length}
+                                pendente(s)
+                            </small>`
+                            :
+                            ""
+                        }
 
                     </td>
 
@@ -1545,6 +2036,182 @@ function dataBR(
 
 
 /* =========================
+   DATA E HORA
+========================= */
+
+function dataHoraBR(
+    data
+){
+
+    if(!data)
+        return "-";
+
+
+    const objeto =
+        new Date(data);
+
+
+    if(
+        Number.isNaN(
+            objeto.getTime()
+        )
+    ){
+
+        return dataBR(data);
+
+    }
+
+
+    return objeto.toLocaleString(
+        "pt-BR"
+    );
+
+}
+
+
+/* =========================
+   BADGE
+========================= */
+
+function badgeStatus(
+    status
+){
+
+    const normalizado =
+        normalizarStatus(
+            status
+        );
+
+
+    if(
+        normalizado === "pago"
+        ||
+        normalizado === "concluído"
+    ){
+
+        return `
+            <span class="badge badge-pago">
+                ${status}
+            </span>
+        `;
+
+    }
+
+
+    if(
+        normalizado === "cancelado"
+    ){
+
+        return `
+            <span class="badge badge-cancelado">
+                ${status}
+            </span>
+        `;
+
+    }
+
+
+    if(
+        normalizado === "processando"
+        ||
+        normalizado === "aguardando processamento"
+    ){
+
+        return `
+            <span class="badge badge-processando">
+                ${status}
+            </span>
+        `;
+
+    }
+
+
+    return `
+        <span class="badge badge-pendente">
+            ${status || "Pendente"}
+        </span>
+    `;
+
+}
+
+
+/* =========================
+   RENDERIZAR ITENS PEDIDO
+========================= */
+
+function renderizarItensPedido(
+    pedidoId
+){
+
+    const itens =
+        mapaItensPedidos[
+            pedidoId
+        ] || [];
+
+
+    if(!itens.length){
+
+        return `
+            <div class="pedido-produtos">
+                <small>
+                    Nenhum item encontrado neste pedido.
+                </small>
+            </div>
+        `;
+
+    }
+
+
+    return `
+
+        <div class="pedido-produtos">
+
+            ${
+                itens.map(
+                    item => `
+
+                        <div class="pedido-produto-item">
+
+                            <span>
+
+                                ${
+                                    item.produto_nome
+                                    || "Produto"
+                                }
+
+                                ×
+
+                                ${
+                                    item.quantidade
+                                    || 0
+                                }
+
+                            </span>
+
+                            <strong>
+
+                                ${
+                                    dinheiro(
+                                        item.valor_total
+                                    )
+                                }
+
+                            </strong>
+
+                        </div>
+
+                    `
+                ).join("")
+            }
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
    DETALHES
 ========================= */
 
@@ -1710,6 +2377,14 @@ function abrirDetalhes(
                                 || "-"
                             }
 
+                            <br>
+
+                            ${
+                                badgeStatus(
+                                    pagamento.status
+                                )
+                            }
+
                         </small>
 
                     </div>
@@ -1722,7 +2397,7 @@ function abrirDetalhes(
     );
 
 
-    /* PRODUTOS */
+    /* VENDAS DIRETAS */
 
     dados.vendas.forEach(
         venda => {
@@ -1742,7 +2417,7 @@ function abrirDetalhes(
                         class="historico-item tipo-produto">
 
                         <strong>
-                            🛍️ ${
+                            🛍️ Venda direta — ${
                                 venda.produto_nome
                                 || "Produto"
                             }
@@ -1784,12 +2459,20 @@ function abrirDetalhes(
                                 || "-"
                             }
 
-                            |
+                            <br>
 
                             Status:
                             ${
                                 venda.status
                                 || "-"
+                            }
+
+                            <br>
+
+                            ${
+                                badgeStatus(
+                                    venda.status
+                                )
                             }
 
                         </small>
@@ -1804,422 +2487,10 @@ function abrirDetalhes(
     );
 
 
-    eventos.sort(
-        (
-            a,
-            b
-        ) =>
-            b.data.localeCompare(
-                a.data
-            )
-    );
+    /* PEDIDOS DE PRODUTOS */
 
+    dados.pedidos.forEach(
+        pedido => {
 
-    if(!eventos.length){
-
-        historico =
-            `<div class="vazio-historico">
-                Nenhuma movimentação encontrada.
-            </div>`;
-
-    }else{
-
-        historico =
-            eventos
-            .map(
-                evento =>
-                    evento.html
-            )
-            .join("");
-
-    }
-
-
-    elemento.innerHTML = `
-
-        <div class="info-grid">
-
-
-            <div class="info-box">
-
-                <span>
-                    Nome
-                </span>
-
-                <strong>
-
-                    ${
-                        cliente.Nome
-                        || "-"
-                    }
-
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <span>
-                    Telefone
-                </span>
-
-                <strong>
-
-                    ${
-                        cliente.Telefone
-                        || "-"
-                    }
-
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <span>
-                    E-mail
-                </span>
-
-                <strong>
-
-                    ${
-                        cliente["E-mail"]
-                        || "-"
-                    }
-
-                </strong>
-
-            </div>
-
-
-            <div class="info-box">
-
-                <span>
-                    Agendamentos
-                </span>
-
-                <strong>
-
-                    ${
-                        dados.agenda.length
-                    }
-
-                </strong>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="resumo-financeiro">
-
-            <h3>
-                💰 Resumo financeiro do cliente
-            </h3>
-
-
-            <div class="resumo-grid">
-
-
-                <div class="resumo-box verde">
-
-                    <span>
-                        Serviços pagos
-                    </span>
-
-                    <strong>
-
-                        ${
-                            dinheiro(
-                                dados.recebido
-                            )
-                        }
-
-                    </strong>
-
-                </div>
-
-
-                <div class="resumo-box azul">
-
-                    <span>
-                        Produtos comprados
-                    </span>
-
-                    <strong>
-
-                        ${
-                            dinheiro(
-                                dados.produtos
-                            )
-                        }
-
-                    </strong>
-
-                </div>
-
-
-                <div class="resumo-box">
-
-                    <span>
-                        Total gasto
-                    </span>
-
-                    <strong>
-
-                        ${
-                            dinheiro(
-                                dados.totalGeral
-                            )
-                        }
-
-                    </strong>
-
-                </div>
-
-
-                <div class="resumo-box vermelho">
-
-                    <span>
-                        Pendente
-                    </span>
-
-                    <strong>
-
-                        ${
-                            dinheiro(
-                                dados.pendente
-                            )
-                        }
-
-                    </strong>
-
-                </div>
-
-
-                <div class="resumo-box azul">
-
-                    <span>
-                        Produtos adquiridos
-                    </span>
-
-                    <strong>
-
-                        ${
-                            dados.quantidadeProdutos
-                        }
-
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-        <div class="historico">
-
-            <h3>
-                📋 Histórico completo
-            </h3>
-
-            ${historico}
-
-        </div>
-
-    `;
-
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "block";
-
-}
-
-
-/* =========================
-   FECHAR MODAL
-========================= */
-
-function fecharModal(){
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "none";
-
-}
-
-
-/* =========================
-   WHATSAPP
-========================= */
-
-function abrirWhatsApp(
-    clienteId
-){
-
-    const cliente =
-        mapaClientes[
-            clienteId
-        ];
-
-
-    if(
-        !cliente ||
-        !cliente.Telefone
-    ){
-
-        alert(
-            "Telefone do cliente não encontrado."
-        );
-
-        return;
-
-    }
-
-
-    let numero =
-        String(
-            cliente.Telefone
-        )
-        .replace(
-            /\D/g,
-            ""
-        );
-
-
-    if(
-        numero.length === 11
-    ){
-
-        numero =
-            "55" +
-            numero;
-
-    }
-
-
-    const mensagem =
-        `Olá, ${cliente.Nome}! ` +
-        `Aqui é da Gold Style Barbearia. ` +
-        `Estamos entrando em contato para falar sobre seu atendimento.`;
-
-
-    window.open(
-
-        "https://wa.me/" +
-        numero +
-        "?text=" +
-        encodeURIComponent(
-            mensagem
-        ),
-
-        "_blank"
-
-    );
-
-}
-
-
-/* =========================
-   FECHAR MODAL FORA
-========================= */
-
-window.onclick =
-function(event){
-
-    const modal =
-        document.getElementById(
-            "modal"
-        );
-
-
-    if(
-        event.target ===
-        modal
-    ){
-
-        fecharModal();
-
-    }
-
-};
-
-
-/* =========================
-   SAIR
-========================= */
-
-async function sair(){
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-
-    window.location.href =
-        "login.html";
-
-}
-
-
-/* =========================
-   INICIAR
-========================= */
-
-(async()=>{
-
-    try{
-
-        const autorizado =
-            await verificarAdmin();
-
-
-        if(autorizado){
-
-            await carregarDados();
-
-        }
-
-    }catch(erro){
-
-        console.error(
-            erro
-        );
-
-
-        document.getElementById(
-            "listaClientes"
-        ).innerHTML = `
-
-            <div class="mensagem">
-
-                Erro ao carregar clientes.
-
-                <br><br>
-
-                ${
-                    erro.message
-                    || ""
-                }
-
-            </div>
-
-        `;
-
-    }
-
-})();
-
-</script>
-
-</body>
-
-    </html>
+            const itens =
+                mapaItens
