@@ -25,6 +25,8 @@ color:#fff;
 font-family:Arial,sans-serif;
 }
 
+/* HEADER */
+
 header{
 background:#080808;
 padding:20px;
@@ -45,10 +47,43 @@ margin-top:5px;
 font-size:13px;
 }
 
+/* MENU */
+
+.menu{
+display:flex;
+gap:8px;
+padding:12px;
+background:#0b0b0b;
+border-bottom:1px solid #333;
+overflow-x:auto;
+white-space:nowrap;
+}
+
+.menu a,
+.menu button{
+background:#111;
+border:1px solid #333;
+color:#ffd700;
+padding:10px 12px;
+border-radius:8px;
+text-decoration:none;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.menu a:hover,
+.menu button:hover{
+background:#ffd700;
+color:#000;
+}
+
+/* CONTEÚDO */
+
 main{
 width:94%;
-max-width:900px;
-margin:20px auto;
+max-width:1000px;
+margin:25px auto;
 }
 
 .topo{
@@ -56,6 +91,7 @@ display:flex;
 align-items:center;
 gap:15px;
 margin-bottom:20px;
+flex-wrap:wrap;
 }
 
 .voltar{
@@ -73,6 +109,8 @@ color:#ffd700;
 margin:0;
 }
 
+/* SERVIÇOS */
+
 .servico{
 background:#111;
 border:1px solid #333;
@@ -83,6 +121,7 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 gap:15px;
+box-shadow:0 0 10px rgba(255,215,0,0.05);
 }
 
 .nome{
@@ -101,6 +140,10 @@ margin-top:5px;
 font-size:12px;
 color:#00ff88;
 margin-top:5px;
+}
+
+.status.inativo{
+color:#ff5555;
 }
 
 button{
@@ -127,7 +170,38 @@ padding:20px;
 color:#ff5555!important;
 }
 
-@media(max-width:600px){
+/* RODAPÉ */
+
+footer{
+text-align:center;
+color:#777;
+font-size:12px;
+padding:30px 10px;
+margin-top:30px;
+border-top:1px solid #222;
+}
+
+/* CELULAR */
+
+@media(max-width:700px){
+
+.logo{
+font-size:24px;
+}
+
+.menu{
+padding:10px;
+}
+
+.menu a,
+.menu button{
+font-size:11px;
+padding:9px 10px;
+}
+
+main{
+width:92%;
+}
 
 .servico{
 flex-direction:column;
@@ -148,9 +222,7 @@ align-items:flex-start;
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -159,14 +231,68 @@ GOLD STYLE
 </div>
 
 <div class="subtitulo">
-GERENCIAMENTO DE SERVIÇOS
+BARBEARIA DESDE 2022 • GERENCIAMENTO DE SERVIÇOS
 </div>
 
 </header>
 
 
-<main>
+<!-- MENU ADMINISTRATIVO -->
 
+<nav class="menu">
+
+<a href="admin.html">
+🏠 Dashboard
+</a>
+
+<a href="agenda-admin.html">
+📅 Agenda
+</a>
+
+<a href="servicos.html">
+✂️ Serviços
+</a>
+
+<a href="clientes.html">
+👥 Clientes
+</a>
+
+<a href="produtos.html">
+🛍️ Produtos
+</a>
+
+<a href="vendas.html">
+💵 Vendas
+</a>
+
+<a href="pedidos.html">
+📦 Pedidos
+</a>
+
+<a href="financeiro.html">
+💰 Financeiro
+</a>
+
+<a href="despesas.html">
+💸 Despesas
+</a>
+
+<a href="relatorios.html">
+📊 Relatórios
+</a>
+
+<a href="configuracoes.html">
+⚙️ Configurações
+</a>
+
+<button onclick="sair()">
+🚪 Sair
+</button>
+
+</nav>
+
+
+<main>
 
 <div class="topo">
 
@@ -174,7 +300,7 @@ GERENCIAMENTO DE SERVIÇOS
 href="admin.html"
 class="voltar">
 
-← Voltar
+← Dashboard
 
 </a>
 
@@ -196,17 +322,27 @@ Carregando serviços...
 </main>
 
 
+<footer>
+
+Gold Style Barbearia<br>
+
+Rua Preciosa 557 • Rio Branco - Acre<br>
+
+BARBEARIA DESDE 2022
+
+</footer>
+
 
 <script>
 
 
+/* SUPABASE */
+
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -215,26 +351,35 @@ SUPABASE_KEY
 );
 
 
+/* VERIFICAR ADMIN */
 
-async function carregarServicos(){
-
-try{
-
+async function verificarAdmin(){
 
 const {
-data:sessionData
+data:sessionData,
+error:sessionError
 } =
 await supabaseClient.auth.getSession();
+
+
+if(sessionError){
+
+console.error(sessionError);
+
+window.location.href="login.html";
+
+return null;
+
+}
 
 
 if(!sessionData.session){
 
 window.location.href="login.html";
 
-return;
+return null;
 
 }
-
 
 
 const {
@@ -243,7 +388,7 @@ error:adminError
 } =
 await supabaseClient
 .from("administradores")
-.select("id,ativo")
+.select("id,ativo,nome")
 .eq(
 "auth_user_id",
 sessionData.session.user.id
@@ -254,7 +399,16 @@ sessionData.session.user.id
 
 if(adminError){
 
-throw adminError;
+console.error(adminError);
+
+document.getElementById("mensagem")
+.innerHTML=
+"❌ Erro ao verificar acesso administrativo.";
+
+document.getElementById("mensagem")
+.classList.add("erro");
+
+return null;
 
 }
 
@@ -268,10 +422,31 @@ document.getElementById("mensagem")
 document.getElementById("mensagem")
 .classList.add("erro");
 
-return;
+return null;
 
 }
 
+
+return admin;
+
+}
+
+
+/* CARREGAR SERVIÇOS */
+
+async function carregarServicos(){
+
+try{
+
+const admin =
+await verificarAdmin();
+
+
+if(!admin){
+
+return;
+
+}
 
 
 const {
@@ -280,7 +455,9 @@ error
 } =
 await supabaseClient
 .from("Serviços")
-.select("id,created_at,Valor,Ativo")
+.select(
+"id,created_at,Valor,Ativo"
+)
 .order("created_at");
 
 
@@ -291,31 +468,54 @@ throw error;
 }
 
 
-
 const lista =
-document.getElementById("listaServicos");
+document.getElementById(
+"listaServicos"
+);
 
 
-document.getElementById("mensagem")
-.style.display="none";
+const mensagem =
+document.getElementById(
+"mensagem"
+);
+
+
+mensagem.style.display="none";
 
 
 lista.innerHTML="";
 
 
-if(!servicos || servicos.length===0){
+if(
+!servicos ||
+servicos.length===0
+){
 
 lista.innerHTML=
-"<p>Nenhum serviço cadastrado.</p>";
+`
+<div class="servico">
+
+<div>
+
+<div class="nome">
+Nenhum serviço cadastrado
+</div>
+
+<div class="status inativo">
+Cadastre serviços no banco de dados.
+</div>
+
+</div>
+
+</div>
+`;
 
 return;
 
 }
 
 
-
 servicos.forEach(servico=>{
-
 
 const item =
 document.createElement("div");
@@ -324,30 +524,47 @@ document.createElement("div");
 item.className="servico";
 
 
-item.innerHTML=
+const nomeServico =
+servico.created_at ||
+"Serviço sem nome";
+
+
+const valor =
+Number(servico.Valor || 0)
+.toFixed(2)
+.replace(".",",");
+
+
+const ativo =
+servico.Ativo === true;
+
+
+item.innerHTML =
 `
 
 <div>
 
 <div class="nome">
 
-${servico.created_at}
+${nomeServico}
 
 </div>
 
 <div class="preco">
 
-R$ ${Number(servico.Valor)
-.toFixed(2)
-.replace(".",",")}
+R$ ${valor}
 
 </div>
 
-<div class="status">
+<div class="status ${
+ativo ? "" : "inativo"
+}">
 
-${servico.Ativo
+${
+ativo
 ? "● Serviço ativo"
-: "● Serviço desativado"}
+: "● Serviço desativado"
+}
 
 </div>
 
@@ -357,12 +574,14 @@ ${servico.Ativo
 <button
 onclick="alternarServico(
 '${servico.id}',
-${servico.Ativo}
+${ativo}
 )">
 
-${servico.Ativo
+${
+ativo
 ? "Desativar"
-: "Ativar"}
+: "Ativar"
+}
 
 </button>
 
@@ -374,31 +593,46 @@ lista.appendChild(item);
 });
 
 
-}catch(error){
 
+}catch(error){
 
 console.error(error);
 
 
-document.getElementById("mensagem")
-.innerHTML=
+const mensagem =
+document.getElementById(
+"mensagem"
+);
+
+
+mensagem.style.display="block";
+
+
+mensagem.innerHTML=
 "❌ Erro: " +
 (error.message || error);
 
 
-document.getElementById("mensagem")
-.classList.add("erro");
+mensagem.classList.add(
+"erro"
+);
 
 }
 
 }
 
 
+/* ATIVAR / DESATIVAR */
 
-async function alternarServico(id,ativo){
+async function alternarServico(
+id,
+ativo
+){
 
+try{
 
-const novoStatus=!ativo;
+const novoStatus =
+!ativo;
 
 
 const {
@@ -414,28 +648,68 @@ await supabaseClient
 
 if(error){
 
+throw error;
+
+}
+
+
 alert(
-"Erro ao atualizar serviço: " +
+novoStatus
+? "✅ Serviço ativado com sucesso!"
+: "✅ Serviço desativado com sucesso!"
+);
+
+
+carregarServicos();
+
+
+}catch(error){
+
+console.error(error);
+
+
+alert(
+"❌ Erro ao atualizar serviço:\n" +
 error.message
 );
+
+}
+
+}
+
+
+/* SAIR */
+
+async function sair(){
+
+const confirmar =
+confirm(
+"Deseja realmente sair do painel administrativo?"
+);
+
+
+if(!confirmar){
 
 return;
 
 }
 
 
-carregarServicos();
+await supabaseClient.auth.signOut();
+
+
+window.location.href="login.html";
 
 }
 
 
+/* INICIAR */
 
 carregarServicos();
 
 
 </script>
 
-
 </body>
 
-</html>
+  </html>
