@@ -203,6 +203,81 @@ header{
     margin:15px 0;
 }
 
+/* TON */
+
+.ton-box{
+    background:linear-gradient(
+        135deg,
+        #111,
+        #1c1600
+    );
+
+    border:1px solid #d4af37;
+    border-radius:14px;
+    padding:16px;
+    margin:15px 0;
+}
+
+.ton-titulo{
+    color:#ffd700;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.ton-label{
+    display:block;
+    color:#aaa;
+    font-size:12px;
+    margin:10px 0 6px;
+}
+
+.ton-input{
+    width:100%;
+    background:#050505;
+    border:1px solid #444;
+    border-radius:9px;
+    padding:12px;
+    color:#fff;
+    outline:none;
+}
+
+.ton-input:focus{
+    border-color:#ffd700;
+    box-shadow:0 0 8px rgba(255,215,0,.2);
+}
+
+.ton-botoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+.btn-ton{
+    background:#ffd700;
+    color:#000;
+    border:none;
+}
+
+.btn-abrir{
+    background:#0a8f45;
+    color:#fff;
+    border:none;
+}
+
+.btn-copiar{
+    background:#222;
+    color:#ffd700;
+}
+
+.link-salvo{
+    margin-top:10px;
+    font-size:12px;
+    color:#4cff88;
+    word-break:break-all;
+}
+
 .acoes{
     display:flex;
     flex-wrap:wrap;
@@ -269,7 +344,8 @@ header{
         flex-direction:column;
     }
 
-    .acoes .btn{
+    .acoes .btn,
+    .ton-botoes .btn{
         width:100%;
         text-align:center;
     }
@@ -411,6 +487,11 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
+/* =========================
+   FUNÇÕES BÁSICAS
+========================= */
+
 function dinheiro(valor){
 
 return Number(
@@ -425,6 +506,7 @@ currency:"BRL"
 
 }
 
+
 function escapeHtml(valor){
 
 return String(
@@ -438,6 +520,7 @@ valor ?? ""
 
 }
 
+
 function formatarData(data){
 
 if(!data)
@@ -450,6 +533,7 @@ data
 );
 
 }
+
 
 function mostrarErro(mensagem){
 
@@ -470,6 +554,7 @@ document.getElementById(
 "none";
 
 }
+
 
 function mostrarSucesso(mensagem){
 
@@ -498,6 +583,11 @@ sucesso.style.display =
 );
 
 }
+
+
+/* =========================
+   ADMIN
+========================= */
 
 async function verificarAdministrador(){
 
@@ -610,6 +700,230 @@ return true;
 
 }
 
+
+/* =========================
+   SALVAR LINK TON
+========================= */
+
+async function salvarTon(
+id
+){
+
+const linkInput =
+document.getElementById(
+"ton-link-" + id
+);
+
+const referenciaInput =
+document.getElementById(
+"ton-ref-" + id
+);
+
+if(!linkInput){
+
+mostrarErro(
+"Campo do link Ton não encontrado."
+);
+
+return;
+
+}
+
+const link =
+linkInput.value.trim();
+
+const referencia =
+referenciaInput
+?
+referenciaInput.value.trim()
+:
+"";
+
+
+if(
+link &&
+!(
+link.startsWith("http://")
+||
+link.startsWith("https://")
+)
+){
+
+mostrarErro(
+"O link Ton precisa começar com https://"
+);
+
+return;
+
+}
+
+
+const botao =
+document.getElementById(
+"btn-ton-" + id
+);
+
+if(botao){
+
+botao.disabled =
+true;
+
+botao.textContent =
+"Salvando...";
+
+}
+
+
+const {
+error
+} =
+await supabaseClient
+.from("pedidos_produtos")
+.update({
+
+link_pagamento_ton:
+link || null,
+
+referencia_pagamento_ton:
+referencia || null,
+
+atualizado_em:
+new Date()
+.toISOString()
+
+})
+.eq(
+"id",
+id
+);
+
+
+if(botao){
+
+botao.disabled =
+false;
+
+botao.textContent =
+"💾 Salvar Ton";
+
+}
+
+
+if(error){
+
+mostrarErro(
+"Não foi possível salvar o pagamento Ton: "
++
+error.message
+);
+
+return;
+
+}
+
+
+mostrarSucesso(
+"Link de pagamento Ton salvo com sucesso."
+);
+
+await carregarPedidos();
+
+}
+
+
+/* =========================
+   ABRIR TON
+========================= */
+
+function abrirTon(
+link
+){
+
+if(!link){
+
+mostrarErro(
+"Este pedido ainda não possui link de pagamento Ton."
+);
+
+return;
+
+}
+
+window.open(
+link,
+"_blank"
+);
+
+}
+
+
+/* =========================
+   COPIAR LINK TON
+========================= */
+
+async function copiarTon(
+id
+){
+
+const input =
+document.getElementById(
+"ton-link-" + id
+);
+
+if(!input){
+
+mostrarErro(
+"Link Ton não encontrado."
+);
+
+return;
+
+}
+
+const link =
+input.value.trim();
+
+if(!link){
+
+mostrarErro(
+"Digite ou cole um link Ton primeiro."
+);
+
+return;
+
+}
+
+try{
+
+await navigator.clipboard.writeText(
+link
+);
+
+mostrarSucesso(
+"Link Ton copiado."
+);
+
+}catch(error){
+
+input.select();
+
+document.execCommand(
+"copy"
+);
+
+mostrarSucesso(
+"Link Ton copiado."
+);
+
+}
+
+}
+
+
+/* =========================
+   CARREGAR PEDIDOS
+========================= */
+
 async function carregarPedidos(){
 
 document.getElementById(
@@ -648,6 +962,7 @@ error.message
 
 }
 
+
 const idsClientes =
 [
 ...new Set(
@@ -660,6 +975,7 @@ p.cliente_id
 )
 ];
 
+
 const idsPedidos =
 (pedidos || [])
 .map(
@@ -667,8 +983,11 @@ p =>
 p.id
 );
 
+
 let clientes = [];
+
 let itens = [];
+
 
 if(
 idsClientes.length
@@ -703,6 +1022,7 @@ resultadoClientes.data ||
 
 }
 
+
 if(
 idsPedidos.length
 ){
@@ -734,7 +1054,9 @@ resultadoItens.data ||
 
 }
 
+
 const clienteMap = {};
+
 
 clientes.forEach(
 cliente => {
@@ -747,7 +1069,9 @@ cliente;
 }
 );
 
+
 const itensMap = {};
+
 
 itens.forEach(
 item => {
@@ -774,9 +1098,11 @@ item
 }
 );
 
+
 atualizarResumo(
 pedidos || []
 );
+
 
 if(
 !pedidos ||
@@ -799,10 +1125,13 @@ return;
 
 }
 
+
 let html = "";
+
 
 pedidos.forEach(
 (pedido,index) => {
+
 
 const cliente =
 clienteMap[
@@ -810,22 +1139,27 @@ pedido.cliente_id
 ] ||
 {};
 
+
 const itensPedido =
 itensMap[
 pedido.id
 ] ||
 [];
 
+
 const pagamento =
 pedido.status_pagamento ||
 "Pendente";
+
 
 const statusPedido =
 pedido.status_pedido ||
 "Aguardando pagamento";
 
+
 let classe =
 "pendente";
+
 
 if(
 pagamento.toLowerCase()
@@ -838,6 +1172,7 @@ classe =
 
 }
 
+
 if(
 pagamento.toLowerCase()
 ===
@@ -849,7 +1184,13 @@ classe =
 
 }
 
+
+/* =========================
+   PRODUTOS
+========================= */
+
 let produtosHtml = "";
+
 
 if(
 itensPedido.length
@@ -916,7 +1257,13 @@ Nenhum item encontrado.
 
 }
 
+
+/* =========================
+   AÇÕES
+========================= */
+
 let acoes = "";
+
 
 if(
 pagamento !== "Pago"
@@ -938,6 +1285,7 @@ onclick="marcarPago('${pedido.id}')"
 `;
 
 }
+
 
 if(
 pagamento === "Pago"
@@ -962,6 +1310,7 @@ onclick="processarPedido('${pedido.id}')"
 
 }
 
+
 if(
 statusPedido === "Processando"
 ){
@@ -980,6 +1329,7 @@ onclick="concluirPedido('${pedido.id}')"
 `;
 
 }
+
 
 if(
 statusPedido !== "Cancelado"
@@ -1001,6 +1351,42 @@ onclick="cancelarPedido('${pedido.id}')"
 `;
 
 }
+
+
+/* =========================
+   TON
+========================= */
+
+const tonLink =
+pedido.link_pagamento_ton ||
+"";
+
+
+const tonReferencia =
+pedido.referencia_pagamento_ton ||
+"";
+
+
+let tonLinkSalvo = "";
+
+
+if(tonLink){
+
+tonLinkSalvo = `
+
+<div class="link-salvo">
+
+✅ Link Ton cadastrado:
+${escapeHtml(
+tonLink
+)}
+
+</div>
+
+`;
+
+}
+
 
 html += `
 
@@ -1045,7 +1431,9 @@ pagamento
 
 </div>
 
+
 <div class="info">
+
 
 <div class="info-box">
 
@@ -1064,6 +1452,7 @@ cliente.Nome ||
 
 </div>
 
+
 <div class="info-box">
 
 <span>
@@ -1080,6 +1469,7 @@ cliente.Telefone ||
 </strong>
 
 </div>
+
 
 <div class="info-box">
 
@@ -1098,6 +1488,7 @@ cliente["E-mail"] ||
 
 </div>
 
+
 <div class="info-box">
 
 <span>
@@ -1115,6 +1506,7 @@ pedido.metodo_pagamento ||
 
 </div>
 
+
 <div class="info-box">
 
 <span>
@@ -1130,6 +1522,7 @@ statusPedido
 </strong>
 
 </div>
+
 
 <div class="info-box">
 
@@ -1147,7 +1540,9 @@ pedido.criado_em
 
 </div>
 
+
 </div>
+
 
 <div class="produtos">
 
@@ -1159,6 +1554,7 @@ ${produtosHtml}
 
 </div>
 
+
 <div class="total">
 
 Total:
@@ -1168,11 +1564,100 @@ pedido.total
 
 </div>
 
+
+<!-- =====================
+     PAGAMENTO TON
+===================== -->
+
+<div class="ton-box">
+
+<div class="ton-titulo">
+💳 Pagamento pelo Ton
+</div>
+
+
+<label class="ton-label">
+Link de pagamento Ton
+</label>
+
+<input
+type="url"
+class="ton-input"
+id="ton-link-${pedido.id}"
+value="${escapeHtml(tonLink)}"
+placeholder="https://payment-link-v3.ton.com.br/..."
+>
+
+
+<label class="ton-label">
+Referência da cobrança
+</label>
+
+<input
+type="text"
+class="ton-input"
+id="ton-ref-${pedido.id}"
+value="${escapeHtml(tonReferencia)}"
+placeholder="Ex.: Pedido Gold Style #123"
+>
+
+
+<div class="ton-botoes">
+
+<button
+id="btn-ton-${pedido.id}"
+class="btn btn-ton"
+onclick="salvarTon('${pedido.id}')"
+>
+
+💾 Salvar Ton
+
+</button>
+
+
+${
+tonLink
+?
+`
+
+<button
+class="btn btn-abrir"
+onclick="abrirTon('${escapeHtml(tonLink)}')"
+>
+
+🔗 Abrir pagamento
+
+</button>
+
+`
+:
+""
+}
+
+
+<button
+class="btn btn-copiar"
+onclick="copiarTon('${pedido.id}')"
+>
+
+📋 Copiar link
+
+</button>
+
+</div>
+
+
+${tonLinkSalvo}
+
+</div>
+
+
 <div class="acoes">
 
 ${acoes}
 
 </div>
+
 
 </div>
 
@@ -1181,14 +1666,17 @@ ${acoes}
 }
 );
 
+
 document.getElementById(
 "listaPedidos"
 ).innerHTML =
 html;
 
+
 }catch(error){
 
 console.error(error);
+
 
 document.getElementById(
 "listaPedidos"
@@ -1203,6 +1691,7 @@ os pedidos.
 
 `;
 
+
 mostrarErro(
 error.message ||
 "Erro desconhecido."
@@ -1212,6 +1701,11 @@ error.message ||
 
 }
 
+
+/* =========================
+   RESUMO
+========================= */
+
 function atualizarResumo(
 pedidos
 ){
@@ -1220,6 +1714,7 @@ document.getElementById(
 "totalPedidos"
 ).textContent =
 pedidos.length;
+
 
 document.getElementById(
 "aguardandoPagamento"
@@ -1233,6 +1728,7 @@ p.status_pagamento !==
 "Cancelado"
 ).length;
 
+
 document.getElementById(
 "pedidosPagos"
 ).textContent =
@@ -1241,6 +1737,7 @@ p =>
 p.status_pagamento ===
 "Pago"
 ).length;
+
 
 document.getElementById(
 "valorTotal"
@@ -1261,6 +1758,11 @@ pedido.total ||
 );
 
 }
+
+
+/* =========================
+   ATUALIZAR PEDIDO
+========================= */
 
 async function atualizarPedido(
 id,
@@ -1289,6 +1791,7 @@ new Date()
 id
 );
 
+
 if(error){
 
 mostrarErro(
@@ -1299,15 +1802,23 @@ return false;
 
 }
 
+
 mostrarSucesso(
 mensagem
 );
 
+
 await carregarPedidos();
+
 
 return true;
 
 }
+
+
+/* =========================
+   CONFIRMAR PAGAMENTO
+========================= */
 
 async function marcarPago(
 id
@@ -1315,10 +1826,11 @@ id
 
 if(
 !confirm(
-"Confirmar que este pedido foi pago?"
+"Confirmar que este pedido foi pago no Ton?"
 )
 )
 return;
+
 
 await atualizarPedido(
 id,
@@ -1334,6 +1846,11 @@ status_pedido:
 
 }
 
+
+/* =========================
+   PROCESSAR
+========================= */
+
 async function processarPedido(
 id
 ){
@@ -1344,6 +1861,7 @@ if(
 )
 )
 return;
+
 
 await atualizarPedido(
 id,
@@ -1356,6 +1874,11 @@ status_pedido:
 
 }
 
+
+/* =========================
+   CONCLUIR
+========================= */
+
 async function concluirPedido(
 id
 ){
@@ -1366,6 +1889,7 @@ if(
 )
 )
 return;
+
 
 try{
 
@@ -1381,11 +1905,13 @@ p_pedido_id:id
 }
 );
 
+
 if(error){
 
 throw error;
 
 }
+
 
 if(
 data &&
@@ -1399,16 +1925,20 @@ data.mensagem ||
 
 }
 
+
 mostrarSucesso(
 (data && data.mensagem) ||
 "Pedido concluído e estoque atualizado."
 );
 
+
 await carregarPedidos();
+
 
 }catch(error){
 
 console.error(error);
+
 
 mostrarErro(
 "Não foi possível concluir o pedido: "
@@ -1423,6 +1953,11 @@ error.message ||
 
 }
 
+
+/* =========================
+   CANCELAR
+========================= */
+
 async function cancelarPedido(
 id
 ){
@@ -1433,6 +1968,7 @@ if(
 )
 )
 return;
+
 
 await atualizarPedido(
 id,
@@ -1448,10 +1984,16 @@ status_pagamento:
 
 }
 
+
+/* =========================
+   INICIAR
+========================= */
+
 async function iniciar(){
 
 const autorizado =
 await verificarAdministrador();
+
 
 if(
 autorizado
@@ -1462,6 +2004,7 @@ await carregarPedidos();
 }
 
 }
+
 
 iniciar();
 
