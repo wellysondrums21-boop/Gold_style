@@ -1,487 +1,843 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastro | Gold Style</title>
+  <meta charset="UTF-8">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <title>Cadastro | Gold Style Barbearia</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at top, #3a2b00 0%, #080808 45%, #000000 100%);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        .container {
-            width: 100%;
-            max-width: 430px;
-            background: rgba(10, 10, 10, 0.96);
-            border: 1px solid #d4af37;
-            border-radius: 22px;
-            padding: 30px 24px;
-            box-shadow:
-                0 0 20px rgba(212, 175, 55, 0.25),
-                0 0 50px rgba(212, 175, 55, 0.08);
-        }
+  <style>
 
-        .logo {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .logo h1 {
-            color: #ffd700;
-            font-size: 34px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-shadow:
-                0 0 8px rgba(255, 215, 0, 0.8),
-                0 0 20px rgba(255, 215, 0, 0.35);
-        }
+    body {
+      min-height: 100vh;
 
-        .logo p {
-            color: #d4af37;
-            font-size: 13px;
-            margin-top: 6px;
-            letter-spacing: 2px;
-        }
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #ffffff;
-            font-size: 23px;
-        }
+      padding: 20px;
 
-        .campo {
-            margin-bottom: 16px;
-        }
+      font-family: Arial, Helvetica, sans-serif;
 
-        label {
-            display: block;
-            margin-bottom: 7px;
-            color: #ffd700;
-            font-size: 14px;
-            font-weight: bold;
-        }
+      color: #ffffff;
 
-        input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #555;
-            background: #151515;
-            color: white;
-            font-size: 16px;
-            outline: none;
-            transition: 0.2s;
-        }
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(255, 215, 0, 0.15),
+          transparent 40%
+        ),
+        #050505;
+    }
 
-        input:focus {
-            border-color: #ffd700;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-        }
+    .container {
+      width: 100%;
+      max-width: 430px;
+    }
 
-        input::placeholder {
-            color: #777;
-        }
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
 
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 8px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #ffd700, #b8860b);
-            color: #000;
-            font-size: 17px;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
-        }
+    .logo h1 {
+      color: #ffd700;
 
-        button:hover {
-            transform: translateY(-1px);
-        }
+      font-size: 38px;
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
+      font-weight: 900;
 
-        #mensagem {
-            display: none;
-            margin-top: 18px;
-            padding: 13px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+      letter-spacing: 4px;
 
-        .sucesso {
-            display: block !important;
-            background: rgba(0, 150, 70, 0.15);
-            border: 1px solid #00c853;
-            color: #69f0ae;
-        }
+      text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.7),
+        0 0 22px rgba(255, 215, 0, 0.35);
+    }
 
-        .erro {
-            display: block !important;
-            background: rgba(180, 0, 0, 0.15);
-            border: 1px solid #ff4444;
-            color: #ff7777;
-        }
+    .logo p {
+      margin-top: 5px;
 
-        .login {
-            text-align: center;
-            margin-top: 22px;
-            color: #aaa;
-            font-size: 14px;
-        }
+      color: #ffffff;
 
-        .login a {
-            color: #ffd700;
-            font-weight: bold;
-            text-decoration: none;
-        }
+      font-size: 12px;
 
-        .login a:hover {
-            text-decoration: underline;
-        }
+      letter-spacing: 3px;
+    }
 
-        .voltar {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #888;
-            font-size: 13px;
-            text-decoration: none;
-        }
+    .card {
+      padding: 30px 22px;
 
-        .voltar:hover {
-            color: #ffd700;
-        }
-    </style>
+      background:
+        linear-gradient(
+          145deg,
+          #151515,
+          #080808
+        );
+
+      border:
+        1px solid rgba(255, 215, 0, 0.3);
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .card h2 {
+      text-align: center;
+
+      color: #ffd700;
+
+      font-size: 25px;
+
+      margin-bottom: 8px;
+    }
+
+    .intro {
+      text-align: center;
+
+      color: #aaaaaa;
+
+      font-size: 14px;
+
+      margin-bottom: 25px;
+    }
+
+    .campo {
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #ffd700;
+
+      font-size: 14px;
+
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+
+      padding: 15px;
+
+      border-radius: 11px;
+
+      border:
+        1px solid rgba(255, 215, 0, 0.25);
+
+      background: #050505;
+
+      color: #ffffff;
+
+      outline: none;
+
+      font-size: 15px;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color: #ffd700;
+
+      box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.2);
+    }
+
+    input::placeholder {
+      color: #777777;
+    }
+
+    .dica {
+      margin-top: 5px;
+
+      color: #777777;
+
+      font-size: 12px;
+    }
+
+    button,
+    .link-button {
+      width: 100%;
+
+      display: block;
+
+      padding: 15px;
+
+      margin-top: 10px;
+
+      border-radius: 11px;
+
+      text-align: center;
+
+      font-size: 15px;
+
+      font-weight: 900;
+
+      text-decoration: none;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    button:hover,
+    .link-button:hover {
+      transform: translateY(-2px);
+    }
+
+    button {
+      border: none;
+    }
+
+    .btn-gold {
+      color: #050505;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fff2a6,
+          #ffd700,
+          #d4af37
+        );
+
+      box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.35);
+    }
+
+    .btn-gold:hover {
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.65);
+    }
+
+    .btn-dark {
+      color: #ffd700;
+
+      background: #101010;
+
+      border:
+        1px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .btn-dark:hover {
+      background: #181818;
+
+      border-color: #ffd700;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+
+      cursor: not-allowed;
+
+      transform: none;
+    }
+
+    #mensagem {
+      display: none;
+
+      padding: 14px;
+
+      margin-top: 18px;
+
+      border-radius: 11px;
+
+      text-align: center;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+    }
+
+    .sucesso {
+      display: block !important;
+
+      color: #69f0ae;
+
+      background:
+        rgba(0, 200, 83, 0.1);
+
+      border:
+        1px solid #00c853;
+    }
+
+    .erro {
+      display: block !important;
+
+      color: #ffaaaa;
+
+      background:
+        rgba(180, 0, 0, 0.12);
+
+      border:
+        1px solid #ff4444;
+    }
+
+    .login {
+      text-align: center;
+
+      margin-top: 22px;
+
+      color: #999999;
+
+      font-size: 14px;
+    }
+
+    .login a {
+      color: #ffd700;
+
+      font-weight: bold;
+
+      text-decoration: none;
+    }
+
+    .login a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+
+      margin-top: 20px;
+
+      color: #777777;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+    footer strong {
+      color: #ffd700;
+
+      font-size: 16px;
+    }
+
+    @media (max-width: 500px) {
+
+      .logo h1 {
+        font-size: 31px;
+      }
+
+      .card {
+        padding: 25px 18px;
+      }
+
+    }
+
+  </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <div class="logo">
-        <h1>GOLD STYLE</h1>
-        <p>BARBEARIA DESDE 2022</p>
-    </div>
 
-    <h2>Crie sua conta</h2>
+  <div class="logo">
+
+    <h1>
+      GOLD STYLE
+    </h1>
+
+    <p>
+      BARBEARIA DESDE 2022
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>
+      Criar minha conta
+    </h2>
+
+    <p class="intro">
+      Cadastre-se para agendar horários
+      e comprar produtos da Gold Style.
+    </p>
+
 
     <form id="cadastroForm">
 
-        <div class="campo">
-            <label for="nome">Nome completo</label>
-            <input
-                type="text"
-                id="nome"
-                placeholder="Digite seu nome"
-                required
-            >
+
+      <div class="campo">
+
+        <label for="nome">
+          Nome completo
+        </label>
+
+        <input
+          type="text"
+          id="nome"
+          placeholder="Digite seu nome completo"
+          autocomplete="name"
+          required
+        >
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="telefone">
+          WhatsApp
+        </label>
+
+        <input
+          type="tel"
+          id="telefone"
+          placeholder="Ex.: 68999853643"
+          autocomplete="tel"
+          inputmode="tel"
+          required
+        >
+
+        <div class="dica">
+          Usaremos esse número para contato sobre seus horários.
         </div>
 
-        <div class="campo">
-            <label for="telefone">WhatsApp</label>
-            <input
-                type="tel"
-                id="telefone"
-                placeholder="Ex.: 68999853643"
-                required
-            >
+      </div>
+
+
+      <div class="campo">
+
+        <label for="email">
+          E-mail
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="seuemail@gmail.com"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="senha">
+          Senha
+        </label>
+
+        <input
+          type="password"
+          id="senha"
+          placeholder="Mínimo de 6 caracteres"
+          minlength="6"
+          autocomplete="new-password"
+          required
+        >
+
+        <div class="dica">
+          A senha precisa ter pelo menos 6 caracteres.
         </div>
 
-        <div class="campo">
-            <label for="email">E-mail</label>
-            <input
-                type="email"
-                id="email"
-                placeholder="seuemail@gmail.com"
-                required
-            >
-        </div>
+      </div>
 
-        <div class="campo">
-            <label for="senha">Senha</label>
-            <input
-                type="password"
-                id="senha"
-                placeholder="Mínimo 6 caracteres"
-                minlength="6"
-                required
-            >
-        </div>
 
-        <div class="campo">
-            <label for="confirmarSenha">Confirmar senha</label>
-            <input
-                type="password"
-                id="confirmarSenha"
-                placeholder="Digite a senha novamente"
-                minlength="6"
-                required
-            >
-        </div>
+      <div class="campo">
 
-        <button type="submit" id="btnCadastrar">
-            CRIAR MINHA CONTA
-        </button>
+        <label for="confirmarSenha">
+          Confirmar senha
+        </label>
+
+        <input
+          type="password"
+          id="confirmarSenha"
+          placeholder="Digite a senha novamente"
+          minlength="6"
+          autocomplete="new-password"
+          required
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="btnCadastrar"
+        class="btn-gold"
+      >
+        CRIAR MINHA CONTA
+      </button>
+
 
     </form>
 
+
     <div id="mensagem"></div>
 
+
     <div class="login">
-        Já possui uma conta?
-        <a href="login.html">Entrar</a>
+
+      Já possui uma conta?
+
+      <a href="login.html">
+        Entrar
+      </a>
+
     </div>
 
-    <a class="voltar" href="index.html">
-        ← Voltar para a Gold Style
+
+    <a
+      href="index.html"
+      class="link-button btn-dark"
+    >
+      ← VOLTAR PARA O INÍCIO
     </a>
+
+
+  </div>
+
+
+  <footer>
+
+    <strong>
+      Gold Style Barbearia
+    </strong>
+
+    <br>
+
+    BARBEARIA DESDE 2022
+
+    <br>
+
+    Rua Preciosa 557
+
+    <br>
+
+    Rio Branco - Acre
+
+    <br>
+
+    📱 (68) 99985-3643
+
+  </footer>
+
 
 </div>
 
+
 <script>
+
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
 
+
 const supabaseClient =
 window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
 const formulario =
-document.getElementById("cadastroForm");
+document.getElementById(
+  "cadastroForm"
+);
+
 
 const mensagem =
-document.getElementById("mensagem");
+document.getElementById(
+  "mensagem"
+);
+
 
 const botao =
-document.getElementById("btnCadastrar");
+document.getElementById(
+  "btnCadastrar"
+);
 
 
-function mostrarMensagem(texto, tipo) {
+function mostrarMensagem(
+  texto,
+  tipo
+) {
 
-    mensagem.textContent = texto;
+  mensagem.textContent =
+    texto;
 
-    mensagem.className = tipo;
+  mensagem.className =
+    tipo;
 
 }
 
 
-formulario.addEventListener("submit", async function(event) {
+formulario.addEventListener(
+  "submit",
+  async function(event) {
 
     event.preventDefault();
 
+
     mensagem.className = "";
+
     mensagem.textContent = "";
 
+
     const nome =
-    document.getElementById("nome").value.trim();
+      document
+        .getElementById("nome")
+        .value
+        .trim();
+
 
     const telefone =
-    document.getElementById("telefone").value.trim();
+      document
+        .getElementById("telefone")
+        .value
+        .trim();
+
 
     const email =
-    document.getElementById("email").value.trim();
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
 
     const senha =
-    document.getElementById("senha").value;
+      document
+        .getElementById("senha")
+        .value;
+
 
     const confirmarSenha =
-    document.getElementById("confirmarSenha").value;
+      document
+        .getElementById("confirmarSenha")
+        .value;
 
 
     if (!nome) {
 
-        mostrarMensagem(
-            "Digite seu nome completo.",
-            "erro"
-        );
+      mostrarMensagem(
+        "Digite seu nome completo.",
+        "erro"
+      );
 
-        return;
+      return;
+
     }
 
 
     if (!telefone) {
 
-        mostrarMensagem(
-            "Digite seu número de WhatsApp.",
-            "erro"
-        );
+      mostrarMensagem(
+        "Digite seu número de WhatsApp.",
+        "erro"
+      );
 
-        return;
+      return;
+
+    }
+
+
+    if (!email) {
+
+      mostrarMensagem(
+        "Digite seu e-mail.",
+        "erro"
+      );
+
+      return;
+
     }
 
 
     if (senha.length < 6) {
 
-        mostrarMensagem(
-            "A senha precisa ter pelo menos 6 caracteres.",
-            "erro"
-        );
+      mostrarMensagem(
+        "A senha precisa ter pelo menos 6 caracteres.",
+        "erro"
+      );
 
-        return;
+      return;
+
     }
 
 
     if (senha !== confirmarSenha) {
 
-        mostrarMensagem(
-            "As senhas não são iguais.",
-            "erro"
-        );
+      mostrarMensagem(
+        "As senhas não são iguais.",
+        "erro"
+      );
 
-        return;
+      return;
+
     }
 
 
-    botao.disabled = true;
+    botao.disabled =
+      true;
 
-    botao.textContent = "CRIANDO CONTA...";
+    botao.textContent =
+      "CRIANDO CONTA...";
 
 
     try {
 
-        const { data, error } =
-        await supabaseClient.auth.signUp({
+      const {
+        data,
+        error
+      } =
+      await supabaseClient
+        .auth
+        .signUp({
 
-            email: email,
+          email: email,
 
-            password: senha,
+          password: senha,
 
-            options: {
+          options: {
 
-                data: {
+            data: {
 
-                    nome: nome,
+              nome: nome,
 
-                    telefone: telefone
+              telefone: telefone
 
-                },
+            },
 
-                emailRedirectTo:
-                "https://wellysondrums21-boop.github.io/Gold_style/login.html"
+            emailRedirectTo:
+              "https://wellysondrums21-boop.github.io/Gold_style/login.html"
 
-            }
+          }
 
         });
 
 
-        if (error) {
+      if (error) {
 
-            console.error(error);
+        console.error(error);
 
-            mostrarMensagem(
-                error.message,
-                "erro"
-            );
-
-            botao.disabled = false;
-
-            botao.textContent =
-            "CRIAR MINHA CONTA";
-
-            return;
-        }
+        let mensagemErro =
+          error.message;
 
 
-        /*
-        =====================================================
-        CADASTRO REALIZADO
-        =====================================================
-        */
+        if (
+          error.message
+            .toLowerCase()
+            .includes("already registered")
+        ) {
 
-        if (data.session) {
-
-            mostrarMensagem(
-                "Cadastro realizado com sucesso! Redirecionando...",
-                "sucesso"
-            );
-
-            setTimeout(function() {
-
-                window.location.href =
-                "cliente.html";
-
-            }, 1500);
-
-            return;
+          mensagemErro =
+            "Este e-mail já possui uma conta. Tente entrar pelo login.";
 
         }
 
 
-        /*
-        =====================================================
-        CONFIRMAÇÃO DE E-MAIL ATIVADA
-        =====================================================
-        */
-
         mostrarMensagem(
-            "Cadastro realizado! Enviamos um e-mail de confirmação para " +
-            email +
-            ". Confirme seu e-mail e depois faça login.",
-            "sucesso"
+          mensagemErro,
+          "erro"
         );
 
 
-        formulario.reset();
-
-        botao.disabled = false;
+        botao.disabled =
+          false;
 
         botao.textContent =
-        "CRIAR MINHA CONTA";
+          "CRIAR MINHA CONTA";
+
+        return;
+
+      }
 
 
-    } catch (erro) {
-
-        console.error(erro);
+      if (data.session) {
 
         mostrarMensagem(
-            "Não foi possível realizar o cadastro. Tente novamente.",
-            "erro"
+          "Cadastro realizado com sucesso! Entrando na sua área...",
+          "sucesso"
         );
 
-        botao.disabled = false;
 
-        botao.textContent =
+        setTimeout(
+          function() {
+
+            window.location.href =
+              "cliente.html";
+
+          },
+          1200
+        );
+
+
+        return;
+
+      }
+
+
+      mostrarMensagem(
+        "Cadastro realizado! Enviamos um e-mail de confirmação para " +
+        email +
+        ". Confirme seu e-mail e depois faça login.",
+        "sucesso"
+      );
+
+
+      formulario.reset();
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      mostrarMensagem(
+        "Não foi possível realizar o cadastro. Tente novamente.",
+        "erro"
+      );
+
+    } finally {
+
+      botao.disabled =
+        false;
+
+      botao.textContent =
         "CRIAR MINHA CONTA";
 
     }
 
-});
+  }
+);
+
 
 </script>
 
+
 </body>
-          </html>
+
+    </html>
