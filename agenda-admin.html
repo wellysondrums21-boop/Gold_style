@@ -36,6 +36,7 @@ header{
     font-size:30px;
     font-weight:bold;
     letter-spacing:2px;
+    text-shadow:0 0 12px rgba(255,215,0,.5);
 }
 
 .slogan{
@@ -51,8 +52,8 @@ header{
 
 .menu{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:12px;
+    grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+    gap:10px;
     margin-bottom:25px;
 }
 
@@ -61,24 +62,38 @@ header{
     border:1px solid #333;
     color:white;
     text-decoration:none;
-    padding:15px 10px;
+    padding:14px 9px;
     border-radius:10px;
     text-align:center;
     font-weight:bold;
+    transition:.2s;
 }
 
 .menu a:hover{
     border-color:#ffd700;
     color:#ffd700;
+    transform:translateY(-1px);
+}
+
+.menu .pedidos{
+    border-color:#ffd700;
+    color:#ffd700;
+    box-shadow:0 0 10px rgba(255,215,0,.15);
 }
 
 .menu .sair{
     color:#ff5555;
 }
 
+.menu .sair:hover{
+    border-color:#ff5555;
+    color:#ff7777;
+}
+
 h1{
     color:#ffd700;
     margin-bottom:5px;
+    text-shadow:0 0 10px rgba(255,215,0,.3);
 }
 
 .subtitulo{
@@ -174,6 +189,7 @@ th{
     text-align:left;
     padding:12px;
     border-bottom:1px solid #444;
+    background:#151515;
 }
 
 td{
@@ -227,6 +243,7 @@ td{
     font-weight:bold;
     cursor:pointer;
     margin:2px;
+    transition:.2s;
 }
 
 .btn-salvar{
@@ -300,6 +317,10 @@ td{
         font-size:21px;
     }
 
+    .menu{
+        grid-template-columns:repeat(2,1fr);
+    }
+
 }
 
 </style>
@@ -348,8 +369,24 @@ td{
             🛍️ Produtos
         </a>
 
+        <a href="vendas.html">
+            💵 Vendas
+        </a>
+
+        <a
+            href="pedidos.html"
+            class="pedidos">
+
+            📦 Pedidos
+
+        </a>
+
         <a href="financeiro.html">
             💰 Financeiro
+        </a>
+
+        <a href="despesas.html">
+            💸 Despesas
         </a>
 
         <a href="relatorios.html">
@@ -363,7 +400,7 @@ td{
         <a
             href="#"
             class="sair"
-            onclick="sair()">
+            onclick="sair(); return false;">
 
             🚪 Sair
 
@@ -484,7 +521,7 @@ td{
             <input
                 type="date"
                 id="filtroData"
-                onchange="carregarAgenda()">
+                onchange="mostrarAgenda(agendaCompleta)">
 
         </div>
 
@@ -497,7 +534,7 @@ td{
 
             <select
                 id="filtroStatus"
-                onchange="carregarAgenda()">
+                onchange="mostrarAgenda(agendaCompleta)">
 
                 <option value="">
                     Todos
@@ -532,7 +569,7 @@ td{
 
             <select
                 id="filtroPagamento"
-                onchange="carregarAgenda()">
+                onchange="mostrarAgenda(agendaCompleta)">
 
                 <option value="">
                     Todos
@@ -554,7 +591,7 @@ td{
         <div class="filtro">
 
             <label>
-                Cliente / serviço
+                Cliente / telefone / serviço
             </label>
 
             <input
@@ -619,6 +656,8 @@ window.supabase.createClient(
 
 let agendaCompleta = [];
 
+let clientesMapa = {};
+
 
 /* =========================
    DINHEIRO
@@ -626,10 +665,32 @@ let agendaCompleta = [];
 
 function dinheiro(valor){
 
-    return "R$ " +
-        Number(valor || 0)
-        .toFixed(2)
-        .replace(".",",");
+    return Number(valor || 0)
+        .toLocaleString(
+            "pt-BR",
+            {
+                style:"currency",
+                currency:"BRL"
+            }
+        );
+
+}
+
+
+/* =========================
+   NORMALIZAR
+========================= */
+
+function normalizar(valor){
+
+    return String(valor || "")
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        );
 
 }
 
@@ -718,34 +779,50 @@ async function carregarAgenda(){
         '<div class="mensagem">Carregando...</div>';
 
 
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
+    const [
+        resultadoAgenda,
+        resultadoClientes
+    ] =
+    await Promise.all([
 
-        .from("agendamentos")
+        supabaseClient
 
-        .select("*")
+            .from("agendamentos")
 
-        .order(
-            "Data",
-            {
-                ascending:true
-            }
-        )
+            .select("*")
 
-        .order(
-            "Horário",
-            {
-                ascending:true
-            }
+            .order(
+                "Data",
+                {
+                    ascending:true
+                }
+            )
+
+            .order(
+                "Horário",
+                {
+                    ascending:true
+                }
+            ),
+
+        supabaseClient
+
+            .from("clientes")
+
+            .select(
+                "id, Nome, Telefone"
+            )
+
+    ]);
+
+
+    if(
+        resultadoAgenda.error
+    ){
+
+        console.error(
+            resultadoAgenda.error
         );
-
-
-    if(error){
-
-        console.error(error);
 
         elemento.innerHTML =
             '<div class="mensagem">Erro ao carregar a agenda.</div>';
@@ -755,8 +832,35 @@ async function carregarAgenda(){
     }
 
 
+    if(
+        resultadoClientes.error
+    ){
+
+        console.error(
+            resultadoClientes.error
+        );
+
+    }
+
+
     agendaCompleta =
-        data || [];
+        resultadoAgenda.data || [];
+
+
+    clientesMapa = {};
+
+
+    (
+        resultadoClientes.data || []
+    ).forEach(
+        cliente => {
+
+            clientesMapa[
+                cliente.id
+            ] = cliente;
+
+        }
+    );
 
 
     atualizarContadores(
@@ -790,8 +894,8 @@ function atualizarContadores(
     ).textContent =
         lista.filter(
             a =>
-                a.Status ===
-                "Pendente"
+                normalizar(a.Status) ===
+                "pendente"
         ).length;
 
 
@@ -800,8 +904,8 @@ function atualizarContadores(
     ).textContent =
         lista.filter(
             a =>
-                a.Status ===
-                "Confirmado"
+                normalizar(a.Status) ===
+                "confirmado"
         ).length;
 
 
@@ -810,8 +914,8 @@ function atualizarContadores(
     ).textContent =
         lista.filter(
             a =>
-                a.Status ===
-                "Concluído"
+                normalizar(a.Status) ===
+                "concluido"
         ).length;
 
 
@@ -820,8 +924,8 @@ function atualizarContadores(
     ).textContent =
         lista.filter(
             a =>
-                a.Status ===
-                "Cancelado"
+                normalizar(a.Status) ===
+                "cancelado"
         ).length;
 
 }
@@ -920,18 +1024,31 @@ function mostrarAgenda(
 
                 if(texto){
 
+                    const cliente =
+                        clientesMapa[
+                            agendamento.Cliente_id
+                        ] || {};
+
+
                     const conteudo = (
 
                         String(
-                            agendamento["Serviços"]
-                            || ""
+                            cliente.Nome ||
+                            ""
                         ) +
 
                         " " +
 
                         String(
-                            agendamento.Cliente_id
-                            || ""
+                            cliente.Telefone ||
+                            ""
+                        ) +
+
+                        " " +
+
+                        String(
+                            agendamento["Serviços"] ||
+                            ""
                         )
 
                     )
@@ -1006,6 +1123,22 @@ function mostrarAgenda(
         agendamento => {
 
 
+            const cliente =
+                clientesMapa[
+                    agendamento.Cliente_id
+                ] || {};
+
+
+            const nomeCliente =
+                cliente.Nome ||
+                "Cliente";
+
+
+            const telefoneCliente =
+                cliente.Telefone ||
+                "-";
+
+
             const data =
                 agendamento.Data
                 ? new Date(
@@ -1035,8 +1168,10 @@ function mostrarAgenda(
 
 
             if(
-                agendamento.Status ===
-                "Confirmado"
+                normalizar(
+                    agendamento.Status
+                ) ===
+                "confirmado"
             ){
 
                 classeStatus =
@@ -1046,8 +1181,10 @@ function mostrarAgenda(
 
 
             if(
-                agendamento.Status ===
-                "Concluído"
+                normalizar(
+                    agendamento.Status
+                ) ===
+                "concluido"
             ){
 
                 classeStatus =
@@ -1057,8 +1194,10 @@ function mostrarAgenda(
 
 
             if(
-                agendamento.Status ===
-                "Cancelado"
+                normalizar(
+                    agendamento.Status
+                ) ===
+                "cancelado"
             ){
 
                 classeStatus =
@@ -1068,8 +1207,10 @@ function mostrarAgenda(
 
 
             const classePagamento =
-                agendamento.Pagamento ===
-                "Pago"
+                normalizar(
+                    agendamento.Pagamento
+                ) ===
+                "pago"
                 ? "status-pago"
                 : "status-nao-pago";
 
@@ -1081,20 +1222,18 @@ function mostrarAgenda(
 
                     <td>
 
-                        <strong
-                            id="nome-${agendamento.id}">
+                        <strong>
 
-                            Carregando...
+                            ${nomeCliente}
 
                         </strong>
 
                     </td>
 
 
-                    <td
-                        id="telefone-${agendamento.id}">
+                    <td>
 
-                        -
+                        ${telefoneCliente}
 
                     </td>
 
@@ -1135,6 +1274,19 @@ function mostrarAgenda(
 
 
                     <td>
+
+                        <span
+                            class="status
+                            ${classeStatus}">
+
+                            ${
+                                agendamento.Status ||
+                                "Pendente"
+                            }
+
+                        </span>
+
+                        <br>
 
                         <select
                             id="status-${agendamento.id}">
@@ -1200,6 +1352,19 @@ function mostrarAgenda(
 
 
                     <td>
+
+                        <span
+                            class="status
+                            ${classePagamento}">
+
+                            ${
+                                agendamento.Pagamento ||
+                                "Pendente"
+                            }
+
+                        </span>
+
+                        <br>
 
                         <select
                             id="pagamento-${agendamento.id}">
@@ -1278,7 +1443,7 @@ function mostrarAgenda(
                             class="btn btn-whatsapp"
                             onclick="abrirWhatsApp('${agendamento.id}')">
 
-                            WhatsApp
+                            📱 WhatsApp
 
                         </button>
 
@@ -1303,132 +1468,6 @@ function mostrarAgenda(
 
     elemento.innerHTML =
         html;
-
-
-    carregarClientesAgenda(
-        filtrados
-    );
-
-}
-
-
-/* =========================
-   CARREGAR CLIENTES
-========================= */
-
-async function carregarClientesAgenda(
-    lista
-){
-
-    const ids =
-        [
-            ...new Set(
-                lista
-                .map(
-                    a =>
-                        a.Cliente_id
-                )
-                .filter(Boolean)
-            )
-        ];
-
-
-    if(!ids.length){
-
-        return;
-
-    }
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-
-        .from("clientes")
-
-        .select(
-            'id, Nome, Telefone'
-        )
-
-        .in(
-            "id",
-            ids
-        );
-
-
-    if(error){
-
-        console.error(
-            error
-        );
-
-        return;
-
-    }
-
-
-    const mapa = {};
-
-
-    (data || [])
-    .forEach(
-        cliente => {
-
-            mapa[
-                cliente.id
-            ] =
-                cliente;
-
-        }
-    );
-
-
-    lista.forEach(
-        agendamento => {
-
-            const cliente =
-                mapa[
-                    agendamento.Cliente_id
-                ];
-
-
-            const nome =
-                document.getElementById(
-                    "nome-" +
-                    agendamento.id
-                );
-
-
-            const telefone =
-                document.getElementById(
-                    "telefone-" +
-                    agendamento.id
-                );
-
-
-            if(nome){
-
-                nome.textContent =
-                    cliente
-                    ? cliente.Nome
-                    : "Cliente";
-
-            }
-
-
-            if(telefone){
-
-                telefone.textContent =
-                    cliente
-                    ? cliente.Telefone
-                    : "-";
-
-            }
-
-        }
-    );
 
 }
 
@@ -1491,13 +1530,6 @@ async function salvarAgendamento(
 
     }
 
-
-    /*
-       Se o pagamento foi marcado
-       como Pago, tentamos também
-       atualizar o pagamento
-       correspondente.
-    */
 
     if(
         pagamento ===
@@ -1634,23 +1666,10 @@ async function abrirWhatsApp(
     }
 
 
-    const {
-        data:cliente
-    } =
-    await supabaseClient
-
-        .from("clientes")
-
-        .select(
-            'Nome, Telefone'
-        )
-
-        .eq(
-            "id",
+    const cliente =
+        clientesMapa[
             agendamento.Cliente_id
-        )
-
-        .maybeSingle();
+        ];
 
 
     if(
