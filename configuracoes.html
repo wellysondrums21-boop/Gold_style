@@ -37,6 +37,7 @@ header{
     color:#ffd700;
     font-size:24px;
     font-weight:bold;
+    text-shadow:0 0 12px rgba(255,215,0,.45);
 }
 
 .subtitulo{
@@ -46,7 +47,7 @@ header{
 }
 
 .container{
-    max-width:1000px;
+    max-width:1100px;
     margin:auto;
     padding:20px;
 }
@@ -65,11 +66,19 @@ header{
     padding:10px 13px;
     border-radius:8px;
     font-size:13px;
+    transition:.2s;
 }
 
 .menu a:hover{
     color:#ffd700;
     border-color:#ffd700;
+}
+
+.menu a.ativo{
+    color:#000;
+    background:#ffd700;
+    border-color:#ffd700;
+    font-weight:bold;
 }
 
 .card{
@@ -78,6 +87,7 @@ header{
     border-radius:16px;
     padding:20px;
     margin-bottom:20px;
+    box-shadow:0 0 20px rgba(212,175,55,.05);
 }
 
 .card h2{
@@ -120,6 +130,7 @@ textarea{
 input:focus,
 textarea:focus{
     border-color:#ffd700;
+    box-shadow:0 0 8px rgba(255,215,0,.15);
 }
 
 textarea{
@@ -137,10 +148,18 @@ button{
     font-weight:bold;
     font-size:15px;
     cursor:pointer;
+    transition:.2s;
 }
 
 button:hover{
     background:#fff000;
+    transform:translateY(-1px);
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
 }
 
 .mensagem{
@@ -148,12 +167,28 @@ button:hover{
     margin-top:15px;
     color:#ffd700;
     min-height:20px;
+    font-weight:bold;
 }
 
 .info{
     color:#999;
     font-size:13px;
     line-height:1.6;
+}
+
+.aviso{
+    background:#171305;
+    border:1px solid #806b00;
+    color:#ddd;
+    border-radius:10px;
+    padding:15px;
+    margin-top:15px;
+    line-height:1.6;
+    font-size:13px;
+}
+
+.aviso strong{
+    color:#ffd700;
 }
 
 .rodape{
@@ -179,6 +214,15 @@ button:hover{
 
     .logo{
         font-size:21px;
+    }
+
+    .menu{
+        gap:6px;
+    }
+
+    .menu a{
+        font-size:12px;
+        padding:9px 10px;
     }
 
 }
@@ -213,7 +257,7 @@ Configurações administrativas
 🏠 Dashboard
 </a>
 
-<a href="agendamento.html">
+<a href="agenda-admin.html">
 📅 Agenda
 </a>
 
@@ -229,15 +273,28 @@ Configurações administrativas
 🛍️ Produtos
 </a>
 
+<a href="vendas.html">
+💵 Vendas
+</a>
+
+<a href="pedidos.html">
+📦 Pedidos
+</a>
+
 <a href="financeiro.html">
 💰 Financeiro
+</a>
+
+<a href="despesas.html">
+💸 Despesas
 </a>
 
 <a href="relatorios.html">
 📊 Relatórios
 </a>
 
-<a href="configuracoes.html">
+<a href="configuracoes.html"
+class="ativo">
 ⚙️ Configurações
 </a>
 
@@ -392,9 +449,25 @@ administrativo.
 
 </p>
 
+
+<div class="aviso">
+
+<strong>💡 Importante:</strong><br>
+
+Essas informações serão usadas como base para
+a identidade da Gold Style no sistema.
+
+Você poderá alterar esses dados futuramente
+sem precisar modificar o código do site.
+
+</div>
+
 <br>
 
-<button onclick="salvarConfiguracoes()">
+<button
+id="botaoSalvar"
+onclick="salvarConfiguracoes()"
+>
 SALVAR CONFIGURAÇÕES
 </button>
 
@@ -587,6 +660,18 @@ async function carregarConfiguracoes(){
 
 async function salvarConfiguracoes(){
 
+    const botao =
+    document.getElementById(
+        "botaoSalvar"
+    );
+
+
+    botao.disabled = true;
+
+    botao.innerText =
+    "SALVANDO...";
+
+
     const nome_barbearia =
     document.getElementById(
         "nome_barbearia"
@@ -641,7 +726,6 @@ async function salvarConfiguracoes(){
 
 
     const {
-        data,
         error
     } =
     await supabaseClient
@@ -672,9 +756,7 @@ async function salvarConfiguracoes(){
         atualizado_em:
         new Date().toISOString()
 
-    })
-
-    .select();
+    });
 
 
     if(error){
@@ -682,9 +764,14 @@ async function salvarConfiguracoes(){
         console.error(error);
 
         mostrarMensagem(
-            "Erro ao salvar: " +
+            "❌ Erro ao salvar: " +
             error.message
         );
+
+        botao.disabled = false;
+
+        botao.innerText =
+        "SALVAR CONFIGURAÇÕES";
 
         return;
 
@@ -694,6 +781,12 @@ async function salvarConfiguracoes(){
     mostrarMensagem(
         "✅ Configurações salvas com sucesso!"
     );
+
+
+    botao.disabled = false;
+
+    botao.innerText =
+    "SALVAR CONFIGURAÇÕES";
 
 }
 
@@ -715,4 +808,4 @@ carregarConfiguracoes();
 
 </body>
 
-  </html>
+    </html>
