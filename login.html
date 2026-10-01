@@ -2,172 +2,462 @@
 <html lang="pt-BR">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Login | Gold Style</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="stylesheet" href="style.css">
+  <title>Login | Gold Style Barbearia</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    form {
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+
       display: flex;
-      flex-direction: column;
-      gap: 8px;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      color: #ffffff;
+
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(255, 215, 0, 0.15),
+          transparent 40%
+        ),
+        #050505;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo h1 {
+      color: #ffd700;
+
+      font-size: 38px;
+
+      font-weight: 900;
+
+      letter-spacing: 4px;
+
+      text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.7),
+        0 0 22px rgba(255, 215, 0, 0.35);
+    }
+
+    .logo p {
+      margin-top: 5px;
+
+      font-size: 12px;
+
+      letter-spacing: 3px;
+
+      color: #ffffff;
+    }
+
+    .card {
+      padding: 30px 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #151515,
+          #080808
+        );
+
+      border:
+        1px solid rgba(255, 215, 0, 0.3);
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .card h2 {
+      text-align: center;
+
+      color: #ffd700;
+
+      margin-bottom: 8px;
+
+      font-size: 25px;
+    }
+
+    .intro {
+      text-align: center;
+
+      color: #aaaaaa;
+
+      font-size: 14px;
+
+      margin-bottom: 25px;
     }
 
     label {
+      display: block;
+
+      margin-bottom: 7px;
+
       color: #ffd700;
+
       font-weight: bold;
-      margin-top: 10px;
+
+      font-size: 14px;
     }
 
     input {
       width: 100%;
+
       padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      background: #111;
-      color: white;
-      font-size: 16px;
+
+      margin-bottom: 18px;
+
+      border-radius: 11px;
+
+      border:
+        1px solid rgba(255, 215, 0, 0.25);
+
+      background: #050505;
+
+      color: #ffffff;
+
       outline: none;
-      box-sizing: border-box;
+
+      font-size: 15px;
     }
 
     input:focus {
       border-color: #ffd700;
+
+      box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.2);
     }
 
-    button {
-      border: none;
-      cursor: pointer;
-      margin-top: 15px;
+    input::placeholder {
+      color: #777777;
     }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    button,
+    .link-button {
+      width: 100%;
 
-    #mensagem {
-      text-align: center;
-      line-height: 1.5;
-      margin: 18px 0;
-    }
-
-    .esqueci {
       display: block;
+
+      padding: 15px;
+
+      margin-top: 10px;
+
+      border-radius: 11px;
+
       text-align: center;
-      color: #ffd700;
-      margin: 15px 0;
+
+      font-size: 15px;
+
+      font-weight: 900;
+
       cursor: pointer;
-      text-decoration: underline;
-      font-weight: bold;
+
+      text-decoration: none;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
+
+    button:hover,
+    .link-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-login {
+      border: none;
+
+      color: #050505;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fff2a6,
+          #ffd700,
+          #d4af37
+        );
+
+      box-shadow:
+        0 0 15px rgba(255, 215, 0, 0.35);
+    }
+
+    .btn-login:hover {
+      box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.65);
+    }
+
+    .btn-secondary {
+      color: #ffd700;
+
+      background: #101010;
+
+      border:
+        1px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .forgot {
+      display: block;
+
+      margin-top: 16px;
+
+      text-align: center;
+
+      color: #ffd700;
+
+      font-size: 14px;
+
+      text-decoration: none;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      display: none;
+
+      padding: 13px;
+
+      margin-bottom: 18px;
+
+      border-radius: 10px;
+
+      text-align: center;
+
+      font-size: 14px;
+    }
+
+    .error {
+      color: #ffb0b0;
+
+      background: #250909;
+
+      border:
+        1px solid #702222;
+    }
+
+    .success {
+      color: #d8ffb0;
+
+      background: #0c2109;
+
+      border:
+        1px solid #315f25;
+    }
+
+    .loading {
+      opacity: 0.65;
+
+      pointer-events: none;
+    }
+
+    footer {
+      text-align: center;
+
+      margin-top: 22px;
+
+      color: #777777;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+    footer strong {
+      color: #ffd700;
+    }
+
+    @media (max-width: 500px) {
+
+      .logo h1 {
+        font-size: 31px;
+      }
+
+      .card {
+        padding: 25px 18px;
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-<header>
-  <div class="logo">GOLD STYLE</div>
-  <div class="subtitle">ÁREA DO CLIENTE</div>
-</header>
 
-<main>
+<div class="container">
 
-  <section class="hero">
-    <h1>Bem-vindo!</h1>
+
+  <div class="logo">
+
+    <h1>
+      GOLD STYLE
+    </h1>
 
     <p>
-      Entre na sua conta para acessar
-      seus agendamentos.
+      BARBEARIA DESDE 2022
     </p>
-  </section>
 
-  <form id="loginForm">
+  </div>
 
-    <label for="email">
-      E-mail
-    </label>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Digite seu e-mail"
-      autocomplete="email"
-      required>
+  <div class="card">
 
-    <label for="senha">
-      Senha
-    </label>
+    <h2>
+      Entrar
+    </h2>
 
-    <input
-      type="password"
-      id="senha"
-      placeholder="Digite sua senha"
-      autocomplete="current-password"
-      required>
+    <p class="intro">
+      Acesse sua área exclusiva da Gold Style.
+    </p>
 
-    <button
-      type="submit"
-      class="btn btn-gold"
-      id="botaoLogin">
 
-      ENTRAR
+    <div
+      id="mensagemErro"
+      class="message error"
+    ></div>
 
-    </button>
 
-  </form>
+    <div
+      id="mensagemSucesso"
+      class="message success"
+    ></div>
 
-  <div id="mensagem"></div>
 
-  <a
-    href="javascript:void(0)"
-    class="esqueci"
-    id="esqueciSenha">
+    <form id="loginForm">
 
-    ESQUECI MINHA SENHA
 
-  </a>
+      <label for="email">
+        E-mail
+      </label>
 
-  <a
-    href="cadastro.html"
-    class="btn btn-dark">
+      <input
+        type="email"
+        id="email"
+        placeholder="Digite seu e-mail"
+        autocomplete="email"
+        required
+      >
 
-    CRIAR MINHA CONTA
 
-  </a>
+      <label for="senha">
+        Senha
+      </label>
 
-  <a
-    href="index.html"
-    class="btn btn-dark">
+      <input
+        type="password"
+        id="senha"
+        placeholder="Digite sua senha"
+        autocomplete="current-password"
+        required
+      >
 
-    VOLTAR PARA INÍCIO
 
-  </a>
+      <button
+        type="submit"
+        id="btnLogin"
+        class="btn-login"
+      >
+        ENTRAR
+      </button>
 
-</main>
 
-<footer>
+    </form>
 
-  <strong>Gold Style Barbearia</strong><br>
 
-  Rio Branco - Acre<br>
+    <a
+      href="#"
+      id="esqueciSenha"
+      class="forgot"
+    >
+      Esqueci minha senha
+    </a>
 
-  Barbearia desde 2022
 
-</footer>
+    <a
+      href="cadastro.html"
+      class="link-button btn-secondary"
+    >
+      CRIAR MINHA CONTA
+    </a>
+
+
+    <a
+      href="index.html"
+      class="link-button btn-secondary"
+    >
+      VOLTAR PARA O INÍCIO
+    </a>
+
+
+  </div>
+
+
+  <footer>
+
+    <strong>
+      Gold Style Barbearia
+    </strong>
+
+    <br>
+
+    Rua Preciosa 557
+
+    <br>
+
+    Rio Branco - Acre
+
+    <br>
+
+    📱 (68) 99985-3643
+
+  </footer>
+
+
+</div>
+
 
 <script>
+
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -175,256 +465,271 @@ window.supabase.createClient(
   SUPABASE_KEY
 );
 
-const form =
-document.getElementById("loginForm");
 
-const mensagem =
-document.getElementById("mensagem");
-
-const botao =
-document.getElementById("botaoLogin");
-
-const esqueciSenha =
-document.getElementById("esqueciSenha");
+const loginForm =
+document.getElementById(
+  "loginForm"
+);
 
 
-form.addEventListener(
+const emailInput =
+document.getElementById(
+  "email"
+);
+
+
+const senhaInput =
+document.getElementById(
+  "senha"
+);
+
+
+const btnLogin =
+document.getElementById(
+  "btnLogin"
+);
+
+
+const mensagemErro =
+document.getElementById(
+  "mensagemErro"
+);
+
+
+const mensagemSucesso =
+document.getElementById(
+  "mensagemSucesso"
+);
+
+
+function mostrarErro(
+  mensagem
+) {
+
+  mensagemSucesso.style.display =
+    "none";
+
+  mensagemErro.textContent =
+    mensagem;
+
+  mensagemErro.style.display =
+    "block";
+
+}
+
+
+function mostrarSucesso(
+  mensagem
+) {
+
+  mensagemErro.style.display =
+    "none";
+
+  mensagemSucesso.textContent =
+    mensagem;
+
+  mensagemSucesso.style.display =
+    "block";
+
+}
+
+
+loginForm.addEventListener(
   "submit",
   async function(event) {
 
     event.preventDefault();
 
+
     const email =
-    document.getElementById("email").value.trim();
+      emailInput.value.trim();
 
     const senha =
-    document.getElementById("senha").value;
+      senhaInput.value;
+
 
     if (!email || !senha) {
 
-      mensagem.innerHTML =
-      "<span style='color:#ff4444;font-weight:bold'>" +
-      "❌ Preencha o e-mail e a senha." +
-      "</span>";
+      mostrarErro(
+        "Digite seu e-mail e sua senha."
+      );
 
       return;
+
     }
 
-    botao.disabled = true;
 
-    botao.innerText =
-    "ENTRANDO...";
+    btnLogin.disabled =
+      true;
 
-    mensagem.innerHTML =
-    "<span style='color:#ffd700'>" +
-    "Verificando seus dados..." +
-    "</span>";
+    btnLogin.textContent =
+      "ENTRANDO...";
+
+    loginForm.classList.add(
+      "loading"
+    );
+
 
     try {
 
-      const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.auth
+        .signInWithPassword({
 
-        email: email,
+          email: email,
 
-        password: senha
+          password: senha
 
-      });
+        });
+
 
       if (error) {
-        throw error;
+
+        console.error(error);
+
+        mostrarErro(
+          "E-mail ou senha incorretos."
+        );
+
+        return;
+
       }
 
-      const {
-        data: sessionCheck,
-        error: sessionError
-      } =
-      await supabaseClient.auth.getSession();
 
-      if (sessionError) {
-        throw sessionError;
+      if (!data.session) {
+
+        mostrarErro(
+          "Não foi possível iniciar sua sessão."
+        );
+
+        return;
+
       }
 
-      if (
-        !sessionCheck.session ||
-        !data.user
-      ) {
 
-        throw new Error(
-          "O login não criou uma sessão. Tente novamente."
+      mostrarSucesso(
+        "Login realizado! Entrando..."
+      );
+
+
+      setTimeout(
+        function() {
+
+          window.location.href =
+            "cliente.html";
+
+        },
+        700
+      );
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      mostrarErro(
+        "Ocorreu um erro ao tentar entrar."
+      );
+
+    } finally {
+
+      btnLogin.disabled =
+        false;
+
+      btnLogin.textContent =
+        "ENTRAR";
+
+      loginForm.classList.remove(
+        "loading"
+      );
+
+    }
+
+  }
+);
+
+
+document
+  .getElementById(
+    "esqueciSenha"
+  )
+  .addEventListener(
+    "click",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const email =
+        emailInput.value.trim();
+
+
+      if (!email) {
+
+        mostrarErro(
+          "Digite seu e-mail primeiro para receber o link de recuperação."
+        );
+
+        emailInput.focus();
+
+        return;
+
+      }
+
+
+      try {
+
+        const {
+          error
+        } =
+        await supabaseClient.auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                "https://wellysondrums21-boop.github.io/Gold_style/login.html"
+            }
+          );
+
+
+        if (error) {
+
+          console.error(error);
+
+          mostrarErro(
+            "Não foi possível enviar o link de recuperação."
+          );
+
+          return;
+
+        }
+
+
+        mostrarSucesso(
+          "Link de recuperação enviado para seu e-mail."
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        mostrarErro(
+          "Ocorreu um erro ao solicitar a recuperação."
         );
 
       }
 
-      mensagem.innerHTML =
-      "<span style='color:#ffd700;font-weight:bold'>" +
-
-      "✅ LOGIN REALIZADO COM SUCESSO!<br><br>" +
-
-      "Abrindo sua área de cliente..." +
-
-      "</span>";
-
-      setTimeout(function() {
-
-        window.location.href =
-        "cliente.html";
-
-      }, 700);
-
     }
+  );
 
-    catch (error) {
-
-      console.error(
-        "Erro no login:",
-        error
-      );
-
-      let texto =
-      error?.message ||
-      "Não foi possível realizar o login.";
-
-      const textoMinusculo =
-      texto.toLowerCase();
-
-      if (
-        textoMinusculo.includes(
-          "email not confirmed"
-        ) ||
-        textoMinusculo.includes(
-          "email_not_confirmed"
-        ) ||
-        textoMinusculo.includes(
-          "email not verified"
-        )
-      ) {
-
-        texto =
-        "Seu e-mail ainda não foi confirmado. " +
-        "Abra o e-mail enviado pela Gold Style " +
-        "e confirme sua conta antes de entrar.";
-
-      }
-
-      else if (
-        textoMinusculo.includes(
-          "invalid login credentials"
-        )
-      ) {
-
-        texto =
-        "E-mail ou senha incorretos. " +
-        "Confira os dados e tente novamente.";
-
-      }
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444;font-weight:bold'>" +
-
-      "❌ Não foi possível entrar.<br><br>" +
-
-      texto +
-
-      "</span>";
-
-      botao.disabled = false;
-
-      botao.innerText =
-      "ENTRAR";
-
-    }
-
-  }
-);
-
-
-esqueciSenha.addEventListener(
-  "click",
-  async function() {
-
-    const email =
-    document.getElementById("email").value.trim();
-
-    if (!email) {
-
-      mensagem.innerHTML =
-      "<span style='color:#ffd700;font-weight:bold'>" +
-
-      "Digite seu e-mail primeiro para " +
-      "solicitar a recuperação da senha." +
-
-      "</span>";
-
-      document
-      .getElementById("email")
-      .focus();
-
-      return;
-    }
-
-    mensagem.innerHTML =
-    "<span style='color:#ffd700'>" +
-
-    "Enviando solicitação de recuperação..." +
-
-    "</span>";
-
-    try {
-
-      const { error } =
-      await supabaseClient.auth
-      .resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-          "https://wellysondrums21-boop.github.io/Gold_style/login.html"
-        }
-      );
-
-      if (error) {
-        throw error;
-      }
-
-      mensagem.innerHTML =
-      "<span style='color:#ffd700;font-weight:bold'>" +
-
-      "📩 Solicitação enviada!<br><br>" +
-
-      "Se o e-mail estiver cadastrado, " +
-      "você receberá as instruções " +
-      "para redefinir sua senha." +
-
-      "</span>";
-
-    }
-
-    catch (error) {
-
-      console.error(
-        "Erro ao recuperar senha:",
-        error
-      );
-
-      mensagem.innerHTML =
-      "<span style='color:#ff4444;font-weight:bold'>" +
-
-      "❌ Não foi possível solicitar a recuperação." +
-      "<br><br>" +
-
-      (
-        error?.message ||
-        "Tente novamente."
-      ) +
-
-      "</span>";
-
-    }
-
-  }
-);
 
 </script>
 
+
 </body>
+
   </html>
