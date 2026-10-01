@@ -47,7 +47,7 @@ header p{
 
 .container{
     width:95%;
-    max-width:1300px;
+    max-width:1400px;
     margin:25px auto;
 }
 
@@ -78,6 +78,18 @@ header p{
     background:#151515;
     color:#ffd700;
     border:1px solid #d4af37;
+}
+
+.btn.verde{
+    background:#123b20;
+    color:#70e890;
+    border:1px solid #257a3b;
+}
+
+.btn.vermelho{
+    background:#351010;
+    color:#ff7777;
+    border:1px solid #6b2222;
 }
 
 .filtros,
@@ -118,6 +130,28 @@ input{
     color:white;
 }
 
+.atalhos{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.atalho{
+    background:#151515;
+    border:1px solid #555;
+    color:#ddd;
+    padding:9px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.atalho:hover{
+    border-color:#ffd700;
+    color:#ffd700;
+}
+
 .cards{
     display:grid;
     grid-template-columns:
@@ -145,16 +179,40 @@ input{
     font-weight:bold;
 }
 
-.lucro .valor{
+.card.recebido{
+    border-color:#246b38;
+}
+
+.card.recebido .valor{
     color:#70e890;
 }
 
-.despesa .valor{
+.card.lucro{
+    border-color:#8b7310;
+}
+
+.card.lucro .valor{
+    color:#ffd700;
+}
+
+.card.despesa{
+    border-color:#632525;
+}
+
+.card.despesa .valor{
     color:#ff7777;
 }
 
-.pendente .valor{
+.card.pendente{
+    border-color:#80621a;
+}
+
+.card.pendente .valor{
     color:#ffbd4a;
+}
+
+.card.info{
+    border-color:#333;
 }
 
 .resumo-grid{
@@ -182,46 +240,70 @@ input{
     font-size:22px;
 }
 
+.resumo.verde{
+    border-color:#246b38;
+}
+
 .resumo.verde strong{
     color:#70e890;
+}
+
+.resumo.vermelho{
+    border-color:#632525;
 }
 
 .resumo.vermelho strong{
     color:#ff7777;
 }
 
-.grafico{
-    display:flex;
-    align-items:end;
-    gap:10px;
-    min-height:240px;
-    padding:15px 5px 40px;
-    border-bottom:1px solid #444;
+.resumo.amarelo{
+    border-color:#80621a;
+}
+
+.resumo.amarelo strong{
+    color:#ffbd4a;
+}
+
+.grafico-wrapper{
     overflow-x:auto;
 }
 
-.barra-box{
-    min-width:75px;
-    height:200px;
+.grafico{
     display:flex;
-    flex-direction:column;
-    justify-content:end;
-    align-items:center;
+    align-items:end;
+    gap:18px;
+    min-height:280px;
+    min-width:max-content;
+    padding:20px 10px 55px;
+    border-bottom:1px solid #444;
+}
+
+.dia-grafico{
+    min-width:95px;
+    height:230px;
+    display:flex;
+    align-items:end;
+    justify-content:center;
+    gap:6px;
     position:relative;
 }
 
-.barra{
-    width:32px;
+.coluna{
+    width:22px;
+    border-radius:5px 5px 0 0;
+    min-height:3px;
+    position:relative;
+}
+
+.coluna.entrada{
     background:linear-gradient(
         to top,
         #8c6800,
         #ffd700
     );
-    border-radius:6px 6px 0 0;
-    min-height:3px;
 }
 
-.barra.despesa{
+.coluna.saida{
     background:linear-gradient(
         to top,
         #7a1515,
@@ -229,7 +311,7 @@ input{
     );
 }
 
-.barra.lucro{
+.coluna.lucro{
     background:linear-gradient(
         to top,
         #12652b,
@@ -237,18 +319,57 @@ input{
     );
 }
 
-.barra-valor{
-    font-size:10px;
+.valor-coluna{
+    position:absolute;
+    bottom:100%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:9px;
     color:#ddd;
-    margin-bottom:4px;
     white-space:nowrap;
+    margin-bottom:4px;
 }
 
-.barra-label{
+.label-dia{
     position:absolute;
-    bottom:-30px;
-    font-size:11px;
+    bottom:-32px;
     color:#aaa;
+    font-size:11px;
+    text-align:center;
+}
+
+.legenda{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:20px;
+    color:#bbb;
+    font-size:13px;
+}
+
+.legenda-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.ponto{
+    width:12px;
+    height:12px;
+    border-radius:3px;
+}
+
+.ponto.entrada{
+    background:#ffd700;
+}
+
+.ponto.saida{
+    background:#ff5c5c;
+}
+
+.ponto.lucro{
+    background:#70e890;
 }
 
 .tabela-wrapper{
@@ -257,7 +378,7 @@ input{
 
 table{
     width:100%;
-    min-width:850px;
+    min-width:950px;
     border-collapse:collapse;
 }
 
@@ -287,6 +408,22 @@ td{
     font-weight:bold;
 }
 
+.pendente-texto{
+    color:#ffbd4a;
+    font-weight:bold;
+}
+
+.concluido{
+    color:#70e890;
+    font-weight:bold;
+}
+
+.vazio{
+    text-align:center;
+    padding:30px;
+    color:#888;
+}
+
 .loading{
     text-align:center;
     color:#ffd700;
@@ -303,10 +440,14 @@ td{
     margin-bottom:20px;
 }
 
-.vazio{
-    text-align:center;
-    padding:30px;
-    color:#888;
+.aviso{
+    background:#191500;
+    border:1px solid #806c00;
+    color:#e6d77a;
+    border-radius:10px;
+    padding:13px;
+    margin-bottom:20px;
+    font-size:13px;
 }
 
 .rodape{
@@ -325,12 +466,27 @@ td{
         width:92%;
     }
 
-    .section{
+    .section,
+    .filtros{
         padding:15px;
     }
 
     .valor{
         font-size:21px;
+    }
+
+    .btn{
+        width:100%;
+        text-align:center;
+    }
+
+    .acoes{
+        flex-direction:column;
+    }
+
+    .atalho{
+        flex:1;
+        text-align:center;
     }
 
 }
@@ -345,7 +501,9 @@ td{
 
 <h1>💰 FINANCEIRO GOLD STYLE</h1>
 
-<p>Entradas, despesas, lucro e movimentações</p>
+<p>
+Entradas, valores a receber, despesas e lucro
+</p>
 
 </header>
 
@@ -357,8 +515,8 @@ td{
 ← Dashboard
 </a>
 
-<a href="despesas.html" class="btn dark">
-💸 Despesas
+<a href="agenda-admin.html" class="btn dark">
+📅 Agenda
 </a>
 
 <a href="vendas.html" class="btn dark">
@@ -369,40 +527,62 @@ td{
 📦 Pedidos
 </a>
 
+<a href="despesas.html" class="btn dark">
+💸 Despesas
+</a>
+
 <a href="relatorios.html" class="btn dark">
 📊 Relatórios
 </a>
 
-<button class="btn"
+<button
+class="btn"
 onclick="carregarFinanceiro()">
+
 🔄 Atualizar
+
 </button>
 
 </div>
 
 <div id="erro" class="erro"></div>
 
+
+<!-- =========================
+     FILTROS
+========================= -->
+
 <div class="filtros">
 
-<h2>📅 Período</h2>
+<h2>
+📅 Período financeiro
+</h2>
 
 <div class="grid-filtros">
 
 <div>
 
-<label>Data inicial</label>
+<label>
+Data inicial
+</label>
 
-<input type="date"
-id="dataInicio">
+<input
+type="date"
+id="dataInicio"
+>
 
 </div>
 
 <div>
 
-<label>Data final</label>
+<label>
+Data final
+</label>
 
-<input type="date"
-id="dataFim">
+<input
+type="date"
+id="dataFim"
+>
 
 </div>
 
@@ -421,25 +601,95 @@ Gerar financeiro
 
 </div>
 
+
+<div class="atalhos">
+
+<button
+class="atalho"
+onclick="periodoHoje()">
+
+Hoje
+
+</button>
+
+<button
+class="atalho"
+onclick="periodoSemana()">
+
+Esta semana
+
+</button>
+
+<button
+class="atalho"
+onclick="periodoMes()">
+
+Este mês
+
+</button>
+
+<button
+class="atalho"
+onclick="periodoMesAnterior()">
+
+Mês anterior
+
+</button>
+
+<button
+class="atalho"
+onclick="periodoAno()">
+
+Este ano
+
+</button>
+
 </div>
 
-<div id="loading"
+</div>
+
+
+<div class="aviso">
+
+💡
+<strong>
+Como o financeiro funciona:
+</strong>
+serviços pagos, vendas de produtos e pedidos pagos/concluídos são considerados entradas. Despesas são saídas. Valores ainda não pagos aparecem como “A receber”.
+
+</div>
+
+
+<div
+id="loading"
 class="loading">
 
 Carregando informações financeiras...
 
 </div>
 
-<div id="conteudo"
-style="display:none;">
+
+<div
+id="conteudo"
+style="display:none;"
+>
+
+
+<!-- =========================
+     CARDS PRINCIPAIS
+========================= -->
 
 <div class="cards">
 
-<div class="card">
 
-<h3>💰 Entradas</h3>
+<div class="card recebido">
 
-<div class="valor"
+<h3>
+💰 Total recebido
+</h3>
+
+<div
+class="valor"
 id="entradas">
 
 R$ 0,00
@@ -448,37 +698,15 @@ R$ 0,00
 
 </div>
 
-<div class="card despesa">
-
-<h3>💸 Despesas</h3>
-
-<div class="valor"
-id="despesas">
-
-R$ 0,00
-
-</div>
-
-</div>
-
-<div class="card lucro">
-
-<h3>📈 Lucro</h3>
-
-<div class="valor"
-id="lucro">
-
-R$ 0,00
-
-</div>
-
-</div>
 
 <div class="card pendente">
 
-<h3>⏳ Pendente</h3>
+<h3>
+⏳ Total a receber
+</h3>
 
-<div class="valor"
+<div
+class="valor"
 id="pendente">
 
 R$ 0,00
@@ -487,11 +715,48 @@ R$ 0,00
 
 </div>
 
+
+<div class="card despesa">
+
+<h3>
+💸 Despesas
+</h3>
+
+<div
+class="valor"
+id="despesas">
+
+R$ 0,00
+
+</div>
+
+</div>
+
+
+<div class="card lucro">
+
+<h3>
+📈 Lucro líquido</h3>
+
+<div
+class="valor"
+id="lucro">
+
+R$ 0,00
+
+</div>
+
+</div>
+
+
 <div class="card">
 
-<h3>💈 Serviços pagos</h3>
+<h3>
+💈 Serviços pagos
+</h3>
 
-<div class="valor"
+<div
+class="valor"
 id="servicosPagos">
 
 0
@@ -500,11 +765,15 @@ id="servicosPagos">
 
 </div>
 
+
 <div class="card">
 
-<h3>🛍️ Produtos vendidos</h3>
+<h3>
+🛍️ Produtos vendidos
+</h3>
 
-<div class="valor"
+<div
+class="valor"
 id="produtosVendidos">
 
 0
@@ -513,71 +782,235 @@ id="produtosVendidos">
 
 </div>
 
+
+<div class="card">
+
+<h3>
+📦 Pedidos pagos
+</h3>
+
+<div
+class="valor"
+id="pedidosPagos">
+
+0
+
 </div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+✅ Pedidos concluídos
+</h3>
+
+<div
+class="valor"
+id="pedidosConcluidos">
+
+0
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     RESUMO
+========================= -->
 
 <div class="section">
 
-<h2>📊 Resumo financeiro</h2>
+<h2>
+📊 Resumo financeiro
+</h2>
 
 <div class="resumo-grid">
 
-<div class="resumo">
-
-<h3>💈 Serviços recebidos</h3>
-
-<strong id="receitaServicos">
-R$ 0,00
-</strong>
-
-</div>
-
-<div class="resumo">
-
-<h3>🛍️ Produtos recebidos</h3>
-
-<strong id="receitaProdutos">
-R$ 0,00
-</strong>
-
-</div>
-
-<div class="resumo vermelho">
-
-<h3>💸 Total de despesas</h3>
-
-<strong id="totalDespesas">
-R$ 0,00
-</strong>
-
-</div>
 
 <div class="resumo verde">
 
-<h3>📈 Resultado líquido</h3>
+<h3>
+💈 Serviços recebidos
+</h3>
 
-<strong id="resultadoLiquido">
+<strong
+id="receitaServicos">
+
 R$ 0,00
+
 </strong>
 
 </div>
 
+
+<div class="resumo verde">
+
+<h3>
+🛍️ Vendas diretas recebidas
+</h3>
+
+<strong
+id="receitaVendas">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
+<div class="resumo verde">
+
+<h3>
+📦 Pedidos recebidos
+</h3>
+
+<strong
+id="receitaPedidos">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
+<div class="resumo amarelo">
+
+<h3>
+💳 Serviços a receber
+</h3>
+
+<strong
+id="pendenteServicos">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
+<div class="resumo amarelo">
+
+<h3>
+📦 Pedidos a receber
+</h3>
+
+<strong
+id="pendentePedidos">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
+<div class="resumo vermelho">
+
+<h3>
+💸 Total de despesas
+</h3>
+
+<strong
+id="totalDespesas">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
+<div class="resumo verde">
+
+<h3>
+📈 Resultado líquido
+</h3>
+
+<strong
+id="resultadoLiquido">
+
+R$ 0,00
+
+</strong>
+
+</div>
+
+
 </div>
 
 </div>
+
+
+<!-- =========================
+     GRÁFICO
+========================= -->
 
 <div class="section">
 
-<h2>📈 Movimento financeiro por dia</h2>
+<h2>
+📈 Movimento financeiro por dia
+</h2>
 
-<div id="grafico"
+<div class="grafico-wrapper">
+
+<div
+id="grafico"
 class="grafico">
+
 </div>
 
 </div>
+
+
+<div class="legenda">
+
+<div class="legenda-item">
+
+<span class="ponto entrada"></span>
+
+Entradas
+
+</div>
+
+<div class="legenda-item">
+
+<span class="ponto saida"></span>
+
+Despesas
+
+</div>
+
+<div class="legenda-item">
+
+<span class="ponto lucro"></span>
+
+Lucro
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     MOVIMENTAÇÕES
+========================= -->
 
 <div class="section">
 
-<h2>📋 Movimentações financeiras</h2>
+<h2>
+📋 Movimentações financeiras
+</h2>
 
 <div class="tabela-wrapper">
 
@@ -587,25 +1020,41 @@ class="grafico">
 
 <tr>
 
-<th>Data</th>
+<th>
+Data
+</th>
 
-<th>Tipo</th>
+<th>
+Tipo
+</th>
 
-<th>Descrição</th>
+<th>
+Descrição
+</th>
 
-<th>Cliente</th>
+<th>
+Cliente
+</th>
 
-<th>Valor</th>
+<th>
+Valor
+</th>
 
-<th>Pagamento</th>
+<th>
+Pagamento
+</th>
 
-<th>Status</th>
+<th>
+Status
+</th>
 
 </tr>
 
 </thead>
 
-<tbody id="tabelaMovimentos">
+<tbody
+id="tabelaMovimentos">
+
 </tbody>
 
 </table>
@@ -614,30 +1063,38 @@ class="grafico">
 
 </div>
 
+
 </div>
 
 </div>
+
 
 <div class="rodape">
 
 Gold Style Barbearia
-— BARBEARIA DESDE 2022
+<br>
+BARBEARIA DESDE 2022
 
 </div>
 
+
 <script>
+
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
 
+
 const supabaseClient =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
+
 
 let pagamentos = [];
 let vendas = [];
@@ -647,1006 +1104,1959 @@ let despesas = [];
 let clientes = [];
 let agendamentos = [];
 
+
 function dinheiro(valor){
 
-return Number(valor || 0).toLocaleString(
-"pt-BR",
-{
-style:"currency",
-currency:"BRL"
-}
-);
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
 
 }
 
-function dataBR(data){
-
-if(!data)
-return "-";
-
-return new Date(data).toLocaleDateString(
-"pt-BR"
-);
-
-}
 
 function normalizar(valor){
 
-return String(valor || "")
-.trim()
-.toLowerCase()
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"");
+    return String(
+        valor || ""
+    )
+    .trim()
+    .toLowerCase()
+    .normalize(
+        "NFD"
+    )
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    );
 
 }
 
-function mostrarErro(mensagem){
 
-const erro =
-document.getElementById("erro");
+function dataBR(data){
 
-erro.innerText =
-mensagem;
+    if(!data)
+        return "-";
 
-erro.style.display =
-"block";
+    const d =
+        new Date(data);
+
+    if(
+        isNaN(
+            d.getTime()
+        )
+    )
+        return "-";
+
+    return d.toLocaleDateString(
+        "pt-BR"
+    );
 
 }
+
+
+function dataLocalString(data){
+
+    return (
+        data.getFullYear()
+        +
+        "-"
+        +
+        String(
+            data.getMonth()+1
+        ).padStart(2,"0")
+        +
+        "-"
+        +
+        String(
+            data.getDate()
+        ).padStart(2,"0")
+    );
+
+}
+
+
+function mostrarErro(
+    mensagem
+){
+
+    const erro =
+        document.getElementById(
+            "erro"
+        );
+
+    erro.innerText =
+        mensagem;
+
+    erro.style.display =
+        "block";
+
+}
+
 
 function esconderErro(){
 
-document.getElementById(
-"erro"
-).style.display =
-"none";
+    document.getElementById(
+        "erro"
+    ).style.display =
+        "none";
 
 }
+
 
 function definirDatas(){
 
-const hoje =
-new Date();
+    const hoje =
+        new Date();
 
-const primeiro =
-new Date(
-hoje.getFullYear(),
-hoje.getMonth(),
-1
-);
+    const primeiro =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            1
+        );
 
-const ultimo =
-new Date(
-hoje.getFullYear(),
-hoje.getMonth()+1,
-0
-);
+    const ultimo =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth()+1,
+            0
+        );
 
-function formatar(data){
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        dataLocalString(
+            primeiro
+        );
 
-return data.getFullYear()
-+
-"-"
-+
-String(
-data.getMonth()+1
-).padStart(2,"0")
-+
-"-"
-+
-String(
-data.getDate()
-).padStart(2,"0");
+    document.getElementById(
+        "dataFim"
+    ).value =
+        dataLocalString(
+            ultimo
+        );
 
 }
 
-document.getElementById(
-"dataInicio"
-).value =
-formatar(primeiro);
 
-document.getElementById(
-"dataFim"
-).value =
-formatar(ultimo);
+function dentroDoPeriodo(
+    data
+){
+
+    if(!data)
+        return false;
+
+    const inicio =
+        document.getElementById(
+            "dataInicio"
+        ).value;
+
+    const fim =
+        document.getElementById(
+            "dataFim"
+        ).value;
+
+    if(!inicio || !fim)
+        return false;
+
+    const dia =
+        String(
+            data
+        ).substring(
+            0,
+            10
+        );
+
+    return (
+        dia >= inicio
+        &&
+        dia <= fim
+    );
 
 }
 
-function dentroDoPeriodo(data){
 
-if(!data)
-return false;
+function periodoHoje(){
 
-const inicio =
-document.getElementById(
-"dataInicio"
-).value;
+    const hoje =
+        new Date();
 
-const fim =
-document.getElementById(
-"dataFim"
-).value;
+    const valor =
+        dataLocalString(
+            hoje
+        );
 
-const dia =
-String(data).substring(0,10);
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        valor;
 
-return dia >= inicio &&
-dia <= fim;
+    document.getElementById(
+        "dataFim"
+    ).value =
+        valor;
+
+    carregarFinanceiro();
 
 }
+
+
+function periodoSemana(){
+
+    const hoje =
+        new Date();
+
+    const diaSemana =
+        hoje.getDay();
+
+    const diferenca =
+        diaSemana === 0
+        ? 6
+        : diaSemana - 1;
+
+    const inicio =
+        new Date(
+            hoje
+                .getFullYear(),
+            hoje
+                .getMonth(),
+            hoje
+                .getDate()
+                -
+                diferenca
+        );
+
+    const fim =
+        new Date(
+            inicio
+                .getFullYear(),
+            inicio
+                .getMonth(),
+            inicio
+                .getDate()
+                + 6
+        );
+
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        dataLocalString(
+            inicio
+        );
+
+    document.getElementById(
+        "dataFim"
+    ).value =
+        dataLocalString(
+            fim
+        );
+
+    carregarFinanceiro();
+
+}
+
+
+function periodoMes(){
+
+    const hoje =
+        new Date();
+
+    const inicio =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            1
+        );
+
+    const fim =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth()+1,
+            0
+        );
+
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        dataLocalString(
+            inicio
+        );
+
+    document.getElementById(
+        "dataFim"
+    ).value =
+        dataLocalString(
+            fim
+        );
+
+    carregarFinanceiro();
+
+}
+
+
+function periodoMesAnterior(){
+
+    const hoje =
+        new Date();
+
+    const inicio =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth()-1,
+            1
+        );
+
+    const fim =
+        new Date(
+            hoje.getFullYear(),
+            hoje.getMonth(),
+            0
+        );
+
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        dataLocalString(
+            inicio
+        );
+
+    document.getElementById(
+        "dataFim"
+    ).value =
+        dataLocalString(
+            fim
+        );
+
+    carregarFinanceiro();
+
+}
+
+
+function periodoAno(){
+
+    const hoje =
+        new Date();
+
+    const inicio =
+        new Date(
+            hoje.getFullYear(),
+            0,
+            1
+        );
+
+    const fim =
+        new Date(
+            hoje.getFullYear(),
+            11,
+            31
+        );
+
+    document.getElementById(
+        "dataInicio"
+    ).value =
+        dataLocalString(
+            inicio
+        );
+
+    document.getElementById(
+        "dataFim"
+    ).value =
+        dataLocalString(
+            fim
+        );
+
+    carregarFinanceiro();
+
+}
+
 
 async function verificarAdmin(){
 
-const {
-data:{
-session
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient
+        .auth
+        .getSession();
+
+
+    if(!session){
+
+        window.location.href =
+            "login.html";
+
+        return false;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from(
+            "administradores"
+        )
+        .select(
+            "id,nome,ativo"
+        )
+        .eq(
+            "auth_user_id",
+            session.user.id
+        )
+        .eq(
+            "ativo",
+            true
+        )
+        .maybeSingle();
+
+
+    if(
+        error ||
+        !data
+    ){
+
+        alert(
+            "Acesso permitido somente para administradores."
+        );
+
+        window.location.href =
+            "cliente.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
 }
-} =
-await supabaseClient.auth.getSession();
 
-if(!session){
-
-window.location.href =
-"login.html";
-
-return false;
-
-}
-
-const {
-data,
-error
-} =
-await supabaseClient
-.from("administradores")
-.select("id,nome,ativo")
-.eq("auth_user_id",session.user.id)
-.eq("ativo",true)
-.maybeSingle();
-
-if(error || !data){
-
-alert(
-"Acesso permitido somente para administradores."
-);
-
-window.location.href =
-"cliente.html";
-
-return false;
-
-}
-
-return true;
-
-}
 
 async function buscarDados(){
 
-const resultados =
-await Promise.all([
+    const resultados =
+        await Promise.all([
 
-supabaseClient
-.from("pagamentos")
-.select("*")
-.order(
-"criado_em",
-{ascending:false}
-),
+        supabaseClient
+            .from("pagamentos")
+            .select("*")
+            .order(
+                "criado_em",
+                {
+                    ascending:false
+                }
+            ),
 
-supabaseClient
-.from("vendas")
-.select("*")
-.order(
-"criado_em",
-{ascending:false}
-),
+        supabaseClient
+            .from("vendas")
+            .select("*")
+            .order(
+                "criado_em",
+                {
+                    ascending:false
+                }
+            ),
 
-supabaseClient
-.from("pedidos_produtos")
-.select("*")
-.order(
-"criado_em",
-{ascending:false}
-),
+        supabaseClient
+            .from("pedidos_produtos")
+            .select("*")
+            .order(
+                "criado_em",
+                {
+                    ascending:false
+                }
+            ),
 
-supabaseClient
-.from("itens_pedido")
-.select("*"),
+        supabaseClient
+            .from("itens_pedido")
+            .select("*"),
 
-supabaseClient
-.from("despesas")
-.select("*")
-.order(
-"criado_em",
-{ascending:false}
-),
+        supabaseClient
+            .from("despesas")
+            .select("*")
+            .order(
+                "criado_em",
+                {
+                    ascending:false
+                }
+            ),
 
-supabaseClient
-.from("clientes")
-.select("*"),
+        supabaseClient
+            .from("clientes")
+            .select("*"),
 
-supabaseClient
-.from("agendamentos")
-.select("*")
+        supabaseClient
+            .from("agendamentos")
+            .select("*")
 
-]);
+    ]);
 
-const erros =
-resultados.filter(
-r => r.error
-);
 
-if(erros.length){
+    const erros =
+        resultados.filter(
+            resultado =>
+                resultado.error
+        );
 
-throw erros[0].error;
+
+    if(
+        erros.length
+    ){
+
+        throw erros[0].error;
+
+    }
+
+
+    pagamentos =
+        resultados[0].data || [];
+
+    vendas =
+        resultados[1].data || [];
+
+    pedidos =
+        resultados[2].data || [];
+
+    itensPedidos =
+        resultados[3].data || [];
+
+    despesas =
+        resultados[4].data || [];
+
+    clientes =
+        resultados[5].data || [];
+
+    agendamentos =
+        resultados[6].data || [];
 
 }
 
-pagamentos =
-resultados[0].data || [];
-
-vendas =
-resultados[1].data || [];
-
-pedidos =
-resultados[2].data || [];
-
-itensPedidos =
-resultados[3].data || [];
-
-despesas =
-resultados[4].data || [];
-
-clientes =
-resultados[5].data || [];
-
-agendamentos =
-resultados[6].data || [];
-
-}
 
 function nomeCliente(id){
 
-const cliente =
-clientes.find(
-c => c.id === id
-);
+    const cliente =
+        clientes.find(
+            c =>
+                c.id === id
+        );
 
-return cliente
-?
-(cliente.Nome || "Cliente")
-:
-"Cliente";
+    return cliente
+        ?
+        (
+            cliente.Nome ||
+            "Cliente"
+        )
+        :
+        "Cliente";
 
 }
+
+
+function pedidoPago(pedido){
+
+    return (
+        normalizar(
+            pedido.status_pagamento
+        )
+        ===
+        "pago"
+        &&
+        dentroDoPeriodo(
+            pedido.criado_em
+        )
+    );
+
+}
+
 
 function pedidoConcluido(pedido){
 
-return (
-normalizar(
-pedido.status_pagamento
-) === "pago"
-&&
-normalizar(
-pedido.status_pedido
-) === "concluido"
-&&
-dentroDoPeriodo(
-pedido.criado_em
-)
-);
+    return (
+        normalizar(
+            pedido.status_pagamento
+        )
+        ===
+        "pago"
+        &&
+        normalizar(
+            pedido.status_pedido
+        )
+        ===
+        "concluido"
+        &&
+        dentroDoPeriodo(
+            pedido.criado_em
+        )
+    );
 
 }
 
-function pedidosValidos(){
 
-return pedidos.filter(
-pedidoConcluido
-);
+function pedidosPagos(){
 
-}
-
-function quantidadeItensPedidos(){
-
-const ids =
-new Set(
-pedidosValidos().map(
-p => p.id
-)
-);
-
-return itensPedidos
-.filter(
-item =>
-ids.has(
-item.pedido_id
-)
-)
-.reduce(
-(total,item) =>
-total +
-Number(
-item.quantidade || 0
-),
-0
-);
+    return pedidos.filter(
+        pedidoPago
+    );
 
 }
 
-function valorPedidos(){
 
-return pedidosValidos()
-.reduce(
-(total,pedido) =>
-total +
-Number(
-pedido.total || 0
-),
-0
-);
+function pedidosConcluidos(){
+
+    return pedidos.filter(
+        pedidoConcluido
+    );
 
 }
+
+
+function valorPedidosPagos(){
+
+    return pedidosPagos()
+        .reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+}
+
+
+function valorPedidosConcluidos(){
+
+    return pedidosConcluidos()
+        .reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+}
+
+
+function valorPedidosPendentes(){
+
+    return pedidos
+        .filter(
+            pedido =>
+                dentroDoPeriodo(
+                    pedido.criado_em
+                )
+                &&
+                normalizar(
+                    pedido.status_pagamento
+                )
+                !==
+                "pago"
+                &&
+                normalizar(
+                    pedido.status_pedido
+                )
+                !==
+                "cancelado"
+        )
+        .reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
+
+}
+
+
+function quantidadeItensPedidosConcluidos(){
+
+    const ids =
+        new Set(
+            pedidosConcluidos()
+                .map(
+                    p =>
+                        p.id
+                )
+        );
+
+
+    return itensPedidos
+        .filter(
+            item =>
+                ids.has(
+                    item.pedido_id
+                )
+        )
+        .reduce(
+            (
+                total,
+                item
+            ) =>
+                total +
+                Number(
+                    item.quantidade || 0
+                ),
+            0
+        );
+
+}
+
+
+function quantidadeItensVendas(){
+
+    return vendas
+        .filter(
+            venda =>
+                dentroDoPeriodo(
+                    venda.criado_em
+                )
+                &&
+                normalizar(
+                    venda.status
+                )
+                ===
+                "pago"
+        )
+        .reduce(
+            (
+                total,
+                venda
+            ) =>
+                total +
+                Number(
+                    venda.quantidade || 0
+                ),
+            0
+        );
+
+}
+
 
 function processar(){
 
-const pagamentosPeriodo =
-pagamentos.filter(
-p =>
-dentroDoPeriodo(
-p.criado_em
-)
-);
+    const pagamentosPeriodo =
+        pagamentos.filter(
+            pagamento =>
+                dentroDoPeriodo(
+                    pagamento.criado_em
+                )
+        );
 
-const vendasPeriodo =
-vendas.filter(
-v =>
-dentroDoPeriodo(
-v.criado_em
-)
-);
 
-const despesasPeriodo =
-despesas.filter(
-d =>
-dentroDoPeriodo(
-d.criado_em
-)
-);
+    const vendasPeriodo =
+        vendas.filter(
+            venda =>
+                dentroDoPeriodo(
+                    venda.criado_em
+                )
+        );
 
-const pagamentosPagos =
-pagamentosPeriodo.filter(
-p =>
-normalizar(p.status)
-===
-"pago"
-);
 
-const pagamentosPendentes =
-pagamentosPeriodo.filter(
-p =>
-normalizar(p.status)
-!==
-"pago"
-);
+    const despesasPeriodo =
+        despesas.filter(
+            despesa =>
+                dentroDoPeriodo(
+                    despesa.criado_em
+                )
+        );
 
-const vendasPagas =
-vendasPeriodo.filter(
-v =>
-normalizar(v.status)
-===
-"pago"
-);
 
-const pedidosPeriodo =
-pedidosValidos();
+    const pagamentosPagos =
+        pagamentosPeriodo.filter(
+            pagamento =>
+                normalizar(
+                    pagamento.status
+                )
+                ===
+                "pago"
+        );
 
-const receitaServicos =
-pagamentosPagos.reduce(
-(total,p) =>
-total +
-Number(p.valor || 0),
-0
-);
 
-const receitaVendas =
-vendasPagas.reduce(
-(total,v) =>
-total +
-Number(v.valor_total || 0),
-0
-);
+    const pagamentosPendentes =
+        pagamentosPeriodo.filter(
+            pagamento =>
+                normalizar(
+                    pagamento.status
+                )
+                !==
+                "pago"
+        );
 
-const receitaPedidos =
-valorPedidos();
 
-const receitaProdutos =
-receitaVendas +
-receitaPedidos;
+    const vendasPagas =
+        vendasPeriodo.filter(
+            venda =>
+                normalizar(
+                    venda.status
+                )
+                ===
+                "pago"
+        );
 
-const entradas =
-receitaServicos +
-receitaProdutos;
 
-const totalDespesas =
-despesasPeriodo.reduce(
-(total,d) =>
-total +
-Number(d.valor || 0),
-0
-);
+    const pedidosPagos =
+        pedidosPagos();
 
-const pendente =
-pagamentosPendentes.reduce(
-(total,p) =>
-total +
-Number(p.valor || 0),
-0
-);
 
-const lucro =
-entradas -
-totalDespesas;
+    const pedidosConcluidos =
+        pedidosConcluidos();
 
-const produtosVendidos =
-vendasPagas.reduce(
-(total,v) =>
-total +
-Number(v.quantidade || 0),
-0
-)
-+
-quantidadeItensPedidos();
 
-document.getElementById(
-"entradas"
-).innerText =
-dinheiro(entradas);
+    const receitaServicos =
+        pagamentosPagos
+            .reduce(
+                (
+                    total,
+                    pagamento
+                ) =>
+                    total +
+                    Number(
+                        pagamento.valor || 0
+                    ),
+                0
+            );
 
-document.getElementById(
-"despesas"
-).innerText =
-dinheiro(totalDespesas);
 
-document.getElementById(
-"lucro"
-).innerText =
-dinheiro(lucro);
+    const receitaVendas =
+        vendasPagas
+            .reduce(
+                (
+                    total,
+                    venda
+                ) =>
+                    total +
+                    Number(
+                        venda.valor_total || 0
+                    ),
+                0
+            );
 
-document.getElementById(
-"pendente"
-).innerText =
-dinheiro(pendente);
 
-document.getElementById(
-"servicosPagos"
-).innerText =
-pagamentosPagos.length;
+    /*
+        Para o caixa:
 
-document.getElementById(
-"produtosVendidos"
-).innerText =
-produtosVendidos;
+        Pedido pago já representa
+        dinheiro recebido.
 
-document.getElementById(
-"receitaServicos"
-).innerText =
-dinheiro(receitaServicos);
+        Por isso entra no total
+        recebido mesmo que ainda
+        esteja aguardando conclusão.
+    */
 
-document.getElementById(
-"receitaProdutos"
-).innerText =
-dinheiro(receitaProdutos);
+    const receitaPedidosPagos =
+        pedidosPagos.reduce(
+            (
+                total,
+                pedido
+            ) =>
+                total +
+                Number(
+                    pedido.total || 0
+                ),
+            0
+        );
 
-document.getElementById(
-"totalDespesas"
-).innerText =
-dinheiro(totalDespesas);
 
-document.getElementById(
-"resultadoLiquido"
-).innerText =
-dinheiro(lucro);
+    const entradas =
+        receitaServicos +
+        receitaVendas +
+        receitaPedidosPagos;
 
-gerarGrafico(
-pagamentosPagos,
-vendasPagas,
-pedidosPeriodo,
-despesasPeriodo
-);
 
-gerarMovimentos(
-pagamentosPagos,
-vendasPagas,
-pedidosPeriodo,
-despesasPeriodo
-);
+    const totalDespesas =
+        despesasPeriodo
+            .reduce(
+                (
+                    total,
+                    despesa
+                ) =>
+                    total +
+                    Number(
+                        despesa.valor || 0
+                    ),
+                0
+            );
+
+
+    const pendenteServicos =
+        pagamentosPendentes
+            .reduce(
+                (
+                    total,
+                    pagamento
+                ) =>
+                    total +
+                    Number(
+                        pagamento.valor || 0
+                    ),
+                0
+            );
+
+
+    const pendentePedidos =
+        valorPedidosPendentes();
+
+
+    const totalPendente =
+        pendenteServicos +
+        pendentePedidos;
+
+
+    const lucro =
+        entradas -
+        totalDespesas;
+
+
+    const produtosVendidos =
+        quantidadeItensVendas()
+        +
+        quantidadeItensPedidosConcluidos();
+
+
+    document.getElementById(
+        "entradas"
+    ).innerText =
+        dinheiro(
+            entradas
+        );
+
+
+    document.getElementById(
+        "pendente"
+    ).innerText =
+        dinheiro(
+            totalPendente
+        );
+
+
+    document.getElementById(
+        "despesas"
+    ).innerText =
+        dinheiro(
+            totalDespesas
+        );
+
+
+    document.getElementById(
+        "lucro"
+    ).innerText =
+        dinheiro(
+            lucro
+        );
+
+
+    document.getElementById(
+        "servicosPagos"
+    ).innerText =
+        pagamentosPagos.length;
+
+
+    document.getElementById(
+        "produtosVendidos"
+    ).innerText =
+        produtosVendidos;
+
+
+    document.getElementById(
+        "pedidosPagos"
+    ).innerText =
+        pedidosPagos.length;
+
+
+    document.getElementById(
+        "pedidosConcluidos"
+    ).innerText =
+        pedidosConcluidos.length;
+
+
+    document.getElementById(
+        "receitaServicos"
+    ).innerText =
+        dinheiro(
+            receitaServicos
+        );
+
+
+    document.getElementById(
+        "receitaVendas"
+    ).innerText =
+        dinheiro(
+            receitaVendas
+        );
+
+
+    document.getElementById(
+        "receitaPedidos"
+    ).innerText =
+        dinheiro(
+            receitaPedidosPagos
+        );
+
+
+    document.getElementById(
+        "pendenteServicos"
+    ).innerText =
+        dinheiro(
+            pendenteServicos
+        );
+
+
+    document.getElementById(
+        "pendentePedidos"
+    ).innerText =
+        dinheiro(
+            pendentePedidos
+        );
+
+
+    document.getElementById(
+        "totalDespesas"
+    ).innerText =
+        dinheiro(
+            totalDespesas
+        );
+
+
+    document.getElementById(
+        "resultadoLiquido"
+    ).innerText =
+        dinheiro(
+            lucro
+        );
+
+
+    gerarGrafico(
+        pagamentosPagos,
+        vendasPagas,
+        pedidosPagos,
+        despesasPeriodo
+    );
+
+
+    gerarMovimentos(
+        pagamentosPagos,
+        vendasPagas,
+        pedidosPagos,
+        pedidosConcluidos,
+        pagamentosPendentes,
+        pedidos,
+        despesasPeriodo
+    );
 
 }
+
 
 function gerarGrafico(
-servicos,
-vendasProdutos,
-pedidosProdutos,
-saidas
+    servicos,
+    vendasProdutos,
+    pedidosProdutos,
+    saidas
 ){
 
-const dias = {};
+    const dias = {};
 
-function adicionar(
-data,
-entrada,
-saida
+
+    function adicionar(
+        data,
+        entrada,
+        saida
+    ){
+
+        const dia =
+            String(
+                data
+            ).substring(
+                0,
+                10
+            );
+
+
+        if(!dias[dia]){
+
+            dias[dia] = {
+                entrada:0,
+                saida:0
+            };
+
+        }
+
+
+        dias[dia].entrada +=
+            entrada;
+
+        dias[dia].saida +=
+            saida;
+
+    }
+
+
+    servicos.forEach(
+        pagamento =>
+            adicionar(
+                pagamento.criado_em,
+                Number(
+                    pagamento.valor || 0
+                ),
+                0
+            )
+    );
+
+
+    vendasProdutos.forEach(
+        venda =>
+            adicionar(
+                venda.criado_em,
+                Number(
+                    venda.valor_total || 0
+                ),
+                0
+            )
+    );
+
+
+    pedidosProdutos.forEach(
+        pedido =>
+            adicionar(
+                pedido.criado_em,
+                Number(
+                    pedido.total || 0
+                ),
+                0
+            )
+    );
+
+
+    saidas.forEach(
+        despesa =>
+            adicionar(
+                despesa.criado_em,
+                0,
+                Number(
+                    despesa.valor || 0
+                )
+            )
+    );
+
+
+    const lista =
+        Object.entries(
+            dias
+        )
+        .sort(
+            (
+                a,
+                b
+            ) =>
+                a[0].localeCompare(
+                    b[0]
+                )
+        );
+
+
+    const grafico =
+        document.getElementById(
+            "grafico"
+        );
+
+
+    if(!lista.length){
+
+        grafico.innerHTML =
+        `
+        <div class="vazio">
+            Nenhuma movimentação no período.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    const maior =
+        Math.max(
+            ...lista.map(
+                item =>
+                    Math.max(
+                        item[1].entrada,
+                        item[1].saida
+                    )
+            ),
+            1
+        );
+
+
+    grafico.innerHTML =
+        lista
+        .map(
+            (
+                [dia,valores]
+            ) => {
+
+                const partes =
+                    dia.split("-");
+
+
+                const label =
+                    `${partes[2]}/${partes[1]}`;
+
+
+                const lucroDia =
+                    valores.entrada -
+                    valores.saida;
+
+
+                const alturaEntrada =
+                    Math.max(
+                        3,
+                        (
+                            valores.entrada /
+                            maior
+                        ) * 180
+                    );
+
+
+                const alturaSaida =
+                    Math.max(
+                        3,
+                        (
+                            valores.saida /
+                            maior
+                        ) * 180
+                    );
+
+
+                const maiorComLucro =
+                    Math.max(
+                        valores.entrada,
+                        valores.saida,
+                        Math.abs(
+                            lucroDia
+                        ),
+                        1
+                    );
+
+
+                const alturaLucro =
+                    Math.max(
+                        3,
+                        (
+                            Math.abs(
+                                lucroDia
+                            ) /
+                            maiorComLucro
+                        ) * 100
+                    );
+
+
+                return `
+
+                <div
+                class="dia-grafico"
+                >
+
+                    <div
+                    class="coluna entrada"
+                    style="
+                    height:${alturaEntrada}px;
+                    "
+                    >
+
+                        <div
+                        class="valor-coluna"
+                        >
+                        ${dinheiro(
+                            valores.entrada
+                        )}
+                        </div>
+
+                    </div>
+
+
+                    <div
+                    class="coluna saida"
+                    style="
+                    height:${alturaSaida}px;
+                    "
+                    >
+
+                        <div
+                        class="valor-coluna"
+                        >
+                        ${dinheiro(
+                            valores.saida
+                        )}
+                        </div>
+
+                    </div>
+
+
+                    <div
+                    class="coluna lucro"
+                    style="
+                    height:${alturaLucro}px;
+                    "
+                    >
+
+                        <div
+                        class="valor-coluna"
+                        >
+                        ${dinheiro(
+                            lucroDia
+                        )}
+                        </div>
+
+                    </div>
+
+
+                    <div
+                    class="label-dia"
+                    >
+                    ${label}
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+function escaparHTML(
+    valor
 ){
 
-const dia =
-String(data).substring(0,10);
-
-if(!dias[dia]){
-
-dias[dia] = {
-entrada:0,
-saida:0
-};
-
-}
-
-dias[dia].entrada +=
-entrada;
-
-dias[dia].saida +=
-saida;
-
-}
-
-servicos.forEach(
-p =>
-adicionar(
-p.criado_em,
-Number(p.valor || 0),
-0
-)
-);
-
-vendasProdutos.forEach(
-v =>
-adicionar(
-v.criado_em,
-Number(v.valor_total || 0),
-0
-)
-);
-
-pedidosProdutos.forEach(
-p =>
-adicionar(
-p.criado_em,
-Number(p.total || 0),
-0
-)
-);
-
-saidas.forEach(
-d =>
-adicionar(
-d.criado_em,
-0,
-Number(d.valor || 0)
-)
-);
-
-const lista =
-Object.entries(dias)
-.sort(
-(a,b) =>
-a[0].localeCompare(b[0])
-);
-
-const grafico =
-document.getElementById(
-"grafico"
-);
-
-if(!lista.length){
-
-grafico.innerHTML =
-`
-<div class="vazio">
-Nenhuma movimentação no período.
-</div>
-`;
-
-return;
+    return String(
+        valor || ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
-const maior =
-Math.max(
-...lista.map(
-item =>
-Math.max(
-item[1].entrada,
-item[1].saida
-)
-),
-1
-);
-
-grafico.innerHTML =
-lista.map(
-([dia,valores]) => {
-
-const partes =
-dia.split("-");
-
-const label =
-`${partes[2]}/${partes[1]}`;
-
-const alturaEntrada =
-Math.max(
-3,
-(valores.entrada / maior) * 160
-);
-
-const alturaSaida =
-Math.max(
-3,
-(valores.saida / maior) * 160
-);
-
-return `
-<div class="barra-box">
-
-<div class="barra-valor">
-Entrada: ${dinheiro(
-valores.entrada
-)}
-</div>
-
-<div
-class="barra"
-style="height:${alturaEntrada}px">
-</div>
-
-<div class="barra-valor">
-Saída: ${dinheiro(
-valores.saida
-)}
-</div>
-
-<div
-class="barra despesa"
-style="height:${alturaSaida}px">
-</div>
-
-<div class="barra-label">
-${label}
-</div>
-
-</div>
-`;
-
-}
-).join("");
-
-}
 
 function gerarMovimentos(
-servicos,
-vendasProdutos,
-pedidosProdutos,
-saidas
+    servicos,
+    vendasProdutos,
+    pedidosPagosPeriodo,
+    pedidosConcluidosPeriodo,
+    pagamentosPendentes,
+    todosPedidos,
+    saidas
 ){
 
-const movimentos = [];
+    const movimentos = [];
 
-servicos.forEach(
-p => {
 
-const agendamento =
-agendamentos.find(
-a =>
-a.id === p.agendamento_id
-);
+    servicos.forEach(
+        pagamento => {
 
-movimentos.push({
+            const agendamento =
+                agendamentos.find(
+                    agendamento =>
+                        agendamento.id ===
+                        pagamento.agendamento_id
+                );
 
-data:p.criado_em,
 
-tipo:"Entrada",
+            movimentos.push({
 
-descricao:
-agendamento
-?
-(
-agendamento["Serviços"]
-||
-"Serviço"
-)
-:
-"Serviço",
+                data:
+                    pagamento.criado_em,
 
-cliente:
-nomeCliente(
-p.cliente_id
-),
+                tipo:
+                    "Entrada",
 
-valor:
-Number(p.valor || 0),
+                descricao:
+                    agendamento
+                    ?
+                    (
+                        agendamento["Serviços"]
+                        ||
+                        "Serviço"
+                    )
+                    :
+                    "Serviço",
 
-pagamento:
-p.metodo || "-",
+                cliente:
+                    nomeCliente(
+                        pagamento.cliente_id
+                    ),
 
-status:"Pago"
+                valor:
+                    Number(
+                        pagamento.valor || 0
+                    ),
 
-});
+                pagamento:
+                    pagamento.metodo || "-",
+
+                status:
+                    "Pago"
+
+            });
+
+        }
+    );
+
+
+    vendasProdutos.forEach(
+        venda => {
+
+            movimentos.push({
+
+                data:
+                    venda.criado_em,
+
+                tipo:
+                    "Entrada",
+
+                descricao:
+                    "Venda: " +
+                    (
+                        venda.produto_nome ||
+                        "Produto"
+                    ),
+
+                cliente:
+                    nomeCliente(
+                        venda.cliente_id
+                    ),
+
+                valor:
+                    Number(
+                        venda.valor_total || 0
+                    ),
+
+                pagamento:
+                    venda.metodo_pagamento ||
+                    "-",
+
+                status:
+                    "Pago"
+
+            });
+
+        }
+    );
+
+
+    pedidosPagosPeriodo.forEach(
+        pedido => {
+
+            const itens =
+                itensPedidos.filter(
+                    item =>
+                        item.pedido_id ===
+                        pedido.id
+                );
+
+
+            const nomes =
+                itens.map(
+                    item =>
+                        `${item.produto_nome} (${item.quantidade}x)`
+                );
+
+
+            movimentos.push({
+
+                data:
+                    pedido.criado_em,
+
+                tipo:
+                    "Entrada",
+
+                descricao:
+                    "Pedido de produtos" +
+                    (
+                        nomes.length
+                        ?
+                        ": " +
+                        nomes.join(
+                            ", "
+                        )
+                        :
+                        ""
+                    ),
+
+                cliente:
+                    nomeCliente(
+                        pedido.cliente_id
+                    ),
+
+                valor:
+                    Number(
+                        pedido.total || 0
+                    ),
+
+                pagamento:
+                    pedido.metodo_pagamento ||
+                    "-",
+
+                status:
+                    normalizar(
+                        pedido.status_pedido
+                    )
+                    ===
+                    "concluido"
+                    ?
+                    "Pago / Concluído"
+                    :
+                    "Pago / Processando"
+
+            });
+
+        }
+    );
+
+
+    pagamentosPendentes.forEach(
+        pagamento => {
+
+            const agendamento =
+                agendamentos.find(
+                    agendamento =>
+                        agendamento.id ===
+                        pagamento.agendamento_id
+                );
+
+
+            movimentos.push({
+
+                data:
+                    pagamento.criado_em,
+
+                tipo:
+                    "A receber",
+
+                descricao:
+                    agendamento
+                    ?
+                    (
+                        agendamento["Serviços"]
+                        ||
+                        "Serviço"
+                    )
+                    :
+                    "Serviço",
+
+                cliente:
+                    nomeCliente(
+                        pagamento.cliente_id
+                    ),
+
+                valor:
+                    Number(
+                        pagamento.valor || 0
+                    ),
+
+                pagamento:
+                    pagamento.metodo || "-",
+
+                status:
+                    "Pendente"
+
+            });
+
+        }
+    );
+
+
+    const pedidosPendentes =
+        todosPedidos.filter(
+            pedido =>
+                dentroDoPeriodo(
+                    pedido.criado_em
+                )
+                &&
+                normalizar(
+                    pedido.status_pagamento
+                )
+                !==
+                "pago"
+                &&
+                normalizar(
+                    pedido.status_pedido
+                )
+                !==
+                "cancelado"
+        );
+
+
+    pedidosPendentes.forEach(
+        pedido => {
+
+            const itens =
+                itensPedidos.filter(
+                    item =>
+                        item.pedido_id ===
+                        pedido.id
+                );
+
+
+            const nomes =
+                itens.map(
+                    item =>
+                        `${item.produto_nome} (${item.quantidade}x)`
+                );
+
+
+            movimentos.push({
+
+                data:
+                    pedido.criado_em,
+
+                tipo:
+                    "A receber",
+
+                descricao:
+                    "Pedido de produtos" +
+                    (
+                        nomes.length
+                        ?
+                        ": " +
+                        nomes.join(
+                            ", "
+                        )
+                        :
+                        ""
+                    ),
+
+                cliente:
+                    nomeCliente(
+                        pedido.cliente_id
+                    ),
+
+                valor:
+                    Number(
+                        pedido.total || 0
+                    ),
+
+                pagamento:
+                    pedido.metodo_pagamento ||
+                    "-",
+
+                status:
+                    "Aguardando pagamento"
+
+            });
+
+        }
+    );
+
+
+    saidas.forEach(
+        despesa => {
+
+            movimentos.push({
+
+                data:
+                    despesa.criado_em,
+
+                tipo:
+                    "Saída",
+
+                descricao:
+                    despesa.descricao ||
+                    "Despesa",
+
+                cliente:
+                    "-",
+
+                valor:
+                    Number(
+                        despesa.valor || 0
+                    ),
+
+                pagamento:
+                    despesa.metodo_pagamento ||
+                    "-",
+
+                status:
+                    "Pago"
+
+            });
+
+        }
+    );
+
+
+    movimentos.sort(
+        (
+            a,
+            b
+        ) =>
+            new Date(
+                b.data
+            )
+            -
+            new Date(
+                a.data
+            )
+    );
+
+
+    const tabela =
+        document.getElementById(
+            "tabelaMovimentos"
+        );
+
+
+    if(!movimentos.length){
+
+        tabela.innerHTML =
+        `
+        <tr>
+
+            <td
+            colspan="7"
+            class="vazio"
+            >
+
+            Nenhuma movimentação encontrada.
+
+            </td>
+
+        </tr>
+        `;
+
+        return;
+
+    }
+
+
+    tabela.innerHTML =
+        movimentos
+        .map(
+            movimento => {
+
+                let classeTipo = "";
+
+                if(
+                    movimento.tipo ===
+                    "Entrada"
+                ){
+
+                    classeTipo =
+                        "entrada";
+
+                }
+
+                else if(
+                    movimento.tipo ===
+                    "Saída"
+                ){
+
+                    classeTipo =
+                        "saida";
+
+                }
+
+                else{
+
+                    classeTipo =
+                        "pendente-texto";
+
+                }
+
+
+                return `
+
+                <tr>
+
+                    <td>
+                    ${dataBR(
+                        movimento.data
+                    )}
+                    </td>
+
+
+                    <td
+                    class="${classeTipo}"
+                    >
+                    ${escaparHTML(
+                        movimento.tipo
+                    )}
+                    </td>
+
+
+                    <td>
+                    ${escaparHTML(
+                        movimento.descricao
+                    )}
+                    </td>
+
+
+                    <td>
+                    ${escaparHTML(
+                        movimento.cliente
+                    )}
+                    </td>
+
+
+                    <td
+                    class="${classeTipo}"
+                    >
+                    ${dinheiro(
+                        movimento.valor
+                    )}
+                    </td>
+
+
+                    <td>
+                    ${escaparHTML(
+                        movimento.pagamento
+                    )}
+                    </td>
+
+
+                    <td>
+                    ${escaparHTML(
+                        movimento.status
+                    )}
+                    </td>
+
+                </tr>
+
+                `;
+
+            }
+        )
+        .join("");
 
 }
-);
 
-vendasProdutos.forEach(
-v => {
-
-movimentos.push({
-
-data:v.criado_em,
-
-tipo:"Entrada",
-
-descricao:
-"Venda: " +
-(
-v.produto_nome ||
-"Produto"
-),
-
-cliente:
-nomeCliente(
-v.cliente_id
-),
-
-valor:
-Number(
-v.valor_total || 0
-),
-
-pagamento:
-v.metodo_pagamento || "-",
-
-status:"Pago"
-
-});
-
-}
-);
-
-pedidosProdutos.forEach(
-p => {
-
-const itens =
-itensPedidos.filter(
-item =>
-item.pedido_id === p.id
-);
-
-const nomes =
-itens.map(
-item =>
-`${item.produto_nome} (${item.quantidade}x)`
-);
-
-movimentos.push({
-
-data:p.criado_em,
-
-tipo:"Entrada",
-
-descricao:
-"Pedido de produtos" +
-(
-nomes.length
-?
-": " + nomes.join(", ")
-:
-""
-),
-
-cliente:
-nomeCliente(
-p.cliente_id
-),
-
-valor:
-Number(
-p.total || 0
-),
-
-pagamento:
-p.metodo_pagamento || "-",
-
-status:
-"Pago / Concluído"
-
-});
-
-}
-);
-
-saidas.forEach(
-d => {
-
-movimentos.push({
-
-data:d.criado_em,
-
-tipo:"Saída",
-
-descricao:
-d.descricao || "Despesa",
-
-cliente:"-",
-
-valor:
-Number(d.valor || 0),
-
-pagamento:
-d.metodo_pagamento || "-",
-
-status:"Pago"
-
-});
-
-}
-);
-
-movimentos.sort(
-(a,b) =>
-new Date(b.data) -
-new Date(a.data)
-);
-
-const tabela =
-document.getElementById(
-"tabelaMovimentos"
-);
-
-if(!movimentos.length){
-
-tabela.innerHTML =
-`
-<tr>
-<td
-colspan="7"
-class="vazio">
-
-Nenhuma movimentação encontrada.
-
-</td>
-</tr>
-`;
-
-return;
-
-}
-
-tabela.innerHTML =
-movimentos.map(
-m => `
-
-<tr>
-
-<td>
-${dataBR(m.data)}
-</td>
-
-<td class="${
-m.tipo === "Entrada"
-?
-"entrada"
-:
-"saida"
-}">
-
-${m.tipo}
-
-</td>
-
-<td>
-${m.descricao}
-</td>
-
-<td>
-${m.cliente}
-</td>
-
-<td class="${
-m.tipo === "Entrada"
-?
-"entrada"
-:
-"saida"
-}">
-
-${dinheiro(m.valor)}
-
-</td>
-
-<td>
-${m.pagamento}
-</td>
-
-<td>
-${m.status}
-</td>
-
-</tr>
-
-`
-).join("");
-
-}
 
 async function carregarFinanceiro(){
 
-esconderErro();
+    esconderErro();
 
-document.getElementById(
-"loading"
-).style.display =
-"block";
 
-document.getElementById(
-"conteudo"
-).style.display =
-"none";
+    document.getElementById(
+        "loading"
+    ).style.display =
+        "block";
 
-try{
 
-await buscarDados();
+    document.getElementById(
+        "conteudo"
+    ).style.display =
+        "none";
 
-processar();
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
+    try{
 
-document.getElementById(
-"conteudo"
-).style.display =
-"block";
+        await buscarDados();
 
-}catch(erro){
+        processar();
 
-console.error(erro);
 
-document.getElementById(
-"loading"
-).style.display =
-"none";
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
 
-mostrarErro(
-"Erro ao carregar o financeiro: "
-+
-erro.message
-);
+
+        document.getElementById(
+            "conteudo"
+        ).style.display =
+            "block";
+
+
+    }
+
+    catch(
+        erro
+    ){
+
+        console.error(
+            erro
+        );
+
+
+        document.getElementById(
+            "loading"
+        ).style.display =
+            "none";
+
+
+        mostrarErro(
+            "Erro ao carregar o financeiro: "
+            +
+            (
+                erro.message ||
+                erro
+            )
+        );
+
+    }
 
 }
 
-}
 
 async function iniciar(){
 
-const permitido =
-await verificarAdmin();
+    const permitido =
+        await verificarAdmin();
 
-if(!permitido)
-return;
 
-definirDatas();
+    if(!permitido)
+        return;
 
-await carregarFinanceiro();
+
+    definirDatas();
+
+    await carregarFinanceiro();
 
 }
+
 
 iniciar();
 
