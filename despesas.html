@@ -1,597 +1,726 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Despesas - Gold Style</title>
+<meta charset="UTF-8">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<title>Despesas - Gold Style</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #050505;
-            color: white;
-            min-height: 100vh;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        header {
-            background: linear-gradient(135deg, #050505, #181818);
-            border-bottom: 1px solid #d4af37;
-            padding: 22px 15px;
-            text-align: center;
-        }
+<style>
 
-        header h1 {
-            color: #ffd700;
-            font-size: 28px;
-            text-shadow: 0 0 12px rgba(255, 215, 0, .6);
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        header p {
-            color: #aaa;
-            margin-top: 7px;
-        }
+body{
+    background:#050505;
+    color:white;
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    padding:15px;
+}
 
-        .container {
-            width: 95%;
-            max-width: 1200px;
-            margin: 25px auto;
-        }
+.container{
+    max-width:1200px;
+    margin:auto;
+}
 
-        .acoes {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
+header{
+    text-align:center;
+    margin-bottom:25px;
+}
 
-        .btn {
-            border: none;
-            border-radius: 10px;
-            padding: 12px 18px;
-            font-weight: bold;
-            cursor: pointer;
-            background: #d4af37;
-            color: #000;
-        }
+header h1{
+    color:#ffd700;
+    font-size:32px;
+    text-shadow:0 0 15px #ffd700;
+}
 
-        .btn:hover {
-            background: #ffd700;
-        }
+header p{
+    color:#aaa;
+    margin-top:7px;
+}
 
-        .btn.dark {
-            background: #151515;
-            color: #ffd700;
-            border: 1px solid #d4af37;
-        }
+.menu{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    gap:10px;
+    margin-bottom:25px;
+}
 
-        .btn.danger {
-            background: #260909;
-            color: #ff7070;
-            border: 1px solid #6b2222;
-        }
+.menu a{
+    background:#111;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:12px;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    font-weight:bold;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
+.menu a:hover{
+    color:#ffd700;
+    border-color:#ffd700;
+}
 
-        .card {
-            background: linear-gradient(145deg, #151515, #080808);
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-        }
+.painel{
+    background:#101010;
+    border:1px solid #333;
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:20px;
+}
 
-        .card h3 {
-            color: #aaa;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
+.painel h2{
+    color:#ffd700;
+    margin-bottom:18px;
+}
 
-        .card .valor {
-            color: #ffd700;
-            font-size: 25px;
-            font-weight: bold;
-        }
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
 
-        .formulario,
-        .lista {
-            background: #101010;
-            border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+.card{
+    background:#111;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:20px;
+}
 
-        .formulario h2,
-        .lista h2 {
-            color: #ffd700;
-            margin-bottom: 18px;
-        }
+.card h3{
+    color:#aaa;
+    font-size:14px;
+    margin-bottom:10px;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 14px;
-        }
+.card strong{
+    color:#ffd700;
+    font-size:25px;
+}
 
-        .campo {
-            display: flex;
-            flex-direction: column;
-        }
+.card.despesa{
+    border-color:#632525;
+}
 
-        .campo label {
-            color: #ccc;
-            margin-bottom: 7px;
-            font-size: 14px;
-        }
+.card.despesa strong{
+    color:#ff7777;
+}
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            background: #050505;
-            border: 1px solid #444;
-            border-radius: 8px;
-            color: white;
-            outline: none;
-            font-family: Arial, sans-serif;
-        }
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
 
-        textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
+.campo{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #ffd700;
-        }
+.campo label{
+    color:#bbb;
+    font-size:14px;
+    font-weight:bold;
+}
 
-        .campo-completo {
-            grid-column: 1 / -1;
-        }
+.campo-completo{
+    grid-column:1 / -1;
+}
 
-        .mensagem {
-            display: none;
-            padding: 14px;
-            border-radius: 10px;
-            margin-bottom: 18px;
-        }
+input,
+select,
+textarea{
+    width:100%;
+    background:#181818;
+    color:white;
+    border:1px solid #444;
+    border-radius:10px;
+    padding:13px;
+    font-size:15px;
+    outline:none;
+    font-family:Arial,sans-serif;
+}
 
-        .sucesso {
-            background: #09200f;
-            border: 1px solid #26733b;
-            color: #75e890;
-        }
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
 
-        .erro {
-            background: #260909;
-            border: 1px solid #6b2222;
-            color: #ff7777;
-        }
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#ffd700;
+    box-shadow:0 0 8px rgba(255,215,0,.2);
+}
 
-        .table-wrapper {
-            overflow-x: auto;
-        }
+.btn{
+    border:none;
+    border-radius:10px;
+    padding:13px 18px;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        table {
-            width: 100%;
-            min-width: 850px;
-            border-collapse: collapse;
-        }
+.btn-principal{
+    width:100%;
+    background:#ffd700;
+    color:#000;
+    font-size:15px;
+}
 
-        th,
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #292929;
-            text-align: left;
-        }
+.btn-principal:hover{
+    background:#fff000;
+}
 
-        th {
-            color: #ffd700;
-            background: #151515;
-        }
+.btn-excluir{
+    background:#351010;
+    color:#ff7777;
+    border:1px solid #6b2222;
+    padding:8px 11px;
+    font-size:12px;
+}
 
-        td {
-            color: #ddd;
-        }
+.btn-excluir:hover{
+    background:#501313;
+}
 
-        .categoria {
-            color: #ffd700;
-        }
+.mensagem{
+    display:none;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    font-weight:bold;
+}
 
-        .valor-despesa {
-            color: #ff7777;
-            font-weight: bold;
-        }
+.sucesso{
+    display:block;
+    background:#0d3518;
+    border:1px solid #25c65a;
+    color:#7aff9b;
+}
 
-        .vazio {
-            text-align: center;
-            padding: 30px;
-            color: #888;
-        }
+.erro{
+    display:block;
+    background:#351010;
+    border:1px solid #ff4444;
+    color:#ff9999;
+}
 
-        .carregando {
-            text-align: center;
-            color: #ffd700;
-            padding: 25px;
-        }
+.tabela{
+    width:100%;
+    overflow-x:auto;
+}
 
-        .rodape {
-            text-align: center;
-            color: #777;
-            padding: 30px 10px;
-        }
+table{
+    width:100%;
+    min-width:900px;
+    border-collapse:collapse;
+}
 
-        @media (max-width: 600px) {
+th{
+    background:#1c1c1c;
+    color:#ffd700;
+    padding:12px;
+    text-align:left;
+    font-size:13px;
+}
 
-            header h1 {
-                font-size: 23px;
-            }
+td{
+    padding:12px;
+    border-bottom:1px solid #292929;
+    font-size:13px;
+}
 
-            .container {
-                width: 92%;
-            }
+tr:hover{
+    background:#151515;
+}
 
-            .formulario,
-            .lista {
-                padding: 15px;
-            }
+.categoria{
+    color:#ffd700;
+    font-weight:bold;
+}
 
-            .card .valor {
-                font-size: 21px;
-            }
-        }
-    </style>
+.valor-despesa{
+    color:#ff7777;
+    font-weight:bold;
+}
+
+.vazio{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+.carregando{
+    text-align:center;
+    padding:30px;
+    color:#ffd700;
+}
+
+.aviso{
+    background:#191500;
+    border:1px solid #806c00;
+    color:#e6d77a;
+    border-radius:10px;
+    padding:12px;
+    margin-top:15px;
+    font-size:13px;
+}
+
+.rodape{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
+
+@media(max-width:700px){
+
+    body{
+        padding:10px;
+    }
+
+    header h1{
+        font-size:26px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .campo-completo{
+        grid-column:auto;
+    }
+
+    .card strong{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-<header>
-
-    <h1>💸 DESPESAS GOLD STYLE</h1>
-
-    <p>
-        Controle de saídas e gastos da barbearia
-    </p>
-
-</header>
 
 <div class="container">
 
-    <div class="acoes">
 
-        <a
-            href="admin.html"
-            class="btn dark"
-        >
-            ← Dashboard
-        </a>
+<header>
 
-        <a
-            href="financeiro.html"
-            class="btn dark"
-        >
-            💰 Financeiro
-        </a>
+<h1>💸 GOLD STYLE</h1>
 
-        <a
-            href="relatorios.html"
-            class="btn dark"
-        >
-            📊 Relatórios
-        </a>
+<p>Controle de despesas da Barbearia</p>
 
-    </div>
+</header>
 
-    <div
-        id="mensagemSucesso"
-        class="mensagem sucesso"
-    ></div>
 
-    <div
-        id="mensagemErro"
-        class="mensagem erro"
-    ></div>
+<!-- =========================
+     MENU
+========================= -->
 
-    <div class="cards">
+<div class="menu">
 
-        <div class="card">
+<a href="admin.html">
+🏠 Dashboard
+</a>
 
-            <h3>
-                💸 Total de despesas
-            </h3>
+<a href="agenda-admin.html">
+📅 Agenda
+</a>
 
-            <div
-                class="valor"
-                id="totalDespesas"
-            >
-                R$ 0,00
-            </div>
+<a href="servicos.html">
+✂️ Serviços
+</a>
 
-        </div>
+<a href="clientes.html">
+👥 Clientes
+</a>
 
-        <div class="card">
+<a href="produtos.html">
+📦 Estoque
+</a>
 
-            <h3>
-                📅 Despesas este mês
-            </h3>
+<a href="vendas.html">
+🛍️ Vendas
+</a>
 
-            <div
-                class="valor"
-                id="despesasMes"
-            >
-                R$ 0,00
-            </div>
+<a href="pedidos.html">
+📋 Pedidos
+</a>
 
-        </div>
+<a href="financeiro.html">
+💰 Financeiro
+</a>
 
-        <div class="card">
+<a href="despesas.html">
+💸 Despesas
+</a>
 
-            <h3>
-                🧾 Quantidade de despesas
-            </h3>
+<a href="relatorios.html">
+📊 Relatórios
+</a>
 
-            <div
-                class="valor"
-                id="quantidadeDespesas"
-            >
-                0
-            </div>
+<a href="configuracoes.html">
+⚙️ Configurações
+</a>
 
-        </div>
-
-    </div>
-
-    <div class="formulario">
-
-        <h2>
-            ➕ Registrar nova despesa
-        </h2>
-
-        <div class="grid">
-
-            <div class="campo">
-
-                <label>
-                    Descrição
-                </label>
-
-                <input
-                    type="text"
-                    id="descricao"
-                    placeholder="Ex.: Conta de energia"
-                >
-
-            </div>
-
-            <div class="campo">
-
-                <label>
-                    Categoria
-                </label>
-
-                <select id="categoria">
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Aluguel">
-                        Aluguel
-                    </option>
-
-                    <option value="Energia">
-                        Energia
-                    </option>
-
-                    <option value="Água">
-                        Água
-                    </option>
-
-                    <option value="Internet">
-                        Internet
-                    </option>
-
-                    <option value="Estoque">
-                        Estoque
-                    </option>
-
-                    <option value="Materiais">
-                        Materiais
-                    </option>
-
-                    <option value="Equipamentos">
-                        Equipamentos
-                    </option>
-
-                    <option value="Marketing">
-                        Marketing
-                    </option>
-
-                    <option value="Transporte">
-                        Transporte
-                    </option>
-
-                    <option value="Outros">
-                        Outros
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="campo">
-
-                <label>
-                    Valor
-                </label>
-
-                <input
-                    type="number"
-                    id="valor"
-                    placeholder="0,00"
-                    step="0.01"
-                    min="0"
-                >
-
-            </div>
-
-            <div class="campo">
-
-                <label>
-                    Forma de pagamento
-                </label>
-
-                <select id="metodoPagamento">
-
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Pix">
-                        Pix
-                    </option>
-
-                    <option value="Dinheiro">
-                        Dinheiro
-                    </option>
-
-                    <option value="Cartão">
-                        Cartão
-                    </option>
-
-                    <option value="Transferência">
-                        Transferência
-                    </option>
-
-                    <option value="Outro">
-                        Outro
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="campo campo-completo">
-
-                <label>
-                    Observação
-                </label>
-
-                <textarea
-                    id="observacao"
-                    placeholder="Detalhes da despesa..."
-                ></textarea>
-
-            </div>
-
-            <div class="campo campo-completo">
-
-                <button
-                    class="btn"
-                    onclick="registrarDespesa()"
-                >
-                    💾 Registrar despesa
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="lista">
-
-        <h2>
-            📋 Histórico de despesas
-        </h2>
-
-        <div
-            id="carregando"
-            class="carregando"
-        >
-            Carregando despesas...
-        </div>
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Data
-                        </th>
-
-                        <th>
-                            Descrição
-                        </th>
-
-                        <th>
-                            Categoria
-                        </th>
-
-                        <th>
-                            Valor
-                        </th>
-
-                        <th>
-                            Pagamento
-                        </th>
-
-                        <th>
-                            Observação
-                        </th>
-
-                        <th>
-                            Ação
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="tabelaDespesas"></tbody>
-
-            </table>
-
-        </div>
-
-    </div>
+<a
+href="#"
+onclick="sair()"
+>
+🚪 Sair
+</a>
 
 </div>
+
+
+<div
+id="mensagem"
+class="mensagem"
+></div>
+
+
+<!-- =========================
+     CARDS
+========================= -->
+
+<div class="cards">
+
+
+<div class="card despesa">
+
+<h3>
+💸 Total de despesas
+</h3>
+
+<strong id="totalDespesas">
+R$ 0,00
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+📅 Despesas deste mês
+</h3>
+
+<strong id="despesasMes">
+R$ 0,00
+</strong>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🧾 Quantidade de despesas
+</h3>
+
+<strong id="quantidadeDespesas">
+0
+</strong>
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     NOVA DESPESA
+========================= -->
+
+<div class="painel">
+
+<h2>
+➕ Registrar nova despesa
+</h2>
+
+
+<div class="form-grid">
+
+
+<div class="campo">
+
+<label>
+Descrição
+</label>
+
+<input
+type="text"
+id="descricao"
+placeholder="Ex.: Conta de energia"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Categoria
+</label>
+
+<select id="categoria">
+
+<option value="">
+Selecione uma categoria
+</option>
+
+<option value="Aluguel">
+Aluguel
+</option>
+
+<option value="Energia">
+Energia
+</option>
+
+<option value="Água">
+Água
+</option>
+
+<option value="Internet">
+Internet
+</option>
+
+<option value="Estoque">
+Estoque
+</option>
+
+<option value="Materiais">
+Materiais
+</option>
+
+<option value="Equipamentos">
+Equipamentos
+</option>
+
+<option value="Marketing">
+Marketing
+</option>
+
+<option value="Transporte">
+Transporte
+</option>
+
+<option value="Outros">
+Outros
+</option>
+
+</select>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Valor
+</label>
+
+<input
+type="number"
+id="valor"
+placeholder="0,00"
+step="0.01"
+min="0"
+>
+
+</div>
+
+
+<div class="campo">
+
+<label>
+Forma de pagamento
+</label>
+
+<select id="metodoPagamento">
+
+<option value="">
+Selecione
+</option>
+
+<option value="Pix">
+Pix
+</option>
+
+<option value="Dinheiro">
+Dinheiro
+</option>
+
+<option value="Cartão">
+Cartão
+</option>
+
+<option value="Transferência">
+Transferência
+</option>
+
+<option value="Outro">
+Outro
+</option>
+
+</select>
+
+</div>
+
+
+<div class="campo campo-completo">
+
+<label>
+Observação
+</label>
+
+<textarea
+id="observacao"
+placeholder="Detalhes da despesa..."
+></textarea>
+
+</div>
+
+
+<div class="campo campo-completo">
+
+<button
+class="btn btn-principal"
+onclick="registrarDespesa()"
+>
+💾 Registrar despesa
+</button>
+
+</div>
+
+
+</div>
+
+
+<div class="aviso">
+
+💡 Registre todas as saídas da barbearia para que o Financeiro e os Relatórios mostrem o lucro real.
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     HISTÓRICO
+========================= -->
+
+<div class="painel">
+
+<h2>
+📋 Histórico de despesas
+</h2>
+
+
+<div class="tabela">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+Data
+</th>
+
+<th>
+Descrição
+</th>
+
+<th>
+Categoria
+</th>
+
+<th>
+Valor
+</th>
+
+<th>
+Pagamento
+</th>
+
+<th>
+Observação
+</th>
+
+<th>
+Ação
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="tabelaDespesas">
+
+<tr>
+
+<td
+colspan="7"
+class="carregando"
+>
+
+Carregando despesas...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
 
 <div class="rodape">
 
-    Gold Style Barbearia
-    — BARBEARIA DESDE 2022
+Gold Style Barbearia
+<br>
+BARBEARIA DESDE 2022
 
 </div>
 
+
+</div>
+
+
 <script>
+
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -599,79 +728,143 @@ window.supabase.createClient(
     SUPABASE_KEY
 );
 
-function dinheiro(valor) {
 
-    return Number(valor || 0).toLocaleString(
+
+function dinheiro(valor){
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
         "pt-BR",
         {
-            style: "currency",
-            currency: "BRL"
+            style:"currency",
+            currency:"BRL"
         }
     );
 
 }
 
-function dataBR(data) {
 
-    if (!data)
-        return "-";
 
-    return new Date(data).toLocaleDateString(
+function dataBR(data){
+
+    if(!data){
+
+        return "---";
+
+    }
+
+
+    const d =
+        new Date(data);
+
+
+    if(isNaN(d.getTime())){
+
+        return "---";
+
+    }
+
+
+    return d.toLocaleDateString(
         "pt-BR"
     );
 
 }
 
-function mostrarSucesso(mensagem) {
+
+
+function mostrarMensagem(
+    texto,
+    tipo
+){
 
     const elemento =
         document.getElementById(
-            "mensagemSucesso"
+            "mensagem"
         );
 
-    elemento.innerText = mensagem;
 
-    elemento.style.display = "block";
+    elemento.className =
+        "mensagem " + tipo;
 
-    document.getElementById(
-        "mensagemErro"
-    ).style.display = "none";
 
-    setTimeout(() => {
+    elemento.innerHTML =
+        texto;
 
-        elemento.style.display = "none";
 
-    }, 4000);
+    elemento.style.display =
+        "block";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
-function mostrarErro(mensagem) {
 
-    const elemento =
-        document.getElementById(
-            "mensagemErro"
-        );
 
-    elemento.innerText = mensagem;
-
-    elemento.style.display = "block";
+function esconderMensagem(){
 
     document.getElementById(
-        "mensagemSucesso"
-    ).style.display = "none";
+        "mensagem"
+    ).style.display =
+        "none";
 
 }
 
-async function verificarAdmin() {
+
+
+function escaparHTML(valor){
+
+    return String(
+        valor || ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+async function verificarAdmin(){
 
     const {
-        data: {
+        data:{
             session
         }
     } =
-        await supabaseClient.auth.getSession();
+    await supabaseClient
+    .auth
+    .getSession();
 
-    if (!session) {
+
+    if(!session){
 
         window.location.href =
             "login.html";
@@ -680,101 +873,140 @@ async function verificarAdmin() {
 
     }
 
+
     const {
-        data,
+        data:admin,
         error
     } =
-        await supabaseClient
-            .from("administradores")
-            .select("id,nome,ativo")
-            .eq(
-                "auth_user_id",
-                session.user.id
-            )
-            .eq(
-                "ativo",
-                true
-            )
-            .maybeSingle();
+    await supabaseClient
 
-    if (error || !data) {
+    .from("administradores")
+
+    .select("id,nome,ativo")
+
+    .eq(
+        "auth_user_id",
+        session.user.id
+    )
+
+    .eq(
+        "ativo",
+        true
+    )
+
+    .maybeSingle();
+
+
+    if(error || !admin){
 
         alert(
             "Acesso permitido somente para administradores."
         );
 
+
         window.location.href =
             "cliente.html";
+
 
         return false;
 
     }
 
+
     return true;
 
 }
 
-async function carregarDespesas() {
 
-    document.getElementById(
-        "carregando"
-    ).style.display = "block";
+
+async function carregarDespesas(){
+
+    const tabela =
+        document.getElementById(
+            "tabelaDespesas"
+        );
+
+
+    tabela.innerHTML = `
+
+        <tr>
+
+            <td
+            colspan="7"
+            class="carregando"
+            >
+
+            Carregando despesas...
+
+            </td>
+
+        </tr>
+
+    `;
+
 
     const {
         data,
         error
     } =
-        await supabaseClient
-            .from("despesas")
-            .select("*")
-            .order(
-                "criado_em",
-                {
-                    ascending: false
-                }
-            );
+    await supabaseClient
 
-    if (error) {
+    .from("despesas")
+
+    .select("*")
+
+    .order(
+        "criado_em",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
 
         console.error(error);
 
-        mostrarErro(
+
+        mostrarMensagem(
             "Erro ao carregar despesas: " +
-            error.message
+            error.message,
+            "erro"
         );
 
-        document.getElementById(
-            "carregando"
-        ).style.display = "none";
 
         return;
 
     }
 
+
     const despesas =
         data || [];
+
 
     atualizarCards(
         despesas
     );
 
+
     montarTabela(
         despesas
     );
 
-    document.getElementById(
-        "carregando"
-    ).style.display = "none";
-
 }
+
+
 
 function atualizarCards(
     despesas
-) {
+){
 
     const total =
         despesas.reduce(
-            (soma, despesa) =>
+            (
+                soma,
+                despesa
+            ) =>
                 soma +
                 Number(
                     despesa.valor || 0
@@ -782,166 +1014,227 @@ function atualizarCards(
             0
         );
 
+
     const agora =
         new Date();
+
 
     const mesAtual =
         agora.getMonth();
 
+
     const anoAtual =
         agora.getFullYear();
 
+
     const totalMes =
         despesas
-            .filter(despesa => {
+
+        .filter(
+            despesa => {
 
                 const data =
                     new Date(
                         despesa.criado_em
                     );
 
+
                 return (
+
                     data.getMonth() ===
-                    mesAtual &&
+                    mesAtual
+
+                    &&
+
                     data.getFullYear() ===
                     anoAtual
+
                 );
 
-            })
-            .reduce(
-                (soma, despesa) =>
-                    soma +
-                    Number(
-                        despesa.valor || 0
-                    ),
-                0
-            );
+            }
+        )
+
+        .reduce(
+            (
+                soma,
+                despesa
+            ) =>
+                soma +
+                Number(
+                    despesa.valor || 0
+                ),
+            0
+        );
+
 
     document.getElementById(
         "totalDespesas"
-    ).innerText =
+    ).textContent =
         dinheiro(total);
+
 
     document.getElementById(
         "despesasMes"
-    ).innerText =
+    ).textContent =
         dinheiro(totalMes);
+
 
     document.getElementById(
         "quantidadeDespesas"
-    ).innerText =
+    ).textContent =
         despesas.length;
 
 }
 
-function escaparHTML(valor) {
 
-    return String(
-        valor || ""
-    )
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
 
 function montarTabela(
     despesas
-) {
+){
 
     const tabela =
         document.getElementById(
             "tabelaDespesas"
         );
 
-    if (!despesas.length) {
+
+    if(!despesas.length){
 
         tabela.innerHTML = `
+
             <tr>
+
                 <td
-                    colspan="7"
-                    class="vazio"
+                colspan="7"
+                class="vazio"
                 >
-                    Nenhuma despesa cadastrada.
+
+                Nenhuma despesa cadastrada.
+
                 </td>
+
             </tr>
+
         `;
+
 
         return;
 
     }
 
-    tabela.innerHTML =
-        despesas.map(despesa => `
 
-            <tr>
+    tabela.innerHTML = "";
 
-                <td>
-                    ${dataBR(
-                        despesa.criado_em
-                    )}
-                </td>
 
-                <td>
-                    ${escaparHTML(
-                        despesa.descricao
-                    )}
-                </td>
+    despesas.forEach(
+        despesa => {
 
-                <td class="categoria">
-                    ${escaparHTML(
-                        despesa.categoria
-                    )}
-                </td>
+        const tr =
+            document.createElement(
+                "tr"
+            );
 
-                <td class="valor-despesa">
-                    ${dinheiro(
-                        despesa.valor
-                    )}
-                </td>
 
-                <td>
-                    ${escaparHTML(
-                        despesa.metodo_pagamento
-                    )}
-                </td>
+        tr.innerHTML = `
 
-                <td>
-                    ${escaparHTML(
+            <td>
+
+                ${dataBR(
+                    despesa.criado_em
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escaparHTML(
+                    despesa.descricao
+                )}
+
+            </td>
+
+
+            <td class="categoria">
+
+                ${escaparHTML(
+                    despesa.categoria
+                )}
+
+            </td>
+
+
+            <td class="valor-despesa">
+
+                ${dinheiro(
+                    despesa.valor
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escaparHTML(
+                    despesa.metodo_pagamento
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${
+                    escaparHTML(
                         despesa.observacao
-                    ) || "-"}
-                </td>
+                    ) || "---"
+                }
 
-                <td>
+            </td>
 
-                    <button
-                        class="btn danger"
-                        onclick="excluirDespesa('${despesa.id}')"
-                    >
-                        🗑️ Excluir
-                    </button>
 
-                </td>
+            <td>
 
-            </tr>
+                <button
+                class="btn btn-excluir"
+                onclick="excluirDespesa('${despesa.id}')"
+                >
 
-        `).join("");
+                🗑️ Excluir
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        tabela.appendChild(
+            tr
+        );
+
+    });
 
 }
 
-async function registrarDespesa() {
+
+
+async function registrarDespesa(){
+
+    esconderMensagem();
+
 
     const descricao =
         document.getElementById(
             "descricao"
         ).value.trim();
 
+
     const categoria =
         document.getElementById(
             "categoria"
         ).value;
+
 
     const valor =
         Number(
@@ -950,178 +1243,249 @@ async function registrarDespesa() {
             ).value
         );
 
+
     const metodoPagamento =
         document.getElementById(
             "metodoPagamento"
         ).value;
+
 
     const observacao =
         document.getElementById(
             "observacao"
         ).value.trim();
 
-    if (!descricao) {
 
-        mostrarErro(
-            "Digite a descrição da despesa."
+    if(!descricao){
+
+        mostrarMensagem(
+            "Digite a descrição da despesa.",
+            "erro"
         );
 
         return;
 
     }
 
-    if (!categoria) {
 
-        mostrarErro(
-            "Selecione uma categoria."
+    if(!categoria){
+
+        mostrarMensagem(
+            "Selecione uma categoria.",
+            "erro"
         );
 
         return;
 
     }
 
-    if (!valor || valor <= 0) {
 
-        mostrarErro(
-            "Digite um valor válido."
+    if(
+        !valor ||
+        valor <= 0
+    ){
+
+        mostrarMensagem(
+            "Digite um valor válido.",
+            "erro"
         );
 
         return;
 
     }
 
-    if (!metodoPagamento) {
 
-        mostrarErro(
-            "Selecione a forma de pagamento."
+    if(!metodoPagamento){
+
+        mostrarMensagem(
+            "Selecione a forma de pagamento.",
+            "erro"
         );
 
         return;
 
     }
+
 
     const {
         error
     } =
-        await supabaseClient
-            .from("despesas")
-            .insert({
+    await supabaseClient
 
-                descricao:
-                    descricao,
+    .from("despesas")
 
-                categoria:
-                    categoria,
+    .insert({
 
-                valor:
-                    valor,
+        descricao:
+            descricao,
 
-                metodo_pagamento:
-                    metodoPagamento,
+        categoria:
+            categoria,
 
-                observacao:
-                    observacao || null
+        valor:
+            valor,
 
-            });
+        metodo_pagamento:
+            metodoPagamento,
 
-    if (error) {
+        observacao:
+            observacao || null
+
+    });
+
+
+    if(error){
 
         console.error(error);
 
-        mostrarErro(
+
+        mostrarMensagem(
             "Erro ao registrar despesa: " +
-            error.message
+            error.message,
+            "erro"
         );
 
         return;
 
     }
+
 
     document.getElementById(
         "descricao"
     ).value = "";
 
+
     document.getElementById(
         "categoria"
     ).value = "";
+
 
     document.getElementById(
         "valor"
     ).value = "";
 
+
     document.getElementById(
         "metodoPagamento"
     ).value = "";
+
 
     document.getElementById(
         "observacao"
     ).value = "";
 
-    mostrarSucesso(
-        "Despesa registrada com sucesso!"
+
+    mostrarMensagem(
+        "Despesa registrada com sucesso! 💸",
+        "sucesso"
     );
+
 
     await carregarDespesas();
 
 }
 
-async function excluirDespesa(id) {
+
+
+async function excluirDespesa(
+    id
+){
 
     const confirmar =
         confirm(
             "Tem certeza que deseja excluir esta despesa?"
         );
 
-    if (!confirmar)
+
+    if(!confirmar){
+
         return;
+
+    }
+
 
     const {
         error
     } =
-        await supabaseClient
-            .from("despesas")
-            .delete()
-            .eq(
-                "id",
-                id
-            );
+    await supabaseClient
 
-    if (error) {
+    .from("despesas")
+
+    .delete()
+
+    .eq(
+        "id",
+        id
+    );
+
+
+    if(error){
 
         console.error(error);
 
-        mostrarErro(
+
+        mostrarMensagem(
             "Erro ao excluir despesa: " +
-            error.message
+            error.message,
+            "erro"
         );
 
         return;
 
     }
 
-    mostrarSucesso(
-        "Despesa excluída com sucesso!"
+
+    mostrarMensagem(
+        "Despesa excluída com sucesso!",
+        "sucesso"
     );
 
+
     await carregarDespesas();
 
 }
 
-async function iniciar() {
 
-    const permitido =
+
+async function sair(){
+
+    await supabaseClient
+    .auth
+    .signOut();
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+async function iniciar(){
+
+    const autorizado =
         await verificarAdmin();
 
-    if (!permitido)
+
+    if(!autorizado){
+
         return;
+
+    }
+
 
     await carregarDespesas();
 
 }
+
+
 
 iniciar();
 
+
 </script>
 
+
 </body>
-  </html>
+
+    </html>
