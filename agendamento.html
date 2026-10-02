@@ -1,12 +1,9 @@
 <!DOCTYPE html><html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agendamento - Gold Style</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -65,8 +62,7 @@ label{
     margin:18px 0 7px;
 }
 
-input,
-select{
+input,select{
     width:100%;
     padding:14px;
     border-radius:8px;
@@ -76,8 +72,7 @@ select{
     font-size:16px;
 }
 
-input:focus,
-select:focus{
+input:focus,select:focus{
     outline:none;
     border-color:#ffd700;
 }
@@ -97,6 +92,7 @@ button{
 
 button:disabled{
     opacity:.5;
+    cursor:not-allowed;
 }
 
 .voltar{
@@ -165,12 +161,7 @@ button:disabled{
 
 .pagamento-ton button{
     margin-top:12px;
-    background:linear-gradient(
-        135deg,
-        #fff2a6,
-        #ffd700,
-        #d4af37
-    );
+    background:linear-gradient(135deg,#fff2a6,#ffd700,#d4af37);
 }
 
 .pagamento-ton .secundario{
@@ -180,7 +171,6 @@ button:disabled{
 }
 
 .pagamento-pix{
-    display:none;
     margin-top:20px;
     padding:20px;
     border-radius:14px;
@@ -257,125 +247,64 @@ button:disabled{
     background:#333;
     flex:1;
 }
-
-</style></head><body><header><div class="logo">
-GOLD STYLE
-</div><div class="slogan">
-BARBEARIA DESDE 2022
-</div></header><div class="container"><div class="card"><h1>Agende seu horário</h1><div class="descricao">
+</style></head><body><header>
+    <div class="logo">GOLD STYLE</div>
+    <div class="slogan">BARBEARIA DESDE 2022</div>
+</header><div class="container"><div class="card"><h1>Agende seu horário</h1><div class="descricao">
 Escolha o serviço, a data e o horário desejado.
-</div><label>
-Nome completo
-</label><input
-type="text"
-id="nome"
-readonly
+</div><label>Nome completo</label>
+<input type="text" id="nome" readonly>
 
-«»
+<label>WhatsApp</label>
+<input type="text" id="telefone" readonly>
 
-<label>
-WhatsApp
-</label><input
-type="text"
-id="telefone"
-readonly
+<label>Escolha o serviço</label>
+<select id="servico">
+<option value="">Selecione um serviço</option>
+</select>
 
-«»
+<label>Escolha a data</label>
+<input type="date" id="data">
 
-<label>
-Escolha o serviço
-</label><select id="servico"><option value="">
-Selecione um serviço
-</option></select><label>
-Escolha a data
-</label><input
-type="date"
-id="data"
+<label>Escolha o horário</label>
+<select id="horario">
+<option value="">Selecione um horário</option>
+</select>
 
-«»
-
-<label>
-Escolha o horário
-</label><select id="horario"><option value="">
-Selecione um horário
-</option></select><div class="info" id="infoHorario">
+<div class="info" id="infoHorario">
 Escolha uma data para visualizar os horários disponíveis.
-</div><button
-id="btnAgendar"
-onclick="criarAgendamento()"
-disabled
-
-«»
-
+</div><button id="btnAgendar" onclick="criarAgendamento()" disabled>
 CONFIRMAR AGENDAMENTO
-
-</button><div
-id="mensagem"
-class="mensagem">
-</div><!-- PAGAMENTOS --><div
-class="pagamento-ton"
-id="pagamentoTon"
-><h2>
-💳 PAGAMENTO TON
-</h2><p>
-Seu horário foi reservado.
+</button><div id="mensagem" class="mensagem"></div><!-- PAGAMENTO --><div class="pagamento-ton" id="pagamentoTon"><h2>💳 PAGAMENTO TON</h2><p>
+Seu horário foi reservado.<br>
 Escolha uma das formas de pagamento abaixo.
-</p><div
-class="valor-ton"
-id="valorTon">
-</div><div class="opcoes-pagamento"><h3>
-Escolha como deseja pagar
-</h3><p>
+</p><div class="valor-ton" id="valorTon"></div><div class="opcoes-pagamento"><h3>Escolha como deseja pagar</h3><p>
 Você pode pagar pela Ton ou por Pix.
-</p><button
-id="btnPagarTon"
-onclick="pagarComTon()"
-
-«»
-
+</p><button id="btnPagarTon" onclick="pagarComTon()">
 PAGAR AGORA COM TON
-
 </button><div class="separador">
 OU PAGUE COM PIX
-</div><div class="pagamento-pix"
-id="pagamentoPix"
-style="display:block"
-><h2>
-🔑 PAGAMENTO VIA PIX
-</h2><div class="pix-descricao">Faça o pagamento usando a chave Pix
-aleatória da Gold Style.
-
-</div><div
-class="pix-chave"
-id="chavePix"
->5bed6193-1b51-46d2-a03e-6f3993acd719
-
+</div><div class="pagamento-pix" id="pagamentoPix"><h2>🔑 PAGAMENTO VIA PIX</h2><div class="pix-descricao">
+Faça o pagamento usando a chave Pix aleatória da Gold Style.
+</div><div class="pix-chave" id="chavePix">
+5bed6193-1b51-46d2-a03e-6f3993acd719
 </div><button
 id="btnCopiarPix"
 class="btn-pix"
-onclick="copiarPix()"
-
-«»
-
+onclick="copiarPix()">
 📋 COPIAR CHAVE PIX
+</button>
 
-</button></div><button
+</div><button
 class="secundario"
-onclick="window.location.href='cliente.html'"
-
-«»
-
+onclick="window.location.href='cliente.html'">
 PAGAR DEPOIS / IR PARA MINHA CONTA
+</button>
 
-</button></div></div><a
-href="cliente.html"
-class="voltar"
-
-«»
-
+</div></div><a href="cliente.html" class="voltar">
 ← Voltar para minha conta
-
-</a></div></div><script>
+</a></div>
+</div><script>
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
@@ -385,13 +314,13 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
 
 /* =========================
-   CHAVE PIX DA BARBEARIA
+   CHAVE PIX
 ========================= */
 
 const CHAVE_PIX =
@@ -399,7 +328,7 @@ const CHAVE_PIX =
 
 
 /* =========================
-   LINKS TON PERMANENTES
+   LINKS TON
 ========================= */
 
 const LINKS_TON = {
@@ -433,7 +362,6 @@ const LINKS_TON = {
 ========================= */
 
 const horarios = [
-
 "08:00",
 "09:00",
 "10:00",
@@ -445,99 +373,69 @@ const horarios = [
 "16:00",
 "17:00",
 "18:00"
-
 ];
 
-
 const horariosDomingo = [
-
 "08:00",
 "09:00",
 "10:00",
 "11:00"
-
 ];
 
 
 let usuarioAtual = null;
-
 let clienteAtual = null;
-
 let agendamentoCriadoId = null;
-
 let linkTonAtual = null;
-
 let valorTonAtual = 0;
 
 
 /* =========================
-   MENSAGEM
+   MENSAGENS
 ========================= */
 
-function mostrarMensagem(
-texto,
-tipo
-){
+function mostrarMensagem(texto,tipo){
 
 const elemento =
-document.getElementById(
-"mensagem"
-);
+document.getElementById("mensagem");
 
-elemento.textContent =
-texto;
+elemento.textContent = texto;
 
 elemento.className =
-"mensagem "+tipo;
+"mensagem " + tipo;
 
-elemento.style.display =
-"block";
-
+elemento.style.display = "block";
 }
 
 
 function limparMensagem(){
 
 const elemento =
-document.getElementById(
-"mensagem"
-);
+document.getElementById("mensagem");
 
-elemento.style.display =
-"none";
-
+elemento.style.display = "none";
 }
 
 
 /* =========================
-   LOGIN
+   VERIFICAR LOGIN
 ========================= */
 
 async function verificarUsuario(){
 
 const {
-data:{
-session
-}
+data:{session}
 } =
-await supabaseClient
-.auth
-.getSession();
-
+await supabaseClient.auth.getSession();
 
 if(!session){
 
-window.location.href =
-"login.html";
+window.location.href = "login.html";
 
 return false;
-
 }
 
-
-usuarioAtual =
-session.user;
-
+usuarioAtual = session.user;
 
 const {
 data:cliente,
@@ -545,15 +443,9 @@ error
 } =
 await supabaseClient
 .from("clientes")
-.select(
-"id,Nome,Telefone,\"E-mail\""
-)
-.eq(
-"auth_user_id",
-session.user.id
-)
+.select('id,Nome,Telefone,"E-mail"')
+.eq("auth_user_id",session.user.id)
 .maybeSingle();
-
 
 if(error){
 
@@ -565,9 +457,7 @@ mostrarMensagem(
 );
 
 return false;
-
 }
-
 
 if(!cliente){
 
@@ -577,42 +467,28 @@ mostrarMensagem(
 );
 
 return false;
-
 }
 
+clienteAtual = cliente;
 
-clienteAtual =
-cliente;
-
-
-document.getElementById(
-"nome"
-).value =
+document.getElementById("nome").value =
 cliente.Nome || "";
 
-
-document.getElementById(
-"telefone"
-).value =
+document.getElementById("telefone").value =
 cliente.Telefone || "";
 
-
 return true;
-
 }
 
 
 /* =========================
-   SERVIÇOS
+   CARREGAR SERVIÇOS
 ========================= */
 
 async function carregarServicos(){
 
 const select =
-document.getElementById(
-"servico"
-);
-
+document.getElementById("servico");
 
 const {
 data,
@@ -622,11 +498,7 @@ await supabaseClient
 .from("Serviços")
 .select("*")
 .eq("Ativo",true)
-.order(
-"created_at",
-{ascending:true}
-);
-
+.order("created_at",{ascending:true});
 
 if(error){
 
@@ -638,26 +510,20 @@ mostrarMensagem(
 );
 
 return;
-
 }
 
-
-data.forEach(
-servico=>{
+data.forEach(servico=>{
 
 const option =
-document.createElement(
-"option"
-);
+document.createElement("option");
 
-option.value =
-servico.id;
+option.value = servico.id;
 
 option.textContent =
 `${servico.created_at} - R$ ${
-Number(
-servico.Valor || 0
-).toFixed(2).replace(".",",")
+Number(servico.Valor || 0)
+.toFixed(2)
+.replace(".",",")
 }`;
 
 option.dataset.nome =
@@ -666,52 +532,33 @@ servico.created_at;
 option.dataset.valor =
 servico.Valor;
 
-select.appendChild(
-option
-);
+select.appendChild(option);
 
-}
-);
+});
 
 }
 
 
 /* =========================
-   HORÁRIOS
+   CARREGAR HORÁRIOS
 ========================= */
 
 async function carregarHorarios(){
 
 const data =
-document.getElementById(
-"data"
-).value;
-
+document.getElementById("data").value;
 
 const horarioSelect =
-document.getElementById(
-"horario"
-);
-
+document.getElementById("horario");
 
 const info =
-document.getElementById(
-"infoHorario"
-);
+document.getElementById("infoHorario");
 
+horarioSelect.innerHTML =
+'<option value="">Selecione um horário</option>';
 
-horarioSelect.innerHTML = `
-
-<option value="">
-Selecione um horário
-</option>
-
-`;
-
-document.getElementById(
-"btnAgendar"
-).disabled = true;
-
+document.getElementById("btnAgendar").disabled =
+true;
 
 if(!data){
 
@@ -719,37 +566,21 @@ info.textContent =
 "Escolha uma data para visualizar os horários disponíveis.";
 
 return;
-
 }
 
-
 const dataEscolhida =
-new Date(
-data+"T00:00:00"
-);
-
+new Date(data + "T00:00:00");
 
 const diaSemana =
 dataEscolhida.getDay();
 
-
-let horariosDoDia;
-
-
-if(diaSemana===0){
-
-horariosDoDia =
-horariosDomingo;
-
-}else{
-
-horariosDoDia =
-horarios;
-
-}
+const horariosDoDia =
+diaSemana === 0
+? horariosDomingo
+: horarios;
 
 
-/* BUSCAR OCUPADOS */
+/* VERIFICAR HORÁRIOS OCUPADOS */
 
 const {
 data:agendamentos,
@@ -758,11 +589,7 @@ error
 await supabaseClient
 .from("agendamentos")
 .select("Horário,Status")
-.eq(
-"Data",
-data
-);
-
+.eq("Data",data);
 
 if(error){
 
@@ -777,87 +604,54 @@ mostrarMensagem(
 );
 
 return;
-
 }
-
 
 const horariosOcupados =
 (agendamentos || [])
-.filter(
-agendamento =>
-agendamento.Status !==
-"Cancelado"
+.filter(agendamento =>
+agendamento.Status !== "Cancelado"
 )
-.map(
-agendamento =>
-String(
-agendamento.Horário
-).substring(0,5)
+.map(agendamento =>
+String(agendamento.Horário).substring(0,5)
 );
 
+let quantidadeDisponivel = 0;
 
-let quantidadeDisponivel =
-0;
+horariosDoDia.forEach(horario=>{
 
-
-horariosDoDia.forEach(
-horario=>{
-
-if(
-horariosOcupados.includes(
-horario
-)
-){
-
+if(horariosOcupados.includes(horario)){
 return;
-
 }
 
-
 const option =
-document.createElement(
-"option"
-);
+document.createElement("option");
 
-option.value =
-horario;
+option.value = horario;
 
 option.textContent =
-horario+" - Disponível";
+horario + " - Disponível";
 
-horarioSelect.appendChild(
-option
-);
+horarioSelect.appendChild(option);
 
 quantidadeDisponivel++;
 
-}
-);
+});
 
-
-if(
-quantidadeDisponivel===0
-){
+if(quantidadeDisponivel === 0){
 
 info.textContent =
 "Não há horários disponíveis nesta data.";
 
 return;
-
 }
 
-
 info.textContent =
-quantidadeDisponivel+
+quantidadeDisponivel +
 " horário(s) disponível(is).";
 
+horarioSelect.onchange = function(){
 
-horarioSelect.onchange =
-function(){
-
-document.getElementById(
-"btnAgendar"
-).disabled =
+document.getElementById("btnAgendar").disabled =
 !this.value;
 
 };
@@ -873,24 +667,14 @@ async function criarAgendamento(){
 
 limparMensagem();
 
-
 const servicoSelect =
-document.getElementById(
-"servico"
-);
-
+document.getElementById("servico");
 
 const data =
-document.getElementById(
-"data"
-).value;
-
+document.getElementById("data").value;
 
 const horario =
-document.getElementById(
-"horario"
-).value;
-
+document.getElementById("horario").value;
 
 if(
 !servicoSelect.value ||
@@ -904,34 +688,23 @@ mostrarMensagem(
 );
 
 return;
-
 }
-
 
 const option =
 servicoSelect.options[
 servicoSelect.selectedIndex
 ];
 
-
 const nomeServico =
 option.dataset.nome;
 
-
 const valor =
-Number(
-option.dataset.valor || 0
-);
-
+Number(option.dataset.valor || 0);
 
 const botao =
-document.getElementById(
-"btnAgendar"
-);
+document.getElementById("btnAgendar");
 
-
-botao.disabled =
-true;
+botao.disabled = true;
 
 botao.textContent =
 "VERIFICANDO...";
@@ -946,16 +719,9 @@ error:erroBusca
 await supabaseClient
 .from("agendamentos")
 .select("id,Status")
-.eq(
-"Data",
-data
-)
-.eq(
-"Horário",
-horario
-)
+.eq("Data",data)
+.eq("Horário",horario)
 .maybeSingle();
-
 
 if(erroBusca){
 
@@ -966,21 +732,17 @@ mostrarMensagem(
 "erro"
 );
 
-botao.disabled =
-false;
+botao.disabled = false;
 
 botao.textContent =
 "CONFIRMAR AGENDAMENTO";
 
 return;
-
 }
-
 
 if(
 ocupado &&
-ocupado.Status !==
-"Cancelado"
+ocupado.Status !== "Cancelado"
 ){
 
 mostrarMensagem(
@@ -990,22 +752,18 @@ mostrarMensagem(
 
 await carregarHorarios();
 
-botao.disabled =
-true;
+botao.disabled = true;
 
 botao.textContent =
 "CONFIRMAR AGENDAMENTO";
 
 return;
-
 }
 
 
-/* SALVAR */
+/* SALVAR AGENDAMENTO */
 
-botao.textContent =
-"SALVANDO...";
-
+botao.textContent = "SALVANDO...";
 
 const {
 data:agendamentoCriado,
@@ -1046,25 +804,22 @@ usuarioAtual.id
 .select("id")
 .single();
 
-
 if(error){
 
 console.error(error);
 
 mostrarMensagem(
-"Não foi possível criar o agendamento: "+
+"Não foi possível criar o agendamento: " +
 error.message,
 "erro"
 );
 
-botao.disabled =
-false;
+botao.disabled = false;
 
 botao.textContent =
 "CONFIRMAR AGENDAMENTO";
 
 return;
-
 }
 
 
@@ -1075,48 +830,31 @@ mostrarMensagem(
 "sucesso"
 );
 
-
 botao.textContent =
 "AGENDAMENTO REALIZADO";
 
-
 agendamentoCriadoId =
-agendamentoCriado?.id || null;
-
+agendamentoCriado.id;
 
 valorTonAtual =
 valor;
 
-
 linkTonAtual =
-LINKS_TON[
-Number(valor)
-];
+LINKS_TON[Number(valor)];
 
 
 const boxTon =
-document.getElementById(
-"pagamentoTon"
-);
-
+document.getElementById("pagamentoTon");
 
 const valorTon =
-document.getElementById(
-"valorTon"
-);
-
+document.getElementById("valorTon");
 
 const btnTon =
-document.getElementById(
-"btnPagarTon"
-);
-
+document.getElementById("btnPagarTon");
 
 valorTon.textContent =
-"R$ "+
-valor.toFixed(2)
-.replace(".",",");
-
+"R$ " +
+valor.toFixed(2).replace(".",",");
 
 boxTon.style.display =
 "block";
@@ -1124,28 +862,19 @@ boxTon.style.display =
 
 if(linkTonAtual){
 
-btnTon.disabled =
-false;
+btnTon.disabled = false;
 
 btnTon.textContent =
 "PAGAR AGORA COM TON";
 
-
-/*
-  Não abrimos automaticamente.
-  O cliente escolhe Ton ou Pix.
-*/
-
 }else{
 
-btnTon.disabled =
-true;
+btnTon.disabled = true;
 
 btnTon.textContent =
 "LINK TON NÃO CADASTRADO";
 
 }
-
 
 await carregarHorarios();
 
@@ -1153,7 +882,7 @@ await carregarHorarios();
 
 
 /* =========================
-   PAGAR COM TON
+   PAGAMENTO TON
 ========================= */
 
 async function pagarComTon(){
@@ -1166,7 +895,6 @@ mostrarMensagem(
 );
 
 return;
-
 }
 
 
@@ -1198,11 +926,10 @@ status:
 "Pendente",
 
 referencia:
-"Link Ton permanente - "+
+"Link Ton permanente - " +
 valorTonAtual.toFixed(2)
 
 });
-
 
 if(error){
 
@@ -1232,10 +959,7 @@ linkTonAtual,
 async function copiarPix(){
 
 const botao =
-document.getElementById(
-"btnCopiarPix"
-);
-
+document.getElementById("btnCopiarPix");
 
 try{
 
@@ -1243,18 +967,14 @@ await navigator.clipboard.writeText(
 CHAVE_PIX
 );
 
-
 botao.textContent =
 "✅ CHAVE PIX COPIADA!";
-
 
 botao.classList.add(
 "btn-pix-copiado"
 );
 
-
-setTimeout(
-function(){
+setTimeout(()=>{
 
 botao.textContent =
 "📋 COPIAR CHAVE PIX";
@@ -1263,22 +983,16 @@ botao.classList.remove(
 "btn-pix-copiado"
 );
 
-},
-2500
-);
-
+},2500);
 
 mostrarMensagem(
 "Chave Pix copiada. Agora é só colar no aplicativo do seu banco.",
 "sucesso"
 );
 
-
-}
-catch(error){
+}catch(error){
 
 console.error(error);
-
 
 mostrarMensagem(
 "Não foi possível copiar automaticamente. Segure a chave Pix e copie manualmente.",
@@ -1291,12 +1005,11 @@ mostrarMensagem(
 
 
 /* =========================
-   DATA
+   ALTERAÇÃO DA DATA
 ========================= */
 
-document.getElementById(
-"data"
-).addEventListener(
+document.getElementById("data")
+.addEventListener(
 "change",
 async function(){
 
@@ -1317,13 +1030,9 @@ await carregarHorarios();
 const autorizado =
 await verificarUsuario();
 
-
 if(!autorizado){
-
 return;
-
 }
-
 
 await carregarServicos();
 
@@ -1333,28 +1042,23 @@ await carregarServicos();
 const hoje =
 new Date();
 
-
 const ano =
 hoje.getFullYear();
-
 
 const mes =
 String(
 hoje.getMonth()+1
 ).padStart(2,"0");
 
-
 const dia =
 String(
 hoje.getDate()
 ).padStart(2,"0");
 
-
-document.getElementById(
-"data"
-).min =
+document.getElementById("data").min =
 `${ano}-${mes}-${dia}`;
 
 })();
 
-</script></body></html>
+</script></body>
+    </html>
