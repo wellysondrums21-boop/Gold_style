@@ -831,7 +831,7 @@ footer strong{
     <select id="metodoPagamento">
 
       <option value="Pix">
-        PIX
+        PIX / TON
       </option>
 
       <option value="Cartão">
@@ -841,15 +841,13 @@ footer strong{
     </select>
 
 
-    <div class="aviso-pagamento">
+    <div
+      id="avisoPagamento"
+      class="aviso-pagamento"
+    >
 
       ⚡ Seu pedido será registrado como
       <strong>Pendente</strong>.
-
-      <br><br>
-
-      O pagamento online real ainda será conectado
-      posteriormente.
 
       <br><br>
 
@@ -925,6 +923,53 @@ footer strong{
     </p>
 
 
+    <!-- PAGAMENTO TON -->
+
+    <div
+      id="pagamentoTon"
+      style="
+        display:none;
+        margin-top:18px;
+      "
+    >
+
+      <div
+        style="
+          padding:15px;
+          border-radius:12px;
+          background:#171304;
+          border:1px solid rgba(255,215,0,.35);
+          color:#ccc;
+          line-height:1.6;
+          margin-bottom:12px;
+        "
+      >
+
+        💳
+
+        <strong style="color:#ffd700">
+          PAGAMENTO TON DISPONÍVEL
+        </strong>
+
+        <br><br>
+
+        Encontramos um link Ton
+        para o valor exato do seu pedido.
+
+      </div>
+
+
+      <button
+        id="btnPagarTon"
+        class="btn-finalizar"
+        onclick="pagarPedidoComTon()"
+      >
+        PAGAR AGORA COM TON
+      </button>
+
+    </div>
+
+
     <br>
 
 
@@ -980,6 +1025,36 @@ window.supabase.createClient(
 );
 
 
+/* =========================
+   LINKS TON PERMANENTES
+========================= */
+
+const LINKS_TON = {
+
+  10:
+  "https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
+
+  25:
+  "https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
+
+  30:
+  "https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
+
+  50:
+  "https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
+
+  70:
+  "https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
+
+  80:
+  "https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
+
+  120:
+  "https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
+
+};
+
+
 let produtosDisponiveis = [];
 
 
@@ -989,6 +1064,11 @@ JSON.parse(
     "goldStyleCarrinho"
   ) || "[]"
 );
+
+
+let pedidoAtualId = null;
+
+let pedidoAtualTotal = 0;
 
 
 /* =========================
@@ -1234,7 +1314,8 @@ function limparCarrinho(){
 
   document.getElementById(
     "checkout"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
 }
 
@@ -1463,6 +1544,191 @@ function mostrarErroPedido(
 
   erro.style.display =
     "block";
+
+}
+
+
+/* =========================
+   PREPARAR PAGAMENTO TON
+========================= */
+
+function prepararPagamentoTon(
+  total
+){
+
+  const area =
+    document.getElementById(
+      "pagamentoTon"
+    );
+
+
+  const aviso =
+    document.getElementById(
+      "avisoPagamento"
+    );
+
+
+  const valor =
+    Number(
+      total || 0
+    );
+
+
+  const link =
+    LINKS_TON[valor];
+
+
+  if(link){
+
+    area.style.display =
+      "block";
+
+
+    aviso.innerHTML =
+      `
+      ⚡ Seu pedido foi registrado como
+      <strong>Pendente</strong>.
+
+      <br><br>
+
+      💳 Existe um link Ton permanente
+      para o valor exato de
+      <strong style="color:#ffd700">
+        ${dinheiro(valor)}
+      </strong>.
+
+      <br><br>
+
+      Clique em
+      <strong style="color:#ffd700">
+        PAGAR AGORA COM TON
+      </strong>
+      para realizar o pagamento.
+
+      <br><br>
+
+      📦 O estoque não será alterado
+      até a confirmação do pedido.
+      `;
+
+  }else{
+
+    area.style.display =
+      "none";
+
+
+    aviso.innerHTML =
+      `
+      ⚡ Seu pedido foi registrado como
+      <strong>Pendente</strong>.
+
+      <br><br>
+
+      O total do pedido é
+      <strong style="color:#ffd700">
+        ${dinheiro(valor)}
+      </strong>.
+
+      <br><br>
+
+      ⚠️ Ainda não existe um link Ton
+      cadastrado para esse valor exato.
+
+      <br><br>
+
+      Não será aberto um link de valor diferente,
+      para evitar cobrança incorreta.
+
+      <br><br>
+
+      📦 O estoque não será alterado
+      nesta etapa.
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   PAGAR PEDIDO COM TON
+========================= */
+
+function pagarPedidoComTon(){
+
+  if(!pedidoAtualId){
+
+    alert(
+      "Não encontramos o pedido atual."
+    );
+
+    return;
+
+  }
+
+
+  const total =
+    Number(
+      pedidoAtualTotal || 0
+    );
+
+
+  const link =
+    LINKS_TON[total];
+
+
+  if(!link){
+
+    alert(
+      "Ainda não existe um link Ton cadastrado para este valor: " +
+      dinheiro(total)
+    );
+
+    return;
+
+  }
+
+
+  const botao =
+    document.getElementById(
+      "btnPagarTon"
+    );
+
+
+  if(botao){
+
+    botao.disabled =
+      true;
+
+    botao.textContent =
+      "ABRINDO TON...";
+
+  }
+
+
+  window.open(
+    link,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+
+  setTimeout(
+    function(){
+
+      if(botao){
+
+        botao.disabled =
+          false;
+
+        botao.textContent =
+          "PAGAR AGORA COM TON";
+
+      }
+
+    },
+    1500
+  );
 
 }
 
@@ -1722,6 +1988,14 @@ async function criarPedido(){
         .toUpperCase();
 
 
+    pedidoAtualId =
+      pedido.id;
+
+
+    pedidoAtualTotal =
+      total;
+
+
     carrinho = [];
 
     salvarCarrinho();
@@ -1749,6 +2023,11 @@ async function criarPedido(){
       "metodoPedido"
     ).textContent =
       metodo;
+
+
+    prepararPagamentoTon(
+      total
+    );
 
 
     resultado.style.display =
@@ -2005,4 +2284,4 @@ carregarProdutos();
 
 </body>
 
-    </html>
+  </html>
