@@ -144,6 +144,50 @@ button:disabled{
     text-align:center;
 }
 
+.pagamento-ton{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border-radius:14px;
+    background:linear-gradient(145deg,#181300,#0b0b0b);
+    border:1px solid #ffd700;
+    text-align:center;
+}
+
+.pagamento-ton h2{
+    color:#ffd700;
+    margin:0 0 10px;
+}
+
+.pagamento-ton p{
+    color:#bbb;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.valor-ton{
+    color:#ffd700;
+    font-size:24px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.pagamento-ton button{
+    margin-top:12px;
+    background:linear-gradient(
+        135deg,
+        #fff2a6,
+        #ffd700,
+        #d4af37
+    );
+}
+
+.pagamento-ton .secundario{
+    background:#151515;
+    color:#ffd700;
+    border:1px solid #ffd700;
+}
+
 </style>
 
 </head>
@@ -250,15 +294,59 @@ CONFIRMAR AGENDAMENTO
 
 <div
 id="mensagem"
-class="mensagem"
-></div>
+class="mensagem">
+</div>
+
+
+<!-- PAGAMENTO TON -->
+
+<div
+class="pagamento-ton"
+id="pagamentoTon"
+>
+
+<h2>
+💳 PAGAMENTO ONLINE
+</h2>
+
+<p>
+Seu horário foi reservado.
+Para confirmar o pagamento, clique no botão abaixo.
+</p>
+
+<div
+class="valor-ton"
+id="valorTon">
+</div>
+
+<button
+id="btnPagarTon"
+onclick="pagarComTon()"
+>
+
+PAGAR AGORA COM TON
+
+</button>
+
+<button
+class="secundario"
+onclick="window.location.href='cliente.html'"
+>
+
+PAGAR DEPOIS / IR PARA MINHA CONTA
+
+</button>
+
+</div>
 
 
 <a
 href="cliente.html"
 class="voltar"
 >
+
 ← Voltar para minha conta
+
 </a>
 
 </div>
@@ -281,7 +369,40 @@ SUPABASE_KEY
 );
 
 
-// HORÁRIOS DA BARBEARIA
+/* =========================
+   LINKS TON PERMANENTES
+========================= */
+
+const LINKS_TON = {
+
+10:
+"https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
+
+25:
+"https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
+
+30:
+"https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
+
+50:
+"https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
+
+70:
+"https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
+
+80:
+"https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
+
+120:
+"https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
+
+};
+
+
+/* =========================
+   HORÁRIOS
+========================= */
+
 const horarios = [
 
 "08:00",
@@ -299,7 +420,6 @@ const horarios = [
 ];
 
 
-// DOMINGO
 const horariosDomingo = [
 
 "08:00",
@@ -314,8 +434,17 @@ let usuarioAtual = null;
 
 let clienteAtual = null;
 
+let agendamentoCriadoId = null;
 
-// MOSTRAR MENSAGEM
+let linkTonAtual = null;
+
+let valorTonAtual = 0;
+
+
+/* =========================
+   MENSAGEM
+========================= */
+
 function mostrarMensagem(
 texto,
 tipo
@@ -338,7 +467,6 @@ elemento.style.display =
 }
 
 
-// LIMPAR MENSAGEM
 function limparMensagem(){
 
 const elemento =
@@ -352,7 +480,10 @@ elemento.style.display =
 }
 
 
-// VERIFICAR LOGIN
+/* =========================
+   LOGIN
+========================= */
+
 async function verificarUsuario(){
 
 const {
@@ -442,7 +573,10 @@ return true;
 }
 
 
-// CARREGAR SERVIÇOS
+/* =========================
+   SERVIÇOS
+========================= */
+
 async function carregarServicos(){
 
 const select =
@@ -491,9 +625,11 @@ option.value =
 servico.id;
 
 option.textContent =
-`${servico.created_at} - R$ ${Number(
+`${servico.created_at} - R$ ${
+Number(
 servico.Valor || 0
-).toFixed(2).replace(".",",")}`;
+).toFixed(2).replace(".",",")
+}`;
 
 option.dataset.nome =
 servico.created_at;
@@ -511,17 +647,10 @@ option
 }
 
 
-// FORMATAR DATA PARA BANCO
-function formatarDataBanco(
-data
-){
+/* =========================
+   HORÁRIOS
+========================= */
 
-return data;
-
-}
-
-
-// CARREGAR HORÁRIOS LIVRES
 async function carregarHorarios(){
 
 const data =
@@ -550,7 +679,6 @@ Selecione um horário
 
 `;
 
-
 document.getElementById(
 "btnAgendar"
 ).disabled = true;
@@ -576,12 +704,6 @@ const diaSemana =
 dataEscolhida.getDay();
 
 
-// 0 = domingo
-// 1 = segunda
-// ...
-// 6 = sábado
-
-
 let horariosDoDia;
 
 
@@ -598,7 +720,8 @@ horarios;
 }
 
 
-// BUSCAR HORÁRIOS JÁ OCUPADOS
+/* BUSCAR OCUPADOS */
+
 const {
 data:agendamentos,
 error
@@ -608,7 +731,7 @@ await supabaseClient
 .select("Horário,Status")
 .eq(
 "Data",
-formatarDataBanco(data)
+data
 );
 
 
@@ -629,12 +752,12 @@ return;
 }
 
 
-// CONSIDERAR OCUPADOS OS NÃO CANCELADOS
 const horariosOcupados =
 (agendamentos || [])
 .filter(
 agendamento =>
-agendamento.Status !== "Cancelado"
+agendamento.Status !==
+"Cancelado"
 )
 .map(
 agendamento =>
@@ -644,7 +767,8 @@ agendamento.Horário
 );
 
 
-let quantidadeDisponivel = 0;
+let quantidadeDisponivel =
+0;
 
 
 horariosDoDia.forEach(
@@ -712,7 +836,10 @@ document.getElementById(
 }
 
 
-// CRIAR AGENDAMENTO
+/* =========================
+   CRIAR AGENDAMENTO
+========================= */
+
 async function criarAgendamento(){
 
 limparMensagem();
@@ -781,9 +908,8 @@ botao.textContent =
 "VERIFICANDO...";
 
 
-// SEGUNDA VERIFICAÇÃO
-// evita conflito caso outro cliente
-// tenha reservado enquanto a página estava aberta
+/* SEGUNDA VERIFICAÇÃO */
+
 const {
 data:ocupado,
 error:erroBusca
@@ -791,8 +917,14 @@ error:erroBusca
 await supabaseClient
 .from("agendamentos")
 .select("id,Status")
-.eq("Data",data)
-.eq("Horário",horario)
+.eq(
+"Data",
+data
+)
+.eq(
+"Horário",
+horario
+)
 .maybeSingle();
 
 
@@ -818,7 +950,8 @@ return;
 
 if(
 ocupado &&
-ocupado.Status !== "Cancelado"
+ocupado.Status !==
+"Cancelado"
 ){
 
 mostrarMensagem(
@@ -839,12 +972,14 @@ return;
 }
 
 
-// CRIAR
+/* SALVAR */
+
 botao.textContent =
 "SALVANDO...";
 
 
 const {
+data:agendamentoCriado,
 error
 } =
 await supabaseClient
@@ -878,7 +1013,9 @@ servicoSelect.value,
 auth_user_id:
 usuarioAtual.id
 
-});
+})
+.select("id")
+.single();
 
 
 if(error){
@@ -902,6 +1039,8 @@ return;
 }
 
 
+/* AGENDAMENTO CRIADO */
+
 mostrarMensagem(
 "Agendamento realizado com sucesso!",
 "sucesso"
@@ -912,24 +1051,164 @@ botao.textContent =
 "AGENDAMENTO REALIZADO";
 
 
-await carregarHorarios();
+agendamentoCriadoId =
+agendamentoCriado?.id || null;
 
 
-// VOLTAR PARA CONTA APÓS 1,5 SEGUNDOS
+valorTonAtual =
+valor;
+
+
+linkTonAtual =
+LINKS_TON[
+Number(valor)
+];
+
+
+const boxTon =
+document.getElementById(
+"pagamentoTon"
+);
+
+
+const valorTon =
+document.getElementById(
+"valorTon"
+);
+
+
+const btnTon =
+document.getElementById(
+"btnPagarTon"
+);
+
+
+if(linkTonAtual){
+
+valorTon.textContent =
+"R$ "+
+valor.toFixed(2)
+.replace(".",",");
+
+btnTon.disabled =
+false;
+
+boxTon.style.display =
+"block";
+
+
+/* ABRIR AUTOMATICAMENTE */
+
 setTimeout(
 ()=>{
 
-window.location.href =
-"cliente.html";
+window.open(
+linkTonAtual,
+"_blank"
+);
 
 },
-1500
+500
+);
+
+}else{
+
+boxTon.style.display =
+"block";
+
+valorTon.textContent =
+"Pagamento online não disponível para este valor.";
+
+btnTon.disabled =
+true;
+
+btnTon.textContent =
+"LINK TON NÃO CADASTRADO";
+
+}
+
+
+await carregarHorarios();
+
+}
+
+
+/* =========================
+   PAGAR COM TON
+========================= */
+
+async function pagarComTon(){
+
+if(!linkTonAtual){
+
+mostrarMensagem(
+"Não existe link Ton cadastrado para este valor.",
+"erro"
+);
+
+return;
+
+}
+
+
+if(
+agendamentoCriadoId &&
+clienteAtual?.id
+){
+
+const {
+error
+} =
+await supabaseClient
+.from("pagamentos")
+.insert({
+
+agendamento_id:
+agendamentoCriadoId,
+
+cliente_id:
+clienteAtual.id,
+
+valor:
+valorTonAtual,
+
+metodo:
+"Ton",
+
+status:
+"Pendente",
+
+referencia:
+"Link Ton permanente - "+
+valorTonAtual.toFixed(2)
+
+});
+
+
+if(error){
+
+console.error(
+"Erro ao registrar pagamento Ton:",
+error
+);
+
+}
+
+}
+
+
+window.open(
+linkTonAtual,
+"_blank"
 );
 
 }
 
 
-// QUANDO ESCOLHER DATA
+/* =========================
+   DATA
+========================= */
+
 document.getElementById(
 "data"
 ).addEventListener(
@@ -944,7 +1223,10 @@ await carregarHorarios();
 );
 
 
-// INICIALIZAÇÃO
+/* =========================
+   INICIALIZAÇÃO
+========================= */
+
 (async()=>{
 
 const autorizado =
@@ -961,7 +1243,8 @@ return;
 await carregarServicos();
 
 
-// DATA MÍNIMA = HOJE
+/* DATA MÍNIMA = HOJE */
+
 const hoje =
 new Date();
 
@@ -992,4 +1275,5 @@ document.getElementById(
 </script>
 
 </body>
-  </html>
+
+    </html>
