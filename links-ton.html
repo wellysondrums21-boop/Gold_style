@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Links Ton | Gold Style</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, #292000 0%, #090909 35%, #000 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #050505;
+            border-bottom: 1px solid #d4af37;
+            padding: 18px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow:
+                0 0 5px #ffd700,
+                0 0 15px rgba(255, 215, 0, 0.7);
+        }
+
+        .sublogo {
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border: 1px solid #d4af37;
+            background: linear-gradient(135deg, #151515, #252000);
+            color: #ffd700;
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #a87900);
+            color: #000;
+            border-color: #ffd700;
+        }
+
+        .btn-danger {
+            border-color: #b33;
+            color: #ff7777;
+            background: #160707;
+        }
+
+        .btn-small {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+
+        .card {
+            background: rgba(10, 10, 10, 0.94);
+            border: 1px solid rgba(212, 175, 55, 0.55);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        h1,
+        h2 {
+            color: #ffd700;
+            margin-top: 0;
+        }
+
+        .description {
+            color: #bbb;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid #555;
+            background: #111;
+            color: #fff;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        .message {
+            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #09220d;
+            border: 1px solid #2c963f;
+            color: #8cff9c;
+        }
+
+        .message.error {
+            display: block;
+            background: #260909;
+            border: 1px solid #a33;
+            color: #ff8b8b;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px;
+            color: #ffd700;
+            border-bottom: 1px solid #8d7420;
+            background: #111;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #292929;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: rgba(255, 215, 0, 0.04);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status.active {
+            color: #7cff8a;
+            background: #09220d;
+            border: 1px solid #287b34;
+        }
+
+        .status.inactive {
+            color: #ff7777;
+            background: #250909;
+            border: 1px solid #813434;
+        }
+
+        .link-box {
+            max-width: 260px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #8dc8ff;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .empty {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #ffd700;
+            padding: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .container {
+                padding: 12px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .top-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .top-actions .btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">GOLD STYLE</div>
+    <div class="sublogo">BARBEARIA DESDE 2022 • LINKS DE PAGAMENTO TON</div>
+</header>
+
+<main class="container">
+
+    <div class="top-actions">
+        <a class="btn" href="admin.html">Dashboard</a>
+        <a class="btn" href="agenda-admin.html">Agenda</a>
+        <a class="btn" href="servicos.html">Serviços</a>
+        <a class="btn" href="produtos.html">Produtos</a>
+        <a class="btn" href="vendas.html">Vendas</a>
+        <a class="btn" href="pedidos.html">Pedidos</a>
+        <a class="btn" href="financeiro.html">Financeiro</a>
+        <a class="btn" href="configuracoes.html">Configurações</a>
+        <button class="btn btn-danger" onclick="sair()">Sair</button>
+    </div>
+
+    <section class="card">
+        <h1>💳 Links de pagamento Ton</h1>
+
+        <p class="description">
+            Cadastre aqui os links de pagamento da Ton.
+            O site do cliente poderá encontrar automaticamente
+            o link correspondente ao serviço ou produto escolhido.
+        </p>
+
+        <div class="grid">
+
+            <div class="field">
+                <label for="tipo">Tipo</label>
+
+                <select id="tipo">
+                    <option value="servico">Serviço</option>
+                    <option value="produto">Produto</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="nome">Nome</label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Ex.: Corte Social"
+                >
+            </div>
+
+            <div class="field">
+                <label for="valor">Valor</label>
+
+                <input
+                    type="number"
+                    id="valor"
+                    step="0.01"
+                    min="0"
+                    placeholder="Ex.: 25.00"
+                >
+            </div>
+
+            <div class="field">
+                <label for="ativo">Status</label>
+
+                <select id="ativo">
+                    <option value="true">Ativo</option>
+                    <option value="false">Inativo</option>
+                </select>
+            </div>
+
+            <div class="field full">
+                <label for="linkTon">Link de pagamento Ton</label>
+
+                <input
+                    type="url"
+                    id="linkTon"
+                    placeholder="Cole aqui o link gerado pelo Ton"
+                >
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-primary"
+                id="btnSalvar"
+                onclick="salvarLink()"
+            >
+                💾 Salvar link
+            </button>
+
+            <button
+                class="btn"
+                id="btnCancelar"
+                onclick="cancelarEdicao()"
+                style="display:none;"
+            >
+                Cancelar edição
+            </button>
+
+        </div>
+
+        <div id="mensagem" class="message"></div>
+    </section>
+
+    <section class="card">
+
+        <h2>📋 Links cadastrados</h2>
+
+        <div id="conteudoTabela">
+            <div class="loading">
+                Carregando links Ton...
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    Gold Style Barbearia<br>
+    Rua Preciosa 557 • Rio Branco - Acre<br>
+    Barbearia desde 2022
+</footer>
+
+<script>
+
+const SUPABASE_URL =
+"https://ivvswiprdqgroeoelqmh.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+let usuarioAtual = null;
+let editandoId = null;
+
+
+/* ================================
+   INICIALIZAÇÃO
+================================ */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+    usuarioAtual = session.user;
+
+    const { data: admin, error } =
+        await supabaseClient
+        .from("administradores")
+        .select("id, ativo")
+        .eq("auth_user_id", usuarioAtual.id)
+        .eq("ativo", true)
+        .maybeSingle();
+
+    if (error || !admin) {
+
+        alert("Acesso permitido somente para administradores.");
+
+        await supabaseClient.auth.signOut();
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+    carregarLinks();
+});
+
+
+/* ================================
+   CARREGAR LINKS
+================================ */
+
+async function carregarLinks() {
+
+    const container =
+        document.getElementById("conteudoTabela");
+
+    container.innerHTML = `
+        <div class="loading">
+            Carregando links Ton...
+        </div>
+    `;
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("links_pagamento_ton")
+        .select("*")
+        .order("criado_em", {
+            ascending: false
+        });
+
+    if (error) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Erro ao carregar os links.<br><br>
+                ${escapeHtml(error.message)}
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Nenhum link Ton cadastrado ainda.
+            </div>
+        `;
+
+        return;
+    }
+
+    let html = `
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                        <th>Link Ton</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+    `;
+
+    data.forEach(item => {
+
+        const tipo =
+            item.tipo === "servico"
+                ? "Serviço"
+                : item.tipo === "produto"
+                    ? "Produto"
+                    : "Outro";
+
+        const status =
+            item.ativo
+                ? `
+                    <span class="status active">
+                        ATIVO
+                    </span>
+                `
+                : `
+                    <span class="status inactive">
+                        INATIVO
+                    </span>
+                `;
+
+        html += `
+            <tr>
+
+                <td>${tipo}</td>
+
+                <td>
+                    <strong>
+                        ${escapeHtml(item.nome)}
+                    </strong>
+                </td>
+
+                <td>
+                    <strong style="color:#ffd700;">
+                        ${formatarMoeda(item.valor)}
+                    </strong>
+                </td>
+
+                <td>
+                    <div class="link-box">
+                        ${escapeHtml(item.link_ton)}
+                    </div>
+                </td>
+
+                <td>
+                    ${status}
+                </td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="btn btn-small"
+                            onclick="editarLink('${item.id}')"
+                        >
+                            ✏️ Editar
+                        </button>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="copiarLink('${escapeAtributo(item.link_ton)}')"
+                        >
+                            📋 Copiar
+                        </button>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="abrirLink('${escapeAtributo(item.link_ton)}')"
+                        >
+                            🔗 Abrir
+                        </button>
+
+                        <button
+                            class="btn btn-small"
+                            onclick="alternarAtivo('${item.id}', ${item.ativo})"
+                        >
+                            ${item.ativo ? "🔴 Desativar" : "🟢 Ativar"}
+                        </button>
+
+                        <button
+                            class="btn btn-small btn-danger"
+                            onclick="excluirLink('${item.id}')"
+                        >
+                            🗑️ Excluir
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+        `;
+    });
+
+    html += `
+                </tbody>
+
+            </table>
+
+        </div>
+    `;
+
+    container.innerHTML = html;
+}
+
+
+/* ================================
+   SALVAR LINK
+================================ */
+
+async function salvarLink() {
+
+    const tipo =
+        document.getElementById("tipo").value;
+
+    const nome =
+        document.getElementById("nome").value.trim();
+
+    const valor =
+        parseFloat(
+            document.getElementById("valor").value
+        );
+
+    const linkTon =
+        document.getElementById("linkTon").value.trim();
+
+    const ativo =
+        document.getElementById("ativo").value === "true";
+
+    if (!nome) {
+
+        mostrarMensagem(
+            "Digite o nome do serviço ou produto.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!valor || valor <= 0) {
+
+        mostrarMensagem(
+            "Digite um valor válido.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!linkTon) {
+
+        mostrarMensagem(
+            "Cole o link de pagamento Ton.",
+            "error"
+        );
+
+        return;
+    }
+
+    try {
+
+        document.getElementById("btnSalvar").disabled = true;
+
+        if (editandoId) {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("links_pagamento_ton")
+                .update({
+                    tipo: tipo,
+                    nome: nome,
+                    valor: valor,
+                    link_ton: linkTon,
+                    ativo: ativo,
+                    atualizado_em: new Date().toISOString()
+                })
+                .eq("id", editandoId);
+
+            if (error) {
+                throw error;
+            }
+
+            mostrarMensagem(
+                "Link Ton atualizado com sucesso!",
+                "success"
+            );
+
+        } else {
+
+            const {
+                error
+            } = await supabaseClient
+                .from("links_pagamento_ton")
+                .insert({
+                    tipo: tipo,
+                    nome: nome,
+                    valor: valor,
+                    link_ton: linkTon,
+                    ativo: ativo
+                });
+
+            if (error) {
+                throw error;
+            }
+
+            mostrarMensagem(
+                "Link Ton cadastrado com sucesso!",
+                "success"
+            );
+        }
+
+        limparFormulario();
+
+        await carregarLinks();
+
+    } catch (error) {
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Erro ao salvar: " + error.message,
+            "error"
+        );
+
+    } finally {
+
+        document.getElementById("btnSalvar").disabled = false;
+    }
+}
+
+
+/* ================================
+   EDITAR
+================================ */
+
+async function editarLink(id) {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("links_pagamento_ton")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+
+        mostrarMensagem(
+            "Erro ao carregar o link.",
+            "error"
+        );
+
+        return;
+    }
+
+    editandoId = id;
+
+    document.getElementById("tipo").value =
+        data.tipo;
+
+    document.getElementById("nome").value =
+        data.nome;
+
+    document.getElementById("valor").value =
+        data.valor;
+
+    document.getElementById("linkTon").value =
+        data.link_ton;
+
+    document.getElementById("ativo").value =
+        data.ativo ? "true" : "false";
+
+    document.getElementById("btnSalvar").textContent =
+        "💾 Atualizar link";
+
+    document.getElementById("btnCancelar").style.display =
+        "inline-block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* ================================
+   CANCELAR EDIÇÃO
+================================ */
+
+function cancelarEdicao() {
+
+    limparFormulario();
+
+    mostrarMensagem(
+        "Edição cancelada.",
+        "success"
+    );
+}
+
+
+/* ================================
+   LIMPAR FORMULÁRIO
+================================ */
+
+function limparFormulario() {
+
+    editandoId = null;
+
+    document.getElementById("tipo").value =
+        "servico";
+
+    document.getElementById("nome").value =
+        "";
+
+    document.getElementById("valor").value =
+        "";
+
+    document.getElementById("linkTon").value =
+        "";
+
+    document.getElementById("ativo").value =
+        "true";
+
+    document.getElementById("btnSalvar").textContent =
+        "💾 Salvar link";
+
+    document.getElementById("btnCancelar").style.display =
+        "none";
+}
+
+
+/* ================================
+   ATIVAR / DESATIVAR
+================================ */
+
+async function alternarAtivo(id, estadoAtual) {
+
+    const novoEstado = !estadoAtual;
+
+    const {
+        error
+    } = await supabaseClient
+        .from("links_pagamento_ton")
+        .update({
+            ativo: novoEstado,
+            atualizado_em: new Date().toISOString()
+        })
+        .eq("id", id);
+
+    if (error) {
+
+        mostrarMensagem(
+            "Erro ao alterar status: " + error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    mostrarMensagem(
+        novoEstado
+            ? "Link ativado."
+            : "Link desativado.",
+        "success"
+    );
+
+    carregarLinks();
+}
+
+
+/* ================================
+   EXCLUIR
+================================ */
+
+async function excluirLink(id) {
+
+    const confirmar =
+        confirm(
+            "Tem certeza que deseja excluir este link Ton?"
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("links_pagamento_ton")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+
+        mostrarMensagem(
+            "Erro ao excluir: " + error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    mostrarMensagem(
+        "Link excluído com sucesso.",
+        "success"
+    );
+
+    carregarLinks();
+}
+
+
+/* ================================
+   COPIAR LINK
+================================ */
+
+async function copiarLink(link) {
+
+    try {
+
+        await navigator.clipboard.writeText(link);
+
+        mostrarMensagem(
+            "Link copiado!",
+            "success"
+        );
+
+    } catch (error) {
+
+        prompt(
+            "Copie o link abaixo:",
+            link
+        );
+    }
+}
+
+
+/* ================================
+   ABRIR LINK
+================================ */
+
+function abrirLink(link) {
+
+    window.open(
+        link,
+        "_blank"
+    );
+}
+
+
+/* ================================
+   SAIR
+================================ */
+
+async function sair() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* ================================
+   MENSAGEM
+================================ */
+
+function mostrarMensagem(texto, tipo) {
+
+    const elemento =
+        document.getElementById("mensagem");
+
+    elemento.textContent =
+        texto;
+
+    elemento.className =
+        "message " + tipo;
+
+    setTimeout(() => {
+
+        elemento.className =
+            "message";
+
+        elemento.textContent =
+            "";
+
+    }, 4000);
+}
+
+
+/* ================================
+   MOEDA
+================================ */
+
+function formatarMoeda(valor) {
+
+    return Number(valor).toLocaleString(
+        "pt-BR",
+        {
+            style: "currency",
+            currency: "BRL"
+        }
+    );
+}
+
+
+/* ================================
+   SEGURANÇA HTML
+================================ */
+
+function escapeHtml(valor) {
+
+    return String(valor ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function escapeAtributo(valor) {
+
+    return String(valor ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+}
+
+</script>
+
+</body>
+  </html>
