@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
+<!DOCTYPE html><html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Agendamento - Gold Style</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
+<title>Agendamento - Gold Style</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 
 *{
     box-sizing:border-box;
@@ -188,173 +179,203 @@ button:disabled{
     border:1px solid #ffd700;
 }
 
-</style>
+.pagamento-pix{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border-radius:14px;
+    background:linear-gradient(145deg,#111,#080808);
+    border:1px solid rgba(255,215,0,.5);
+}
 
-</head>
+.pagamento-pix h2{
+    color:#ffd700;
+    text-align:center;
+    margin-top:0;
+}
 
-<body>
+.pix-descricao{
+    color:#bbb;
+    font-size:14px;
+    line-height:1.6;
+    text-align:center;
+}
 
-<header>
+.pix-chave{
+    margin-top:15px;
+    padding:15px;
+    border-radius:10px;
+    background:#050505;
+    border:1px solid #333;
+    color:#ffd700;
+    font-size:14px;
+    word-break:break-all;
+    text-align:center;
+    font-weight:bold;
+}
 
-<div class="logo">
+.btn-pix{
+    background:#ffd700;
+    color:#000;
+    margin-top:15px;
+}
+
+.btn-pix-copiado{
+    background:#35c759 !important;
+    color:#fff !important;
+}
+
+.opcoes-pagamento{
+    margin-top:20px;
+}
+
+.opcoes-pagamento h3{
+    color:#fff;
+    text-align:center;
+    margin-bottom:5px;
+}
+
+.opcoes-pagamento p{
+    color:#888;
+    text-align:center;
+    font-size:13px;
+}
+
+.separador{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:18px 0;
+    color:#666;
+    font-size:12px;
+}
+
+.separador::before,
+.separador::after{
+    content:"";
+    height:1px;
+    background:#333;
+    flex:1;
+}
+
+</style></head><body><header><div class="logo">
 GOLD STYLE
-</div>
-
-<div class="slogan">
+</div><div class="slogan">
 BARBEARIA DESDE 2022
-</div>
-
-</header>
-
-
-<div class="container">
-
-<div class="card">
-
-<h1>Agende seu horário</h1>
-
-<div class="descricao">
+</div></header><div class="container"><div class="card"><h1>Agende seu horário</h1><div class="descricao">
 Escolha o serviço, a data e o horário desejado.
-</div>
-
-
-<label>
+</div><label>
 Nome completo
-</label>
-
-<input
+</label><input
 type="text"
 id="nome"
 readonly
->
 
+«»
 
 <label>
 WhatsApp
-</label>
-
-<input
+</label><input
 type="text"
 id="telefone"
 readonly
->
 
+«»
 
 <label>
 Escolha o serviço
-</label>
-
-<select id="servico">
-
-<option value="">
+</label><select id="servico"><option value="">
 Selecione um serviço
-</option>
-
-</select>
-
-
-<label>
+</option></select><label>
 Escolha a data
-</label>
-
-<input
+</label><input
 type="date"
 id="data"
->
 
+«»
 
 <label>
 Escolha o horário
-</label>
-
-<select id="horario">
-
-<option value="">
+</label><select id="horario"><option value="">
 Selecione um horário
-</option>
-
-</select>
-
-
-<div class="info" id="infoHorario">
+</option></select><div class="info" id="infoHorario">
 Escolha uma data para visualizar os horários disponíveis.
-</div>
-
-
-<button
+</div><button
 id="btnAgendar"
 onclick="criarAgendamento()"
 disabled
->
+
+«»
 
 CONFIRMAR AGENDAMENTO
 
-</button>
-
-
-<div
+</button><div
 id="mensagem"
 class="mensagem">
-</div>
-
-
-<!-- PAGAMENTO TON -->
-
-<div
+</div><!-- PAGAMENTOS --><div
 class="pagamento-ton"
 id="pagamentoTon"
->
-
-<h2>
-💳 PAGAMENTO ONLINE
-</h2>
-
-<p>
+><h2>
+💳 PAGAMENTO TON
+</h2><p>
 Seu horário foi reservado.
-Para confirmar o pagamento, clique no botão abaixo.
-</p>
-
-<div
+Escolha uma das formas de pagamento abaixo.
+</p><div
 class="valor-ton"
 id="valorTon">
-</div>
-
-<button
+</div><div class="opcoes-pagamento"><h3>
+Escolha como deseja pagar
+</h3><p>
+Você pode pagar pela Ton ou por Pix.
+</p><button
 id="btnPagarTon"
 onclick="pagarComTon()"
->
+
+«»
 
 PAGAR AGORA COM TON
 
-</button>
+</button><div class="separador">
+OU PAGUE COM PIX
+</div><div class="pagamento-pix"
+id="pagamentoPix"
+style="display:block"
+><h2>
+🔑 PAGAMENTO VIA PIX
+</h2><div class="pix-descricao">Faça o pagamento usando a chave Pix
+aleatória da Gold Style.
 
-<button
+</div><div
+class="pix-chave"
+id="chavePix"
+>5bed6193-1b51-46d2-a03e-6f3993acd719
+
+</div><button
+id="btnCopiarPix"
+class="btn-pix"
+onclick="copiarPix()"
+
+«»
+
+📋 COPIAR CHAVE PIX
+
+</button></div><button
 class="secundario"
 onclick="window.location.href='cliente.html'"
->
+
+«»
 
 PAGAR DEPOIS / IR PARA MINHA CONTA
 
-</button>
-
-</div>
-
-
-<a
+</button></div></div><a
 href="cliente.html"
 class="voltar"
->
+
+«»
 
 ← Voltar para minha conta
 
-</a>
-
-</div>
-
-</div>
-
-
-<script>
+</a></div></div><script>
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
@@ -367,6 +388,14 @@ window.supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
+
+
+/* =========================
+   CHAVE PIX DA BARBEARIA
+========================= */
+
+const CHAVE_PIX =
+"5bed6193-1b51-46d2-a03e-6f3993acd719";
 
 
 /* =========================
@@ -1083,41 +1112,31 @@ document.getElementById(
 );
 
 
-if(linkTonAtual){
-
 valorTon.textContent =
 "R$ "+
 valor.toFixed(2)
 .replace(".",",");
 
+
+boxTon.style.display =
+"block";
+
+
+if(linkTonAtual){
+
 btnTon.disabled =
 false;
 
-boxTon.style.display =
-"block";
+btnTon.textContent =
+"PAGAR AGORA COM TON";
 
 
-/* ABRIR AUTOMATICAMENTE */
-
-setTimeout(
-()=>{
-
-window.open(
-linkTonAtual,
-"_blank"
-);
-
-},
-500
-);
+/*
+  Não abrimos automaticamente.
+  O cliente escolhe Ton ou Pix.
+*/
 
 }else{
-
-boxTon.style.display =
-"block";
-
-valorTon.textContent =
-"Pagamento online não disponível para este valor.";
 
 btnTon.disabled =
 true;
@@ -1199,8 +1218,74 @@ error
 
 window.open(
 linkTonAtual,
-"_blank"
+"_blank",
+"noopener,noreferrer"
 );
+
+}
+
+
+/* =========================
+   COPIAR PIX
+========================= */
+
+async function copiarPix(){
+
+const botao =
+document.getElementById(
+"btnCopiarPix"
+);
+
+
+try{
+
+await navigator.clipboard.writeText(
+CHAVE_PIX
+);
+
+
+botao.textContent =
+"✅ CHAVE PIX COPIADA!";
+
+
+botao.classList.add(
+"btn-pix-copiado"
+);
+
+
+setTimeout(
+function(){
+
+botao.textContent =
+"📋 COPIAR CHAVE PIX";
+
+botao.classList.remove(
+"btn-pix-copiado"
+);
+
+},
+2500
+);
+
+
+mostrarMensagem(
+"Chave Pix copiada. Agora é só colar no aplicativo do seu banco.",
+"sucesso"
+);
+
+
+}
+catch(error){
+
+console.error(error);
+
+
+mostrarMensagem(
+"Não foi possível copiar automaticamente. Segure a chave Pix e copie manualmente.",
+"erro"
+);
+
+}
 
 }
 
@@ -1272,8 +1357,4 @@ document.getElementById(
 
 })();
 
-</script>
-
-</body>
-
-    </html>
+</script></body></html>
