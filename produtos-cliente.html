@@ -1,11 +1,7 @@
-<!DOCTYPE html><html lang="pt-BR"><head>  <meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
-«»
-
-  <title>Produtos | Gold Style Barbearia</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
-
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Produtos | Gold Style Barbearia</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,28 +16,17 @@ content="width=device-width, initial-scale=1.0"
     }
 
     header {
-      background: linear-gradient(
-        135deg,
-        #050505,
-        #181818
-      );
-
+      background: linear-gradient(135deg, #050505, #181818);
       border-bottom: 1px solid #d4af37;
-
       padding: 22px 15px;
-
       text-align: center;
     }
 
     .logo {
       color: #ffd700;
-
       font-size: 30px;
-
       font-weight: 900;
-
       letter-spacing: 3px;
-
       text-shadow:
         0 0 8px rgba(255,215,0,.45),
         0 0 18px rgba(255,215,0,.25);
@@ -49,552 +34,325 @@ content="width=device-width, initial-scale=1.0"
 
     .subtitle {
       color: #dddddd;
-
       margin-top: 6px;
-
       font-size: 13px;
-
       letter-spacing: 2px;
     }
 
     main {
       width: 100%;
-
       max-width: 1100px;
-
       margin: auto;
-
-      padding:
-        20px
-        15px
-        100px;
+      padding: 20px 15px 100px;
     }
 
     h1,
     h2 {
       color: #ffd700;
-
       text-align: center;
-
       margin-bottom: 15px;
     }
 
     .intro {
       text-align: center;
-
       color: #cccccc;
-
       margin-bottom: 25px;
-
       line-height: 1.5;
     }
 
     .status {
       display: none;
-
       padding: 13px;
-
       border-radius: 10px;
-
       margin-bottom: 18px;
-
       text-align: center;
-
       font-weight: bold;
     }
 
     .status.ok {
       display: block;
-
-      background:
-        rgba(0,180,80,.15);
-
-      border:
-        1px solid #00b450;
-
+      background: rgba(0,180,80,.15);
+      border: 1px solid #00b450;
       color: #70ffac;
     }
 
     .status.erro {
       display: block;
-
-      background:
-        rgba(220,0,0,.15);
-
-      border:
-        1px solid #d00000;
-
+      background: rgba(220,0,0,.15);
+      border: 1px solid #d00000;
       color: #ff8c8c;
     }
 
     .produtos {
-
       display: grid;
-
-      grid-template-columns:
-        repeat(
-          auto-fit,
-          minmax(220px, 1fr)
-        );
-
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
 
     .produto {
-
-      background:
-        linear-gradient(
-          145deg,
-          #111111,
-          #080808
-        );
-
-      border:
-        1px solid #5c4b10;
-
+      background: linear-gradient(145deg, #111111, #080808);
+      border: 1px solid #5c4b10;
       border-radius: 16px;
-
       padding: 18px;
-
-      box-shadow:
-        0 0 15px
-        rgba(255,215,0,.08);
+      box-shadow: 0 0 15px rgba(255,215,0,.08);
     }
 
     .produto:hover {
-
       border-color: #ffd700;
-
-      box-shadow:
-        0 0 22px
-        rgba(255,215,0,.18);
+      box-shadow: 0 0 22px rgba(255,215,0,.18);
     }
 
     .produto-img {
-
       height: 150px;
-
       border-radius: 12px;
-
-      background:
-        linear-gradient(
-          135deg,
-          #191919,
-          #090909
-        );
-
+      background: linear-gradient(135deg, #191919, #090909);
       display: flex;
-
       align-items: center;
-
       justify-content: center;
-
       font-size: 60px;
-
       margin-bottom: 15px;
-
-      border:
-        1px solid #292929;
+      border: 1px solid #292929;
     }
 
     .produto h3 {
-
       color: #ffd700;
-
       margin-bottom: 8px;
     }
 
     .descricao {
-
       color: #aaaaaa;
-
       min-height: 42px;
-
       line-height: 1.4;
-
       font-size: 14px;
     }
 
     .preco {
-
       color: #ffffff;
-
       font-size: 23px;
-
       font-weight: bold;
-
-      margin:
-        14px
-        0
-        5px;
+      margin: 14px 0 5px;
     }
 
     .estoque {
-
       color: #aaaaaa;
-
       font-size: 13px;
-
       margin-bottom: 13px;
     }
 
     button,
     .btn {
-
       width: 100%;
-
       border: none;
-
       border-radius: 10px;
-
       padding: 13px;
-
       font-weight: bold;
-
       cursor: pointer;
-
       text-decoration: none;
-
       display: block;
-
       text-align: center;
-
       margin-top: 8px;
     }
 
     button:disabled {
-
       opacity: .5;
-
       cursor: not-allowed;
     }
 
     .btn-gold {
-
-      background:
-        linear-gradient(
-          135deg,
-          #ffd700,
-          #b8860b
-        );
-
+      background: linear-gradient(135deg, #ffd700, #b8860b);
       color: #050505;
     }
 
     .btn-dark {
-
       background: #181818;
-
       color: #ffd700;
-
-      border:
-        1px solid #806b18;
+      border: 1px solid #806b18;
     }
 
     .btn-red {
-
       background: #5c1111;
-
       color: #ffffff;
-
-      border:
-        1px solid #a52a2a;
+      border: 1px solid #a52a2a;
     }
 
     .carrinho {
-
       margin-top: 35px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #111111,
-          #070707
-        );
-
-      border:
-        1px solid #d4af37;
-
+      background: linear-gradient(145deg, #111111, #070707);
+      border: 1px solid #d4af37;
       border-radius: 16px;
-
       padding: 20px;
     }
 
     .item-carrinho {
-
       display: flex;
-
       justify-content: space-between;
-
       gap: 10px;
-
       align-items: center;
-
-      border-bottom:
-        1px solid #292929;
-
+      border-bottom: 1px solid #292929;
       padding: 12px 0;
     }
 
     .item-info {
-
       flex: 1;
     }
 
     .item-info strong {
-
       color: #ffd700;
     }
 
     .quantidade {
-
       display: flex;
-
       align-items: center;
-
       gap: 7px;
     }
 
     .quantidade button {
-
       width: 38px;
-
       margin: 0;
-
       padding: 8px;
     }
 
     .total {
-
       text-align: right;
-
       color: #ffd700;
-
       font-size: 25px;
-
       font-weight: bold;
-
       margin-top: 18px;
     }
 
     .pagamento {
-
       margin-top: 20px;
-
       padding-top: 18px;
-
-      border-top:
-        1px solid #333333;
+      border-top: 1px solid #333333;
     }
 
     select {
-
       width: 100%;
-
       padding: 13px;
-
       background: #111111;
-
       color: #ffffff;
-
-      border:
-        1px solid #806b18;
-
+      border: 1px solid #806b18;
       border-radius: 10px;
-
-      margin:
-        8px
-        0;
+      margin: 8px 0;
     }
 
     .ton-box,
     .pix-box {
-
       display: none;
-
-      background:
-        rgba(255,215,0,.07);
-
-      border:
-        1px solid #806b18;
-
+      background: rgba(255,215,0,.07);
+      border: 1px solid #806b18;
       border-radius: 12px;
-
       padding: 15px;
-
       margin-top: 12px;
     }
 
     .ton-box.show,
     .pix-box.show {
-
       display: block;
     }
 
     .pix-chave {
-
       word-break: break-all;
-
       color: #ffd700;
-
       background: #050505;
-
       padding: 12px;
-
       border-radius: 8px;
+      margin: 10px 0;
+      border: 1px solid #292929;
+      font-size: 13px;
+      line-height: 1.5;
+    }
 
-      margin:
-        10px
-        0;
+    .pix-valor {
+      color: #ffffff;
+      font-size: 18px;
+      margin-top: 10px;
     }
 
     .pedido-sucesso {
-
       display: none;
-
       margin-top: 18px;
-
       padding: 18px;
-
       border-radius: 12px;
-
-      background:
-        rgba(0,180,80,.12);
-
-      border:
-        1px solid #00a94f;
-
+      background: rgba(0,180,80,.12);
+      border: 1px solid #00a94f;
       color: #b9ffd2;
-
       line-height: 1.6;
     }
 
     .pedido-sucesso.show {
-
       display: block;
     }
 
     footer {
-
       text-align: center;
-
       color: #777777;
-
-      border-top:
-        1px solid #292929;
-
-      padding:
-        25px
-        15px;
-
+      border-top: 1px solid #292929;
+      padding: 25px 15px;
       line-height: 1.7;
     }
 
     @media (max-width: 600px) {
-
       .logo {
         font-size: 25px;
       }
 
       .item-carrinho {
-
-        align-items:
-          flex-start;
-
-        flex-direction:
-          column;
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .quantidade {
-
         width: 100%;
       }
-
     }
-
-  </style></head><body><header>  <div class="logo">
+  </style></head><body><header>
+  <div class="logo">
     GOLD STYLE
   </div>  <div class="subtitle">
     BARBEARIA DESDE 2022
-  </div></header><main>  <h1>
+  </div>
+</header><main>  <h1>
     🛍️ Loja Gold Style
-  </h1>  <p class="intro">Produtos selecionados para
-cuidar do seu cabelo e da sua barba.
-
-  </p>  <div
-    id="status"
-    class="status"
-  ></div>  <section><div
-  id="produtos"
-  class="produtos"
->
-
-  <p
-    style="
-      grid-column:1/-1;
-      text-align:center;
-      color:#aaa;
-    "
-  >
-    Carregando produtos...
-  </p>
-
-</div>
-
+  </h1>  <p class="intro">
+    Produtos selecionados para cuidar do seu cabelo e da sua barba.
+  </p>  <div id="status" class="status"></div>  <section>
+    <div id="produtos" class="produtos">
+      <p style="grid-column:1/-1;text-align:center;color:#aaa;">
+        Carregando produtos...
+      </p>
+    </div>
   </section>  <section class="carrinho"><h2>
   🛒 Meu Carrinho
 </h2>
 
-
-<div
-  id="carrinhoItens"
-></div>
-
+<div id="carrinhoItens"></div>
 
 <div
   id="carrinhoVazio"
-  style="
-    text-align:center;
-    color:#888;
-    padding:15px;
-  "
+  style="text-align:center;color:#888;padding:15px;"
 >
-
   Seu carrinho está vazio.
-
 </div>
 
-
 <div class="total">
-
   Total:
-
   <span id="total">
     R$ 0,00
   </span>
-
 </div>
 
-
 <div class="pagamento">
-
 
   <h2>
     💳 Pagamento
   </h2>
 
-
   <label for="metodoPagamento">
-
     Escolha a forma de pagamento:
-
   </label>
 
-
-  <select
-    id="metodoPagamento"
-  >
-
+  <select id="metodoPagamento">
     <option value="Ton">
       Ton
     </option>
@@ -602,39 +360,22 @@ cuidar do seu cabelo e da sua barba.
     <option value="Pix">
       Pix
     </option>
-
   </select>
 
+  <!-- TON -->
 
-  <div
-    id="tonBox"
-    class="ton-box show"
-  >
+  <div id="tonBox" class="ton-box show">
 
-    <strong
-      style="color:#ffd700;"
-    >
-
+    <strong style="color:#ffd700;">
       Pagamento pelo Ton
-
     </strong>
 
-
     <p
-      style="
-        color:#bbb;
-        margin-top:8px;
-        line-height:1.5;
-      "
+      style="color:#bbb;margin-top:8px;line-height:1.5;"
     >
-
-      O pagamento Ton será liberado
-      somente quando existir um link
-      cadastrado para o valor exato
-      do pedido.
-
+      O pagamento Ton será liberado somente quando existir
+      um link cadastrado para o valor exato do pedido.
     </p>
-
 
     <a
       id="tonButton"
@@ -644,79 +385,80 @@ cuidar do seu cabelo e da sua barba.
       class="btn btn-gold"
       style="display:none;"
     >
-
       💳 PAGAR PELO TON
-
     </a>
-
 
     <p
       id="tonIndisponivel"
-      style="
-        color:#ffcc66;
-        margin-top:10px;
-      "
+      style="color:#ffcc66;margin-top:10px;"
     >
-
-      Para este valor ainda não existe
-      um link Ton cadastrado.
-
+      Para este valor ainda não existe um link Ton cadastrado.
     </p>
-
 
   </div>
 
+  <!-- PIX -->
 
-  <div
-    id="pixBox"
-    class="pix-box"
-  >
+  <div id="pixBox" class="pix-box">
 
-
-    <strong
-      style="color:#ffd700;"
-    >
-
-      Pagamento via Pix
-
+    <strong style="color:#ffd700;">
+      💚 Pagamento via Pix
     </strong>
 
-
     <p
-      style="
-        color:#bbb;
-        margin-top:8px;
-      "
+      style="color:#bbb;margin-top:8px;line-height:1.5;"
     >
-
-      Use a chave Pix abaixo:
-
+      O Pix abaixo já será gerado com o valor exato
+      do seu pedido.
     </p>
 
+    <div class="pix-valor">
+      Valor do Pix:
+      <strong id="pixValor">
+        R$ 0,00
+      </strong>
+    </div>
+
+    <p
+      style="color:#bbb;margin-top:12px;"
+    >
+      Chave Pix:
+    </p>
+
+    <div class="pix-chave" id="chavePix">
+      5bed6193-1b51-46d2-a03e-6f3993acd719
+    </div>
+
+    <p
+      style="color:#bbb;margin-top:12px;"
+    >
+      Pix copia e cola:
+    </p>
 
     <div
       class="pix-chave"
-      id="chavePix"
+      id="pixCopiaCola"
     >
-
-      5bed6193-1b51-46d2-a03e-6f3993acd719
-
+      O código será gerado quando houver produtos no carrinho.
     </div>
-
 
     <button
       type="button"
       class="btn btn-gold"
-      onclick="copiarPix()"
+      onclick="copiarPixCopiaCola()"
     >
-
-      📋 COPIAR CHAVE PIX
-
+      📋 COPIAR PIX COPIA E COLA
     </button>
 
+    <button
+      type="button"
+      class="btn btn-dark"
+      onclick="copiarPix()"
+    >
+      🔑 COPIAR CHAVE PIX
+    </button>
 
   </div>
-
 
   <button
     type="button"
@@ -724,28 +466,21 @@ cuidar do seu cabelo e da sua barba.
     class="btn btn-gold"
     onclick="finalizarPedido()"
   >
-
     🛍️ FINALIZAR PEDIDO
-
   </button>
-
 
   <button
     type="button"
     class="btn btn-red"
     onclick="limparCarrinho()"
   >
-
     🗑️ LIMPAR CARRINHO
-
   </button>
-
 
   <div
     id="pedidoSucesso"
     class="pedido-sucesso"
   ></div>
-
 
 </div>
 
@@ -765,16 +500,15 @@ class="btn btn-dark"
 
 🏠 VOLTAR PARA O INÍCIO
 
-  </a></main><footer>  <strong style="color:#ffd700;">Gold Style Barbearia
+  </a></main><footer>  <strong style="color:#ffd700;">
+    Gold Style Barbearia
+  </strong>  <br>BARBEARIA DESDE 2022
 
-  </strong><br />BARBEARIA DESDE 2022
+  <br>Rua Preciosa 557
 
-<br />Rua Preciosa 557
-
-<br />Rio Branco - Acre
+  <br>Rio Branco - Acre
 
 </footer><script>
-
 
 /* =====================================================
    SUPABASE
@@ -783,10 +517,8 @@ class="btn btn-dark"
 const SUPABASE_URL =
   "https://ivvswiprdqgroeoelqmh.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -801,6 +533,12 @@ const supabaseClient =
 
 const CHAVE_PIX =
   "5bed6193-1b51-46d2-a03e-6f3993acd719";
+
+const PIX_NOME =
+  "GOLD STYLE";
+
+const PIX_CIDADE =
+  "RIO BRANCO";
 
 
 /* =====================================================
@@ -838,11 +576,8 @@ const TON_LINKS = {
 ===================================================== */
 
 let usuario = null;
-
 let cliente = null;
-
 let produtos = [];
-
 let carrinho = [];
 
 
@@ -851,69 +586,43 @@ let carrinho = [];
 ===================================================== */
 
 const produtosDiv =
-  document.getElementById(
-    "produtos"
-  );
-
+  document.getElementById("produtos");
 
 const carrinhoItens =
-  document.getElementById(
-    "carrinhoItens"
-  );
-
+  document.getElementById("carrinhoItens");
 
 const carrinhoVazio =
-  document.getElementById(
-    "carrinhoVazio"
-  );
-
+  document.getElementById("carrinhoVazio");
 
 const totalEl =
-  document.getElementById(
-    "total"
-  );
-
+  document.getElementById("total");
 
 const metodoPagamento =
-  document.getElementById(
-    "metodoPagamento"
-  );
-
+  document.getElementById("metodoPagamento");
 
 const tonBox =
-  document.getElementById(
-    "tonBox"
-  );
-
+  document.getElementById("tonBox");
 
 const pixBox =
-  document.getElementById(
-    "pixBox"
-  );
-
+  document.getElementById("pixBox");
 
 const tonButton =
-  document.getElementById(
-    "tonButton"
-  );
-
+  document.getElementById("tonButton");
 
 const tonIndisponivel =
-  document.getElementById(
-    "tonIndisponivel"
-  );
-
+  document.getElementById("tonIndisponivel");
 
 const statusDiv =
-  document.getElementById(
-    "status"
-  );
-
+  document.getElementById("status");
 
 const pedidoSucesso =
-  document.getElementById(
-    "pedidoSucesso"
-  );
+  document.getElementById("pedidoSucesso");
+
+const pixValor =
+  document.getElementById("pixValor");
+
+const pixCopiaCola =
+  document.getElementById("pixCopiaCola");
 
 
 /* =====================================================
@@ -954,6 +663,249 @@ function dinheiro(valor) {
 
 
 /* =====================================================
+   PIX - FORMATAÇÃO
+===================================================== */
+
+function removerAcentos(texto) {
+
+  return String(texto)
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    );
+
+}
+
+
+function limitarPix(
+  texto,
+  tamanho
+) {
+
+  return removerAcentos(texto)
+    .toUpperCase()
+    .substring(
+      0,
+      tamanho
+    );
+
+}
+
+
+function campoPix(
+  id,
+  valor
+) {
+
+  const tamanho =
+    String(valor).length;
+
+  return (
+    id +
+    tamanho
+      .toString()
+      .padStart(2, "0") +
+    valor
+  );
+
+}
+
+
+/* =====================================================
+   CRC16 PIX
+===================================================== */
+
+function crc16CCITT(texto) {
+
+  let crc = 0xFFFF;
+
+  for (
+    let i = 0;
+    i < texto.length;
+    i++
+  ) {
+
+    crc ^=
+      texto.charCodeAt(i) << 8;
+
+    for (
+      let j = 0;
+      j < 8;
+      j++
+    ) {
+
+      if (
+        crc & 0x8000
+      ) {
+
+        crc =
+          (
+            crc << 1
+          ) ^
+          0x1021;
+
+      } else {
+
+        crc =
+          crc << 1;
+
+      }
+
+      crc &=
+        0xFFFF;
+
+    }
+
+  }
+
+  return crc
+    .toString(16)
+    .toUpperCase()
+    .padStart(4, "0");
+
+}
+
+
+/* =====================================================
+   GERAR PIX COPIA E COLA
+===================================================== */
+
+function gerarPixCopiaCola(
+  valor
+) {
+
+  const valorNumerico =
+    Number(valor || 0);
+
+  if (
+    valorNumerico <= 0
+  ) {
+
+    return "";
+
+  }
+
+  const valorFormatado =
+    valorNumerico.toFixed(2);
+
+  const merchantAccountInformation =
+    campoPix(
+      "00",
+      "BR.GOV.BCB.PIX"
+    ) +
+    campoPix(
+      "01",
+      CHAVE_PIX
+    );
+
+  const payloadSemCRC =
+    campoPix(
+      "00",
+      "01"
+    ) +
+
+    campoPix(
+      "26",
+      merchantAccountInformation
+    ) +
+
+    campoPix(
+      "52",
+      "0000"
+    ) +
+
+    campoPix(
+      "53",
+      "986"
+    ) +
+
+    campoPix(
+      "54",
+      valorFormatado
+    ) +
+
+    campoPix(
+      "58",
+      "BR"
+    ) +
+
+    campoPix(
+      "59",
+      limitarPix(
+        PIX_NOME,
+        25
+      )
+    ) +
+
+    campoPix(
+      "60",
+      limitarPix(
+        PIX_CIDADE,
+        15
+      )
+    ) +
+
+    campoPix(
+      "62",
+      campoPix(
+        "05",
+        "***"
+      )
+    );
+
+  const payloadComCRC =
+    payloadSemCRC +
+    "6304";
+
+  const crc =
+    crc16CCITT(
+      payloadComCRC
+    );
+
+  return (
+    payloadComCRC +
+    crc
+  );
+
+}
+
+
+/* =====================================================
+   ATUALIZAR PIX
+===================================================== */
+
+function atualizarPix() {
+
+  const total =
+    calcularTotal();
+
+  pixValor.textContent =
+    dinheiro(total);
+
+  if (
+    total <= 0
+  ) {
+
+    pixCopiaCola.textContent =
+      "Adicione produtos ao carrinho para gerar o Pix.";
+
+    return;
+
+  }
+
+  const codigoPix =
+    gerarPixCopiaCola(
+      total
+    );
+
+  pixCopiaCola.textContent =
+    codigoPix;
+
+}
+
+
+/* =====================================================
    CARRINHO
 ===================================================== */
 
@@ -966,12 +918,10 @@ function carregarCarrinho() {
         "goldStyleCarrinho"
       );
 
-
     carrinho =
       salvo
         ? JSON.parse(salvo)
         : [];
-
 
     if (
       !Array.isArray(carrinho)
@@ -986,7 +936,6 @@ function carregarCarrinho() {
     carrinho = [];
 
   }
-
 
   renderizarCarrinho();
 
@@ -1009,7 +958,9 @@ function salvarCarrinho() {
 
 function renderizarProdutos() {
 
-  if (!produtos.length) {
+  if (
+    !produtos.length
+  ) {
 
     produtosDiv.innerHTML = `
 
@@ -1020,10 +971,8 @@ function renderizarProdutos() {
           color:#aaa;
         "
       >
-
         Nenhum produto disponível
         no momento.
-
       </p>
 
     `;
@@ -1031,7 +980,6 @@ function renderizarProdutos() {
     return;
 
   }
-
 
   produtosDiv.innerHTML =
     produtos.map(
@@ -1042,65 +990,43 @@ function renderizarProdutos() {
             produto["Estoque"] || 0
           );
 
-
         const preco =
           Number(
             produto["Preço"] || 0
           );
 
-
         const nome =
           produto["Nome"] ||
           "Produto";
-
 
         const descricao =
           produto["Descrição"] ||
           "Produto Gold Style";
 
-
         return `
 
-          <article
-            class="produto"
-          >
+          <article class="produto">
 
             <div
               class="produto-img"
               aria-label="${nome}"
             >
-
               🧴
-
             </div>
-
 
             <h3>
               ${nome}
             </h3>
 
-
-            <p
-              class="descricao"
-            >
-
+            <p class="descricao">
               ${descricao}
-
             </p>
 
-
-            <div
-              class="preco"
-            >
-
+            <div class="preco">
               ${dinheiro(preco)}
-
             </div>
 
-
-            <div
-              class="estoque"
-            >
+            <div class="estoque">
 
               ${
                 estoque > 0
@@ -1109,7 +1035,6 @@ function renderizarProdutos() {
               }
 
             </div>
-
 
             <button
               type="button"
@@ -1134,7 +1059,6 @@ function renderizarProdutos() {
 
             </button>
 
-
           </article>
 
         `;
@@ -1149,13 +1073,14 @@ function renderizarProdutos() {
    ADICIONAR
 ===================================================== */
 
-function adicionarCarrinho(id) {
+function adicionarCarrinho(
+  id
+) {
 
   const produto =
     produtos.find(
       p => p.id === id
     );
-
 
   if (!produto) {
 
@@ -1168,14 +1093,14 @@ function adicionarCarrinho(id) {
 
   }
 
-
   const estoque =
     Number(
       produto["Estoque"] || 0
     );
 
-
-  if (estoque <= 0) {
+  if (
+    estoque <= 0
+  ) {
 
     mostrarStatus(
       "Este produto está sem estoque.",
@@ -1186,12 +1111,10 @@ function adicionarCarrinho(id) {
 
   }
 
-
   const existente =
     carrinho.find(
       item => item.id === id
     );
-
 
   if (existente) {
 
@@ -1208,7 +1131,6 @@ function adicionarCarrinho(id) {
       return;
 
     }
-
 
     existente.quantidade++;
 
@@ -1237,7 +1159,6 @@ function adicionarCarrinho(id) {
 
   }
 
-
   salvarCarrinho();
 
   renderizarCarrinho();
@@ -1264,13 +1185,10 @@ function alterarQuantidade(
         produto.id === id
     );
 
-
   if (!item) return;
-
 
   quantidade =
     Number(quantidade);
-
 
   if (
     quantidade <= 0
@@ -1294,14 +1212,12 @@ function alterarQuantidade(
     item.quantidade =
       item.estoque;
 
-
     mostrarStatus(
       "Quantidade limitada pelo estoque.",
       "erro"
     );
 
   }
-
 
   salvarCarrinho();
 
@@ -1324,12 +1240,8 @@ function calcularTotal() {
 
       return total +
         (
-          Number(
-            item.preco
-          ) *
-          Number(
-            item.quantidade
-          )
+          Number(item.preco) *
+          Number(item.quantidade)
         );
 
     },
@@ -1364,10 +1276,8 @@ function renderizarCarrinho() {
 
   }
 
-
   carrinhoVazio.style.display =
     "none";
-
 
   carrinhoItens.innerHTML =
     carrinho.map(
@@ -1375,13 +1285,9 @@ function renderizarCarrinho() {
 
         return `
 
-          <div
-            class="item-carrinho"
-          >
+          <div class="item-carrinho">
 
-            <div
-              class="item-info"
-            >
+            <div class="item-info">
 
               <strong>
                 ${item.nome}
@@ -1389,9 +1295,7 @@ function renderizarCarrinho() {
 
               <br>
 
-              <span
-                style="color:#aaa;"
-              >
+              <span style="color:#aaa;">
 
                 ${dinheiro(
                   item.preco
@@ -1403,10 +1307,7 @@ function renderizarCarrinho() {
 
             </div>
 
-
-            <div
-              class="quantidade"
-            >
+            <div class="quantidade">
 
               <button
                 type="button"
@@ -1421,11 +1322,9 @@ function renderizarCarrinho() {
                 −
               </button>
 
-
               <strong>
                 ${item.quantidade}
               </strong>
-
 
               <button
                 type="button"
@@ -1442,10 +1341,7 @@ function renderizarCarrinho() {
 
             </div>
 
-
-            <strong
-              style="color:#ffd700;"
-            >
+            <strong style="color:#ffd700;">
 
               ${dinheiro(
                 item.preco *
@@ -1454,7 +1350,6 @@ function renderizarCarrinho() {
 
             </strong>
 
-
           </div>
 
         `;
@@ -1462,12 +1357,10 @@ function renderizarCarrinho() {
       }
     ).join("");
 
-
   totalEl.textContent =
     dinheiro(
       calcularTotal()
     );
-
 
   atualizarPagamento();
 
@@ -1483,7 +1376,6 @@ function atualizarPagamento() {
   const metodo =
     metodoPagamento.value;
 
-
   if (
     metodo === "Pix"
   ) {
@@ -1495,6 +1387,8 @@ function atualizarPagamento() {
     tonBox.classList.remove(
       "show"
     );
+
+    atualizarPix();
 
   } else {
 
@@ -1528,24 +1422,19 @@ function atualizarTon() {
   const total =
     calcularTotal();
 
-
   const chave =
     total.toFixed(2);
 
-
   const link =
     TON_LINKS[chave];
-
 
   if (link) {
 
     tonButton.href =
       link;
 
-
     tonButton.style.display =
       "block";
-
 
     tonIndisponivel.style.display =
       "none";
@@ -1555,10 +1444,8 @@ function atualizarTon() {
     tonButton.href =
       "#";
 
-
     tonButton.style.display =
       "none";
-
 
     tonIndisponivel.style.display =
       "block";
@@ -1569,7 +1456,7 @@ function atualizarTon() {
 
 
 /* =====================================================
-   PIX
+   COPIAR CHAVE PIX
 ===================================================== */
 
 async function copiarPix() {
@@ -1580,7 +1467,6 @@ async function copiarPix() {
       CHAVE_PIX
     );
 
-
     mostrarStatus(
       "Chave Pix copiada."
     );
@@ -1589,6 +1475,50 @@ async function copiarPix() {
 
     mostrarStatus(
       "Não foi possível copiar automaticamente. Segure sobre a chave para copiar.",
+      "erro"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   COPIAR PIX COPIA E COLA
+===================================================== */
+
+async function copiarPixCopiaCola() {
+
+  const codigo =
+    gerarPixCopiaCola(
+      calcularTotal()
+    );
+
+  if (!codigo) {
+
+    mostrarStatus(
+      "Adicione produtos ao carrinho antes de copiar o Pix.",
+      "erro"
+    );
+
+    return;
+
+  }
+
+  try {
+
+    await navigator.clipboard.writeText(
+      codigo
+    );
+
+    mostrarStatus(
+      "Pix copia e cola copiado com o valor exato do pedido."
+    );
+
+  } catch (erro) {
+
+    mostrarStatus(
+      "Não foi possível copiar automaticamente. Segure sobre o código Pix para copiar.",
       "erro"
     );
 
@@ -1630,7 +1560,6 @@ async function finalizarPedido() {
     "show"
   );
 
-
   if (
     !carrinho.length
   ) {
@@ -1644,10 +1573,8 @@ async function finalizarPedido() {
 
   }
 
-
   const total =
     calcularTotal();
-
 
   if (
     total <= 0
@@ -1662,30 +1589,21 @@ async function finalizarPedido() {
 
   }
 
-
   const metodo =
     metodoPagamento.value;
-
 
   const btn =
     document.getElementById(
       "finalizarBtn"
     );
 
-
   btn.disabled =
     true;
-
 
   btn.style.opacity =
     ".6";
 
-
   try {
-
-    /* =========================
-       SESSÃO
-    ========================= */
 
     const {
       data: sessionData,
@@ -1694,7 +1612,6 @@ async function finalizarPedido() {
       await supabaseClient
         .auth
         .getSession();
-
 
     if (
       sessionError ||
@@ -1708,14 +1625,8 @@ async function finalizarPedido() {
 
     }
 
-
     usuario =
       sessionData.session.user;
-
-
-    /* =========================
-       CLIENTE
-    ========================= */
 
     const {
       data: clienteData,
@@ -1732,7 +1643,6 @@ async function finalizarPedido() {
         )
         .single();
 
-
     if (
       clienteError ||
       !clienteData
@@ -1744,10 +1654,8 @@ async function finalizarPedido() {
 
     }
 
-
     cliente =
       clienteData;
-
 
     /* =========================
        CONFERIR ESTOQUE
@@ -1772,7 +1680,6 @@ async function finalizarPedido() {
           )
           .single();
 
-
       if (
         produtoError ||
         !produtoAtual
@@ -1784,12 +1691,10 @@ async function finalizarPedido() {
 
       }
 
-
       const estoqueAtual =
         Number(
           produtoAtual["Estoque"] || 0
         );
-
 
       if (
         produtoAtual["Ativo"] !== true ||
@@ -1803,18 +1708,15 @@ async function finalizarPedido() {
 
       }
 
-
       item.preco =
         Number(
           produtoAtual["Preço"] || 0
         );
 
-
       item.estoque =
         estoqueAtual;
 
     }
-
 
     /* =========================
        TOTAL ATUALIZADO
@@ -1836,7 +1738,6 @@ async function finalizarPedido() {
         },
         0
       );
-
 
     /* =========================
        CRIAR PEDIDO
@@ -1871,7 +1772,6 @@ async function finalizarPedido() {
         .select()
         .single();
 
-
     if (
       pedidoError ||
       !pedido
@@ -1883,7 +1783,6 @@ async function finalizarPedido() {
       );
 
     }
-
 
     /* =========================
        ITENS
@@ -1915,7 +1814,6 @@ async function finalizarPedido() {
         })
       );
 
-
     const {
       error: itensError
     } =
@@ -1927,16 +1825,9 @@ async function finalizarPedido() {
           itens
         );
 
-
     if (
       itensError
     ) {
-
-      /*
-        Se os itens falharem,
-        tenta cancelar o pedido
-        para não deixá-lo incompleto.
-      */
 
       await supabaseClient
         .from(
@@ -1956,13 +1847,11 @@ async function finalizarPedido() {
           pedido.id
         );
 
-
       throw new Error(
         itensError.message
       );
 
     }
-
 
     /* =========================
        LINK TON
@@ -1972,7 +1861,6 @@ async function finalizarPedido() {
       TON_LINKS[
         totalAtualizado.toFixed(2)
       ] || null;
-
 
     if (
       linkTon
@@ -1997,7 +1885,6 @@ async function finalizarPedido() {
             pedido.id
           );
 
-
       if (
         tonUpdateError
       ) {
@@ -2011,13 +1898,20 @@ async function finalizarPedido() {
 
     }
 
+    /* =========================
+       PIX
+    ========================= */
+
+    const codigoPix =
+      gerarPixCopiaCola(
+        totalAtualizado
+      );
 
     /* =========================
        RESULTADO
     ========================= */
 
     let pagamentoHTML = "";
-
 
     if (
       metodo === "Ton" &&
@@ -2032,9 +1926,7 @@ async function finalizarPedido() {
           rel="noopener noreferrer"
           class="btn btn-gold"
         >
-
           💳 PAGAR PEDIDO PELO TON
-
         </a>
 
       `;
@@ -2052,35 +1944,33 @@ async function finalizarPedido() {
           "
         >
 
-          ⚠️ Ainda não existe um
-          link Ton cadastrado para
-          este valor.
+          ⚠️ Ainda não existe um link Ton
+          cadastrado para este valor.
 
           <br><br>
 
-          Você pode realizar o
-          pagamento pelo Pix.
+          Você pode realizar o pagamento
+          pelo Pix copia e cola.
 
         </div>
 
-
-        <div
-          class="pix-chave"
-        >
-
-          ${CHAVE_PIX}
-
+        <div class="pix-valor">
+          Valor:
+          <strong>
+            ${dinheiro(totalAtualizado)}
+          </strong>
         </div>
 
+        <div class="pix-chave">
+          ${codigoPix}
+        </div>
 
         <button
           type="button"
           class="btn btn-gold"
-          onclick="copiarPix()"
+          onclick="copiarPixCopiaCola()"
         >
-
-          📋 COPIAR CHAVE PIX
-
+          📋 COPIAR PIX COPIA E COLA
         </button>
 
       `;
@@ -2093,35 +1983,33 @@ async function finalizarPedido() {
           style="color:#b9ffd2;"
         >
 
-          Use a chave Pix abaixo
-          para realizar o pagamento.
+          Pix gerado com o valor exato
+          do pedido.
 
         </div>
 
-
-        <div
-          class="pix-chave"
-        >
-
-          ${CHAVE_PIX}
-
+        <div class="pix-valor">
+          Valor:
+          <strong>
+            ${dinheiro(totalAtualizado)}
+          </strong>
         </div>
 
+        <div class="pix-chave">
+          ${codigoPix}
+        </div>
 
         <button
           type="button"
           class="btn btn-gold"
-          onclick="copiarPix()"
+          onclick="copiarPixCopiaCola()"
         >
-
-          📋 COPIAR CHAVE PIX
-
+          📋 COPIAR PIX COPIA E COLA
         </button>
 
       `;
 
     }
-
 
     pedidoSucesso.innerHTML = `
 
@@ -2129,9 +2017,7 @@ async function finalizarPedido() {
         ✅ Pedido criado com sucesso!
       </strong>
 
-
       <br><br>
-
 
       Número do pedido:
 
@@ -2139,21 +2025,15 @@ async function finalizarPedido() {
         ${pedido.id}
       </strong>
 
-
       <br><br>
-
 
       Total:
 
       <strong>
-        ${dinheiro(
-          totalAtualizado
-        )}
+        ${dinheiro(totalAtualizado)}
       </strong>
 
-
       <br><br>
-
 
       Status:
 
@@ -2161,33 +2041,22 @@ async function finalizarPedido() {
         Aguardando pagamento
       </strong>
 
-
       <br><br>
 
-
       ${pagamentoHTML}
-
 
       <a
         href="cliente.html"
         class="btn btn-dark"
       >
-
         👤 VER MEUS PEDIDOS
-
       </a>
 
     `;
 
-
     pedidoSucesso.classList.add(
       "show"
     );
-
-
-    /* =========================
-       LIMPAR CARRINHO
-    ========================= */
 
     carrinho = [];
 
@@ -2195,11 +2064,9 @@ async function finalizarPedido() {
 
     renderizarCarrinho();
 
-
     mostrarStatus(
       "Pedido registrado com sucesso."
     );
-
 
   } catch (erro) {
 
@@ -2207,7 +2074,6 @@ async function finalizarPedido() {
       "Erro ao finalizar pedido:",
       erro
     );
-
 
     mostrarStatus(
       erro.message ||
@@ -2244,7 +2110,6 @@ async function iniciar() {
         .auth
         .getSession();
 
-
     if (
       error ||
       !data.session
@@ -2257,14 +2122,8 @@ async function iniciar() {
 
     }
 
-
     usuario =
       data.session.user;
-
-
-    /* =========================
-       PRODUTOS ATIVOS
-    ========================= */
 
     const {
       data: produtosData,
@@ -2286,7 +2145,6 @@ async function iniciar() {
           }
         );
 
-
     if (
       produtosError
     ) {
@@ -2297,10 +2155,8 @@ async function iniciar() {
 
     }
 
-
     produtos =
       produtosData || [];
-
 
     renderizarProdutos();
 
@@ -2308,14 +2164,12 @@ async function iniciar() {
 
     atualizarPagamento();
 
-
   } catch (erro) {
 
     console.error(
       "Erro ao iniciar loja:",
       erro
     );
-
 
     mostrarStatus(
       erro.message ||
@@ -2330,5 +2184,5 @@ async function iniciar() {
 
 iniciar();
 
-
-</script></body></html>
+</script></body>
+    </html>
