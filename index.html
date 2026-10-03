@@ -51,6 +51,7 @@
       right: 0;
       bottom: 0;
       padding: 12px;
+      padding-top: 35px;
       background: linear-gradient(
         transparent,
         rgba(0, 0, 0, 0.95)
@@ -58,16 +59,10 @@
       color: #fff;
       font-weight: bold;
       text-align: center;
-      padding-top: 35px;
     }
 
     .foto-legenda span {
       color: #d4af37;
-    }
-
-    .galeria-botao {
-      margin-top: 25px;
-      text-align: center;
     }
 
     .destaque-galeria {
@@ -89,7 +84,165 @@
       margin-bottom: 10px;
     }
 
+
+    /* =====================================================
+       PROMOÇÃO / SORTEIO GOLD STYLE
+    ====================================================== */
+
+    .promocao {
+      position: relative;
+      overflow: hidden;
+      margin: 30px 0;
+      padding: 30px 20px;
+      border: 2px solid #d4af37;
+      border-radius: 22px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(212, 175, 55, 0.22),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #050505,
+          #171717,
+          #080808
+        );
+      box-shadow:
+        0 0 20px rgba(212, 175, 55, 0.25),
+        inset 0 0 25px rgba(212, 175, 55, 0.05);
+      text-align: center;
+    }
+
+    .promocao::before {
+      content: "★";
+      position: absolute;
+      top: -25px;
+      right: 15px;
+      font-size: 100px;
+      color: rgba(212, 175, 55, 0.07);
+    }
+
+    .promocao-tag {
+      display: inline-block;
+      padding: 7px 15px;
+      border-radius: 30px;
+      background: #d4af37;
+      color: #050505;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
+    .promocao h2 {
+      color: #d4af37;
+      font-size: 30px;
+      margin: 5px 0 10px;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+    }
+
+    .promocao h3 {
+      color: #fff;
+      font-size: 21px;
+      margin: 8px 0 15px;
+    }
+
+    .promocao-data {
+      color: #d4af37;
+      font-weight: 900;
+      font-size: 19px;
+      margin: 15px 0;
+    }
+
+    .promocao-texto {
+      color: #ddd;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .premios {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 22px 0;
+    }
+
+    .premio {
+      padding: 18px 10px;
+      border: 1px solid rgba(212, 175, 55, 0.65);
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.55);
+    }
+
+    .premio-numero {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .premio h4 {
+      color: #d4af37;
+      margin: 5px 0 8px;
+      font-size: 16px;
+    }
+
+    .premio p {
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .promocao-regra {
+      margin: 20px auto;
+      padding: 15px;
+      max-width: 600px;
+      border-radius: 14px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .promocao-regra strong {
+      color: #d4af37;
+    }
+
+    .promocao-botao {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+
+    /* =====================================================
+       RESPONSIVO
+    ====================================================== */
+
+    @media (max-width: 700px) {
+
+      .premios {
+        grid-template-columns: 1fr;
+      }
+
+      .promocao {
+        padding: 25px 15px;
+      }
+
+      .promocao h2 {
+        font-size: 25px;
+      }
+
+      .promocao h3 {
+        font-size: 18px;
+      }
+
+    }
+
+
     @media (max-width: 600px) {
+
       .galeria {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
@@ -106,9 +259,12 @@
         padding: 8px;
         padding-top: 30px;
       }
+
     }
 
+
     @media (max-width: 380px) {
+
       .galeria {
         grid-template-columns: 1fr;
       }
@@ -118,14 +274,14 @@
         height: 260px;
         min-height: 260px;
       }
+
     }
-  </style></head><body><header>
-  <div class="logo">
+
+  </style></head><body><header>  <div class="logo">
     GOLD STYLE
   </div>  <div class="subtitle">
     BARBEARIA DESDE 2022
-  </div>
-</header><main>  <!-- =====================================================
+  </div></header><main>  <!-- =====================================================
        APRESENTAÇÃO
   ====================================================== -->  <section class="hero"><h1>
   Seu estilo começa aqui.
@@ -151,6 +307,124 @@
 </a>
 
   </section>  <!-- =====================================================
+       PROMOÇÃO / SORTEIO
+  ====================================================== -->  <section class="promocao"><div class="promocao-tag">
+  🎁 PROMOÇÃO GOLD STYLE
+</div>
+
+<h2>
+  SORTEIO GOLD STYLE
+</h2>
+
+<h3>
+  Comece 2027 com o pé direito! 🔥
+</h3>
+
+<div class="promocao-data">
+  📅 SORTEIO: 01/01/2027
+</div>
+
+<p class="promocao-texto">
+  A cada serviço realizado na Gold Style,
+  você poderá preencher seu cupom e participar
+  do nosso sorteio especial de Ano Novo.
+</p>
+
+
+<div class="premios">
+
+  <div class="premio">
+
+    <div class="premio-numero">
+      🥇
+    </div>
+
+    <h4>
+      1º PRÊMIO
+    </h4>
+
+    <p>
+      R$ 100,00
+      <br>
+      +
+      <br>
+      1 corte grátis
+    </p>
+
+  </div>
+
+
+  <div class="premio">
+
+    <div class="premio-numero">
+      🥈
+    </div>
+
+    <h4>
+      2º PRÊMIO
+    </h4>
+
+    <p>
+      R$ 50,00
+      <br>
+      +
+      <br>
+      1 corte grátis
+    </p>
+
+  </div>
+
+
+  <div class="premio">
+
+    <div class="premio-numero">
+      🥉
+    </div>
+
+    <h4>
+      3º PRÊMIO
+    </h4>
+
+    <p>
+      1 corte de cabelo
+      <br>
+      totalmente grátis
+    </p>
+
+  </div>
+
+</div>
+
+
+<div class="promocao-regra">
+
+  <strong>
+    COMO PARTICIPAR?
+  </strong>
+
+  <br><br>
+
+  Faça qualquer serviço na Gold Style,
+  preencha seu cupom e coloque-o na urna
+  da promoção.
+
+  <br><br>
+
+  Quanto mais vezes você participar,
+  mais cupons poderá ter no sorteio.
+
+</div>
+
+
+<a
+  href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
+  target="_blank"
+  class="btn btn-gold promocao-botao"
+>
+  🎟️ QUERO PARTICIPAR
+</a>
+
+  </section>  <!-- =====================================================
        GALERIA DE TRABALHOS
   ====================================================== -->  <section id="galeria"><h2 class="section-title">
   Nossos Trabalhos
@@ -167,6 +441,7 @@
 
 
 <div class="galeria">
+
 
   <!-- DEGRADÊ -->
 
@@ -605,4 +880,4 @@ aria-label="Falar com a Gold Style pelo WhatsApp"
 </a>
 
 </body>
-    </html>
+  </html>
