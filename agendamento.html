@@ -1,167 +1,310 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agendamento - Gold Style</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
-*{box-sizing:border-box}
+
+<title>Agendamento | Gold Style Barbearia</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
 
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#050505;
-    color:white;
+    background:
+        radial-gradient(circle at top,#201b00 0%,#080808 35%,#050505 70%);
+    color:#fff;
+    min-height:100vh;
 }
 
 header{
     text-align:center;
-    padding:25px 15px;
+    padding:28px 15px;
     border-bottom:2px solid #ffd700;
-    background:linear-gradient(135deg,#050505,#171717);
+    background:
+        linear-gradient(135deg,#050505,#181400,#050505);
+    box-shadow:0 4px 25px rgba(255,215,0,.12);
 }
 
 .logo{
     color:#ffd700;
-    font-size:30px;
-    font-weight:bold;
+    font-size:32px;
+    font-weight:900;
+    letter-spacing:2px;
+    text-shadow:
+        0 0 8px rgba(255,215,0,.5),
+        0 0 20px rgba(255,215,0,.25);
 }
 
 .slogan{
     color:#aaa;
-    margin-top:5px;
+    margin-top:7px;
+    font-size:13px;
+    letter-spacing:2px;
 }
 
 .container{
-    width:92%;
-    max-width:600px;
-    margin:30px auto;
+    width:94%;
+    max-width:650px;
+    margin:25px auto 50px;
 }
 
 .card{
-    background:#111;
-    border:1px solid #333;
-    border-radius:15px;
+    background:
+        linear-gradient(145deg,#141414,#090909);
+    border:1px solid rgba(255,215,0,.35);
+    border-radius:20px;
     padding:25px;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.55),
+        0 0 25px rgba(255,215,0,.05);
 }
 
 h1{
     color:#ffd700;
     text-align:center;
-    margin-top:0;
+    margin:0;
+    font-size:28px;
 }
 
 .descricao{
     text-align:center;
     color:#aaa;
-    margin-bottom:25px;
+    margin:10px 0 25px;
+    line-height:1.5;
+}
+
+.etapa{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:22px 0 8px;
+}
+
+.numero{
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#ffd700;
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    flex-shrink:0;
+}
+
+.etapa-titulo{
+    color:#ffd700;
+    font-weight:900;
+    font-size:16px;
 }
 
 label{
     display:block;
     color:#ffd700;
     font-weight:bold;
-    margin:18px 0 7px;
+    margin:15px 0 7px;
 }
 
-input,select{
+input,
+select{
     width:100%;
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #444;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #3b3b3b;
     background:#050505;
-    color:white;
+    color:#fff;
     font-size:16px;
+    outline:none;
+    transition:.2s;
 }
 
-input:focus,select:focus{
-    outline:none;
+input:focus,
+select:focus{
     border-color:#ffd700;
+    box-shadow:0 0 0 2px rgba(255,215,0,.08);
+}
+
+input[readonly]{
+    color:#ccc;
+    background:#0b0b0b;
+}
+
+select{
+    cursor:pointer;
+}
+
+select option{
+    background:#111;
+    color:#fff;
+}
+
+.info{
+    margin-top:14px;
+    padding:13px;
+    border-radius:10px;
+    background:#151515;
+    border:1px solid #292929;
+    color:#aaa;
+    font-size:14px;
+    text-align:center;
+    line-height:1.5;
+}
+
+.info.disponivel{
+    color:#5cff9a;
+    border-color:rgba(92,255,154,.25);
+}
+
+.info.indisponivel{
+    color:#ff7777;
+    border-color:rgba(255,119,119,.25);
 }
 
 button{
     width:100%;
-    padding:15px;
-    margin-top:25px;
+    padding:16px;
+    margin-top:20px;
     border:0;
-    border-radius:8px;
-    background:#ffd700;
+    border-radius:10px;
+    background:
+        linear-gradient(135deg,#fff0a0,#ffd700,#d4af37);
     color:#000;
-    font-size:17px;
-    font-weight:bold;
+    font-size:16px;
+    font-weight:900;
     cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.05);
+}
+
+button:active{
+    transform:translateY(0);
 }
 
 button:disabled{
     opacity:.5;
     cursor:not-allowed;
-}
-
-.voltar{
-    display:block;
-    text-align:center;
-    margin-top:18px;
-    color:#ffd700;
-    text-decoration:none;
+    transform:none;
 }
 
 .mensagem{
-    margin-top:20px;
+    margin-top:18px;
     padding:15px;
-    border-radius:8px;
+    border-radius:10px;
     text-align:center;
+    line-height:1.5;
     display:none;
+    font-weight:bold;
 }
 
 .sucesso{
-    background:#123d25;
-    color:#5cff9a;
+    display:block;
+    background:#10331f;
+    border:1px solid #236f42;
+    color:#65ffa0;
 }
 
 .erro{
-    background:#3d1212;
-    color:#ff7777;
+    display:block;
+    background:#351212;
+    border:1px solid #7b2929;
+    color:#ff8585;
 }
 
-.info{
-    background:#151515;
-    color:#aaa;
-    margin-top:15px;
-    padding:12px;
-    border-radius:8px;
-    font-size:14px;
+.resumo{
+    display:none;
+    margin-top:20px;
+    padding:18px;
+    border-radius:14px;
+    background:
+        linear-gradient(145deg,#1b1807,#0c0c0c);
+    border:1px solid rgba(255,215,0,.55);
+}
+
+.resumo h2{
+    color:#ffd700;
+    margin:0 0 15px;
     text-align:center;
+    font-size:20px;
+}
+
+.resumo-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:10px 0;
+    border-bottom:1px solid #282828;
+}
+
+.resumo-item:last-child{
+    border-bottom:0;
+}
+
+.resumo-label{
+    color:#999;
+}
+
+.resumo-valor{
+    color:#fff;
+    font-weight:bold;
+    text-align:right;
+}
+
+.resumo-preco{
+    color:#ffd700;
+    font-size:22px;
 }
 
 .pagamento-ton{
     display:none;
     margin-top:20px;
     padding:20px;
-    border-radius:14px;
-    background:linear-gradient(145deg,#181300,#0b0b0b);
+    border-radius:16px;
+    background:
+        linear-gradient(145deg,#211b00,#0b0b0b);
     border:1px solid #ffd700;
-    text-align:center;
+    box-shadow:0 0 25px rgba(255,215,0,.08);
 }
 
 .pagamento-ton h2{
     color:#ffd700;
     margin:0 0 10px;
+    text-align:center;
 }
 
 .pagamento-ton p{
     color:#bbb;
     line-height:1.6;
     font-size:14px;
+    text-align:center;
 }
 
 .valor-ton{
     color:#ffd700;
-    font-size:24px;
-    font-weight:bold;
-    margin:10px 0;
+    font-size:27px;
+    font-weight:900;
+    margin:12px 0;
+    text-align:center;
 }
 
 .pagamento-ton button{
     margin-top:12px;
-    background:linear-gradient(135deg,#fff2a6,#ffd700,#d4af37);
 }
 
 .pagamento-ton .secundario{
@@ -172,20 +315,20 @@ button:disabled{
 
 .pagamento-pix{
     margin-top:20px;
-    padding:20px;
+    padding:18px;
     border-radius:14px;
-    background:linear-gradient(145deg,#111,#080808);
-    border:1px solid rgba(255,215,0,.5);
+    background:#090909;
+    border:1px solid rgba(255,215,0,.45);
 }
 
 .pagamento-pix h2{
     color:#ffd700;
     text-align:center;
-    margin-top:0;
+    margin:0 0 10px;
 }
 
 .pix-descricao{
-    color:#bbb;
+    color:#aaa;
     font-size:14px;
     line-height:1.6;
     text-align:center;
@@ -198,7 +341,7 @@ button:disabled{
     background:#050505;
     border:1px solid #333;
     color:#ffd700;
-    font-size:14px;
+    font-size:13px;
     word-break:break-all;
     text-align:center;
     font-weight:bold;
@@ -222,7 +365,7 @@ button:disabled{
 .opcoes-pagamento h3{
     color:#fff;
     text-align:center;
-    margin-bottom:5px;
+    margin:0 0 5px;
 }
 
 .opcoes-pagamento p{
@@ -235,7 +378,7 @@ button:disabled{
     display:flex;
     align-items:center;
     gap:10px;
-    margin:18px 0;
+    margin:20px 0;
     color:#666;
     font-size:12px;
 }
@@ -247,70 +390,454 @@ button:disabled{
     background:#333;
     flex:1;
 }
-</style></head><body><header>
-    <div class="logo">GOLD STYLE</div>
-    <div class="slogan">BARBEARIA DESDE 2022</div>
-</header><div class="container"><div class="card"><h1>Agende seu horário</h1><div class="descricao">
-Escolha o serviço, a data e o horário desejado.
-</div><label>Nome completo</label>
-<input type="text" id="nome" readonly>
 
-<label>WhatsApp</label>
-<input type="text" id="telefone" readonly>
+.voltar{
+    display:block;
+    text-align:center;
+    margin-top:22px;
+    color:#ffd700;
+    text-decoration:none;
+    font-weight:bold;
+}
 
-<label>Escolha o serviço</label>
-<select id="servico">
-<option value="">Selecione um serviço</option>
-</select>
+.voltar:hover{
+    text-decoration:underline;
+}
 
-<label>Escolha a data</label>
-<input type="date" id="data">
+.rodape-info{
+    margin-top:20px;
+    padding:15px;
+    border-radius:12px;
+    background:#0d0d0d;
+    border:1px solid #222;
+    text-align:center;
+    color:#888;
+    font-size:13px;
+    line-height:1.6;
+}
 
-<label>Escolha o horário</label>
-<select id="horario">
-<option value="">Selecione um horário</option>
-</select>
+.rodape-info strong{
+    color:#ffd700;
+}
 
-<div class="info" id="infoHorario">
-Escolha uma data para visualizar os horários disponíveis.
-</div><button id="btnAgendar" onclick="criarAgendamento()" disabled>
-CONFIRMAR AGENDAMENTO
-</button><div id="mensagem" class="mensagem"></div><!-- PAGAMENTO --><div class="pagamento-ton" id="pagamentoTon"><h2>💳 PAGAMENTO TON</h2><p>
-Seu horário foi reservado.<br>
-Escolha uma das formas de pagamento abaixo.
-</p><div class="valor-ton" id="valorTon"></div><div class="opcoes-pagamento"><h3>Escolha como deseja pagar</h3><p>
-Você pode pagar pela Ton ou por Pix.
-</p><button id="btnPagarTon" onclick="pagarComTon()">
-PAGAR AGORA COM TON
-</button><div class="separador">
-OU PAGUE COM PIX
-</div><div class="pagamento-pix" id="pagamentoPix"><h2>🔑 PAGAMENTO VIA PIX</h2><div class="pix-descricao">
-Faça o pagamento usando a chave Pix aleatória da Gold Style.
-</div><div class="pix-chave" id="chavePix">
-5bed6193-1b51-46d2-a03e-6f3993acd719
-</div><button
-id="btnCopiarPix"
-class="btn-pix"
-onclick="copiarPix()">
-📋 COPIAR CHAVE PIX
-</button>
+.loading{
+    text-align:center;
+    color:#aaa;
+    padding:10px;
+}
 
-</div><button
-class="secundario"
-onclick="window.location.href='cliente.html'">
-PAGAR DEPOIS / IR PARA MINHA CONTA
-</button>
+@media(max-width:500px){
 
-</div></div><a href="cliente.html" class="voltar">
-← Voltar para minha conta
-</a></div>
-</div><script>
+    header{
+        padding:22px 12px;
+    }
+
+    .logo{
+        font-size:27px;
+    }
+
+    .container{
+        width:95%;
+        margin-top:18px;
+    }
+
+    .card{
+        padding:18px;
+        border-radius:16px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    input,
+    select{
+        font-size:16px;
+        padding:14px;
+    }
+
+    button{
+        padding:15px;
+    }
+
+    .resumo-item{
+        flex-direction:column;
+        gap:4px;
+    }
+
+    .resumo-valor{
+        text-align:left;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GOLD STYLE
+    </div>
+
+    <div class="slogan">
+        BARBEARIA DESDE 2022
+    </div>
+
+</header>
+
+
+<div class="container">
+
+<div class="card">
+
+    <h1>Agende seu horário</h1>
+
+    <div class="descricao">
+        Escolha seu serviço, a data e o melhor horário.
+        Seu horário será reservado na Gold Style.
+    </div>
+
+
+    <!-- ETAPA 1 -->
+
+    <div class="etapa">
+
+        <div class="numero">
+            1
+        </div>
+
+        <div class="etapa-titulo">
+            Seus dados
+        </div>
+
+    </div>
+
+
+    <label>
+        Nome completo
+    </label>
+
+    <input
+        type="text"
+        id="nome"
+        readonly
+        placeholder="Carregando..."
+    >
+
+
+    <label>
+        WhatsApp
+    </label>
+
+    <input
+        type="text"
+        id="telefone"
+        readonly
+        placeholder="Carregando..."
+    >
+
+
+    <!-- ETAPA 2 -->
+
+    <div class="etapa">
+
+        <div class="numero">
+            2
+        </div>
+
+        <div class="etapa-titulo">
+            Escolha o serviço
+        </div>
+
+    </div>
+
+
+    <select id="servico">
+
+        <option value="">
+            Carregando serviços...
+        </option>
+
+    </select>
+
+
+    <!-- ETAPA 3 -->
+
+    <div class="etapa">
+
+        <div class="numero">
+            3
+        </div>
+
+        <div class="etapa-titulo">
+            Escolha a data
+        </div>
+
+    </div>
+
+
+    <input
+        type="date"
+        id="data"
+    >
+
+
+    <!-- ETAPA 4 -->
+
+    <div class="etapa">
+
+        <div class="numero">
+            4
+        </div>
+
+        <div class="etapa-titulo">
+            Escolha o horário
+        </div>
+
+    </div>
+
+
+    <select id="horario">
+
+        <option value="">
+            Selecione uma data primeiro
+        </option>
+
+    </select>
+
+
+    <div
+        class="info"
+        id="infoHorario"
+    >
+        Escolha uma data para visualizar os horários disponíveis.
+    </div>
+
+
+    <!-- RESUMO -->
+
+    <div
+        class="resumo"
+        id="resumo"
+    >
+
+        <h2>
+            📋 Resumo do agendamento
+        </h2>
+
+        <div class="resumo-item">
+
+            <span class="resumo-label">
+                Serviço
+            </span>
+
+            <span
+                class="resumo-valor"
+                id="resumoServico"
+            >
+            </span>
+
+        </div>
+
+
+        <div class="resumo-item">
+
+            <span class="resumo-label">
+                Data
+            </span>
+
+            <span
+                class="resumo-valor"
+                id="resumoData"
+            >
+            </span>
+
+        </div>
+
+
+        <div class="resumo-item">
+
+            <span class="resumo-label">
+                Horário
+            </span>
+
+            <span
+                class="resumo-valor"
+                id="resumoHorario"
+            >
+            </span>
+
+        </div>
+
+
+        <div class="resumo-item">
+
+            <span class="resumo-label">
+                Valor
+            </span>
+
+            <span
+                class="resumo-valor resumo-preco"
+                id="resumoValor"
+            >
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="btnAgendar"
+        onclick="criarAgendamento()"
+        disabled
+    >
+        CONFIRMAR AGENDAMENTO
+    </button>
+
+
+    <div
+        id="mensagem"
+        class="mensagem"
+    >
+    </div>
+
+
+    <!-- PAGAMENTO -->
+
+    <div
+        class="pagamento-ton"
+        id="pagamentoTon"
+    >
+
+        <h2>
+            💳 PAGAMENTO
+        </h2>
+
+        <p>
+            Seu horário foi reservado com sucesso.
+            Escolha uma das formas de pagamento abaixo.
+        </p>
+
+
+        <div
+            class="valor-ton"
+            id="valorTon"
+        >
+        </div>
+
+
+        <div class="opcoes-pagamento">
+
+            <h3>
+                Como deseja pagar?
+            </h3>
+
+            <p>
+                Você pode pagar pela Ton ou por Pix.
+            </p>
+
+
+            <button
+                id="btnPagarTon"
+                onclick="pagarComTon()"
+            >
+                PAGAR AGORA COM TON
+            </button>
+
+
+            <div class="separador">
+                OU PAGUE COM PIX
+            </div>
+
+
+            <div
+                class="pagamento-pix"
+                id="pagamentoPix"
+            >
+
+                <h2>
+                    🔑 PAGAMENTO VIA PIX
+                </h2>
+
+                <div class="pix-descricao">
+                    Faça o pagamento usando a chave Pix
+                    da Gold Style.
+                </div>
+
+
+                <div
+                    class="pix-chave"
+                    id="chavePix"
+                >
+                    5bed6193-1b51-46d2-a03e-6f3993acd719
+                </div>
+
+
+                <button
+                    id="btnCopiarPix"
+                    class="btn-pix"
+                    onclick="copiarPix()"
+                >
+                    📋 COPIAR CHAVE PIX
+                </button>
+
+            </div>
+
+
+            <button
+                class="secundario"
+                onclick="window.location.href='cliente.html'"
+            >
+                PAGAR DEPOIS / IR PARA MINHA CONTA
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="rodape-info">
+
+        📍 <strong>Rua Preciosa 557</strong><br>
+
+        🕐 Segunda a sábado: 08h às 19h<br>
+
+        🕐 Domingo: 08h às 12h<br>
+
+        📱 WhatsApp: 6899985-3643
+
+    </div>
+
+
+    <a
+        href="cliente.html"
+        class="voltar"
+    >
+        ← Voltar para minha conta
+    </a>
+
+</div>
+
+</div>
+
+
+<script>
+
+
+/* ==========================================
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -319,746 +846,1360 @@ window.supabase.createClient(
 );
 
 
-/* =========================
+/* ==========================================
    CHAVE PIX
-========================= */
+========================================== */
 
 const CHAVE_PIX =
 "5bed6193-1b51-46d2-a03e-6f3993acd719";
 
 
-/* =========================
+/* ==========================================
    LINKS TON
-========================= */
+========================================== */
 
 const LINKS_TON = {
 
-10:
-"https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
+    10:
+    "https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
 
-25:
-"https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
+    25:
+    "https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
 
-30:
-"https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
+    30:
+    "https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
 
-50:
-"https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
+    50:
+    "https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
 
-70:
-"https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
+    70:
+    "https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
 
-80:
-"https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
+    80:
+    "https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
 
-120:
-"https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
+    120:
+    "https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
 
 };
 
 
-/* =========================
+/* ==========================================
    HORÁRIOS
-========================= */
+========================================== */
 
 const horarios = [
-"08:00",
-"09:00",
-"10:00",
-"11:00",
-"12:00",
-"13:00",
-"14:00",
-"15:00",
-"16:00",
-"17:00",
-"18:00"
+
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00"
+
 ];
+
 
 const horariosDomingo = [
-"08:00",
-"09:00",
-"10:00",
-"11:00"
+
+    "08:00",
+    "09:00",
+    "10:00",
+    "11:00"
+
 ];
 
 
+/* ==========================================
+   VARIÁVEIS
+========================================== */
+
 let usuarioAtual = null;
+
 let clienteAtual = null;
+
 let agendamentoCriadoId = null;
+
 let linkTonAtual = null;
+
 let valorTonAtual = 0;
 
 
-/* =========================
-   MENSAGENS
-========================= */
+/* ==========================================
+   ELEMENTOS
+========================================== */
+
+const nomeInput =
+document.getElementById("nome");
+
+const telefoneInput =
+document.getElementById("telefone");
+
+const servicoSelect =
+document.getElementById("servico");
+
+const dataInput =
+document.getElementById("data");
+
+const horarioSelect =
+document.getElementById("horario");
+
+const btnAgendar =
+document.getElementById("btnAgendar");
+
+const infoHorario =
+document.getElementById("infoHorario");
+
+
+/* ==========================================
+   MENSAGEM
+========================================== */
 
 function mostrarMensagem(texto,tipo){
 
-const elemento =
-document.getElementById("mensagem");
+    const elemento =
+    document.getElementById("mensagem");
 
-elemento.textContent = texto;
+    elemento.textContent =
+    texto;
 
-elemento.className =
-"mensagem " + tipo;
+    elemento.className =
+    "mensagem " + tipo;
 
-elemento.style.display = "block";
+    elemento.style.display =
+    "block";
+
 }
 
 
 function limparMensagem(){
 
-const elemento =
-document.getElementById("mensagem");
+    const elemento =
+    document.getElementById("mensagem");
 
-elemento.style.display = "none";
+    elemento.textContent = "";
+
+    elemento.className =
+    "mensagem";
+
+    elemento.style.display =
+    "none";
+
 }
 
 
-/* =========================
+/* ==========================================
+   FORMATAÇÃO DE VALOR
+========================================== */
+
+function formatarValor(valor){
+
+    return "R$ " +
+    Number(valor || 0)
+    .toFixed(2)
+    .replace(".",",");
+
+}
+
+
+/* ==========================================
+   FORMATAR DATA
+========================================== */
+
+function formatarData(data){
+
+    if(!data){
+        return "";
+    }
+
+    const partes =
+    data.split("-");
+
+    if(partes.length !== 3){
+        return data;
+    }
+
+    return partes[2] +
+    "/" +
+    partes[1] +
+    "/" +
+    partes[0];
+
+}
+
+
+/* ==========================================
+   DATA DE HOJE
+========================================== */
+
+function obterDataHoje(){
+
+    const agora =
+    new Date();
+
+    const ano =
+    agora.getFullYear();
+
+    const mes =
+    String(
+        agora.getMonth() + 1
+    ).padStart(2,"0");
+
+    const dia =
+    String(
+        agora.getDate()
+    ).padStart(2,"0");
+
+    return `${ano}-${mes}-${dia}`;
+
+}
+
+
+/* ==========================================
    VERIFICAR LOGIN
-========================= */
+========================================== */
 
 async function verificarUsuario(){
 
-const {
-data:{session}
-} =
-await supabaseClient.auth.getSession();
+    const {
+        data:{session},
+        error:sessionError
+    } =
+    await supabaseClient.auth.getSession();
 
-if(!session){
 
-window.location.href = "login.html";
+    if(sessionError){
 
-return false;
+        console.error(sessionError);
+
+        mostrarMensagem(
+            "Não foi possível verificar seu login.",
+            "erro"
+        );
+
+        return false;
+    }
+
+
+    if(!session){
+
+        window.location.href =
+        "login.html";
+
+        return false;
+    }
+
+
+    usuarioAtual =
+    session.user;
+
+
+    const {
+        data:cliente,
+        error
+    } =
+    await supabaseClient
+    .from("clientes")
+    .select(
+        'id,Nome,Telefone,"E-mail"'
+    )
+    .eq(
+        "auth_user_id",
+        session.user.id
+    )
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarMensagem(
+            "Erro ao carregar seus dados.",
+            "erro"
+        );
+
+        return false;
+    }
+
+
+    if(!cliente){
+
+        mostrarMensagem(
+            "Seu cadastro de cliente não foi encontrado.",
+            "erro"
+        );
+
+        return false;
+    }
+
+
+    clienteAtual =
+    cliente;
+
+
+    nomeInput.value =
+    cliente.Nome || "";
+
+
+    telefoneInput.value =
+    cliente.Telefone || "";
+
+
+    return true;
+
 }
 
-usuarioAtual = session.user;
 
-const {
-data:cliente,
-error
-} =
-await supabaseClient
-.from("clientes")
-.select('id,Nome,Telefone,"E-mail"')
-.eq("auth_user_id",session.user.id)
-.maybeSingle();
-
-if(error){
-
-console.error(error);
-
-mostrarMensagem(
-"Erro ao carregar seus dados.",
-"erro"
-);
-
-return false;
-}
-
-if(!cliente){
-
-mostrarMensagem(
-"Seu cadastro de cliente não foi encontrado.",
-"erro"
-);
-
-return false;
-}
-
-clienteAtual = cliente;
-
-document.getElementById("nome").value =
-cliente.Nome || "";
-
-document.getElementById("telefone").value =
-cliente.Telefone || "";
-
-return true;
-}
-
-
-/* =========================
+/* ==========================================
    CARREGAR SERVIÇOS
-========================= */
+========================================== */
 
 async function carregarServicos(){
 
-const select =
-document.getElementById("servico");
+    servicoSelect.innerHTML =
+    '<option value="">Carregando serviços...</option>';
 
-const {
-data,
-error
-} =
-await supabaseClient
-.from("Serviços")
-.select("*")
-.eq("Ativo",true)
-.order("created_at",{ascending:true});
 
-if(error){
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("Serviços")
+    .select("*")
+    .eq("Ativo",true)
+    .order(
+        "created_at",
+        {ascending:true}
+    );
 
-console.error(error);
 
-mostrarMensagem(
-"Erro ao carregar os serviços.",
-"erro"
-);
+    if(error){
 
-return;
+        console.error(error);
+
+        servicoSelect.innerHTML =
+        '<option value="">Erro ao carregar serviços</option>';
+
+        mostrarMensagem(
+            "Erro ao carregar os serviços.",
+            "erro"
+        );
+
+        return false;
+    }
+
+
+    if(!data || data.length === 0){
+
+        servicoSelect.innerHTML =
+        '<option value="">Nenhum serviço disponível</option>';
+
+        mostrarMensagem(
+            "Nenhum serviço ativo foi encontrado.",
+            "erro"
+        );
+
+        return false;
+    }
+
+
+    servicoSelect.innerHTML =
+    '<option value="">Selecione um serviço</option>';
+
+
+    data.forEach(servico => {
+
+        const option =
+        document.createElement("option");
+
+
+        option.value =
+        servico.id;
+
+
+        option.textContent =
+        `${servico.created_at} - ${formatarValor(servico.Valor)}`;
+
+
+        option.dataset.nome =
+        servico.created_at;
+
+
+        option.dataset.valor =
+        servico.Valor;
+
+
+        servicoSelect.appendChild(option);
+
+    });
+
+
+    return true;
+
 }
 
-data.forEach(servico=>{
 
-const option =
-document.createElement("option");
+/* ==========================================
+   VERIFICAR SE HORÁRIO JÁ PASSOU
+========================================== */
 
-option.value = servico.id;
+function horarioJaPassou(horario){
 
-option.textContent =
-`${servico.created_at} - R$ ${
-Number(servico.Valor || 0)
-.toFixed(2)
-.replace(".",",")
-}`;
+    const hoje =
+    obterDataHoje();
 
-option.dataset.nome =
-servico.created_at;
 
-option.dataset.valor =
-servico.Valor;
+    if(dataInput.value !== hoje){
 
-select.appendChild(option);
+        return false;
+    }
 
-});
+
+    const agora =
+    new Date();
+
+
+    const partes =
+    horario.split(":");
+
+
+    const hora =
+    Number(partes[0]);
+
+
+    const minuto =
+    Number(partes[1]);
+
+
+    const horarioEscolhido =
+    new Date();
+
+
+    horarioEscolhido.setHours(
+        hora,
+        minuto,
+        0,
+        0
+    );
+
+
+    return horarioEscolhido <= agora;
 
 }
 
 
-/* =========================
+/* ==========================================
    CARREGAR HORÁRIOS
-========================= */
+========================================== */
 
 async function carregarHorarios(){
 
-const data =
-document.getElementById("data").value;
+    const data =
+    dataInput.value;
 
-const horarioSelect =
-document.getElementById("horario");
 
-const info =
-document.getElementById("infoHorario");
+    horarioSelect.innerHTML =
+    '<option value="">Selecione um horário</option>';
 
-horarioSelect.innerHTML =
-'<option value="">Selecione um horário</option>';
 
-document.getElementById("btnAgendar").disabled =
-true;
+    btnAgendar.disabled =
+    true;
 
-if(!data){
 
-info.textContent =
-"Escolha uma data para visualizar os horários disponíveis.";
+    document.getElementById("resumo").style.display =
+    "none";
 
-return;
+
+    if(!data){
+
+        infoHorario.textContent =
+        "Escolha uma data para visualizar os horários disponíveis.";
+
+        infoHorario.className =
+        "info";
+
+        return;
+    }
+
+
+    const hoje =
+    obterDataHoje();
+
+
+    if(data < hoje){
+
+        infoHorario.textContent =
+        "Não é possível agendar para uma data que já passou.";
+
+        infoHorario.className =
+        "info indisponivel";
+
+        return;
+    }
+
+
+    const dataEscolhida =
+    new Date(
+        data + "T00:00:00"
+    );
+
+
+    const diaSemana =
+    dataEscolhida.getDay();
+
+
+    const horariosDoDia =
+    diaSemana === 0
+    ? horariosDomingo
+    : horarios;
+
+
+    /* ==============================
+       BUSCAR AGENDAMENTOS
+    ============================== */
+
+    const {
+        data:agendamentos,
+        error
+    } =
+    await supabaseClient
+    .from("agendamentos")
+    .select(
+        "Horário,Status"
+    )
+    .eq(
+        "Data",
+        data
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        infoHorario.textContent =
+        "Não foi possível carregar os horários.";
+
+        infoHorario.className =
+        "info indisponivel";
+
+        mostrarMensagem(
+            "Erro ao verificar horários disponíveis.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    const horariosOcupados =
+    (agendamentos || [])
+
+    .filter(
+        agendamento =>
+        agendamento.Status !== "Cancelado"
+    )
+
+    .map(
+        agendamento =>
+        String(
+            agendamento.Horário
+        ).substring(0,5)
+    );
+
+
+    let quantidadeDisponivel = 0;
+
+
+    horariosDoDia.forEach(
+    horario => {
+
+
+        /* HORÁRIO JÁ OCUPADO */
+
+        if(
+            horariosOcupados.includes(horario)
+        ){
+
+            return;
+        }
+
+
+        /* HORÁRIO QUE JÁ PASSOU */
+
+        if(
+            horarioJaPassou(horario)
+        ){
+
+            return;
+        }
+
+
+        const option =
+        document.createElement("option");
+
+
+        option.value =
+        horario;
+
+
+        option.textContent =
+        horario + " - Disponível";
+
+
+        horarioSelect.appendChild(
+            option
+        );
+
+
+        quantidadeDisponivel++;
+
+    });
+
+
+    if(quantidadeDisponivel === 0){
+
+        infoHorario.textContent =
+        "Não há horários disponíveis nesta data.";
+
+        infoHorario.className =
+        "info indisponivel";
+
+        return;
+    }
+
+
+    infoHorario.textContent =
+    quantidadeDisponivel +
+    " horário(s) disponível(is).";
+
+    infoHorario.className =
+    "info disponivel";
+
+
+    atualizarBotao();
+
+
 }
 
-const dataEscolhida =
-new Date(data + "T00:00:00");
 
-const diaSemana =
-dataEscolhida.getDay();
+/* ==========================================
+   ATUALIZAR RESUMO
+========================================== */
 
-const horariosDoDia =
-diaSemana === 0
-? horariosDomingo
-: horarios;
+function atualizarResumo(){
+
+    const servicoOption =
+    servicoSelect.options[
+        servicoSelect.selectedIndex
+    ];
 
 
-/* VERIFICAR HORÁRIOS OCUPADOS */
+    const servicoSelecionado =
+    servicoSelect.value;
 
-const {
-data:agendamentos,
-error
-} =
-await supabaseClient
-.from("agendamentos")
-.select("Horário,Status")
-.eq("Data",data);
 
-if(error){
+    const data =
+    dataInput.value;
 
-console.error(error);
 
-info.textContent =
-"Não foi possível carregar os horários.";
+    const horario =
+    horarioSelect.value;
 
-mostrarMensagem(
-"Erro ao verificar horários disponíveis.",
-"erro"
-);
 
-return;
-}
+    const resumo =
+    document.getElementById("resumo");
 
-const horariosOcupados =
-(agendamentos || [])
-.filter(agendamento =>
-agendamento.Status !== "Cancelado"
-)
-.map(agendamento =>
-String(agendamento.Horário).substring(0,5)
-);
 
-let quantidadeDisponivel = 0;
+    if(
+        !servicoSelecionado ||
+        !data ||
+        !horario
+    ){
 
-horariosDoDia.forEach(horario=>{
+        resumo.style.display =
+        "none";
 
-if(horariosOcupados.includes(horario)){
-return;
-}
+        return;
+    }
 
-const option =
-document.createElement("option");
 
-option.value = horario;
+    const nomeServico =
+    servicoOption.dataset.nome;
 
-option.textContent =
-horario + " - Disponível";
 
-horarioSelect.appendChild(option);
+    const valor =
+    Number(
+        servicoOption.dataset.valor || 0
+    );
 
-quantidadeDisponivel++;
 
-});
+    document.getElementById(
+        "resumoServico"
+    ).textContent =
+    nomeServico;
 
-if(quantidadeDisponivel === 0){
 
-info.textContent =
-"Não há horários disponíveis nesta data.";
+    document.getElementById(
+        "resumoData"
+    ).textContent =
+    formatarData(data);
 
-return;
-}
 
-info.textContent =
-quantidadeDisponivel +
-" horário(s) disponível(is).";
+    document.getElementById(
+        "resumoHorario"
+    ).textContent =
+    horario;
 
-horarioSelect.onchange = function(){
 
-document.getElementById("btnAgendar").disabled =
-!this.value;
+    document.getElementById(
+        "resumoValor"
+    ).textContent =
+    formatarValor(valor);
 
-};
+
+    resumo.style.display =
+    "block";
 
 }
 
 
-/* =========================
+/* ==========================================
+   ATUALIZAR BOTÃO
+========================================== */
+
+function atualizarBotao(){
+
+    if(
+        servicoSelect.value &&
+        dataInput.value &&
+        horarioSelect.value
+    ){
+
+        btnAgendar.disabled =
+        false;
+
+    }else{
+
+        btnAgendar.disabled =
+        true;
+
+    }
+
+
+    atualizarResumo();
+
+}
+
+
+/* ==========================================
    CRIAR AGENDAMENTO
-========================= */
+========================================== */
 
 async function criarAgendamento(){
 
-limparMensagem();
+    limparMensagem();
 
-const servicoSelect =
-document.getElementById("servico");
 
-const data =
-document.getElementById("data").value;
+    if(!clienteAtual || !usuarioAtual){
 
-const horario =
-document.getElementById("horario").value;
+        mostrarMensagem(
+            "Sua sessão expirou. Faça login novamente.",
+            "erro"
+        );
 
-if(
-!servicoSelect.value ||
-!data ||
-!horario
-){
+        return;
+    }
 
-mostrarMensagem(
-"Preencha serviço, data e horário.",
-"erro"
-);
 
-return;
+    const servicoId =
+    servicoSelect.value;
+
+
+    const data =
+    dataInput.value;
+
+
+    const horario =
+    horarioSelect.value;
+
+
+    if(
+        !servicoId ||
+        !data ||
+        !horario
+    ){
+
+        mostrarMensagem(
+            "Escolha o serviço, a data e o horário.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    const hoje =
+    obterDataHoje();
+
+
+    if(data < hoje){
+
+        mostrarMensagem(
+            "A data escolhida já passou.",
+            "erro"
+        );
+
+        return;
+    }
+
+
+    const servicoOption =
+    servicoSelect.options[
+        servicoSelect.selectedIndex
+    ];
+
+
+    const nomeServico =
+    servicoOption.dataset.nome;
+
+
+    const valor =
+    Number(
+        servicoOption.dataset.valor || 0
+    );
+
+
+    btnAgendar.disabled =
+    true;
+
+
+    btnAgendar.textContent =
+    "VERIFICANDO HORÁRIO...";
+
+
+    /* ==============================
+       SEGUNDA VERIFICAÇÃO
+    ============================== */
+
+    const {
+        data:ocupado,
+        error:erroBusca
+    } =
+    await supabaseClient
+    .from("agendamentos")
+    .select(
+        "id,Status"
+    )
+    .eq(
+        "Data",
+        data
+    )
+    .eq(
+        "Horário",
+        horario
+    )
+    .maybeSingle();
+
+
+    if(erroBusca){
+
+        console.error(erroBusca);
+
+        mostrarMensagem(
+            "Não foi possível verificar o horário.",
+            "erro"
+        );
+
+        btnAgendar.disabled =
+        false;
+
+        btnAgendar.textContent =
+        "CONFIRMAR AGENDAMENTO";
+
+        return;
+    }
+
+
+    if(
+        ocupado &&
+        ocupado.Status !== "Cancelado"
+    ){
+
+        mostrarMensagem(
+            "Esse horário acabou de ser reservado. Escolha outro horário.",
+            "erro"
+        );
+
+
+        await carregarHorarios();
+
+
+        btnAgendar.disabled =
+        true;
+
+
+        btnAgendar.textContent =
+        "CONFIRMAR AGENDAMENTO";
+
+
+        return;
+    }
+
+
+    /* ==============================
+       SALVAR
+    ============================== */
+
+    btnAgendar.textContent =
+    "SALVANDO AGENDAMENTO...";
+
+
+    const {
+        data:agendamentoCriado,
+        error
+    } =
+    await supabaseClient
+    .from("agendamentos")
+    .insert({
+
+        Cliente_id:
+        clienteAtual.id,
+
+        Serviços:
+        nomeServico,
+
+        Valor:
+        valor,
+
+        Data:
+        data,
+
+        Horário:
+        horario,
+
+        Status:
+        "Pendente",
+
+        Pagamento:
+        "Pendente",
+
+        Serviço_id:
+        servicoId,
+
+        auth_user_id:
+        usuarioAtual.id
+
+    })
+    .select("id")
+    .single();
+
+
+    if(error){
+
+        console.error(error);
+
+
+        if(
+            error.code === "23505"
+        ){
+
+            mostrarMensagem(
+                "Esse horário acabou de ser reservado por outra pessoa. Escolha outro horário.",
+                "erro"
+            );
+
+        }else{
+
+            mostrarMensagem(
+                "Não foi possível criar o agendamento: " +
+                error.message,
+                "erro"
+            );
+
+        }
+
+
+        await carregarHorarios();
+
+
+        btnAgendar.disabled =
+        true;
+
+
+        btnAgendar.textContent =
+        "CONFIRMAR AGENDAMENTO";
+
+
+        return;
+    }
+
+
+    /* ==============================
+       AGENDAMENTO CRIADO
+    ============================== */
+
+    agendamentoCriadoId =
+    agendamentoCriado.id;
+
+
+    valorTonAtual =
+    valor;
+
+
+    linkTonAtual =
+    LINKS_TON[
+        Number(valor)
+    ] || null;
+
+
+    mostrarMensagem(
+        "✅ Agendamento realizado com sucesso! Seu horário foi reservado.",
+        "sucesso"
+    );
+
+
+    btnAgendar.textContent =
+    "✓ AGENDAMENTO REALIZADO";
+
+
+    btnAgendar.disabled =
+    true;
+
+
+    /* ==============================
+       RESUMO
+    ============================== */
+
+    atualizarResumo();
+
+
+    /* ==============================
+       PAGAMENTO
+    ============================== */
+
+    const boxTon =
+    document.getElementById(
+        "pagamentoTon"
+    );
+
+
+    const valorTon =
+    document.getElementById(
+        "valorTon"
+    );
+
+
+    const btnTon =
+    document.getElementById(
+        "btnPagarTon"
+    );
+
+
+    valorTon.textContent =
+    formatarValor(valor);
+
+
+    boxTon.style.display =
+    "block";
+
+
+    if(linkTonAtual){
+
+        btnTon.disabled =
+        false;
+
+        btnTon.textContent =
+        "PAGAR AGORA COM TON";
+
+    }else{
+
+        btnTon.disabled =
+        true;
+
+        btnTon.textContent =
+        "LINK TON NÃO CADASTRADO PARA ESTE VALOR";
+
+    }
+
+
+    /* ==============================
+       ATUALIZAR HORÁRIOS
+    ============================== */
+
+    await carregarHorarios();
+
 }
 
-const option =
-servicoSelect.options[
-servicoSelect.selectedIndex
-];
 
-const nomeServico =
-option.dataset.nome;
-
-const valor =
-Number(option.dataset.valor || 0);
-
-const botao =
-document.getElementById("btnAgendar");
-
-botao.disabled = true;
-
-botao.textContent =
-"VERIFICANDO...";
-
-
-/* SEGUNDA VERIFICAÇÃO */
-
-const {
-data:ocupado,
-error:erroBusca
-} =
-await supabaseClient
-.from("agendamentos")
-.select("id,Status")
-.eq("Data",data)
-.eq("Horário",horario)
-.maybeSingle();
-
-if(erroBusca){
-
-console.error(erroBusca);
-
-mostrarMensagem(
-"Não foi possível verificar o horário.",
-"erro"
-);
-
-botao.disabled = false;
-
-botao.textContent =
-"CONFIRMAR AGENDAMENTO";
-
-return;
-}
-
-if(
-ocupado &&
-ocupado.Status !== "Cancelado"
-){
-
-mostrarMensagem(
-"Esse horário acabou de ser reservado. Escolha outro horário.",
-"erro"
-);
-
-await carregarHorarios();
-
-botao.disabled = true;
-
-botao.textContent =
-"CONFIRMAR AGENDAMENTO";
-
-return;
-}
-
-
-/* SALVAR AGENDAMENTO */
-
-botao.textContent = "SALVANDO...";
-
-const {
-data:agendamentoCriado,
-error
-} =
-await supabaseClient
-.from("agendamentos")
-.insert({
-
-Cliente_id:
-clienteAtual.id,
-
-Serviços:
-nomeServico,
-
-Valor:
-valor,
-
-Data:
-data,
-
-Horário:
-horario,
-
-Status:
-"Pendente",
-
-Pagamento:
-"Pendente",
-
-Serviço_id:
-servicoSelect.value,
-
-auth_user_id:
-usuarioAtual.id
-
-})
-.select("id")
-.single();
-
-if(error){
-
-console.error(error);
-
-mostrarMensagem(
-"Não foi possível criar o agendamento: " +
-error.message,
-"erro"
-);
-
-botao.disabled = false;
-
-botao.textContent =
-"CONFIRMAR AGENDAMENTO";
-
-return;
-}
-
-
-/* AGENDAMENTO CRIADO */
-
-mostrarMensagem(
-"Agendamento realizado com sucesso!",
-"sucesso"
-);
-
-botao.textContent =
-"AGENDAMENTO REALIZADO";
-
-agendamentoCriadoId =
-agendamentoCriado.id;
-
-valorTonAtual =
-valor;
-
-linkTonAtual =
-LINKS_TON[Number(valor)];
-
-
-const boxTon =
-document.getElementById("pagamentoTon");
-
-const valorTon =
-document.getElementById("valorTon");
-
-const btnTon =
-document.getElementById("btnPagarTon");
-
-valorTon.textContent =
-"R$ " +
-valor.toFixed(2).replace(".",",");
-
-boxTon.style.display =
-"block";
-
-
-if(linkTonAtual){
-
-btnTon.disabled = false;
-
-btnTon.textContent =
-"PAGAR AGORA COM TON";
-
-}else{
-
-btnTon.disabled = true;
-
-btnTon.textContent =
-"LINK TON NÃO CADASTRADO";
-
-}
-
-await carregarHorarios();
-
-}
-
-
-/* =========================
+/* ==========================================
    PAGAMENTO TON
-========================= */
+========================================== */
 
 async function pagarComTon(){
 
-if(!linkTonAtual){
+    if(!linkTonAtual){
 
-mostrarMensagem(
-"Não existe link Ton cadastrado para este valor.",
-"erro"
-);
+        mostrarMensagem(
+            "Não existe link TON cadastrado para este valor. Você pode pagar por Pix.",
+            "erro"
+        );
 
-return;
+        return;
+    }
+
+
+    const btnTon =
+    document.getElementById(
+        "btnPagarTon"
+    );
+
+
+    btnTon.disabled =
+    true;
+
+
+    btnTon.textContent =
+    "REGISTRANDO PAGAMENTO...";
+
+
+    /* ==============================
+       REGISTRAR PAGAMENTO
+    ============================== */
+
+    if(
+        agendamentoCriadoId &&
+        clienteAtual?.id
+    ){
+
+        const {
+            error
+        } =
+        await supabaseClient
+        .from("pagamentos")
+        .insert({
+
+            agendamento_id:
+            agendamentoCriadoId,
+
+            cliente_id:
+            clienteAtual.id,
+
+            valor:
+            valorTonAtual,
+
+            metodo:
+            "Ton",
+
+            status:
+            "Pendente",
+
+            referencia:
+            "Link Ton permanente - " +
+            valorTonAtual.toFixed(2)
+
+        });
+
+
+        if(error){
+
+            console.error(
+                "Erro ao registrar pagamento Ton:",
+                error
+            );
+
+        }
+
+    }
+
+
+    btnTon.disabled =
+    false;
+
+
+    btnTon.textContent =
+    "PAGAR AGORA COM TON";
+
+
+    window.open(
+        linkTonAtual,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
 }
 
 
-if(
-agendamentoCriadoId &&
-clienteAtual?.id
-){
-
-const {
-error
-} =
-await supabaseClient
-.from("pagamentos")
-.insert({
-
-agendamento_id:
-agendamentoCriadoId,
-
-cliente_id:
-clienteAtual.id,
-
-valor:
-valorTonAtual,
-
-metodo:
-"Ton",
-
-status:
-"Pendente",
-
-referencia:
-"Link Ton permanente - " +
-valorTonAtual.toFixed(2)
-
-});
-
-if(error){
-
-console.error(
-"Erro ao registrar pagamento Ton:",
-error
-);
-
-}
-
-}
-
-
-window.open(
-linkTonAtual,
-"_blank",
-"noopener,noreferrer"
-);
-
-}
-
-
-/* =========================
+/* ==========================================
    COPIAR PIX
-========================= */
+========================================== */
 
 async function copiarPix(){
 
-const botao =
-document.getElementById("btnCopiarPix");
+    const botao =
+    document.getElementById(
+        "btnCopiarPix"
+    );
 
-try{
 
-await navigator.clipboard.writeText(
-CHAVE_PIX
-);
+    try{
 
-botao.textContent =
-"✅ CHAVE PIX COPIADA!";
+        await navigator.clipboard.writeText(
+            CHAVE_PIX
+        );
 
-botao.classList.add(
-"btn-pix-copiado"
-);
 
-setTimeout(()=>{
+        botao.textContent =
+        "✅ CHAVE PIX COPIADA!";
 
-botao.textContent =
-"📋 COPIAR CHAVE PIX";
 
-botao.classList.remove(
-"btn-pix-copiado"
-);
+        botao.classList.add(
+            "btn-pix-copiado"
+        );
 
-},2500);
 
-mostrarMensagem(
-"Chave Pix copiada. Agora é só colar no aplicativo do seu banco.",
-"sucesso"
-);
+        mostrarMensagem(
+            "Chave Pix copiada. Agora é só colar no aplicativo do seu banco.",
+            "sucesso"
+        );
 
-}catch(error){
 
-console.error(error);
+        setTimeout(()=>{
 
-mostrarMensagem(
-"Não foi possível copiar automaticamente. Segure a chave Pix e copie manualmente.",
-"erro"
-);
+            botao.textContent =
+            "📋 COPIAR CHAVE PIX";
+
+
+            botao.classList.remove(
+                "btn-pix-copiado"
+            );
+
+        },2500);
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        mostrarMensagem(
+            "Não foi possível copiar automaticamente. Segure a chave Pix e copie manualmente.",
+            "erro"
+        );
+
+    }
 
 }
 
-}
+
+/* ==========================================
+   ALTERAÇÃO DO SERVIÇO
+========================================== */
+
+servicoSelect.addEventListener(
+    "change",
+    function(){
+
+        limparMensagem();
+
+        atualizarBotao();
+
+    }
+);
 
 
-/* =========================
+/* ==========================================
    ALTERAÇÃO DA DATA
-========================= */
+========================================== */
 
-document.getElementById("data")
-.addEventListener(
-"change",
-async function(){
+dataInput.addEventListener(
+    "change",
+    async function(){
 
-limparMensagem();
+        limparMensagem();
 
-await carregarHorarios();
+        await carregarHorarios();
 
-}
+    }
 );
 
 
-/* =========================
+/* ==========================================
+   ALTERAÇÃO DO HORÁRIO
+========================================== */
+
+horarioSelect.addEventListener(
+    "change",
+    function(){
+
+        limparMensagem();
+
+        atualizarBotao();
+
+    }
+);
+
+
+/* ==========================================
    INICIALIZAÇÃO
-========================= */
+========================================== */
 
 (async()=>{
 
-const autorizado =
-await verificarUsuario();
-
-if(!autorizado){
-return;
-}
-
-await carregarServicos();
+    const autorizado =
+    await verificarUsuario();
 
 
-/* DATA MÍNIMA = HOJE */
+    if(!autorizado){
 
-const hoje =
-new Date();
+        return;
+    }
 
-const ano =
-hoje.getFullYear();
 
-const mes =
-String(
-hoje.getMonth()+1
-).padStart(2,"0");
+    const servicosCarregados =
+    await carregarServicos();
 
-const dia =
-String(
-hoje.getDate()
-).padStart(2,"0");
 
-document.getElementById("data").min =
-`${ano}-${mes}-${dia}`;
+    if(!servicosCarregados){
+
+        return;
+    }
+
+
+    /* DATA MÍNIMA = HOJE */
+
+    const hoje =
+    obterDataHoje();
+
+
+    dataInput.min =
+    hoje;
+
+
+    /* DATA INICIAL */
+
+    dataInput.value =
+    "";
+
+
+    horarioSelect.innerHTML =
+    '<option value="">Selecione uma data primeiro</option>';
+
+
+    infoHorario.textContent =
+    "Escolha uma data para visualizar os horários disponíveis.";
+
 
 })();
 
-</script></body>
+</script>
+
+</body>
     </html>
