@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR"><head>  <meta charset="UTF-8"><meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
 
-<head>
+«»
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Área do Cliente | Gold Style</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
+  <title>Área do Cliente | Gold Style</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
 
     * {
       margin: 0;
@@ -38,10 +28,6 @@
       color: #ffffff;
       min-height: 100vh;
     }
-
-    /* =========================
-       CABEÇALHO
-    ========================= */
 
     header {
       text-align: center;
@@ -68,10 +54,6 @@
       color: #ffffff;
     }
 
-    /* =========================
-       CONTEÚDO
-    ========================= */
-
     main {
       width: 100%;
       max-width: 900px;
@@ -83,18 +65,14 @@
       text-align: center;
       padding: 35px 20px;
       margin-bottom: 25px;
-
       border-radius: 20px;
-
       background:
         linear-gradient(
           145deg,
           rgba(255, 215, 0, 0.13),
           rgba(255, 255, 255, 0.02)
         );
-
       border: 1px solid rgba(255, 215, 0, 0.25);
-
       box-shadow:
         0 10px 35px rgba(0, 0, 0, 0.5);
     }
@@ -103,7 +81,6 @@
       color: #ffd700;
       font-size: 30px;
       margin-bottom: 10px;
-
       text-shadow:
         0 0 10px rgba(255, 215, 0, 0.45);
     }
@@ -112,10 +89,6 @@
       color: #cccccc;
     }
 
-    /* =========================
-       CARDS
-    ========================= */
-
     .card {
       background:
         linear-gradient(
@@ -123,15 +96,10 @@
           #151515,
           #080808
         );
-
       border: 1px solid rgba(255, 215, 0, 0.22);
-
       border-radius: 18px;
-
       padding: 22px;
-
       margin-bottom: 20px;
-
       box-shadow:
         0 8px 30px rgba(0, 0, 0, 0.45);
     }
@@ -152,29 +120,18 @@
       font-weight: bold;
     }
 
-    /* =========================
-       BOTÕES
-    ========================= */
-
     .btn {
       display: block;
       width: 100%;
       max-width: 430px;
-
       margin: 12px auto;
-
       padding: 15px 18px;
-
       border-radius: 12px;
-
       text-align: center;
       text-decoration: none;
-
       font-weight: 900;
       font-size: 14px;
-
       cursor: pointer;
-
       transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
@@ -186,7 +143,6 @@
 
     .btn-gold {
       color: #050505;
-
       background:
         linear-gradient(
           135deg,
@@ -194,7 +150,6 @@
           #ffd700,
           #d4af37
         );
-
       box-shadow:
         0 0 15px rgba(255, 215, 0, 0.35);
     }
@@ -221,10 +176,6 @@
       border: 1px solid rgba(255, 70, 70, 0.4);
     }
 
-    /* =========================
-       MENU RÁPIDO
-    ========================= */
-
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -235,24 +186,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
       min-height: 85px;
-
       padding: 15px;
-
       text-align: center;
-
       color: #ffd700;
       text-decoration: none;
-
       background: #101010;
-
       border: 1px solid rgba(255, 215, 0, 0.25);
-
       border-radius: 15px;
-
       font-weight: bold;
-
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
@@ -261,37 +203,21 @@
 
     .menu-item:hover {
       transform: translateY(-3px);
-
       border-color: #ffd700;
-
       box-shadow:
         0 0 18px rgba(255, 215, 0, 0.2);
     }
 
-    /* =========================
-       STATUS
-    ========================= */
-
     .status {
       display: inline-block;
-
       padding: 5px 10px;
-
       border-radius: 20px;
-
       font-size: 12px;
       font-weight: bold;
-
       background: rgba(255, 215, 0, 0.12);
-
       color: #ffd700;
-
       border: 1px solid rgba(255, 215, 0, 0.3);
     }
-
-    /* =========================
-       LOADING / ERRO
-    ========================= */
 
     #loading {
       text-align: center;
@@ -301,37 +227,189 @@
 
     #erro {
       display: none;
-
       padding: 15px;
-
       margin-bottom: 20px;
-
       border-radius: 12px;
-
       background: #210909;
-
       border: 1px solid #6b2222;
-
       color: #ffb0b0;
-
       text-align: center;
     }
 
-    /* =========================
+
+    /* =====================================================
+       PROMOÇÃO
+    ====================================================== */
+
+    .promocao {
+      margin-bottom: 20px;
+      padding: 25px 18px;
+      text-align: center;
+      border: 2px solid #ffd700;
+      border-radius: 20px;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(255,215,0,.18),
+          transparent 35%
+        ),
+        linear-gradient(
+          145deg,
+          #050505,
+          #181818,
+          #070707
+        );
+      box-shadow:
+        0 0 22px rgba(255,215,0,.2);
+    }
+
+    .promocao-tag {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 30px;
+      background: #ffd700;
+      color: #050505;
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .promocao h2 {
+      color: #ffd700;
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .promocao h3 {
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .promocao-data {
+      color: #ffd700;
+      font-weight: 900;
+      margin: 12px 0;
+    }
+
+    .promocao p {
+      color: #ddd;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .premios {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .premio {
+      padding: 15px 8px;
+      border: 1px solid rgba(255,215,0,.35);
+      border-radius: 14px;
+      background: rgba(0,0,0,.55);
+    }
+
+    .premio strong {
+      display: block;
+      color: #ffd700;
+      margin-bottom: 7px;
+    }
+
+    .premio span {
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+
+    /* =====================================================
+       GALERIA
+    ====================================================== */
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+    }
+
+    .foto-corte {
+      position: relative;
+      overflow: hidden;
+      min-height: 190px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,215,0,.35);
+      background: #0d0d0d;
+    }
+
+    .foto-corte img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .foto-legenda {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 28px 8px 9px;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      background:
+        linear-gradient(
+          transparent,
+          rgba(0,0,0,.95)
+        );
+    }
+
+    .foto-legenda span {
+      color: #ffd700;
+    }
+
+
+    /* =====================================================
+       SERVIÇOS
+    ====================================================== */
+
+    .servicos-cliente {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .servico-cliente {
+      padding: 14px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,215,0,.22);
+      background: #0d0d0d;
+    }
+
+    .servico-cliente strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .servico-cliente span {
+      color: #ffd700;
+      font-weight: 900;
+    }
+
+
+    /* =====================================================
        RODAPÉ
-    ========================= */
+    ====================================================== */
 
     footer {
       text-align: center;
-
       padding: 30px 15px;
-
       background: #030303;
-
       border-top: 1px solid rgba(255, 215, 0, 0.25);
-
       color: #888888;
-
       font-size: 13px;
     }
 
@@ -340,25 +418,21 @@
       font-size: 17px;
     }
 
-    /* =========================
+
+    /* =====================================================
        WHATSAPP
-    ========================= */
+    ====================================================== */
 
     .whatsapp {
       position: fixed;
-
       right: 18px;
       bottom: 18px;
-
       width: 58px;
       height: 58px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       border-radius: 50%;
-
       background:
         linear-gradient(
           145deg,
@@ -366,23 +440,27 @@
           #ffd700,
           #d4af37
         );
-
       color: #050505;
-
       text-decoration: none;
-
       font-size: 26px;
       font-weight: bold;
-
       box-shadow:
         0 0 18px rgba(255, 215, 0, 0.55);
-
       z-index: 9999;
     }
 
-    /* =========================
+
+    /* =====================================================
        RESPONSIVO
-    ========================= */
+    ====================================================== */
+
+    @media (max-width: 700px) {
+
+      .premios {
+        grid-template-columns: 1fr;
+      }
+
+    }
 
     @media (max-width: 600px) {
 
@@ -402,321 +480,520 @@
         padding: 18px;
       }
 
+      .servicos-cliente {
+        grid-template-columns: 1fr;
+      }
+
     }
 
-  </style>
-
-</head>
-
-
-<body>
-
-
-<header>
-
-  <div class="logo">
+  </style></head><body><header>  <div class="logo">
     GOLD STYLE
-  </div>
-
-  <div class="subtitle">
+  </div>  <div class="subtitle">
     BARBEARIA DESDE 2022
-  </div>
-
-</header>
-
-
-<main>
-
-
-  <div id="loading">
+  </div></header><main>  <div id="loading">
     Carregando sua área do cliente...
-  </div>
-
-
-  <div id="erro"></div>
-
-
-  <section
+  </div>  <div id="erro"></div>  <section
     id="conteudo"
     style="display:none;"
+  ><div class="welcome">
+
+  <h1 id="nomeCliente">
+    Olá!
+  </h1>
+
+  <p>
+    Seja bem-vindo à sua área exclusiva
+    da Gold Style Barbearia.
+  </p>
+
+</div>
+
+
+<!-- =================================================
+     PROMOÇÃO
+================================================== -->
+
+<div class="promocao">
+
+  <div class="promocao-tag">
+    🎁 PROMOÇÃO GOLD STYLE
+  </div>
+
+  <h2>
+    SORTEIO GOLD STYLE
+  </h2>
+
+  <h3>
+    Comece 2027 com o pé direito! 🔥
+  </h3>
+
+  <div class="promocao-data">
+    📅 SORTEIO: 01/01/2027
+  </div>
+
+  <p>
+    A cada serviço realizado na Gold Style,
+    preencha seu cupom e participe do sorteio.
+  </p>
+
+  <div class="premios">
+
+    <div class="premio">
+      <strong>🥇 1º PRÊMIO</strong>
+      <span>
+        R$ 100,00
+        <br>
+        +
+        <br>
+        1 corte grátis
+      </span>
+    </div>
+
+    <div class="premio">
+      <strong>🥈 2º PRÊMIO</strong>
+      <span>
+        R$ 50,00
+        <br>
+        +
+        <br>
+        1 corte grátis
+      </span>
+    </div>
+
+    <div class="premio">
+      <strong>🥉 3º PRÊMIO</strong>
+      <span>
+        1 corte de cabelo grátis
+      </span>
+    </div>
+
+  </div>
+
+  <p>
+    <strong style="color:#ffd700;">
+      COMO PARTICIPAR?
+    </strong>
+
+    <br>
+
+    Faça qualquer serviço,
+    preencha seu cupom
+    e coloque-o na urna da promoção.
+  </p>
+
+  <a
+    href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
+    target="_blank"
+    class="btn btn-gold"
   >
+    🎟️ QUERO PARTICIPAR
+  </a>
+
+</div>
 
 
-    <div class="welcome">
+<!-- =================================================
+     GALERIA
+================================================== -->
 
-      <h1 id="nomeCliente">
-        Olá!
-      </h1>
+<div class="card">
 
-      <p>
-        Seja bem-vindo à sua área exclusiva
-        da Gold Style Barbearia.
-      </p>
+  <h2>
+    ✂️ Nossos Trabalhos
+  </h2>
 
-    </div>
+  <div class="galeria">
 
+    <div class="foto-corte">
 
-    <!-- =========================
-         DADOS DO CLIENTE
-    ========================= -->
+      <img
+        src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
+        alt="Corte degradê"
+        loading="lazy"
+      >
 
-    <div class="card">
-
-      <h2>
-        👤 Meus dados
-      </h2>
-
-      <p>
-        <strong>Nome:</strong>
-        <span id="clienteNome"></span>
-      </p>
-
-      <p>
-        <strong>WhatsApp:</strong>
-        <span id="clienteTelefone"></span>
-      </p>
-
-      <p>
-        <strong>E-mail:</strong>
-        <span id="clienteEmail"></span>
-      </p>
-
-    </div>
-
-
-    <!-- =========================
-         MENU RÁPIDO
-    ========================= -->
-
-    <div class="card">
-
-      <h2>
-        ⚡ Acesso rápido
-      </h2>
-
-
-      <div class="menu-grid">
-
-        <a
-          href="agendamento.html"
-          class="menu-item"
-        >
-          📅<br>
-          Agendar horário
-        </a>
-
-
-        <a
-          href="produtos-cliente.html"
-          class="menu-item"
-        >
-          🛍️<br>
-          Comprar produtos
-        </a>
-
-
-        <a
-          href="pagamento-pix.html"
-          class="menu-item"
-        >
-          💳<br>
-          Pagamentos
-        </a>
-
-
-        <a
-          href="https://wa.me/556899853643"
-          target="_blank"
-          class="menu-item"
-        >
-          💬<br>
-          Falar no WhatsApp
-        </a>
-
+      <div class="foto-legenda">
+        <span>✂️</span>
+        Degradê
       </div>
 
     </div>
 
 
-    <!-- =========================
-         AGENDAMENTOS
-    ========================= -->
+    <div class="foto-corte">
 
-    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
+        alt="Barba masculina"
+        loading="lazy"
+      >
 
-      <h2>
-        📅 Meus agendamentos
-      </h2>
-
-      <div id="agendamentos">
-        Carregando...
+      <div class="foto-legenda">
+        <span>🧔</span>
+        Barba
       </div>
 
-      <a
-        href="agendamento.html"
-        class="btn btn-gold"
-      >
-        + AGENDAR NOVO HORÁRIO
-      </a>
-
     </div>
 
 
-    <!-- =========================
-         PAGAMENTOS
-    ========================= -->
+    <div class="foto-corte">
 
-    <div class="card">
+      <img
+        src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
+        alt="Corte social"
+        loading="lazy"
+      >
 
-      <h2>
-        💳 Meus pagamentos
-      </h2>
-
-      <div id="pagamentos">
-        Carregando...
+      <div class="foto-legenda">
+        <span>💈</span>
+        Corte Social
       </div>
 
-      <a
-        href="pagamento-pix.html"
-        class="btn btn-dark"
-      >
-        VER PAGAMENTOS
-      </a>
-
     </div>
 
 
-    <!-- =========================
-         PRODUTOS
-    ========================= -->
+    <div class="foto-corte">
 
-    <div class="card">
-
-      <h2>
-        🛍️ Produtos
-      </h2>
-
-      <p>
-        Encontre produtos para cuidar do seu
-        cabelo e da sua barba.
-      </p>
-
-      <a
-        href="produtos-cliente.html"
-        class="btn btn-gold"
+      <img
+        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=85"
+        alt="Corte e barba"
+        loading="lazy"
       >
-        VER PRODUTOS
-      </a>
 
-    </div>
-
-
-    <!-- =========================
-         PEDIDOS
-    ========================= -->
-
-    <div class="card">
-
-      <h2>
-        📦 Meus pedidos
-      </h2>
-
-      <div id="pedidos">
-        Carregando...
+      <div class="foto-legenda">
+        <span>🔥</span>
+        Corte + Barba
       </div>
 
-      <a
-        href="produtos-cliente.html"
-        class="btn btn-dark"
-      >
-        FAZER NOVO PEDIDO
-      </a>
-
     </div>
 
+  </div>
 
-    <!-- =========================
-         WHATSAPP
-    ========================= -->
+</div>
 
-    <div class="card">
 
-      <h2>
-        💬 Precisa de ajuda?
-      </h2>
+<!-- =================================================
+     SERVIÇOS
+================================================== -->
 
-      <p>
-        Fale diretamente com a Gold Style
-        pelo WhatsApp.
-      </p>
+<div class="card">
 
-      <a
-        href="https://wa.me/556899853643"
-        target="_blank"
-        class="btn btn-gold"
-      >
-        FALAR COM A BARBEARIA
-      </a>
+  <h2>
+    💈 Serviços da Gold Style
+  </h2>
 
+  <div class="servicos-cliente">
+
+    <div class="servico-cliente">
+      <strong>Corte Social</strong>
+      <span>R$ 25</span>
     </div>
 
+    <div class="servico-cliente">
+      <strong>Degradê / Navalhado</strong>
+      <span>R$ 30</span>
+    </div>
 
-    <!-- =========================
-         SAIR
-    ========================= -->
+    <div class="servico-cliente">
+      <strong>Corte + Barba</strong>
+      <span>R$ 50</span>
+    </div>
 
-    <button
-      id="sair"
-      class="btn btn-danger"
+    <div class="servico-cliente">
+      <strong>Sobrancelha</strong>
+      <span>R$ 10</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Barba</strong>
+      <span>R$ 25</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Selagem</strong>
+      <span>R$ 70</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Luzes</strong>
+      <span>R$ 80</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Platinado</strong>
+      <span>A partir de R$ 120</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Pigmentação de Barba</strong>
+      <span>R$ 30</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Pigmentação de Cabelo</strong>
+      <span>R$ 50</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Corte na Tesoura</strong>
+      <span>R$ 30</span>
+    </div>
+
+    <div class="servico-cliente">
+      <strong>Corte Infantil</strong>
+      <span>R$ 30</span>
+    </div>
+
+  </div>
+
+  <a
+    href="agendamento.html"
+    class="btn btn-gold"
+  >
+    📅 AGENDAR MEU HORÁRIO
+  </a>
+
+</div>
+
+
+<!-- =================================================
+     DADOS DO CLIENTE
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    👤 Meus dados
+  </h2>
+
+  <p>
+    <strong>Nome:</strong>
+    <span id="clienteNome"></span>
+  </p>
+
+  <p>
+    <strong>WhatsApp:</strong>
+    <span id="clienteTelefone"></span>
+  </p>
+
+  <p>
+    <strong>E-mail:</strong>
+    <span id="clienteEmail"></span>
+  </p>
+
+</div>
+
+
+<!-- =================================================
+     MENU RÁPIDO
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    ⚡ Acesso rápido
+  </h2>
+
+  <div class="menu-grid">
+
+    <a
+      href="agendamento.html"
+      class="menu-item"
     >
-      🚪 SAIR DA CONTA
-    </button>
+      📅<br>
+      Agendar horário
+    </a>
+
+    <a
+      href="produtos-cliente.html"
+      class="menu-item"
+    >
+      🛍️<br>
+      Comprar produtos
+    </a>
+
+    <a
+      href="pagamento-pix.html"
+      class="menu-item"
+    >
+      💳<br>
+      Pagamentos
+    </a>
+
+    <a
+      href="https://wa.me/5568999853643"
+      target="_blank"
+      class="menu-item"
+    >
+      💬<br>
+      Falar no WhatsApp
+    </a>
+
+  </div>
+
+</div>
 
 
-  </section>
+<!-- =================================================
+     AGENDAMENTOS
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    📅 Meus agendamentos
+  </h2>
+
+  <div id="agendamentos">
+    Carregando...
+  </div>
+
+  <a
+    href="agendamento.html"
+    class="btn btn-gold"
+  >
+    + AGENDAR NOVO HORÁRIO
+  </a>
+
+</div>
 
 
-</main>
+<!-- =================================================
+     PAGAMENTOS
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    💳 Meus pagamentos
+  </h2>
+
+  <div id="pagamentos">
+    Carregando...
+  </div>
+
+  <a
+    href="pagamento-pix.html"
+    class="btn btn-dark"
+  >
+    VER PAGAMENTOS
+  </a>
+
+</div>
 
 
-<footer>
+<!-- =================================================
+     PRODUTOS
+================================================== -->
 
-  <strong>
-    Gold Style Barbearia
-  </strong>
+<div class="card">
 
-  <br>
+  <h2>
+    🛍️ Produtos
+  </h2>
 
-  BARBEARIA DESDE 2022
+  <p>
+    Encontre produtos para cuidar do seu
+    cabelo e da sua barba.
+  </p>
 
-  <br>
+  <a
+    href="produtos-cliente.html"
+    class="btn btn-gold"
+  >
+    VER PRODUTOS
+  </a>
 
-  Rua Preciosa 557
-
-  <br>
-
-  Rio Branco - Acre
-
-  <br><br>
-
-  📸 @barbearia_Gold_style
-
-  <br><br>
-
-  © 2026 Gold Style
-
-</footer>
+</div>
 
 
-<a
-  href="https://wa.me/556899853643"
-  target="_blank"
-  class="whatsapp"
-  aria-label="Falar com a Gold Style"
+<!-- =================================================
+     PEDIDOS
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    📦 Meus pedidos
+  </h2>
+
+  <div id="pedidos">
+    Carregando...
+  </div>
+
+  <a
+    href="produtos-cliente.html"
+    class="btn btn-dark"
+  >
+    FAZER NOVO PEDIDO
+  </a>
+
+</div>
+
+
+<!-- =================================================
+     WHATSAPP
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    💬 Precisa de ajuda?
+  </h2>
+
+  <p>
+    Fale diretamente com a Gold Style
+    pelo WhatsApp.
+  </p>
+
+  <a
+    href="https://wa.me/5568999853643"
+    target="_blank"
+    class="btn btn-gold"
+  >
+    FALAR COM A BARBEARIA
+  </a>
+
+</div>
+
+
+<!-- =================================================
+     SAIR
+================================================== -->
+
+<button
+  id="sair"
+  class="btn btn-danger"
 >
-  ☎
-</a>
+  🚪 SAIR DA CONTA
+</button>
 
+  </section></main><footer>  <strong>
+    Gold Style Barbearia
+  </strong>  <br>BARBEARIA DESDE 2022
+
+  <br>Rua Preciosa 557
+
+  <br>Rio Branco - Acre
+
+<br><br>
+
+📸 @barbearia_Gold_style
+
+<br><br>
+
+© 2026 Gold Style
+
+</footer><a
+href="https://wa.me/5568999853643"
+target="_blank"
+class="whatsapp"
+aria-label="Falar com a Gold Style"
+
+«»
+
+☎
+</a>
 
 <script>
 
@@ -756,7 +1033,10 @@ function mostrarErro(mensagem) {
 
 function escaparHTML(valor) {
 
-  if (valor === null || valor === undefined) {
+  if (
+    valor === null ||
+    valor === undefined
+  ) {
     return "";
   }
 
@@ -772,7 +1052,9 @@ function escaparHTML(valor) {
 
 function formatarMoeda(valor) {
 
-  return Number(valor || 0).toLocaleString(
+  return Number(
+    valor || 0
+  ).toLocaleString(
     "pt-BR",
     {
       style: "currency",
@@ -792,7 +1074,9 @@ function formatarData(data) {
   const partes =
     String(data).split("-");
 
-  if (partes.length !== 3) {
+  if (
+    partes.length !== 3
+  ) {
     return data;
   }
 
@@ -884,9 +1168,19 @@ async function carregarCliente() {
 
 
     await Promise.all([
-      carregarAgendamentos(cliente.id),
-      carregarPagamentos(cliente.id),
-      carregarPedidos(cliente.id)
+
+      carregarAgendamentos(
+        cliente.id
+      ),
+
+      carregarPagamentos(
+        cliente.id
+      ),
+
+      carregarPedidos(
+        cliente.id
+      )
+
     ]);
 
 
@@ -949,7 +1243,10 @@ async function carregarAgendamentos(
   }
 
 
-  if (!data || data.length === 0) {
+  if (
+    !data ||
+    data.length === 0
+  ) {
 
     elemento.innerHTML =
       "<p>Você ainda não possui agendamentos.</p>";
@@ -976,46 +1273,64 @@ async function carregarAgendamentos(
 
           <p>
             <strong>Serviço:</strong>
+
             <span class="highlight">
-              ${escaparHTML(item["Serviços"])}
+              ${escaparHTML(
+                item["Serviços"]
+              )}
             </span>
           </p>
 
           <p>
             <strong>Data:</strong>
-            ${formatarData(item["Data"])}
+
+            ${formatarData(
+              item["Data"]
+            )}
           </p>
 
           <p>
             <strong>Horário:</strong>
-            ${item["Horário"]
-              ? new Date(item["Horário"])
-                  .toLocaleTimeString(
-                    "pt-BR",
-                    {
-                      hour:"2-digit",
-                      minute:"2-digit"
-                    }
-                  )
+
+            ${
+              item["Horário"]
+              ? new Date(
+                  item["Horário"]
+                ).toLocaleTimeString(
+                  "pt-BR",
+                  {
+                    hour:"2-digit",
+                    minute:"2-digit"
+                  }
+                )
               : "-"
             }
           </p>
 
           <p>
             <strong>Valor:</strong>
-            ${formatarMoeda(item.Valor)}
+
+            ${formatarMoeda(
+              item.Valor
+            )}
           </p>
 
           <p>
             <strong>Status:</strong>
+
             <span class="status">
-              ${escaparHTML(item.Status)}
+              ${escaparHTML(
+                item.Status
+              )}
             </span>
           </p>
 
           <p>
             <strong>Pagamento:</strong>
-            ${escaparHTML(item.Pagamento)}
+
+            ${escaparHTML(
+              item.Pagamento
+            )}
           </p>
 
         </div>
@@ -1066,7 +1381,10 @@ async function carregarPagamentos(
   }
 
 
-  if (!data || data.length === 0) {
+  if (
+    !data ||
+    data.length === 0
+  ) {
 
     elemento.innerHTML =
       "<p>Nenhum pagamento registrado.</p>";
@@ -1093,20 +1411,29 @@ async function carregarPagamentos(
 
           <p>
             <strong>Valor:</strong>
+
             <span class="highlight">
-              ${formatarMoeda(item.valor)}
+              ${formatarMoeda(
+                item.valor
+              )}
             </span>
           </p>
 
           <p>
             <strong>Método:</strong>
-            ${escaparHTML(item.metodo)}
+
+            ${escaparHTML(
+              item.metodo
+            )}
           </p>
 
           <p>
             <strong>Status:</strong>
+
             <span class="status">
-              ${escaparHTML(item.status)}
+              ${escaparHTML(
+                item.status
+              )}
             </span>
           </p>
 
@@ -1158,7 +1485,10 @@ async function carregarPedidos(
   }
 
 
-  if (!pedidos || pedidos.length === 0) {
+  if (
+    !pedidos ||
+    pedidos.length === 0
+  ) {
 
     elemento.innerHTML =
       "<p>Você ainda não possui pedidos.</p>";
@@ -1185,18 +1515,25 @@ async function carregarPedidos(
 
           <p>
             <strong>Pedido:</strong>
+
             <span class="highlight">
-              #${String(pedido.id).slice(0,8)}
+              #${String(
+                pedido.id
+              ).slice(0,8)}
             </span>
           </p>
 
           <p>
             <strong>Total:</strong>
-            ${formatarMoeda(pedido.total)}
+
+            ${formatarMoeda(
+              pedido.total
+            )}
           </p>
 
           <p>
             <strong>Pagamento:</strong>
+
             <span class="status">
               ${escaparHTML(
                 pedido.status_pagamento
@@ -1206,6 +1543,7 @@ async function carregarPedidos(
 
           <p>
             <strong>Pedido:</strong>
+
             <span class="status">
               ${escaparHTML(
                 pedido.status_pedido
@@ -1215,6 +1553,7 @@ async function carregarPedidos(
 
           <p>
             <strong>Data:</strong>
+
             ${
               pedido.criado_em
               ? new Date(
@@ -1267,9 +1606,4 @@ document
 
 carregarCliente();
 
-</script>
-
-
-</body>
-
-    </html>
+</script></body></html>
