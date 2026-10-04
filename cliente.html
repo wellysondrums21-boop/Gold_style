@@ -1,1014 +1,1114 @@
-<!DOCTYPE html><html lang="pt-BR"><head>  <meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-«»
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Área do Cliente | Gold Style</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>
+<title>Área do Cliente | Gold Style</title>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    html {
-      scroll-behavior: smooth;
-    }
+<style>
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(
-          circle at top,
-          rgba(255, 215, 0, 0.12),
-          transparent 35%
-        ),
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top,
+        rgba(255,215,0,.14),
+        transparent 35%),
         #050505;
-      color: #ffffff;
-      min-height: 100vh;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    padding:28px 15px;
+    background:
+        linear-gradient(145deg,#050505,#171400,#050505);
+    border-bottom:2px solid #ffd700;
+    box-shadow:0 5px 25px rgba(255,215,0,.12);
+}
+
+.logo{
+    color:#ffd700;
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:4px;
+    text-shadow:
+        0 0 8px rgba(255,215,0,.7),
+        0 0 20px rgba(255,215,0,.3);
+}
+
+.subtitle{
+    margin-top:6px;
+    font-size:12px;
+    letter-spacing:2px;
+    color:#aaa;
+}
+
+main{
+    width:100%;
+    max-width:950px;
+    margin:auto;
+    padding:25px 15px 60px;
+}
+
+#loading{
+    text-align:center;
+    color:#ffd700;
+    padding:40px 20px;
+    font-weight:bold;
+}
+
+#erro{
+    display:none;
+    padding:18px;
+    margin-bottom:20px;
+    border-radius:14px;
+    background:#210909;
+    border:1px solid #7b2929;
+    color:#ffb0b0;
+    text-align:center;
+}
+
+.welcome{
+    text-align:center;
+    padding:35px 20px;
+    margin-bottom:22px;
+    border-radius:20px;
+    background:
+        linear-gradient(145deg,
+        rgba(255,215,0,.14),
+        rgba(255,255,255,.02));
+    border:1px solid rgba(255,215,0,.35);
+    box-shadow:0 10px 35px rgba(0,0,0,.5);
+}
+
+.welcome h1{
+    color:#ffd700;
+    font-size:30px;
+    margin-bottom:10px;
+    text-shadow:0 0 10px rgba(255,215,0,.45);
+}
+
+.welcome p{
+    color:#ccc;
+    line-height:1.5;
+}
+
+.card{
+    background:
+        linear-gradient(145deg,#151515,#080808);
+    border:1px solid rgba(255,215,0,.25);
+    border-radius:18px;
+    padding:22px;
+    margin-bottom:20px;
+    box-shadow:0 8px 30px rgba(0,0,0,.45);
+}
+
+.card h2{
+    color:#ffd700;
+    font-size:21px;
+    margin-bottom:15px;
+}
+
+.card p{
+    color:#ddd;
+    margin-bottom:9px;
+    line-height:1.5;
+}
+
+.highlight{
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.btn{
+    display:block;
+    width:100%;
+    max-width:430px;
+    margin:13px auto;
+    padding:15px 18px;
+    border-radius:12px;
+    text-align:center;
+    text-decoration:none;
+    font-weight:900;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-gold{
+    color:#050505;
+    background:
+        linear-gradient(135deg,#fff2a6,#ffd700,#d4af37);
+    box-shadow:0 0 15px rgba(255,215,0,.35);
+}
+
+.btn-dark{
+    color:#ffd700;
+    background:#101010;
+    border:1px solid rgba(255,215,0,.4);
+}
+
+.btn-danger{
+    color:#fff;
+    background:#170707;
+    border:1px solid rgba(255,70,70,.45);
+}
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.menu-item{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:90px;
+    padding:15px;
+    text-align:center;
+    color:#ffd700;
+    text-decoration:none;
+    background:#101010;
+    border:1px solid rgba(255,215,0,.25);
+    border-radius:15px;
+    font-weight:bold;
+    line-height:1.5;
+    transition:.2s;
+}
+
+.menu-item:hover{
+    transform:translateY(-3px);
+    border-color:#ffd700;
+    box-shadow:0 0 18px rgba(255,215,0,.2);
+}
+
+
+/* ===============================
+   PROMOÇÃO
+================================ */
+
+.promocao{
+    margin-bottom:20px;
+    padding:25px 18px;
+    text-align:center;
+    border:2px solid #ffd700;
+    border-radius:20px;
+    background:
+        radial-gradient(circle at top right,
+        rgba(255,215,0,.18),
+        transparent 35%),
+        linear-gradient(145deg,#050505,#181818,#070707);
+    box-shadow:0 0 22px rgba(255,215,0,.2);
+}
+
+.promocao-tag{
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:30px;
+    background:#ffd700;
+    color:#050505;
+    font-weight:900;
+    font-size:12px;
+    margin-bottom:12px;
+}
+
+.promocao h2{
+    color:#ffd700;
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+.promocao h3{
+    color:#fff;
+    margin-bottom:12px;
+}
+
+.promocao-data{
+    color:#ffd700;
+    font-weight:900;
+    margin:12px 0;
+}
+
+.promocao p{
+    color:#ddd;
+    line-height:1.6;
+    margin-bottom:15px;
+}
+
+.premios{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.premio{
+    padding:15px 8px;
+    border:1px solid rgba(255,215,0,.35);
+    border-radius:14px;
+    background:rgba(0,0,0,.55);
+}
+
+.premio strong{
+    display:block;
+    color:#ffd700;
+    margin-bottom:7px;
+}
+
+.premio span{
+    color:#fff;
+    font-size:13px;
+    line-height:1.45;
+}
+
+
+/* ===============================
+   GALERIA
+================================ */
+
+.galeria{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.foto-corte{
+    position:relative;
+    overflow:hidden;
+    min-height:190px;
+    border-radius:14px;
+    border:1px solid rgba(255,215,0,.35);
+    background:#0d0d0d;
+}
+
+.foto-corte img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+    display:block;
+}
+
+.foto-legenda{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:28px 8px 9px;
+    text-align:center;
+    color:#fff;
+    font-weight:bold;
+    background:linear-gradient(
+        transparent,
+        rgba(0,0,0,.95)
+    );
+}
+
+.foto-legenda span{
+    color:#ffd700;
+}
+
+
+/* ===============================
+   SERVIÇOS
+================================ */
+
+.servicos-cliente{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.servico-cliente{
+    padding:14px 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,215,0,.22);
+    background:#0d0d0d;
+}
+
+.servico-cliente strong{
+    display:block;
+    color:#fff;
+    margin-bottom:6px;
+}
+
+.servico-cliente span{
+    color:#ffd700;
+    font-weight:900;
+}
+
+
+/* ===============================
+   STATUS
+================================ */
+
+.status{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:rgba(255,215,0,.12);
+    color:#ffd700;
+    border:1px solid rgba(255,215,0,.3);
+}
+
+.status-pago{
+    color:#5cff9a;
+    border-color:rgba(92,255,154,.35);
+    background:rgba(92,255,154,.08);
+}
+
+.status-pendente{
+    color:#ffd700;
+}
+
+.status-cancelado{
+    color:#ff7777;
+    border-color:rgba(255,119,119,.35);
+    background:rgba(255,119,119,.08);
+}
+
+
+/* ===============================
+   CARDS DINÂMICOS
+================================ */
+
+.item-historico{
+    padding:17px;
+    margin-bottom:12px;
+    background:#0d0d0d;
+    border:1px solid rgba(255,215,0,.18);
+    border-radius:14px;
+}
+
+.item-historico:last-child{
+    margin-bottom:0;
+}
+
+.item-historico p{
+    margin-bottom:7px;
+}
+
+.item-titulo{
+    color:#ffd700;
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.valor-destaque{
+    color:#ffd700;
+    font-size:19px;
+    font-weight:900;
+}
+
+.vazio{
+    text-align:center;
+    padding:18px;
+    color:#888;
+    background:#0b0b0b;
+    border-radius:12px;
+    border:1px solid #222;
+}
+
+
+/* ===============================
+   RODAPÉ
+================================ */
+
+footer{
+    text-align:center;
+    padding:30px 15px;
+    background:#030303;
+    border-top:1px solid rgba(255,215,0,.25);
+    color:#888;
+    font-size:13px;
+    line-height:1.7;
+}
+
+footer strong{
+    color:#ffd700;
+    font-size:17px;
+}
+
+
+/* ===============================
+   WHATSAPP
+================================ */
+
+.whatsapp{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:
+        linear-gradient(145deg,
+        #fff2a6,
+        #ffd700,
+        #d4af37);
+    color:#050505;
+    text-decoration:none;
+    font-size:25px;
+    font-weight:bold;
+    box-shadow:0 0 18px rgba(255,215,0,.55);
+    z-index:9999;
+}
+
+
+/* ===============================
+   RESPONSIVO
+================================ */
+
+@media(max-width:700px){
+
+    .premios{
+        grid-template-columns:1fr;
     }
 
-    header {
-      text-align: center;
-      padding: 30px 15px;
-      background: #080808;
-      border-bottom: 1px solid rgba(255, 215, 0, 0.35);
-      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.08);
+}
+
+@media(max-width:600px){
+
+    .logo{
+        font-size:29px;
     }
 
-    .logo {
-      color: #ffd700;
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      text-shadow:
-        0 0 8px rgba(255, 215, 0, 0.7),
-        0 0 20px rgba(255, 215, 0, 0.3);
+    .welcome h1{
+        font-size:25px;
     }
 
-    .subtitle {
-      margin-top: 5px;
-      font-size: 12px;
-      letter-spacing: 2px;
-      color: #ffffff;
+    .menu-grid{
+        grid-template-columns:1fr;
     }
 
-    main {
-      width: 100%;
-      max-width: 900px;
-      margin: auto;
-      padding: 25px 15px 50px;
+    .card{
+        padding:18px;
     }
 
-    .welcome {
-      text-align: center;
-      padding: 35px 20px;
-      margin-bottom: 25px;
-      border-radius: 20px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 215, 0, 0.13),
-          rgba(255, 255, 255, 0.02)
-        );
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.5);
+    .servicos-cliente{
+        grid-template-columns:1fr;
     }
 
-    .welcome h1 {
-      color: #ffd700;
-      font-size: 30px;
-      margin-bottom: 10px;
-      text-shadow:
-        0 0 10px rgba(255, 215, 0, 0.45);
+    .galeria{
+        grid-template-columns:1fr;
     }
 
-    .welcome p {
-      color: #cccccc;
+    .foto-corte,
+    .foto-corte img{
+        height:220px;
+        min-height:220px;
     }
 
-    .card {
-      background:
-        linear-gradient(
-          145deg,
-          #151515,
-          #080808
-        );
-      border: 1px solid rgba(255, 215, 0, 0.22);
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.45);
-    }
+}
 
-    .card h2 {
-      color: #ffd700;
-      font-size: 21px;
-      margin-bottom: 15px;
-    }
+</style>
+</head>
 
-    .card p {
-      color: #dddddd;
-      margin-bottom: 8px;
-    }
 
-    .highlight {
-      color: #ffd700;
-      font-weight: bold;
-    }
+<body>
 
-    .btn {
-      display: block;
-      width: 100%;
-      max-width: 430px;
-      margin: 12px auto;
-      padding: 15px 18px;
-      border-radius: 12px;
-      text-align: center;
-      text-decoration: none;
-      font-weight: 900;
-      font-size: 14px;
-      cursor: pointer;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
 
-    .btn:hover {
-      transform: translateY(-2px);
-    }
+<header>
 
-    .btn-gold {
-      color: #050505;
-      background:
-        linear-gradient(
-          135deg,
-          #fff2a6,
-          #ffd700,
-          #d4af37
-        );
-      box-shadow:
-        0 0 15px rgba(255, 215, 0, 0.35);
-    }
-
-    .btn-gold:hover {
-      box-shadow:
-        0 0 25px rgba(255, 215, 0, 0.65);
-    }
-
-    .btn-dark {
-      color: #ffd700;
-      background: #101010;
-      border: 1px solid rgba(255, 215, 0, 0.4);
-    }
-
-    .btn-dark:hover {
-      border-color: #ffd700;
-      background: #181818;
-    }
-
-    .btn-danger {
-      color: #ffffff;
-      background: #170707;
-      border: 1px solid rgba(255, 70, 70, 0.4);
-    }
-
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 85px;
-      padding: 15px;
-      text-align: center;
-      color: #ffd700;
-      text-decoration: none;
-      background: #101010;
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      border-radius: 15px;
-      font-weight: bold;
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-    }
-
-    .menu-item:hover {
-      transform: translateY(-3px);
-      border-color: #ffd700;
-      box-shadow:
-        0 0 18px rgba(255, 215, 0, 0.2);
-    }
-
-    .status {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-      background: rgba(255, 215, 0, 0.12);
-      color: #ffd700;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    #loading {
-      text-align: center;
-      color: #ffd700;
-      padding: 20px;
-    }
-
-    #erro {
-      display: none;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 12px;
-      background: #210909;
-      border: 1px solid #6b2222;
-      color: #ffb0b0;
-      text-align: center;
-    }
-
-
-    /* =====================================================
-       PROMOÇÃO
-    ====================================================== */
-
-    .promocao {
-      margin-bottom: 20px;
-      padding: 25px 18px;
-      text-align: center;
-      border: 2px solid #ffd700;
-      border-radius: 20px;
-      background:
-        radial-gradient(
-          circle at top right,
-          rgba(255,215,0,.18),
-          transparent 35%
-        ),
-        linear-gradient(
-          145deg,
-          #050505,
-          #181818,
-          #070707
-        );
-      box-shadow:
-        0 0 22px rgba(255,215,0,.2);
-    }
-
-    .promocao-tag {
-      display: inline-block;
-      padding: 7px 14px;
-      border-radius: 30px;
-      background: #ffd700;
-      color: #050505;
-      font-weight: 900;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    .promocao h2 {
-      color: #ffd700;
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .promocao h3 {
-      color: #fff;
-      margin-bottom: 12px;
-    }
-
-    .promocao-data {
-      color: #ffd700;
-      font-weight: 900;
-      margin: 12px 0;
-    }
-
-    .promocao p {
-      color: #ddd;
-      line-height: 1.6;
-      margin-bottom: 15px;
-    }
-
-    .premios {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 18px 0;
-    }
-
-    .premio {
-      padding: 15px 8px;
-      border: 1px solid rgba(255,215,0,.35);
-      border-radius: 14px;
-      background: rgba(0,0,0,.55);
-    }
-
-    .premio strong {
-      display: block;
-      color: #ffd700;
-      margin-bottom: 7px;
-    }
-
-    .premio span {
-      color: #fff;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-
-    /* =====================================================
-       GALERIA
-    ====================================================== */
-
-    .galeria {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 10px;
-    }
-
-    .foto-corte {
-      position: relative;
-      overflow: hidden;
-      min-height: 190px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,215,0,.35);
-      background: #0d0d0d;
-    }
-
-    .foto-corte img {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .foto-legenda {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 28px 8px 9px;
-      text-align: center;
-      color: #fff;
-      font-weight: bold;
-      background:
-        linear-gradient(
-          transparent,
-          rgba(0,0,0,.95)
-        );
-    }
-
-    .foto-legenda span {
-      color: #ffd700;
-    }
-
-
-    /* =====================================================
-       SERVIÇOS
-    ====================================================== */
-
-    .servicos-cliente {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .servico-cliente {
-      padding: 14px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,215,0,.22);
-      background: #0d0d0d;
-    }
-
-    .servico-cliente strong {
-      display: block;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-
-    .servico-cliente span {
-      color: #ffd700;
-      font-weight: 900;
-    }
-
-
-    /* =====================================================
-       RODAPÉ
-    ====================================================== */
-
-    footer {
-      text-align: center;
-      padding: 30px 15px;
-      background: #030303;
-      border-top: 1px solid rgba(255, 215, 0, 0.25);
-      color: #888888;
-      font-size: 13px;
-    }
-
-    footer strong {
-      color: #ffd700;
-      font-size: 17px;
-    }
-
-
-    /* =====================================================
-       WHATSAPP
-    ====================================================== */
-
-    .whatsapp {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 58px;
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background:
-        linear-gradient(
-          145deg,
-          #fff2a6,
-          #ffd700,
-          #d4af37
-        );
-      color: #050505;
-      text-decoration: none;
-      font-size: 26px;
-      font-weight: bold;
-      box-shadow:
-        0 0 18px rgba(255, 215, 0, 0.55);
-      z-index: 9999;
-    }
-
-
-    /* =====================================================
-       RESPONSIVO
-    ====================================================== */
-
-    @media (max-width: 700px) {
-
-      .premios {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-    @media (max-width: 600px) {
-
-      .logo {
-        font-size: 29px;
-      }
-
-      .welcome h1 {
-        font-size: 25px;
-      }
-
-      .menu-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        padding: 18px;
-      }
-
-      .servicos-cliente {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-  </style></head><body><header>  <div class="logo">
-    GOLD STYLE
-  </div>  <div class="subtitle">
-    BARBEARIA DESDE 2022
-  </div></header><main>  <div id="loading">
-    Carregando sua área do cliente...
-  </div>  <div id="erro"></div>  <section
-    id="conteudo"
-    style="display:none;"
-  ><div class="welcome">
-
-  <h1 id="nomeCliente">
-    Olá!
-  </h1>
-
-  <p>
-    Seja bem-vindo à sua área exclusiva
-    da Gold Style Barbearia.
-  </p>
-
-</div>
-
-
-<!-- =================================================
-     PROMOÇÃO
-================================================== -->
-
-<div class="promocao">
-
-  <div class="promocao-tag">
-    🎁 PROMOÇÃO GOLD STYLE
-  </div>
-
-  <h2>
-    SORTEIO GOLD STYLE
-  </h2>
-
-  <h3>
-    Comece 2027 com o pé direito! 🔥
-  </h3>
-
-  <div class="promocao-data">
-    📅 SORTEIO: 01/01/2027
-  </div>
-
-  <p>
-    A cada serviço realizado na Gold Style,
-    preencha seu cupom e participe do sorteio.
-  </p>
-
-  <div class="premios">
-
-    <div class="premio">
-      <strong>🥇 1º PRÊMIO</strong>
-      <span>
-        R$ 100,00
-        <br>
-        +
-        <br>
-        1 corte grátis
-      </span>
+    <div class="logo">
+        GOLD STYLE
     </div>
 
-    <div class="premio">
-      <strong>🥈 2º PRÊMIO</strong>
-      <span>
-        R$ 50,00
-        <br>
-        +
-        <br>
-        1 corte grátis
-      </span>
+    <div class="subtitle">
+        BARBEARIA DESDE 2022
     </div>
 
-    <div class="premio">
-      <strong>🥉 3º PRÊMIO</strong>
-      <span>
-        1 corte de cabelo grátis
-      </span>
+</header>
+
+
+<main>
+
+    <div id="loading">
+        Carregando sua área do cliente...
     </div>
 
-  </div>
 
-  <p>
-    <strong style="color:#ffd700;">
-      COMO PARTICIPAR?
+    <div id="erro"></div>
+
+
+    <section
+        id="conteudo"
+        style="display:none;"
+    >
+
+
+        <!-- =========================
+             BOAS-VINDAS
+        ========================== -->
+
+        <div class="welcome">
+
+            <h1 id="nomeCliente">
+                Olá!
+            </h1>
+
+            <p>
+                Seja bem-vindo à sua área exclusiva
+                da Gold Style Barbearia.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             PROMOÇÃO
+        ========================== -->
+
+        <div class="promocao">
+
+            <div class="promocao-tag">
+                🎁 PROMOÇÃO GOLD STYLE
+            </div>
+
+            <h2>
+                SORTEIO GOLD STYLE
+            </h2>
+
+            <h3>
+                Comece 2027 com o pé direito! 🔥
+            </h3>
+
+            <div class="promocao-data">
+                📅 SORTEIO: 01/01/2027
+            </div>
+
+            <p>
+                A cada serviço realizado na Gold Style,
+                preencha seu cupom e participe do sorteio.
+            </p>
+
+            <div class="premios">
+
+                <div class="premio">
+                    <strong>🥇 1º PRÊMIO</strong>
+                    <span>
+                        R$ 100,00
+                        <br>
+                        +
+                        <br>
+                        1 corte grátis
+                    </span>
+                </div>
+
+                <div class="premio">
+                    <strong>🥈 2º PRÊMIO</strong>
+                    <span>
+                        R$ 50,00
+                        <br>
+                        +
+                        <br>
+                        1 corte grátis
+                    </span>
+                </div>
+
+                <div class="premio">
+                    <strong>🥉 3º PRÊMIO</strong>
+                    <span>
+                        1 corte de cabelo grátis
+                    </span>
+                </div>
+
+            </div>
+
+            <p>
+                <strong style="color:#ffd700;">
+                    COMO PARTICIPAR?
+                </strong>
+
+                <br>
+
+                Faça qualquer serviço,
+                preencha seu cupom
+                e coloque-o na urna da promoção.
+            </p>
+
+            <a
+                href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
+                target="_blank"
+                class="btn btn-gold"
+            >
+                🎟️ QUERO PARTICIPAR
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             GALERIA
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                ✂️ Nossos Trabalhos
+            </h2>
+
+            <div class="galeria">
+
+                <div class="foto-corte">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
+                        alt="Corte degradê"
+                        loading="lazy"
+                    >
+
+                    <div class="foto-legenda">
+                        <span>✂️</span>
+                        Degradê
+                    </div>
+
+                </div>
+
+
+                <div class="foto-corte">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
+                        alt="Barba masculina"
+                        loading="lazy"
+                    >
+
+                    <div class="foto-legenda">
+                        <span>🧔</span>
+                        Barba
+                    </div>
+
+                </div>
+
+
+                <div class="foto-corte">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
+                        alt="Corte social"
+                        loading="lazy"
+                    >
+
+                    <div class="foto-legenda">
+                        <span>💈</span>
+                        Corte Social
+                    </div>
+
+                </div>
+
+
+                <div class="foto-corte">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=85"
+                        alt="Corte e barba"
+                        loading="lazy"
+                    >
+
+                    <div class="foto-legenda">
+                        <span>🔥</span>
+                        Corte + Barba
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SERVIÇOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                💈 Serviços da Gold Style
+            </h2>
+
+            <div class="servicos-cliente">
+
+                <div class="servico-cliente">
+                    <strong>Corte Social</strong>
+                    <span>R$ 25</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Degradê / Navalhado</strong>
+                    <span>R$ 30</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Corte + Barba</strong>
+                    <span>R$ 50</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Sobrancelha</strong>
+                    <span>R$ 10</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Barba</strong>
+                    <span>R$ 25</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Selagem</strong>
+                    <span>R$ 70</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Luzes</strong>
+                    <span>R$ 80</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Platinado</strong>
+                    <span>A partir de R$ 120</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Pigmentação de Barba</strong>
+                    <span>R$ 30</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Pigmentação de Cabelo</strong>
+                    <span>R$ 50</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Corte na Tesoura</strong>
+                    <span>R$ 30</span>
+                </div>
+
+                <div class="servico-cliente">
+                    <strong>Corte Infantil</strong>
+                    <span>R$ 30</span>
+                </div>
+
+            </div>
+
+            <a
+                href="agendamento.html"
+                class="btn btn-gold"
+            >
+                📅 AGENDAR MEU HORÁRIO
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             DADOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                👤 Meus dados
+            </h2>
+
+            <p>
+                <strong>Nome:</strong>
+                <span id="clienteNome"></span>
+            </p>
+
+            <p>
+                <strong>WhatsApp:</strong>
+                <span id="clienteTelefone"></span>
+            </p>
+
+            <p>
+                <strong>E-mail:</strong>
+                <span id="clienteEmail"></span>
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             MENU
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                ⚡ Acesso rápido
+            </h2>
+
+            <div class="menu-grid">
+
+                <a
+                    href="agendamento.html"
+                    class="menu-item"
+                >
+                    📅<br>
+                    Agendar horário
+                </a>
+
+                <a
+                    href="produtos-cliente.html"
+                    class="menu-item"
+                >
+                    🛍️<br>
+                    Comprar produtos
+                </a>
+
+                <a
+                    href="pagamento-pix.html"
+                    class="menu-item"
+                >
+                    💳<br>
+                    Pagamentos
+                </a>
+
+                <a
+                    href="https://wa.me/5568999853643"
+                    target="_blank"
+                    class="menu-item"
+                >
+                    💬<br>
+                    Falar no WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             AGENDAMENTOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                📅 Meus agendamentos
+            </h2>
+
+            <div id="agendamentos">
+                Carregando...
+            </div>
+
+            <a
+                href="agendamento.html"
+                class="btn btn-gold"
+            >
+                + AGENDAR NOVO HORÁRIO
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             PAGAMENTOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                💳 Meus pagamentos
+            </h2>
+
+            <div id="pagamentos">
+                Carregando...
+            </div>
+
+            <a
+                href="pagamento-pix.html"
+                class="btn btn-dark"
+            >
+                VER PAGAMENTOS
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             PRODUTOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                🛍️ Produtos
+            </h2>
+
+            <p>
+                Encontre produtos para cuidar
+                do seu cabelo e da sua barba.
+            </p>
+
+            <a
+                href="produtos-cliente.html"
+                class="btn btn-gold"
+            >
+                VER PRODUTOS
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             PEDIDOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                📦 Meus pedidos
+            </h2>
+
+            <div id="pedidos">
+                Carregando...
+            </div>
+
+            <a
+                href="produtos-cliente.html"
+                class="btn btn-dark"
+            >
+                FAZER NOVO PEDIDO
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             WHATSAPP
+        ========================== -->
+
+        <div class="card">
+
+            <h2>
+                💬 Precisa de ajuda?
+            </h2>
+
+            <p>
+                Fale diretamente com a Gold Style
+                pelo WhatsApp.
+            </p>
+
+            <a
+                href="https://wa.me/5568999853643"
+                target="_blank"
+                class="btn btn-gold"
+            >
+                FALAR COM A BARBEARIA
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             SAIR
+        ========================== -->
+
+        <button
+            id="sair"
+            class="btn btn-danger"
+        >
+            🚪 SAIR DA CONTA
+        </button>
+
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <strong>
+        Gold Style Barbearia
     </strong>
 
     <br>
 
-    Faça qualquer serviço,
-    preencha seu cupom
-    e coloque-o na urna da promoção.
-  </p>
+    BARBEARIA DESDE 2022
 
-  <a
-    href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
-    target="_blank"
-    class="btn btn-gold"
-  >
-    🎟️ QUERO PARTICIPAR
-  </a>
+    <br>
 
-</div>
+    Rua Preciosa 557
 
+    <br>
 
-<!-- =================================================
-     GALERIA
-================================================== -->
+    Rio Branco - Acre
 
-<div class="card">
+    <br><br>
 
-  <h2>
-    ✂️ Nossos Trabalhos
-  </h2>
+    📸 @barbearia_Gold_style
 
-  <div class="galeria">
+    <br><br>
 
-    <div class="foto-corte">
+    © 2026 Gold Style
 
-      <img
-        src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
-        alt="Corte degradê"
-        loading="lazy"
-      >
+</footer>
 
-      <div class="foto-legenda">
-        <span>✂️</span>
-        Degradê
-      </div>
 
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
-        alt="Barba masculina"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>🧔</span>
-        Barba
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
-        alt="Corte social"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>💈</span>
-        Corte Social
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=85"
-        alt="Corte e barba"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>🔥</span>
-        Corte + Barba
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =================================================
-     SERVIÇOS
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    💈 Serviços da Gold Style
-  </h2>
-
-  <div class="servicos-cliente">
-
-    <div class="servico-cliente">
-      <strong>Corte Social</strong>
-      <span>R$ 25</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Degradê / Navalhado</strong>
-      <span>R$ 30</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Corte + Barba</strong>
-      <span>R$ 50</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Sobrancelha</strong>
-      <span>R$ 10</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Barba</strong>
-      <span>R$ 25</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Selagem</strong>
-      <span>R$ 70</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Luzes</strong>
-      <span>R$ 80</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Platinado</strong>
-      <span>A partir de R$ 120</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Pigmentação de Barba</strong>
-      <span>R$ 30</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Pigmentação de Cabelo</strong>
-      <span>R$ 50</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Corte na Tesoura</strong>
-      <span>R$ 30</span>
-    </div>
-
-    <div class="servico-cliente">
-      <strong>Corte Infantil</strong>
-      <span>R$ 30</span>
-    </div>
-
-  </div>
-
-  <a
-    href="agendamento.html"
-    class="btn btn-gold"
-  >
-    📅 AGENDAR MEU HORÁRIO
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     DADOS DO CLIENTE
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    👤 Meus dados
-  </h2>
-
-  <p>
-    <strong>Nome:</strong>
-    <span id="clienteNome"></span>
-  </p>
-
-  <p>
-    <strong>WhatsApp:</strong>
-    <span id="clienteTelefone"></span>
-  </p>
-
-  <p>
-    <strong>E-mail:</strong>
-    <span id="clienteEmail"></span>
-  </p>
-
-</div>
-
-
-<!-- =================================================
-     MENU RÁPIDO
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    ⚡ Acesso rápido
-  </h2>
-
-  <div class="menu-grid">
-
-    <a
-      href="agendamento.html"
-      class="menu-item"
-    >
-      📅<br>
-      Agendar horário
-    </a>
-
-    <a
-      href="produtos-cliente.html"
-      class="menu-item"
-    >
-      🛍️<br>
-      Comprar produtos
-    </a>
-
-    <a
-      href="pagamento-pix.html"
-      class="menu-item"
-    >
-      💳<br>
-      Pagamentos
-    </a>
-
-    <a
-      href="https://wa.me/5568999853643"
-      target="_blank"
-      class="menu-item"
-    >
-      💬<br>
-      Falar no WhatsApp
-    </a>
-
-  </div>
-
-</div>
-
-
-<!-- =================================================
-     AGENDAMENTOS
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    📅 Meus agendamentos
-  </h2>
-
-  <div id="agendamentos">
-    Carregando...
-  </div>
-
-  <a
-    href="agendamento.html"
-    class="btn btn-gold"
-  >
-    + AGENDAR NOVO HORÁRIO
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     PAGAMENTOS
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    💳 Meus pagamentos
-  </h2>
-
-  <div id="pagamentos">
-    Carregando...
-  </div>
-
-  <a
-    href="pagamento-pix.html"
-    class="btn btn-dark"
-  >
-    VER PAGAMENTOS
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     PRODUTOS
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    🛍️ Produtos
-  </h2>
-
-  <p>
-    Encontre produtos para cuidar do seu
-    cabelo e da sua barba.
-  </p>
-
-  <a
-    href="produtos-cliente.html"
-    class="btn btn-gold"
-  >
-    VER PRODUTOS
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     PEDIDOS
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    📦 Meus pedidos
-  </h2>
-
-  <div id="pedidos">
-    Carregando...
-  </div>
-
-  <a
-    href="produtos-cliente.html"
-    class="btn btn-dark"
-  >
-    FAZER NOVO PEDIDO
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     WHATSAPP
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    💬 Precisa de ajuda?
-  </h2>
-
-  <p>
-    Fale diretamente com a Gold Style
-    pelo WhatsApp.
-  </p>
-
-  <a
+<a
     href="https://wa.me/5568999853643"
     target="_blank"
-    class="btn btn-gold"
-  >
-    FALAR COM A BARBEARIA
-  </a>
-
-</div>
-
-
-<!-- =================================================
-     SAIR
-================================================== -->
-
-<button
-  id="sair"
-  class="btn btn-danger"
+    class="whatsapp"
+    aria-label="Falar com a Gold Style"
 >
-  🚪 SAIR DA CONTA
-</button>
-
-  </section></main><footer>  <strong>
-    Gold Style Barbearia
-  </strong>  <br>BARBEARIA DESDE 2022
-
-  <br>Rua Preciosa 557
-
-  <br>Rio Branco - Acre
-
-<br><br>
-
-📸 @barbearia_Gold_style
-
-<br><br>
-
-© 2026 Gold Style
-
-</footer><a
-href="https://wa.me/5568999853643"
-target="_blank"
-class="whatsapp"
-aria-label="Falar com a Gold Style"
-
-«»
-
-☎
+    ☎
 </a>
 
+
 <script>
+
+
+/* =========================================
+   SUPABASE
+========================================= */
 
 const SUPABASE_URL =
 "https://ivvswiprdqgroeoelqmh.supabase.co";
 
+
 const SUPABASE_KEY =
 "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
 
+
 const supabaseClient =
 window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
+
+/* =========================================
+   ELEMENTOS
+========================================= */
 
 const loading =
 document.getElementById("loading");
@@ -1020,590 +1120,760 @@ const erro =
 document.getElementById("erro");
 
 
-function mostrarErro(mensagem) {
+/* =========================================
+   ERRO
+========================================= */
 
-  loading.style.display = "none";
-
-  erro.style.display = "block";
-
-  erro.textContent = mensagem;
-
-}
-
-
-function escaparHTML(valor) {
-
-  if (
-    valor === null ||
-    valor === undefined
-  ) {
-    return "";
-  }
-
-  return String(valor)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-
-
-function formatarMoeda(valor) {
-
-  return Number(
-    valor || 0
-  ).toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: "BRL"
-    }
-  );
-
-}
-
-
-function formatarData(data) {
-
-  if (!data) {
-    return "-";
-  }
-
-  const partes =
-    String(data).split("-");
-
-  if (
-    partes.length !== 3
-  ) {
-    return data;
-  }
-
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
-}
-
-
-async function carregarCliente() {
-
-  try {
-
-    const {
-      data: {
-        session
-      }
-    } =
-    await supabaseClient.auth.getSession();
-
-
-    if (!session) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
-
-
-    const usuario =
-      session.user;
-
-
-    const {
-      data: cliente,
-      error: erroCliente
-    } =
-    await supabaseClient
-      .from("clientes")
-      .select("*")
-      .eq(
-        "auth_user_id",
-        usuario.id
-      )
-      .maybeSingle();
-
-
-    if (erroCliente) {
-      throw erroCliente;
-    }
-
-
-    if (!cliente) {
-
-      mostrarErro(
-        "Seu cadastro de cliente não foi encontrado."
-      );
-
-      return;
-
-    }
-
-
-    document.getElementById(
-      "nomeCliente"
-    ).textContent =
-      `Olá, ${cliente.Nome || "cliente"}!`;
-
-
-    document.getElementById(
-      "clienteNome"
-    ).textContent =
-      cliente.Nome || "-";
-
-
-    document.getElementById(
-      "clienteTelefone"
-    ).textContent =
-      cliente.Telefone || "-";
-
-
-    document.getElementById(
-      "clienteEmail"
-    ).textContent =
-      cliente["E-mail"] ||
-      usuario.email ||
-      "-";
-
-
-    await Promise.all([
-
-      carregarAgendamentos(
-        cliente.id
-      ),
-
-      carregarPagamentos(
-        cliente.id
-      ),
-
-      carregarPedidos(
-        cliente.id
-      )
-
-    ]);
-
+function mostrarErro(mensagem){
 
     loading.style.display =
-      "none";
+    "none";
 
-    conteudo.style.display =
-      "block";
+    erro.style.display =
+    "block";
 
-
-  } catch (error) {
-
-    console.error(error);
-
-    mostrarErro(
-      "Não foi possível carregar sua área do cliente."
-    );
-
-  }
+    erro.textContent =
+    mensagem;
 
 }
 
 
-async function carregarAgendamentos(
-  clienteId
-) {
+/* =========================================
+   SEGURANÇA HTML
+========================================= */
 
-  const elemento =
+function escaparHTML(valor){
+
+    if(
+        valor === null ||
+        valor === undefined
+    ){
+        return "";
+    }
+
+    return String(valor)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================
+   MOEDA
+========================================= */
+
+function formatarMoeda(valor){
+
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
+}
+
+
+/* =========================================
+   DATA
+========================================= */
+
+function formatarData(data){
+
+    if(!data){
+        return "-";
+    }
+
+    const partes =
+    String(data).split("-");
+
+    if(partes.length !== 3){
+        return data;
+    }
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+/* =========================================
+   HORÁRIO
+========================================= */
+
+function formatarHorario(horario){
+
+    if(!horario){
+        return "-";
+    }
+
+    const texto =
+    String(horario);
+
+    /*
+       Corrige formatos como:
+       08:00
+       08:00:00
+       2026-10-03T08:00:00
+    */
+
+    if(
+        texto.includes("T")
+    ){
+
+        const parte =
+        texto.split("T")[1];
+
+        return parte.substring(
+            0,
+            5
+        );
+
+    }
+
+    return texto.substring(
+        0,
+        5
+    );
+
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+function classeStatus(status){
+
+    const valor =
+    String(
+        status || ""
+    ).toLowerCase();
+
+
+    if(
+        valor.includes("pago") ||
+        valor.includes("concluído")
+    ){
+
+        return "status status-pago";
+
+    }
+
+
+    if(
+        valor.includes("cancel")
+    ){
+
+        return "status status-cancelado";
+
+    }
+
+
+    return "status status-pendente";
+
+}
+
+
+/* =========================================
+   CARREGAR CLIENTE
+========================================= */
+
+async function carregarCliente(){
+
+    try{
+
+        const {
+            data:{
+                session
+            }
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        if(!session){
+
+            window.location.href =
+            "login.html";
+
+            return;
+
+        }
+
+
+        const usuario =
+        session.user;
+
+
+        const {
+            data:cliente,
+            error:erroCliente
+        } =
+        await supabaseClient
+        .from("clientes")
+        .select("*")
+        .eq(
+            "auth_user_id",
+            usuario.id
+        )
+        .maybeSingle();
+
+
+        if(erroCliente){
+
+            throw erroCliente;
+
+        }
+
+
+        if(!cliente){
+
+            mostrarErro(
+                "Seu cadastro de cliente não foi encontrado."
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "nomeCliente"
+        ).textContent =
+        `Olá, ${cliente.Nome || "cliente"}!`;
+
+
+        document.getElementById(
+            "clienteNome"
+        ).textContent =
+        cliente.Nome || "-";
+
+
+        document.getElementById(
+            "clienteTelefone"
+        ).textContent =
+        cliente.Telefone || "-";
+
+
+        document.getElementById(
+            "clienteEmail"
+        ).textContent =
+        cliente["E-mail"] ||
+        usuario.email ||
+        "-";
+
+
+        await Promise.all([
+
+            carregarAgendamentos(
+                cliente.id
+            ),
+
+            carregarPagamentos(
+                cliente.id
+            ),
+
+            carregarPedidos(
+                cliente.id
+            )
+
+        ]);
+
+
+        loading.style.display =
+        "none";
+
+
+        conteudo.style.display =
+        "block";
+
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarErro(
+            "Não foi possível carregar sua área do cliente."
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   AGENDAMENTOS
+========================================= */
+
+async function carregarAgendamentos(
+    clienteId
+){
+
+    const elemento =
     document.getElementById(
-      "agendamentos"
+        "agendamentos"
     );
 
 
-  const {
-    data,
-    error
-  } =
-  await supabaseClient
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
     .from("agendamentos")
     .select("*")
     .eq(
-      "Cliente_id",
-      clienteId
+        "Cliente_id",
+        clienteId
     )
     .order(
-      "Data",
-      {
-        ascending: false
-      }
+        "Data",
+        {
+            ascending:false
+        }
     );
 
 
-  if (error) {
+    if(error){
 
-    elemento.innerHTML =
-      "<p>Não foi possível carregar seus agendamentos.</p>";
+        console.error(error);
 
-    return;
-
-  }
-
-
-  if (
-    !data ||
-    data.length === 0
-  ) {
-
-    elemento.innerHTML =
-      "<p>Você ainda não possui agendamentos.</p>";
-
-    return;
-
-  }
-
-
-  elemento.innerHTML =
-    data.map(item => {
-
-      return `
-
-        <div
-          style="
-            padding:15px;
-            margin-bottom:12px;
-            background:#0d0d0d;
-            border:1px solid rgba(255,215,0,.18);
-            border-radius:12px;
-          "
-        >
-
-          <p>
-            <strong>Serviço:</strong>
-
-            <span class="highlight">
-              ${escaparHTML(
-                item["Serviços"]
-              )}
-            </span>
-          </p>
-
-          <p>
-            <strong>Data:</strong>
-
-            ${formatarData(
-              item["Data"]
-            )}
-          </p>
-
-          <p>
-            <strong>Horário:</strong>
-
-            ${
-              item["Horário"]
-              ? new Date(
-                  item["Horário"]
-                ).toLocaleTimeString(
-                  "pt-BR",
-                  {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                  }
-                )
-              : "-"
-            }
-          </p>
-
-          <p>
-            <strong>Valor:</strong>
-
-            ${formatarMoeda(
-              item.Valor
-            )}
-          </p>
-
-          <p>
-            <strong>Status:</strong>
-
-            <span class="status">
-              ${escaparHTML(
-                item.Status
-              )}
-            </span>
-          </p>
-
-          <p>
-            <strong>Pagamento:</strong>
-
-            ${escaparHTML(
-              item.Pagamento
-            )}
-          </p>
-
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            Não foi possível carregar seus agendamentos.
         </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-async function carregarPagamentos(
-  clienteId
-) {
-
-  const elemento =
-    document.getElementById(
-      "pagamentos"
-    );
-
-
-  const {
-    data,
-    error
-  } =
-  await supabaseClient
-    .from("pagamentos")
-    .select("*")
-    .eq(
-      "cliente_id",
-      clienteId
-    )
-    .order(
-      "criado_em",
-      {
-        ascending: false
-      }
-    );
-
-
-  if (error) {
-
-    elemento.innerHTML =
-      "<p>Não foi possível carregar seus pagamentos.</p>";
-
-    return;
-
-  }
-
-
-  if (
-    !data ||
-    data.length === 0
-  ) {
-
-    elemento.innerHTML =
-      "<p>Nenhum pagamento registrado.</p>";
-
-    return;
-
-  }
-
-
-  elemento.innerHTML =
-    data.map(item => {
-
-      return `
-
-        <div
-          style="
-            padding:15px;
-            margin-bottom:12px;
-            background:#0d0d0d;
-            border:1px solid rgba(255,215,0,.18);
-            border-radius:12px;
-          "
-        >
-
-          <p>
-            <strong>Valor:</strong>
-
-            <span class="highlight">
-              ${formatarMoeda(
-                item.valor
-              )}
-            </span>
-          </p>
-
-          <p>
-            <strong>Método:</strong>
-
-            ${escaparHTML(
-              item.metodo
-            )}
-          </p>
-
-          <p>
-            <strong>Status:</strong>
-
-            <span class="status">
-              ${escaparHTML(
-                item.status
-              )}
-            </span>
-          </p>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-async function carregarPedidos(
-  clienteId
-) {
-
-  const elemento =
-    document.getElementById(
-      "pedidos"
-    );
-
-
-  const {
-    data: pedidos,
-    error
-  } =
-  await supabaseClient
-    .from("pedidos_produtos")
-    .select("*")
-    .eq(
-      "cliente_id",
-      clienteId
-    )
-    .order(
-      "criado_em",
-      {
-        ascending: false
-      }
-    );
-
-
-  if (error) {
-
-    elemento.innerHTML =
-      "<p>Não foi possível carregar seus pedidos.</p>";
-
-    return;
-
-  }
-
-
-  if (
-    !pedidos ||
-    pedidos.length === 0
-  ) {
-
-    elemento.innerHTML =
-      "<p>Você ainda não possui pedidos.</p>";
-
-    return;
-
-  }
-
-
-  elemento.innerHTML =
-    pedidos.map(pedido => {
-
-      return `
-
-        <div
-          style="
-            padding:15px;
-            margin-bottom:12px;
-            background:#0d0d0d;
-            border:1px solid rgba(255,215,0,.18);
-            border-radius:12px;
-          "
-        >
-
-          <p>
-            <strong>Pedido:</strong>
-
-            <span class="highlight">
-              #${String(
-                pedido.id
-              ).slice(0,8)}
-            </span>
-          </p>
-
-          <p>
-            <strong>Total:</strong>
-
-            ${formatarMoeda(
-              pedido.total
-            )}
-          </p>
-
-          <p>
-            <strong>Pagamento:</strong>
-
-            <span class="status">
-              ${escaparHTML(
-                pedido.status_pagamento
-              )}
-            </span>
-          </p>
-
-          <p>
-            <strong>Pedido:</strong>
-
-            <span class="status">
-              ${escaparHTML(
-                pedido.status_pedido
-              )}
-            </span>
-          </p>
-
-          <p>
-            <strong>Data:</strong>
-
-            ${
-              pedido.criado_em
-              ? new Date(
-                  pedido.criado_em
-                ).toLocaleDateString(
-                  "pt-BR"
-                )
-              : "-"
-            }
-          </p>
-
-        </div>
-
-      `;
-
-    }).join("");
-
-}
-
-
-document
-  .getElementById("sair")
-  .addEventListener(
-    "click",
-    async () => {
-
-      const {
-        error
-      } =
-      await supabaseClient.auth.signOut();
-
-
-      if (error) {
-
-        alert(
-          "Não foi possível sair da conta."
-        );
+        `;
 
         return;
 
-      }
+    }
 
 
-      window.location.href =
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            📅 Você ainda não possui agendamentos.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    elemento.innerHTML =
+    data.map(item => {
+
+        const status =
+        item.Status || "Pendente";
+
+
+        const pagamento =
+        item.Pagamento || "Pendente";
+
+
+        return `
+
+        <div class="item-historico">
+
+            <div class="item-titulo">
+                ✂️ ${escaparHTML(
+                    item["Serviços"]
+                )}
+            </div>
+
+            <p>
+                <strong>📅 Data:</strong>
+                ${formatarData(
+                    item["Data"]
+                )}
+            </p>
+
+            <p>
+                <strong>🕐 Horário:</strong>
+                ${formatarHorario(
+                    item["Horário"]
+                )}
+            </p>
+
+            <p>
+                <strong>💰 Valor:</strong>
+
+                <span class="valor-destaque">
+                    ${formatarMoeda(
+                        item.Valor
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                <span class="${classeStatus(status)}">
+                    ${escaparHTML(status)}
+                </span>
+            </p>
+
+            <p>
+                <strong>Pagamento:</strong>
+
+                <span class="${classeStatus(pagamento)}">
+                    ${escaparHTML(pagamento)}
+                </span>
+            </p>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================
+   PAGAMENTOS
+========================================= */
+
+async function carregarPagamentos(
+    clienteId
+){
+
+    const elemento =
+    document.getElementById(
+        "pagamentos"
+    );
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("pagamentos")
+    .select("*")
+    .eq(
+        "cliente_id",
+        clienteId
+    )
+    .order(
+        "criado_em",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            Não foi possível carregar seus pagamentos.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            💳 Nenhum pagamento registrado.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    elemento.innerHTML =
+    data.map(item => {
+
+        const status =
+        item.status || "Pendente";
+
+
+        return `
+
+        <div class="item-historico">
+
+            <div class="item-titulo">
+                💳 Pagamento
+            </div>
+
+            <p>
+                <strong>Valor:</strong>
+
+                <span class="valor-destaque">
+                    ${formatarMoeda(
+                        item.valor
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Método:</strong>
+
+                ${escaparHTML(
+                    item.metodo || "-"
+                )}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                <span class="${classeStatus(status)}">
+                    ${escaparHTML(status)}
+                </span>
+            </p>
+
+            ${
+                item.referencia
+                ?
+                `
+                <p>
+                    <strong>Referência:</strong>
+                    ${escaparHTML(
+                        item.referencia
+                    )}
+                </p>
+                `
+                :
+                ""
+            }
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================
+   PEDIDOS
+========================================= */
+
+async function carregarPedidos(
+    clienteId
+){
+
+    const elemento =
+    document.getElementById(
+        "pedidos"
+    );
+
+
+    const {
+        data:pedidos,
+        error
+    } =
+    await supabaseClient
+    .from("pedidos_produtos")
+    .select("*")
+    .eq(
+        "cliente_id",
+        clienteId
+    )
+    .order(
+        "criado_em",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            Não foi possível carregar seus pedidos.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    if(
+        !pedidos ||
+        pedidos.length === 0
+    ){
+
+        elemento.innerHTML =
+        `
+        <div class="vazio">
+            📦 Você ainda não possui pedidos.
+        </div>
+        `;
+
+        return;
+
+    }
+
+
+    elemento.innerHTML =
+    pedidos.map(pedido => {
+
+        const pagamento =
+        pedido.status_pagamento ||
+        "Pendente";
+
+
+        const statusPedido =
+        pedido.status_pedido ||
+        "Aguardando processamento";
+
+
+        const dataPedido =
+        pedido.criado_em
+        ?
+        new Date(
+            pedido.criado_em
+        ).toLocaleDateString(
+            "pt-BR"
+        )
+        :
+        "-";
+
+
+        return `
+
+        <div class="item-historico">
+
+            <div class="item-titulo">
+                📦 Pedido #${String(
+                    pedido.id
+                ).slice(0,8)}
+            </div>
+
+            <p>
+                <strong>Total:</strong>
+
+                <span class="valor-destaque">
+                    ${formatarMoeda(
+                        pedido.total
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Pagamento:</strong>
+
+                <span class="${classeStatus(pagamento)}">
+                    ${escaparHTML(
+                        pagamento
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Status do pedido:</strong>
+
+                <span class="status">
+                    ${escaparHTML(
+                        statusPedido
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Data:</strong>
+                ${dataPedido}
+            </p>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================
+   SAIR
+========================================= */
+
+document
+.getElementById("sair")
+.addEventListener(
+    "click",
+    async () => {
+
+        const confirmar =
+        confirm(
+            "Deseja realmente sair da sua conta?"
+        );
+
+
+        if(!confirmar){
+
+            return;
+
+        }
+
+
+        const {
+            error
+        } =
+        await supabaseClient
+        .auth
+        .signOut();
+
+
+        if(error){
+
+            alert(
+                "Não foi possível sair da conta."
+            );
+
+            return;
+
+        }
+
+
+        window.location.href =
         "login.html";
 
     }
-  );
+);
 
+
+/* =========================================
+   INICIAR
+========================================= */
 
 carregarCliente();
 
-</script></body></html>
+</script>
+
+</body>
+  </html>
