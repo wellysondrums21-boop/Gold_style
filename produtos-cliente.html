@@ -2,2562 +2,1923 @@
 <html lang="pt-BR">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8">
+<title>Produtos | Gold Style Barbearia</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <title>Produtos | Gold Style Barbearia</title>
+<style>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-  <style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top,#201b00 0%,#080808 38%,#030303 100%);
+    color:#fff;
+    min-height:100vh;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+header{
+    padding:25px 15px;
+    text-align:center;
+    background:#050505;
+    border-bottom:2px solid #ffd700;
+    box-shadow:0 0 25px rgba(255,215,0,.18);
+}
+
+.logo{
+    color:#ffd700;
+    font-size:32px;
+    font-weight:900;
+    letter-spacing:4px;
+    text-shadow:0 0 15px rgba(255,215,0,.55);
+}
+
+.subtitulo{
+    color:#aaa;
+    margin-top:7px;
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+.container{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    padding:25px 15px 80px;
+}
+
+.topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.topo h1{
+    color:#ffd700;
+    font-size:27px;
+}
+
+.btn{
+    border:0;
+    border-radius:12px;
+    padding:13px 18px;
+    cursor:pointer;
+    font-weight:900;
+    text-decoration:none;
+    display:inline-block;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+.btn-gold{
+    color:#050505;
+    background:linear-gradient(135deg,#fff3a8,#ffd700,#d4af37);
+    box-shadow:0 0 15px rgba(255,215,0,.25);
+}
+
+.btn-dark{
+    color:#ffd700;
+    background:#111;
+    border:1px solid rgba(255,215,0,.35);
+}
+
+.aviso{
+    display:none;
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:12px;
+    text-align:center;
+    background:#160707;
+    border:1px solid #703030;
+    color:#ffb1b1;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.produto{
+    overflow:hidden;
+    border-radius:18px;
+    background:linear-gradient(145deg,#171717,#080808);
+    border:1px solid rgba(255,215,0,.22);
+    box-shadow:0 8px 25px rgba(0,0,0,.45);
+}
+
+.produto-img{
+    height:210px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle,#292300,#090909 65%);
+    font-size:75px;
+}
+
+.produto-info{
+    padding:18px;
+}
+
+.produto-info h2{
+    color:#ffd700;
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.descricao{
+    min-height:45px;
+    color:#aaa;
+    font-size:14px;
+    line-height:1.45;
+}
+
+.preco{
+    color:#fff;
+    font-size:23px;
+    font-weight:900;
+    margin:15px 0 8px;
+}
+
+.estoque{
+    color:#8dffad;
+    font-size:13px;
+    margin-bottom:12px;
+}
+
+.estoque-baixo{
+    color:#ffd700;
+}
+
+.sem-estoque{
+    color:#ff7777;
+}
+
+.quantidade{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+.quantidade button{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid #ffd700;
+    background:#101010;
+    color:#ffd700;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.quantidade span{
+    min-width:30px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.carrinho-box{
+    margin-top:28px;
+    padding:22px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#151515,#070707);
+    border:1px solid #ffd700;
+    box-shadow:0 0 25px rgba(255,215,0,.12);
+}
+
+.carrinho-box h2{
+    color:#ffd700;
+    margin-bottom:15px;
+}
+
+.item-carrinho{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:13px 0;
+    border-bottom:1px solid #242424;
+}
+
+.item-carrinho:last-child{
+    border-bottom:0;
+}
+
+.item-nome{
+    font-weight:bold;
+}
+
+.item-detalhe{
+    color:#aaa;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.item-valor{
+    color:#ffd700;
+    font-weight:bold;
+}
+
+.total{
+    display:flex;
+    justify-content:space-between;
+    margin-top:18px;
+    padding-top:18px;
+    border-top:1px solid #333;
+    font-size:22px;
+    font-weight:900;
+}
+
+.total span:last-child{
+    color:#ffd700;
+}
+
+.pagamento{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border-radius:15px;
+    background:#0c0c0c;
+    border:1px solid rgba(255,215,0,.3);
+}
+
+.pagamento h3{
+    color:#ffd700;
+    margin-bottom:12px;
+}
+
+.pagamento label{
+    display:block;
+    margin:10px 0;
+    padding:13px;
+    border-radius:10px;
+    background:#151515;
+    border:1px solid #292929;
+    cursor:pointer;
+}
+
+.pagamento input{
+    margin-right:8px;
+}
+
+.pix-box,
+.ton-box{
+    display:none;
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#151515;
+}
+
+.pix-chave{
+    word-break:break-all;
+    color:#ffd700;
+    font-weight:bold;
+    margin:8px 0;
+}
+
+.vazio{
+    padding:35px;
+    text-align:center;
+    color:#888;
+    border:1px dashed #333;
+    border-radius:15px;
+}
+
+.carregando{
+    text-align:center;
+    color:#ffd700;
+    padding:40px;
+}
+
+footer{
+    padding:30px 15px;
+    text-align:center;
+    background:#030303;
+    border-top:1px solid rgba(255,215,0,.25);
+    color:#777;
+    line-height:1.7;
+}
+
+footer strong{
+    color:#ffd700;
+    font-size:17px;
+}
+
+.whatsapp{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(145deg,#fff3a8,#ffd700,#d4af37);
+    color:#000;
+    text-decoration:none;
+    font-size:25px;
+    font-weight:bold;
+    box-shadow:0 0 20px rgba(255,215,0,.5);
+    z-index:9999;
+}
+
+@media(max-width:850px){
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #050505;
-      color: #ffffff;
-      min-height: 100vh;
+}
+
+@media(max-width:600px){
+
+    .topo{
+        flex-direction:column;
+        align-items:stretch;
+        text-align:center;
     }
 
-    header {
-      background: linear-gradient(135deg, #050505, #181818);
-      border-bottom: 1px solid #d4af37;
-      padding: 22px 15px;
-      text-align: center;
+    .grid{
+        grid-template-columns:1fr;
     }
 
-    .logo {
-      color: #ffd700;
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      text-shadow:
-        0 0 8px rgba(255,215,0,.45),
-        0 0 18px rgba(255,215,0,.25);
+    .produto-img{
+        height:230px;
     }
 
-    .subtitle {
-      color: #dddddd;
-      margin-top: 6px;
-      font-size: 13px;
-      letter-spacing: 2px;
+    .item-carrinho{
+        align-items:flex-start;
+        flex-direction:column;
     }
 
-    main {
-      width: 100%;
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px 15px 100px;
-    }
+}
 
-    h1,
-    h2 {
-      color: #ffd700;
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .intro {
-      text-align: center;
-      color: #cccccc;
-      margin-bottom: 25px;
-      line-height: 1.5;
-    }
-
-    .status {
-      display: none;
-      padding: 13px;
-      border-radius: 10px;
-      margin-bottom: 18px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .status.ok {
-      display: block;
-      background: rgba(0,180,80,.15);
-      border: 1px solid #00b450;
-      color: #70ffac;
-    }
-
-    .status.erro {
-      display: block;
-      background: rgba(220,0,0,.15);
-      border: 1px solid #d00000;
-      color: #ff8c8c;
-    }
-
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(220px, 1fr)
-      );
-      gap: 18px;
-    }
-
-    .produto {
-      background:
-        linear-gradient(
-          145deg,
-          #111111,
-          #080808
-        );
-      border: 1px solid #5c4b10;
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow:
-        0 0 15px rgba(255,215,0,.08);
-    }
-
-    .produto:hover {
-      border-color: #ffd700;
-      box-shadow:
-        0 0 22px rgba(255,215,0,.18);
-    }
-
-    .produto-img {
-      height: 150px;
-      border-radius: 12px;
-      background:
-        linear-gradient(
-          135deg,
-          #191919,
-          #090909
-        );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 60px;
-      margin-bottom: 15px;
-      border: 1px solid #292929;
-    }
-
-    .produto h3 {
-      color: #ffd700;
-      margin-bottom: 8px;
-    }
-
-    .descricao {
-      color: #aaaaaa;
-      min-height: 42px;
-      line-height: 1.4;
-      font-size: 14px;
-    }
-
-    .preco {
-      color: #ffffff;
-      font-size: 23px;
-      font-weight: bold;
-      margin: 14px 0 5px;
-    }
-
-    .estoque {
-      color: #aaaaaa;
-      font-size: 13px;
-      margin-bottom: 13px;
-    }
-
-    button,
-    .btn {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: block;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .btn-gold {
-      background:
-        linear-gradient(
-          135deg,
-          #ffd700,
-          #b8860b
-        );
-      color: #050505;
-    }
-
-    .btn-dark {
-      background: #181818;
-      color: #ffd700;
-      border: 1px solid #806b18;
-    }
-
-    .btn-red {
-      background: #5c1111;
-      color: #ffffff;
-      border: 1px solid #a52a2a;
-    }
-
-    .carrinho {
-      margin-top: 35px;
-      background:
-        linear-gradient(
-          145deg,
-          #111111,
-          #070707
-        );
-      border: 1px solid #d4af37;
-      border-radius: 16px;
-      padding: 20px;
-    }
-
-    .item-carrinho {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      border-bottom: 1px solid #292929;
-      padding: 12px 0;
-    }
-
-    .item-info {
-      flex: 1;
-    }
-
-    .item-info strong {
-      color: #ffd700;
-    }
-
-    .quantidade {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .quantidade button {
-      width: 38px;
-      margin: 0;
-      padding: 8px;
-    }
-
-    .total {
-      text-align: right;
-      color: #ffd700;
-      font-size: 25px;
-      font-weight: bold;
-      margin-top: 18px;
-    }
-
-    .pagamento {
-      margin-top: 20px;
-      padding-top: 18px;
-      border-top: 1px solid #333333;
-    }
-
-    .metodos-pagamento {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .metodo-btn {
-      min-height: 65px;
-      margin-top: 0;
-      font-size: 15px;
-      border: 1px solid #806b18;
-      background: #111111;
-      color: #ffd700;
-    }
-
-    .metodo-btn.ativo {
-      background:
-        linear-gradient(
-          135deg,
-          #ffd700,
-          #b8860b
-        );
-      color: #050505;
-      border-color: #ffd700;
-      box-shadow:
-        0 0 18px rgba(255,215,0,.22);
-    }
-
-    .pix-metodo.ativo {
-      border-color: #00c853;
-      background:
-        linear-gradient(
-          135deg,
-          #00c853,
-          #087f35
-        );
-      color: #ffffff;
-    }
-
-    .ton-box,
-    .pix-box {
-      display: none;
-      background:
-        rgba(255,215,0,.07);
-      border: 1px solid #806b18;
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 12px;
-    }
-
-    .ton-box.show,
-    .pix-box.show {
-      display: block;
-    }
-
-    .pix-box {
-      border-color: #00a94f;
-      background:
-        rgba(0,180,80,.07);
-    }
-
-    .pix-chave {
-      word-break: break-all;
-      color: #ffd700;
-      background: #050505;
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
-      border: 1px solid #292929;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .pix-valor {
-      color: #ffffff;
-      font-size: 18px;
-      margin-top: 10px;
-    }
-
-    .pix-titulo {
-      color: #70ffac;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .pedido-sucesso {
-      display: none;
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 12px;
-      background: rgba(0,180,80,.12);
-      border: 1px solid #00a94f;
-      color: #b9ffd2;
-      line-height: 1.6;
-    }
-
-    .pedido-sucesso.show {
-      display: block;
-    }
-
-    footer {
-      text-align: center;
-      color: #777777;
-      border-top: 1px solid #292929;
-      padding: 25px 15px;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 600px) {
-
-      .logo {
-        font-size: 25px;
-      }
-
-      .item-carrinho {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .quantidade {
-        width: 100%;
-      }
-
-      .metodos-pagamento {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-  </style>
-
+</style>
 </head>
 
 <body>
 
 <header>
 
-  <div class="logo">
-    GOLD STYLE
-  </div>
+    <div class="logo">
+        GOLD STYLE
+    </div>
 
-  <div class="subtitle">
-    BARBEARIA DESDE 2022
-  </div>
+    <div class="subtitulo">
+        BARBEARIA DESDE 2022
+    </div>
 
 </header>
 
-<main>
+<main class="container">
 
-  <h1>
-    🛍️ Loja Gold Style
-  </h1>
+    <div class="topo">
 
-  <p class="intro">
-    Produtos selecionados para cuidar
-    do seu cabelo e da sua barba.
-  </p>
-
-  <div
-    id="status"
-    class="status"
-  ></div>
-
-  <section>
-
-    <div
-      id="produtos"
-      class="produtos"
-    >
-
-      <p
-        style="
-          grid-column:1/-1;
-          text-align:center;
-          color:#aaa;
-        "
-      >
-        Carregando produtos...
-      </p>
-
-    </div>
-
-  </section>
-
-  <section class="carrinho">
-
-    <h2>
-      🛒 Meu Carrinho
-    </h2>
-
-    <div id="carrinhoItens"></div>
-
-    <div
-      id="carrinhoVazio"
-      style="
-        text-align:center;
-        color:#888;
-        padding:15px;
-      "
-    >
-      Seu carrinho está vazio.
-    </div>
-
-    <div class="total">
-
-      Total:
-
-      <span id="total">
-        R$ 0,00
-      </span>
-
-    </div>
-
-    <div class="pagamento">
-
-      <h2>
-        💳 Escolha o pagamento
-      </h2>
-
-      <p
-        style="
-          text-align:center;
-          color:#aaa;
-          margin-bottom:12px;
-        "
-      >
-        Escolha como deseja pagar seu pedido:
-      </p>
-
-      <div class="metodos-pagamento">
-
-        <button
-          type="button"
-          id="pixMetodoBtn"
-          class="metodo-btn pix-metodo"
-          onclick="selecionarPagamento('Pix')"
-        >
-          🟢<br>
-          PAGAR COM PIX
-        </button>
-
-        <button
-          type="button"
-          id="tonMetodoBtn"
-          class="metodo-btn"
-          onclick="selecionarPagamento('Ton')"
-        >
-          🟡<br>
-          PAGAR COM TON
-        </button>
-
-      </div>
-
-      <input
-        type="hidden"
-        id="metodoPagamento"
-        value="Pix"
-      >
-
-      <!-- PIX -->
-
-      <div
-        id="pixBox"
-        class="pix-box show"
-      >
-
-        <div class="pix-titulo">
-          🟢 PAGAMENTO VIA PIX
-        </div>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:8px;
-            line-height:1.5;
-          "
-        >
-          O Pix será gerado automaticamente
-          com o valor exato do seu pedido.
-        </p>
-
-        <div class="pix-valor">
-
-          Valor do Pix:
-
-          <strong id="pixValor">
-            R$ 0,00
-          </strong>
-
-        </div>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:12px;
-          "
-        >
-          Chave Pix:
-        </p>
-
-        <div
-          class="pix-chave"
-          id="chavePix"
-        >
-          5bed6193-1b51-46d2-a03e-6f3993acd719
-        </div>
-
-        <button
-          type="button"
-          class="btn btn-gold"
-          onclick="copiarPix()"
-        >
-          🔑 COPIAR CHAVE PIX
-        </button>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:16px;
-          "
-        >
-          Pix copia e cola:
-        </p>
-
-        <div
-          class="pix-chave"
-          id="pixCopiaCola"
-        >
-          Adicione produtos ao carrinho
-          para gerar o Pix.
-        </div>
-
-        <button
-          type="button"
-          class="btn btn-gold"
-          onclick="copiarPixCopiaCola()"
-        >
-          📋 COPIAR PIX COPIA E COLA
-        </button>
-
-      </div>
-
-      <!-- TON -->
-
-      <div
-        id="tonBox"
-        class="ton-box"
-      >
-
-        <strong
-          style="
-            color:#ffd700;
-            font-size:18px;
-          "
-        >
-          🟡 PAGAMENTO PELO TON
-        </strong>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:8px;
-            line-height:1.5;
-          "
-        >
-          O pagamento pelo Ton utiliza
-          um link cadastrado para o valor
-          exato do pedido.
-        </p>
+        <h1>
+            🛍️ Loja Gold Style
+        </h1>
 
         <a
-          id="tonButton"
-          href="#"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-gold"
-          style="display:none;"
+            href="cliente.html"
+            class="btn btn-dark"
         >
-          💳 PAGAR PELO TON
+            ← Voltar para minha conta
         </a>
-
-        <p
-          id="tonIndisponivel"
-          style="
-            color:#ffcc66;
-            margin-top:10px;
-          "
-        >
-          Para este valor ainda não existe
-          um link Ton cadastrado.
-        </p>
-
-        <p
-          style="
-            color:#aaa;
-            margin-top:12px;
-            line-height:1.5;
-          "
-        >
-          Se não houver link Ton para este
-          valor, você poderá voltar e escolher
-          o pagamento via Pix.
-        </p>
-
-      </div>
-
-      <button
-        type="button"
-        id="finalizarBtn"
-        class="btn btn-gold"
-        onclick="finalizarPedido()"
-      >
-        🛍️ FINALIZAR PEDIDO
-      </button>
-
-      <button
-        type="button"
-        class="btn btn-red"
-        onclick="limparCarrinho()"
-      >
-        🗑️ LIMPAR CARRINHO
-      </button>
-
-      <div
-        id="pedidoSucesso"
-        class="pedido-sucesso"
-      ></div>
 
     </div>
 
-  </section>
+    <div
+        id="aviso"
+        class="aviso"
+    ></div>
 
-  <a
-    href="cliente.html"
-    class="btn btn-dark"
-  >
-    👤 VOLTAR PARA MINHA ÁREA
-  </a>
+    <div
+        id="carregando"
+        class="carregando"
+    >
+        Carregando produtos...
+    </div>
 
-  <a
-    href="index.html"
-    class="btn btn-dark"
-  >
-    🏠 VOLTAR PARA O INÍCIO
-  </a>
+    <section
+        id="produtos"
+        class="grid"
+        style="display:none;"
+    ></section>
+
+
+    <!-- CARRINHO -->
+
+    <section
+        id="carrinhoBox"
+        class="carrinho-box"
+        style="display:none;"
+    >
+
+        <h2>
+            🛒 Meu carrinho
+        </h2>
+
+        <div id="listaCarrinho"></div>
+
+        <div class="total">
+
+            <span>
+                Total
+            </span>
+
+            <span id="totalCarrinho">
+                R$ 0,00
+            </span>
+
+        </div>
+
+
+        <!-- PAGAMENTO -->
+
+        <div
+            id="pagamento"
+            class="pagamento"
+        >
+
+            <h3>
+                💳 Forma de pagamento
+            </h3>
+
+            <label>
+                <input
+                    type="radio"
+                    name="pagamento"
+                    value="Pix"
+                    onchange="selecionarPagamento()"
+                >
+                Pix
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="pagamento"
+                    value="TON"
+                    onchange="selecionarPagamento()"
+                >
+                TON
+            </label>
+
+            <div
+                id="pixBox"
+                class="pix-box"
+            >
+
+                <strong>
+                    Chave Pix da Gold Style:
+                </strong>
+
+                <div class="pix-chave">
+                    5bed6193-1b51-46d2-a03e-6f3993acd719
+                </div>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="copiarPix()"
+                >
+                    📋 COPIAR CHAVE PIX
+                </button>
+
+                <p style="color:#aaa;margin-top:12px;">
+                    Após realizar o pagamento,
+                    envie o comprovante pelo WhatsApp.
+                </p>
+
+            </div>
+
+
+            <div
+                id="tonBox"
+                class="ton-box"
+            >
+
+                <strong style="color:#ffd700;">
+                    Pagamento TON
+                </strong>
+
+                <p style="color:#aaa;margin:10px 0;">
+                    O link TON só será disponibilizado
+                    quando houver um link cadastrado
+                    para o valor exato do pedido.
+                </p>
+
+            </div>
+
+
+            <button
+                id="finalizarBtn"
+                class="btn btn-gold"
+                style="width:100%;margin-top:18px;"
+                onclick="finalizarPedido()"
+            >
+                CONFIRMAR PEDIDO
+            </button>
+
+        </div>
+
+
+        <button
+            id="continuarBtn"
+            class="btn btn-gold"
+            style="width:100%;margin-top:18px;"
+            onclick="mostrarPagamento()"
+        >
+            CONTINUAR PARA PAGAMENTO
+        </button>
+
+    </section>
 
 </main>
 
+
 <footer>
 
-  <strong style="color:#ffd700;">
-    Gold Style Barbearia
-  </strong>
+    <strong>
+        Gold Style Barbearia
+    </strong>
 
-  <br>
+    <br>
 
-  BARBEARIA DESDE 2022
+    BARBEARIA DESDE 2022
 
-  <br>
+    <br>
 
-  Rua Preciosa 557
+    Rua Preciosa 557
 
-  <br>
+    <br>
 
-  Rio Branco - Acre
+    Rio Branco - Acre
+
+    <br><br>
+
+    @barbearia_Gold_style
 
 </footer>
 
+
+<a
+    class="whatsapp"
+    href="https://wa.me/5568999853643"
+    target="_blank"
+>
+    ☎
+</a>
+
+
 <script>
 
-/* =====================================================
+/* =========================================
    SUPABASE
-===================================================== */
+========================================= */
 
 const SUPABASE_URL =
-  "https://ivvswiprdqgroeoelqmh.supabase.co";
+"https://ivvswiprdqgroeoelqmh.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
+"sb_publishable_a7B6AJ8dWV_ji8UNp0vxbg_mz3aKmtD";
 
 const supabaseClient =
-  window.supabase.createClient(
+window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-  );
+);
 
 
-/* =====================================================
+/* =========================================
    PIX
-===================================================== */
+========================================= */
 
-const CHAVE_PIX =
-  "5bed6193-1b51-46d2-a03e-6f3993acd719";
-
-const PIX_NOME =
-  "GOLD STYLE";
-
-const PIX_CIDADE =
-  "RIO BRANCO";
+const PIX =
+"5bed6193-1b51-46d2-a03e-6f3993acd719";
 
 
-/* =====================================================
-   LINKS TON
-===================================================== */
-
-const TON_LINKS = {
-
-  "10.00":
-    "https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
-
-  "25.00":
-    "https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
-
-  "30.00":
-    "https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
-
-  "50.00":
-    "https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
-
-  "70.00":
-    "https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
-
-  "80.00":
-    "https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
-
-  "120.00":
-    "https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
-
-};
-
-
-/* =====================================================
-   VARIÁVEIS
-===================================================== */
-
-let usuario = null;
+/* =========================================
+   ESTADO
+========================================= */
 
 let cliente = null;
 
 let produtos = [];
 
-let carrinho = [];
-
-let ultimoPixCopiaCola = "";
+let carrinho = {};
 
 
-/* =====================================================
+/* =========================================
    ELEMENTOS
-===================================================== */
+========================================= */
 
 const produtosDiv =
-  document.getElementById("produtos");
+document.getElementById("produtos");
 
-const carrinhoItens =
-  document.getElementById("carrinhoItens");
+const carregando =
+document.getElementById("carregando");
 
-const carrinhoVazio =
-  document.getElementById("carrinhoVazio");
+const aviso =
+document.getElementById("aviso");
 
-const totalEl =
-  document.getElementById("total");
+const carrinhoBox =
+document.getElementById("carrinhoBox");
 
-const metodoPagamento =
-  document.getElementById("metodoPagamento");
+const listaCarrinho =
+document.getElementById("listaCarrinho");
 
-const tonBox =
-  document.getElementById("tonBox");
+const totalCarrinho =
+document.getElementById("totalCarrinho");
+
+const pagamento =
+document.getElementById("pagamento");
 
 const pixBox =
-  document.getElementById("pixBox");
+document.getElementById("pixBox");
 
-const tonButton =
-  document.getElementById("tonButton");
-
-const tonIndisponivel =
-  document.getElementById("tonIndisponivel");
-
-const statusDiv =
-  document.getElementById("status");
-
-const pedidoSucesso =
-  document.getElementById("pedidoSucesso");
-
-const pixValor =
-  document.getElementById("pixValor");
-
-const pixCopiaCola =
-  document.getElementById("pixCopiaCola");
-
-const pixMetodoBtn =
-  document.getElementById("pixMetodoBtn");
-
-const tonMetodoBtn =
-  document.getElementById("tonMetodoBtn");
+const tonBox =
+document.getElementById("tonBox");
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+/* =========================================
+   AVISO
+========================================= */
 
-function mostrarStatus(
-  mensagem,
-  tipo = "ok"
-) {
+function mostrarAviso(texto){
 
-  statusDiv.textContent =
-    mensagem;
+    aviso.textContent =
+    texto;
 
-  statusDiv.className =
-    "status " + tipo;
+    aviso.style.display =
+    "block";
 
 }
 
 
-/* =====================================================
-   DINHEIRO
-===================================================== */
+/* =========================================
+   MOEDA
+========================================= */
 
-function dinheiro(valor) {
+function moeda(valor){
 
-  return Number(
-    valor || 0
-  ).toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: "BRL"
-    }
-  );
-
-}
-
-
-/* =====================================================
-   PIX
-===================================================== */
-
-function removerAcentos(texto) {
-
-  return String(texto)
-    .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
+    return Number(
+        valor || 0
+    ).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
     );
 
 }
 
 
-function limitarPix(
-  texto,
-  tamanho
-) {
+/* =========================================
+   HTML
+========================================= */
 
-  return removerAcentos(texto)
-    .toUpperCase()
-    .substring(
-      0,
-      tamanho
-    );
+function escapar(texto){
 
-}
-
-
-function campoPix(
-  id,
-  valor
-) {
-
-  const tamanho =
-    String(valor).length;
-
-  return (
-    id +
-    tamanho
-      .toString()
-      .padStart(2, "0") +
-    valor
-  );
-
-}
-
-
-/* =====================================================
-   CRC PIX
-===================================================== */
-
-function crc16CCITT(texto) {
-
-  let crc = 0xFFFF;
-
-  for (
-    let i = 0;
-    i < texto.length;
-    i++
-  ) {
-
-    crc ^=
-      texto.charCodeAt(i) << 8;
-
-    for (
-      let j = 0;
-      j < 8;
-      j++
-    ) {
-
-      if (
-        crc & 0x8000
-      ) {
-
-        crc =
-          (
-            crc << 1
-          ) ^
-          0x1021;
-
-      } else {
-
-        crc =
-          crc << 1;
-
-      }
-
-      crc &=
-        0xFFFF;
-
+    if(
+        texto === null ||
+        texto === undefined
+    ){
+        return "";
     }
 
-  }
-
-  return crc
-    .toString(16)
-    .toUpperCase()
-    .padStart(4, "0");
-
-}
-
-
-/* =====================================================
-   GERAR PIX COPIA E COLA
-===================================================== */
-
-function gerarPixCopiaCola(
-  valor
-) {
-
-  const valorNumerico =
-    Number(valor || 0);
-
-  if (
-    valorNumerico <= 0
-  ) {
-
-    return "";
-
-  }
-
-  const valorFormatado =
-    valorNumerico.toFixed(2);
-
-  const merchantAccountInformation =
-    campoPix(
-      "00",
-      "BR.GOV.BCB.PIX"
-    ) +
-    campoPix(
-      "01",
-      CHAVE_PIX
-    );
-
-  const payloadSemCRC =
-    campoPix(
-      "00",
-      "01"
-    ) +
-
-    campoPix(
-      "26",
-      merchantAccountInformation
-    ) +
-
-    campoPix(
-      "52",
-      "0000"
-    ) +
-
-    campoPix(
-      "53",
-      "986"
-    ) +
-
-    campoPix(
-      "54",
-      valorFormatado
-    ) +
-
-    campoPix(
-      "58",
-      "BR"
-    ) +
-
-    campoPix(
-      "59",
-      limitarPix(
-        PIX_NOME,
-        25
-      )
-    ) +
-
-    campoPix(
-      "60",
-      limitarPix(
-        PIX_CIDADE,
-        15
-      )
-    ) +
-
-    campoPix(
-      "62",
-      campoPix(
-        "05",
-        "***"
-      )
-    );
-
-  const payloadComCRC =
-    payloadSemCRC +
-    "6304";
-
-  const crc =
-    crc16CCITT(
-      payloadComCRC
-    );
-
-  return (
-    payloadComCRC +
-    crc
-  );
+    return String(texto)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* =====================================================
-   ATUALIZAR PIX
-===================================================== */
+/* =========================================
+   EMOJI DO PRODUTO
+========================================= */
 
-function atualizarPix() {
+function emojiProduto(nome){
 
-  const total =
-    calcularTotal();
+    const texto =
+    String(nome || "")
+    .toLowerCase();
 
-  pixValor.textContent =
-    dinheiro(total);
-
-  if (
-    total <= 0
-  ) {
-
-    pixCopiaCola.textContent =
-      "Adicione produtos ao carrinho para gerar o Pix.";
-
-    return;
-
-  }
-
-  ultimoPixCopiaCola =
-    gerarPixCopiaCola(
-      total
-    );
-
-  pixCopiaCola.textContent =
-    ultimoPixCopiaCola;
-
-}
-
-
-/* =====================================================
-   SELECIONAR PAGAMENTO
-===================================================== */
-
-function selecionarPagamento(
-  metodo
-) {
-
-  metodoPagamento.value =
-    metodo;
-
-  if (
-    metodo === "Pix"
-  ) {
-
-    pixMetodoBtn.classList.add(
-      "ativo"
-    );
-
-    tonMetodoBtn.classList.remove(
-      "ativo"
-    );
-
-    pixBox.classList.add(
-      "show"
-    );
-
-    tonBox.classList.remove(
-      "show"
-    );
-
-    atualizarPix();
-
-    mostrarStatus(
-      "Pagamento via Pix selecionado."
-    );
-
-  } else {
-
-    tonMetodoBtn.classList.add(
-      "ativo"
-    );
-
-    pixMetodoBtn.classList.remove(
-      "ativo"
-    );
-
-    tonBox.classList.add(
-      "show"
-    );
-
-    pixBox.classList.remove(
-      "show"
-    );
-
-    atualizarTon();
-
-    mostrarStatus(
-      "Pagamento via Ton selecionado."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   CARRINHO
-===================================================== */
-
-function carregarCarrinho() {
-
-  try {
-
-    const salvo =
-      localStorage.getItem(
-        "goldStyleCarrinho"
-      );
-
-    carrinho =
-      salvo
-        ? JSON.parse(salvo)
-        : [];
-
-    if (
-      !Array.isArray(carrinho)
-    ) {
-
-      carrinho = [];
-
+    if(texto.includes("pomada")){
+        return "🧴";
     }
 
-  } catch (erro) {
-
-    carrinho = [];
-
-  }
-
-  renderizarCarrinho();
-
-}
-
-
-function salvarCarrinho() {
-
-  localStorage.setItem(
-    "goldStyleCarrinho",
-    JSON.stringify(carrinho)
-  );
-
-}
-
-
-/* =====================================================
-   PRODUTOS
-===================================================== */
-
-function renderizarProdutos() {
-
-  if (
-    !produtos.length
-  ) {
-
-    produtosDiv.innerHTML = `
-
-      <p
-        style="
-          grid-column:1/-1;
-          text-align:center;
-          color:#aaa;
-        "
-      >
-        Nenhum produto disponível
-        no momento.
-      </p>
-
-    `;
-
-    return;
-
-  }
-
-  produtosDiv.innerHTML =
-    produtos.map(
-      produto => {
-
-        const estoque =
-          Number(
-            produto["Estoque"] || 0
-          );
-
-        const preco =
-          Number(
-            produto["Preço"] || 0
-          );
-
-        const nome =
-          produto["Nome"] ||
-          "Produto";
-
-        const descricao =
-          produto["Descrição"] ||
-          "Produto Gold Style";
-
-        return `
-
-          <article class="produto">
-
-            <div
-              class="produto-img"
-              aria-label="${nome}"
-            >
-              🧴
-            </div>
-
-            <h3>
-              ${nome}
-            </h3>
-
-            <p class="descricao">
-              ${descricao}
-            </p>
-
-            <div class="preco">
-              ${dinheiro(preco)}
-            </div>
-
-            <div class="estoque">
-
-              ${
-                estoque > 0
-                  ? `Estoque: ${estoque}`
-                  : "Produto esgotado"
-              }
-
-            </div>
-
-            <button
-              type="button"
-              class="btn btn-gold"
-              ${
-                estoque <= 0
-                  ? "disabled"
-                  : ""
-              }
-              onclick="
-                adicionarCarrinho(
-                  '${produto.id}'
-                )
-              "
-            >
-
-              ${
-                estoque > 0
-                  ? "🛒 ADICIONAR"
-                  : "ESGOTADO"
-              }
-
-            </button>
-
-          </article>
-
-        `;
-
-      }
-    ).join("");
-
-}
-
-
-/* =====================================================
-   ADICIONAR CARRINHO
-===================================================== */
-
-function adicionarCarrinho(
-  id
-) {
-
-  const produto =
-    produtos.find(
-      p => p.id === id
-    );
-
-  if (!produto) {
-
-    mostrarStatus(
-      "Produto não encontrado.",
-      "erro"
-    );
-
-    return;
-
-  }
-
-  const estoque =
-    Number(
-      produto["Estoque"] || 0
-    );
-
-  if (
-    estoque <= 0
-  ) {
-
-    mostrarStatus(
-      "Este produto está sem estoque.",
-      "erro"
-    );
-
-    return;
-
-  }
-
-  const existente =
-    carrinho.find(
-      item => item.id === id
-    );
-
-  if (existente) {
-
-    if (
-      existente.quantidade >=
-      estoque
-    ) {
-
-      mostrarStatus(
-        "Você atingiu o limite disponível no estoque.",
-        "erro"
-      );
-
-      return;
-
+    if(texto.includes("shampoo")){
+        return "🧼";
     }
 
-    existente.quantidade++;
-
-  } else {
-
-    carrinho.push({
-
-      id:
-        produto.id,
-
-      nome:
-        produto["Nome"],
-
-      preco:
-        Number(
-          produto["Preço"] || 0
-        ),
-
-      quantidade:
-        1,
-
-      estoque:
-        estoque
-
-    });
-
-  }
-
-  salvarCarrinho();
-
-  renderizarCarrinho();
-
-  mostrarStatus(
-    `${produto["Nome"]} adicionado ao carrinho.`
-  );
-
-}
-
-
-/* =====================================================
-   QUANTIDADE
-===================================================== */
-
-function alterarQuantidade(
-  id,
-  quantidade
-) {
-
-  const item =
-    carrinho.find(
-      produto =>
-        produto.id === id
-    );
-
-  if (!item) return;
-
-  quantidade =
-    Number(quantidade);
-
-  if (
-    quantidade <= 0
-  ) {
-
-    carrinho =
-      carrinho.filter(
-        produto =>
-          produto.id !== id
-      );
-
-  } else if (
-    quantidade <= item.estoque
-  ) {
-
-    item.quantidade =
-      quantidade;
-
-  } else {
-
-    item.quantidade =
-      item.estoque;
-
-    mostrarStatus(
-      "Quantidade limitada pelo estoque.",
-      "erro"
-    );
-
-  }
-
-  salvarCarrinho();
-
-  renderizarCarrinho();
-
-}
-
-
-/* =====================================================
-   TOTAL
-===================================================== */
-
-function calcularTotal() {
-
-  return carrinho.reduce(
-    (
-      total,
-      item
-    ) => {
-
-      return total +
-        (
-          Number(item.preco) *
-          Number(item.quantidade)
-        );
-
-    },
-    0
-  );
-
-}
-
-
-/* =====================================================
-   RENDERIZAR CARRINHO
-===================================================== */
-
-function renderizarCarrinho() {
-
-  if (
-    !carrinho.length
-  ) {
-
-    carrinhoItens.innerHTML =
-      "";
-
-    carrinhoVazio.style.display =
-      "block";
-
-    totalEl.textContent =
-      dinheiro(0);
-
-    atualizarPix();
-
-    atualizarTon();
-
-    return;
-
-  }
-
-  carrinhoVazio.style.display =
-    "none";
-
-  carrinhoItens.innerHTML =
-    carrinho.map(
-      item => {
-
-        return `
-
-          <div class="item-carrinho">
-
-            <div class="item-info">
-
-              <strong>
-                ${item.nome}
-              </strong>
-
-              <br>
-
-              <span style="color:#aaa;">
-
-                ${dinheiro(
-                  item.preco
-                )}
-
-                cada
-
-              </span>
-
-            </div>
-
-            <div class="quantidade">
-
-              <button
-                type="button"
-                class="btn-dark"
-                onclick="
-                  alterarQuantidade(
-                    '${item.id}',
-                    ${item.quantidade - 1}
-                  )
-                "
-              >
-                −
-              </button>
-
-              <strong>
-                ${item.quantidade}
-              </strong>
-
-              <button
-                type="button"
-                class="btn-dark"
-                onclick="
-                  alterarQuantidade(
-                    '${item.id}',
-                    ${item.quantidade + 1}
-                  )
-                "
-              >
-                +
-              </button>
-
-            </div>
-
-            <strong
-              style="color:#ffd700;"
-            >
-
-              ${dinheiro(
-                item.preco *
-                item.quantidade
-              )}
-
-            </strong>
-
-          </div>
-
-        `;
-
-      }
-    ).join("");
-
-  totalEl.textContent =
-    dinheiro(
-      calcularTotal()
-    );
-
-  atualizarPix();
-
-  atualizarTon();
-
-}
-
-
-/* =====================================================
-   TON
-===================================================== */
-
-function atualizarTon() {
-
-  const total =
-    calcularTotal();
-
-  const chave =
-    total.toFixed(2);
-
-  const link =
-    TON_LINKS[chave];
-
-  if (link) {
-
-    tonButton.href =
-      link;
-
-    tonButton.style.display =
-      "block";
-
-    tonIndisponivel.style.display =
-      "none";
-
-  } else {
-
-    tonButton.href =
-      "#";
-
-    tonButton.style.display =
-      "none";
-
-    tonIndisponivel.style.display =
-      "block";
-
-  }
-
-}
-
-
-/* =====================================================
-   COPIAR CHAVE PIX
-===================================================== */
-
-async function copiarPix() {
-
-  try {
-
-    await navigator.clipboard.writeText(
-      CHAVE_PIX
-    );
-
-    mostrarStatus(
-      "Chave Pix copiada."
-    );
-
-  } catch (erro) {
-
-    mostrarStatus(
-      "Não foi possível copiar automaticamente. Segure sobre a chave para copiar.",
-      "erro"
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   COPIAR PIX COPIA E COLA
-===================================================== */
-
-async function copiarPixCopiaCola() {
-
-  let codigo =
-    ultimoPixCopiaCola;
-
-  if (!codigo) {
-
-    const total =
-      calcularTotal();
-
-    if (
-      total > 0
-    ) {
-
-      codigo =
-        gerarPixCopiaCola(
-          total
-        );
-
-      ultimoPixCopiaCola =
-        codigo;
-
+    if(texto.includes("minoxidil")){
+        return "💧";
     }
 
-  }
+    if(
+        texto.includes("óleo") ||
+        texto.includes("oleo")
+    ){
+        return "🧔";
+    }
 
-  if (!codigo) {
+    if(
+        texto.includes("perfume")
+    ){
+        return "✨";
+    }
 
-    mostrarStatus(
-      "Adicione produtos ao carrinho antes de copiar o Pix.",
-      "erro"
-    );
-
-    return;
-
-  }
-
-  try {
-
-    await navigator.clipboard.writeText(
-      codigo
-    );
-
-    mostrarStatus(
-      "Pix copia e cola copiado com sucesso."
-    );
-
-  } catch (erro) {
-
-    mostrarStatus(
-      "Não foi possível copiar automaticamente. Segure sobre o código Pix para copiar.",
-      "erro"
-    );
-
-  }
+    return "💈";
 
 }
 
 
-/* =====================================================
-   LIMPAR CARRINHO
-===================================================== */
+/* =========================================
+   LOGIN
+========================================= */
 
-function limparCarrinho() {
-
-  carrinho = [];
-
-  salvarCarrinho();
-
-  ultimoPixCopiaCola =
-    "";
-
-  renderizarCarrinho();
-
-  pedidoSucesso.classList.remove(
-    "show"
-  );
-
-  selecionarPagamento(
-    "Pix"
-  );
-
-  mostrarStatus(
-    "Carrinho limpo."
-  );
-
-}
-
-
-/* =====================================================
-   FINALIZAR PEDIDO
-===================================================== */
-
-async function finalizarPedido() {
-
-  pedidoSucesso.classList.remove(
-    "show"
-  );
-
-  if (
-    !carrinho.length
-  ) {
-
-    mostrarStatus(
-      "Adicione pelo menos um produto ao carrinho.",
-      "erro"
-    );
-
-    return;
-
-  }
-
-  const total =
-    calcularTotal();
-
-  if (
-    total <= 0
-  ) {
-
-    mostrarStatus(
-      "O valor do pedido é inválido.",
-      "erro"
-    );
-
-    return;
-
-  }
-
-  const metodo =
-    metodoPagamento.value;
-
-  const btn =
-    document.getElementById(
-      "finalizarBtn"
-    );
-
-  btn.disabled =
-    true;
-
-  btn.style.opacity =
-    ".6";
-
-  try {
+async function verificarLogin(){
 
     const {
-      data: sessionData,
-      error: sessionError
+        data:{
+            session
+        }
     } =
-      await supabaseClient
-        .auth
-        .getSession();
+    await supabaseClient.auth.getSession();
 
-    if (
-      sessionError ||
-      !sessionData.session
-    ) {
 
-      window.location.href =
+    if(!session){
+
+        window.location.href =
         "login.html";
 
-      return;
+        return false;
 
     }
-
-    usuario =
-      sessionData.session.user;
-
-    const {
-      data: clienteData,
-      error: clienteError
-    } =
-      await supabaseClient
-        .from("clientes")
-        .select(
-          "id, Nome, Telefone, E-mail"
-        )
-        .eq(
-          "auth_user_id",
-          usuario.id
-        )
-        .single();
-
-    if (
-      clienteError ||
-      !clienteData
-    ) {
-
-      throw new Error(
-        "Cadastro do cliente não encontrado."
-      );
-
-    }
-
-    cliente =
-      clienteData;
-
-
-    /* =========================
-       CONFERIR ESTOQUE
-    ========================= */
-
-    for (
-      const item of carrinho
-    ) {
-
-      const {
-        data: produtoAtual,
-        error: produtoError
-      } =
-        await supabaseClient
-          .from("produtos")
-          .select(
-            'id, "Nome", "Preço", "Estoque", "Ativo"'
-          )
-          .eq(
-            "id",
-            item.id
-          )
-          .single();
-
-      if (
-        produtoError ||
-        !produtoAtual
-      ) {
-
-        throw new Error(
-          `Produto não encontrado: ${item.nome}`
-        );
-
-      }
-
-      const estoqueAtual =
-        Number(
-          produtoAtual["Estoque"] || 0
-        );
-
-      if (
-        produtoAtual["Ativo"] !== true ||
-        estoqueAtual <
-        item.quantidade
-      ) {
-
-        throw new Error(
-          `Estoque insuficiente para: ${item.nome}`
-        );
-
-      }
-
-      item.preco =
-        Number(
-          produtoAtual["Preço"] || 0
-        );
-
-      item.estoque =
-        estoqueAtual;
-
-    }
-
-
-    /* =========================
-       TOTAL ATUALIZADO
-    ========================= */
-
-    const totalAtualizado =
-      carrinho.reduce(
-        (
-          soma,
-          item
-        ) => {
-
-          return soma +
-            (
-              item.preco *
-              item.quantidade
-            );
-
-        },
-        0
-      );
-
-
-    /* =========================
-       GERAR PIX ANTES DE LIMPAR
-    ========================= */
-
-    const codigoPix =
-      gerarPixCopiaCola(
-        totalAtualizado
-      );
-
-    ultimoPixCopiaCola =
-      codigoPix;
-
-
-    /* =========================
-       CRIAR PEDIDO
-    ========================= */
-
-    const {
-      data: pedido,
-      error: pedidoError
-    } =
-      await supabaseClient
-        .from(
-          "pedidos_produtos"
-        )
-        .insert({
-
-          cliente_id:
-            cliente.id,
-
-          total:
-            totalAtualizado,
-
-          metodo_pagamento:
-            metodo,
-
-          status_pagamento:
-            "Pendente",
-
-          status_pedido:
-            "Aguardando pagamento"
-
-        })
-        .select()
-        .single();
-
-    if (
-      pedidoError ||
-      !pedido
-    ) {
-
-      throw new Error(
-        pedidoError?.message ||
-        "Não foi possível criar o pedido."
-      );
-
-    }
-
-
-    /* =========================
-       ITENS
-    ========================= */
-
-    const itens =
-      carrinho.map(
-        item => ({
-
-          pedido_id:
-            pedido.id,
-
-          produto_id:
-            item.id,
-
-          produto_nome:
-            item.nome,
-
-          quantidade:
-            item.quantidade,
-
-          valor_unitario:
-            item.preco,
-
-          valor_total:
-            item.preco *
-            item.quantidade
-
-        })
-      );
 
 
     const {
-      error: itensError
+        data,
+        error
     } =
-      await supabaseClient
-        .from(
-          "itens_pedido"
-        )
-        .insert(
-          itens
+    await supabaseClient
+    .from("clientes")
+    .select("*")
+    .eq(
+        "auth_user_id",
+        session.user.id
+    )
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(error);
+
+        mostrarAviso(
+            "Não foi possível localizar seu cadastro."
         );
 
-    if (
-      itensError
-    ) {
-
-      await supabaseClient
-        .from(
-          "pedidos_produtos"
-        )
-        .update({
-
-          status_pedido:
-            "Cancelado",
-
-          status_pagamento:
-            "Cancelado"
-
-        })
-        .eq(
-          "id",
-          pedido.id
-        );
-
-      throw new Error(
-        itensError.message
-      );
+        return false;
 
     }
 
 
-    /* =========================
-       TON
-    ========================= */
+    if(!data){
 
-    const linkTon =
-      TON_LINKS[
-        totalAtualizado.toFixed(2)
-      ] || null;
-
-
-    if (
-      linkTon
-    ) {
-
-      const {
-        error:
-          tonUpdateError
-      } =
-        await supabaseClient
-          .from(
-            "pedidos_produtos"
-          )
-          .update({
-
-            link_pagamento_ton:
-              linkTon
-
-          })
-          .eq(
-            "id",
-            pedido.id
-          );
-
-      if (
-        tonUpdateError
-      ) {
-
-        console.warn(
-          "Não foi possível salvar o link Ton:",
-          tonUpdateError
+        mostrarAviso(
+            "Seu cadastro de cliente não foi encontrado."
         );
 
-      }
+        return false;
 
     }
 
 
-    /* =========================
-       RESULTADO
-    ========================= */
+    cliente = data;
 
-    let pagamentoHTML =
-      "";
-
-
-    if (
-      metodo === "Pix"
-    ) {
-
-      pagamentoHTML = `
-
-        <div
-          style="
-            color:#70ffac;
-            font-weight:bold;
-            font-size:18px;
-          "
-        >
-          🟢 PAGAMENTO VIA PIX
-        </div>
-
-        <div class="pix-valor">
-          Valor:
-
-          <strong>
-            ${dinheiro(
-              totalAtualizado
-            )}
-          </strong>
-        </div>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:12px;
-          "
-        >
-          Pix copia e cola:
-        </p>
-
-        <div class="pix-chave">
-          ${codigoPix}
-        </div>
-
-        <button
-          type="button"
-          class="btn btn-gold"
-          onclick="
-            copiarPixCopiaCola()
-          "
-        >
-          📋 COPIAR PIX COPIA E COLA
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-dark"
-          onclick="
-            copiarPix()
-          "
-        >
-          🔑 COPIAR CHAVE PIX
-        </button>
-
-      `;
-
-    } else if (
-      metodo === "Ton" &&
-      linkTon
-    ) {
-
-      pagamentoHTML = `
-
-        <div
-          style="
-            color:#ffd700;
-            font-weight:bold;
-            font-size:18px;
-          "
-        >
-          🟡 PAGAMENTO VIA TON
-        </div>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:8px;
-          "
-        >
-          Clique abaixo para realizar
-          o pagamento do pedido.
-        </p>
-
-        <a
-          href="${linkTon}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-gold"
-        >
-          💳 PAGAR PEDIDO PELO TON
-        </a>
-
-      `;
-
-    } else {
-
-      pagamentoHTML = `
-
-        <div
-          style="
-            color:#ffcc66;
-            font-weight:bold;
-          "
-        >
-          ⚠️ NÃO HÁ LINK TON PARA ESTE VALOR
-        </div>
-
-        <p
-          style="
-            color:#bbb;
-            margin-top:10px;
-            line-height:1.5;
-          "
-        >
-          Você pode realizar o pagamento
-          utilizando o Pix abaixo.
-        </p>
-
-        <div class="pix-valor">
-
-          Valor:
-
-          <strong>
-            ${dinheiro(
-              totalAtualizado
-            )}
-          </strong>
-
-        </div>
-
-        <div class="pix-chave">
-          ${codigoPix}
-        </div>
-
-        <button
-          type="button"
-          class="btn btn-gold"
-          onclick="
-            copiarPixCopiaCola()
-          "
-        >
-          📋 COPIAR PIX COPIA E COLA
-        </button>
-
-      `;
-
-    }
-
-
-    /* =========================
-       MENSAGEM FINAL
-    ========================= */
-
-    pedidoSucesso.innerHTML = `
-
-      <strong>
-        ✅ Pedido criado com sucesso!
-      </strong>
-
-      <br><br>
-
-      Número do pedido:
-
-      <strong>
-        ${pedido.id}
-      </strong>
-
-      <br><br>
-
-      Total:
-
-      <strong>
-        ${dinheiro(
-          totalAtualizado
-        )}
-      </strong>
-
-      <br><br>
-
-      Status:
-
-      <strong>
-        Aguardando pagamento
-      </strong>
-
-      <br><br>
-
-      ${pagamentoHTML}
-
-      <a
-        href="cliente.html"
-        class="btn btn-dark"
-      >
-        👤 VER MEUS PEDIDOS
-      </a>
-
-    `;
-
-
-    pedidoSucesso.classList.add(
-      "show"
-    );
-
-
-    /* =========================
-       LIMPAR CARRINHO
-    ========================= */
-
-    carrinho = [];
-
-    salvarCarrinho();
-
-    renderizarCarrinho();
-
-
-    mostrarStatus(
-      "Pedido registrado com sucesso."
-    );
-
-
-  } catch (erro) {
-
-    console.error(
-      "Erro ao finalizar pedido:",
-      erro
-    );
-
-    mostrarStatus(
-      erro.message ||
-      "Erro ao finalizar o pedido.",
-      "erro"
-    );
-
-  } finally {
-
-    btn.disabled =
-      false;
-
-    btn.style.opacity =
-      "1";
-
-  }
+    return true;
 
 }
 
 
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
+/* =========================================
+   CARREGAR PRODUTOS
+========================================= */
 
-async function iniciar() {
-
-  try {
+async function carregarProdutos(){
 
     const {
-      data,
-      error
+        data,
+        error
     } =
-      await supabaseClient
-        .auth
-        .getSession();
-
-    if (
-      error ||
-      !data.session
-    ) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-
-    }
-
-    usuario =
-      data.session.user;
+    await supabaseClient
+    .from("produtos")
+    .select("*")
+    .eq(
+        "Ativo",
+        true
+    )
+    .order(
+        "Nome",
+        {
+            ascending:true
+        }
+    );
 
 
-    const {
-      data: produtosData,
-      error: produtosError
-    } =
-      await supabaseClient
-        .from("produtos")
-        .select(
-          'id, "Nome", "Descrição", "Preço", "Estoque", "Ativo"'
-        )
-        .eq(
-          "Ativo",
-          true
-        )
-        .order(
-          "Nome",
-          {
-            ascending: true
-          }
+    if(error){
+
+        console.error(error);
+
+        carregando.style.display =
+        "none";
+
+        mostrarAviso(
+            "Não foi possível carregar os produtos."
         );
 
-
-    if (
-      produtosError
-    ) {
-
-      throw new Error(
-        produtosError.message
-      );
+        return;
 
     }
 
 
     produtos =
-      produtosData || [];
+    data || [];
+
+
+    carregando.style.display =
+    "none";
+
+    produtosDiv.style.display =
+    "grid";
+
+
+    if(produtos.length === 0){
+
+        produtosDiv.innerHTML =
+        `
+        <div class="vazio">
+            Nenhum produto disponível no momento.
+        </div>
+        `;
+
+        return;
+
+    }
 
 
     renderizarProdutos();
 
-    carregarCarrinho();
+}
 
-    selecionarPagamento(
-      "Pix"
+
+/* =========================================
+   RENDERIZAR PRODUTOS
+========================================= */
+
+function renderizarProdutos(){
+
+    produtosDiv.innerHTML =
+    produtos.map(produto => {
+
+        const estoque =
+        Number(
+            produto.Estoque || 0
+        );
+
+
+        const quantidade =
+        carrinho[produto.id] || 0;
+
+
+        let classeEstoque =
+        "estoque";
+
+
+        let textoEstoque =
+        `Estoque: ${estoque}`;
+
+
+        if(estoque <= 0){
+
+            classeEstoque =
+            "estoque sem-estoque";
+
+            textoEstoque =
+            "Produto esgotado";
+
+        }
+        else if(
+            estoque <= Number(
+                produto["Estoque minimo"] || 0
+            )
+        ){
+
+            classeEstoque =
+            "estoque estoque-baixo";
+
+            textoEstoque =
+            `Últimas unidades: ${estoque}`;
+
+        }
+
+
+        return `
+
+        <article class="produto">
+
+            <div class="produto-img">
+                ${emojiProduto(
+                    produto.Nome
+                )}
+            </div>
+
+            <div class="produto-info">
+
+                <h2>
+                    ${escapar(
+                        produto.Nome
+                    )}
+                </h2>
+
+                <div class="descricao">
+                    ${escapar(
+                        produto.Descrição ||
+                        "Produto Gold Style."
+                    )}
+                </div>
+
+                <div class="preco">
+                    ${moeda(
+                        produto["Preço"]
+                    )}
+                </div>
+
+                <div class="${classeEstoque}">
+                    ${textoEstoque}
+                </div>
+
+                ${
+                    estoque > 0
+                    ?
+                    `
+
+                    <div class="quantidade">
+
+                        <button
+                            onclick="alterarQuantidade('${produto.id}',-1)"
+                        >
+                            −
+                        </button>
+
+                        <span id="qtd-${produto.id}">
+                            ${quantidade}
+                        </span>
+
+                        <button
+                            onclick="alterarQuantidade('${produto.id}',1)"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                    <button
+                        class="btn btn-gold"
+                        style="width:100%;"
+                        onclick="adicionarCarrinho('${produto.id}')"
+                    >
+                        🛒 ADICIONAR
+                    </button>
+
+                    `
+                    :
+                    `
+                    <button
+                        class="btn btn-dark"
+                        style="width:100%;opacity:.5;"
+                        disabled
+                    >
+                        PRODUTO ESGOTADO
+                    </button>
+                    `
+                }
+
+            </div>
+
+        </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+/* =========================================
+   ALTERAR QUANTIDADE
+========================================= */
+
+function alterarQuantidade(
+    id,
+    valor
+){
+
+    const produto =
+    produtos.find(
+        item => item.id === id
     );
 
 
-  } catch (erro) {
+    if(!produto){
+        return;
+    }
 
-    console.error(
-      "Erro ao iniciar loja:",
-      erro
+
+    const estoque =
+    Number(
+        produto.Estoque || 0
     );
 
-    mostrarStatus(
-      erro.message ||
-      "Não foi possível carregar a loja.",
-      "erro"
+
+    let atual =
+    Number(
+        carrinho[id] || 0
     );
 
-  }
+
+    atual += valor;
+
+
+    if(atual < 0){
+        atual = 0;
+    }
+
+
+    if(atual > estoque){
+
+        atual =
+        estoque;
+
+    }
+
+
+    carrinho[id] =
+    atual;
+
+
+    const elemento =
+    document.getElementById(
+        `qtd-${id}`
+    );
+
+
+    if(elemento){
+
+        elemento.textContent =
+        atual;
+
+    }
+
+
+    renderizarCarrinho();
+
+}
+
+
+/* =========================================
+   ADICIONAR
+========================================= */
+
+function adicionarCarrinho(id){
+
+    const produto =
+    produtos.find(
+        item => item.id === id
+    );
+
+
+    if(!produto){
+        return;
+    }
+
+
+    const estoque =
+    Number(
+        produto.Estoque || 0
+    );
+
+
+    if(estoque <= 0){
+
+        mostrarAviso(
+            "Este produto está esgotado."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        Number(
+            carrinho[id] || 0
+        ) >= estoque
+    ){
+
+        mostrarAviso(
+            "Você atingiu o limite disponível no estoque."
+        );
+
+        return;
+
+    }
+
+
+    carrinho[id] =
+    Number(
+        carrinho[id] || 0
+    ) + 1;
+
+
+    const elemento =
+    document.getElementById(
+        `qtd-${id}`
+    );
+
+
+    if(elemento){
+
+        elemento.textContent =
+        carrinho[id];
+
+    }
+
+
+    renderizarCarrinho();
+
+
+    carrinhoBox.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* =========================================
+   REMOVER
+========================================= */
+
+function removerCarrinho(id){
+
+    delete carrinho[id];
+
+    renderizarProdutos();
+
+    renderizarCarrinho();
+
+}
+
+
+/* =========================================
+   TOTAL
+========================================= */
+
+function calcularTotal(){
+
+    let total = 0;
+
+
+    Object.keys(carrinho)
+    .forEach(id => {
+
+        const produto =
+        produtos.find(
+            item => item.id === id
+        );
+
+
+        if(!produto){
+            return;
+        }
+
+
+        total +=
+        Number(
+            produto["Preço"] || 0
+        )
+        *
+        Number(
+            carrinho[id] || 0
+        );
+
+    });
+
+
+    return total;
+
+}
+
+
+/* =========================================
+   CARRINHO
+========================================= */
+
+function renderizarCarrinho(){
+
+    const ids =
+    Object.keys(carrinho)
+    .filter(
+        id =>
+        Number(carrinho[id]) > 0
+    );
+
+
+    if(ids.length === 0){
+
+        carrinhoBox.style.display =
+        "none";
+
+        pagamento.style.display =
+        "none";
+
+        return;
+
+    }
+
+
+    carrinhoBox.style.display =
+    "block";
+
+
+    listaCarrinho.innerHTML =
+    ids.map(id => {
+
+        const produto =
+        produtos.find(
+            item => item.id === id
+        );
+
+
+        if(!produto){
+            return "";
+        }
+
+
+        const quantidade =
+        Number(
+            carrinho[id]
+        );
+
+
+        const totalItem =
+        Number(
+            produto["Preço"] || 0
+        )
+        *
+        quantidade;
+
+
+        return `
+
+        <div class="item-carrinho">
+
+            <div>
+
+                <div class="item-nome">
+                    ${escapar(
+                        produto.Nome
+                    )}
+                </div>
+
+                <div class="item-detalhe">
+                    ${quantidade} x
+                    ${moeda(
+                        produto["Preço"]
+                    )}
+                </div>
+
+            </div>
+
+            <div>
+
+                <div class="item-valor">
+                    ${moeda(
+                        totalItem
+                    )}
+                </div>
+
+                <button
+                    class="btn btn-dark"
+                    style="margin-top:7px;padding:7px 10px;"
+                    onclick="removerCarrinho('${id}')"
+                >
+                    Remover
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+
+    totalCarrinho.textContent =
+    moeda(
+        calcularTotal()
+    );
+
+}
+
+
+/* =========================================
+   PAGAMENTO
+========================================= */
+
+function mostrarPagamento(){
+
+    const ids =
+    Object.keys(carrinho)
+    .filter(
+        id =>
+        Number(carrinho[id]) > 0
+    );
+
+
+    if(ids.length === 0){
+
+        mostrarAviso(
+            "Adicione pelo menos um produto ao carrinho."
+        );
+
+        return;
+
+    }
+
+
+    pagamento.style.display =
+    "block";
+
+
+    document.getElementById(
+        "continuarBtn"
+    ).style.display =
+    "none";
+
+
+    pagamento.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* =========================================
+   SELECIONAR PAGAMENTO
+========================================= */
+
+function selecionarPagamento(){
+
+    const selecionado =
+    document.querySelector(
+        'input[name="pagamento"]:checked'
+    );
+
+
+    pixBox.style.display =
+    "none";
+
+    tonBox.style.display =
+    "none";
+
+
+    if(!selecionado){
+        return;
+    }
+
+
+    if(
+        selecionado.value ===
+        "Pix"
+    ){
+
+        pixBox.style.display =
+        "block";
+
+    }
+
+
+    if(
+        selecionado.value ===
+        "TON"
+    ){
+
+        tonBox.style.display =
+        "block";
+
+    }
+
+}
+
+
+/* =========================================
+   COPIAR PIX
+========================================= */
+
+async function copiarPix(){
+
+    try{
+
+        await navigator.clipboard.writeText(
+            PIX
+        );
+
+        alert(
+            "Chave Pix copiada!"
+        );
+
+    }catch(error){
+
+        alert(
+            "Chave Pix: " + PIX
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   LINK TON POR VALOR
+========================================= */
+
+function obterLinkTon(valor){
+
+    const valorNumero =
+    Number(
+        valor
+    );
+
+
+    const links = {
+
+        "10":
+        "https://payment-link-v3.ton.com.br/pl_oq2970jvGORAJgqSQDC31WezNQrpYyBb",
+
+        "25":
+        "https://payment-link-v3.ton.com.br/pl_1PDWnL34RNV0eEh5lTjK0KGEr5jZ8OJk",
+
+        "30":
+        "https://payment-link-v3.ton.com.br/pl_mGaP2635LkgZBxuvRtQd1wvq0JrNX4od",
+
+        "50":
+        "https://payment-link-v3.ton.com.br/pl_aqEexl9bokzYgG5TjFBWmGL23Pw5j0nX",
+
+        "70":
+        "https://payment-link-v3.ton.com.br/pl_9aEDMZXAy4KnNr0HxxcXJwLWbmOproke",
+
+        "80":
+        "https://payment-link-v3.ton.com.br/pl_pbM30vjLYQqwlqZtp7snW6aPe4o2KGdx",
+
+        "120":
+        "https://payment-link-v3.ton.com.br/pl_GnByNYokmL03nwQHNECo7bj6gJ4DQEqa"
+
+    };
+
+
+    return links[
+        String(
+            valorNumero
+        )
+    ] || null;
+
+}
+
+
+/* =========================================
+   FINALIZAR PEDIDO
+========================================= */
+
+async function finalizarPedido(){
+
+    const selecionado =
+    document.querySelector(
+        'input[name="pagamento"]:checked'
+    );
+
+
+    if(!selecionado){
+
+        alert(
+            "Escolha uma forma de pagamento."
+        );
+
+        return;
+
+    }
+
+
+    const ids =
+    Object.keys(carrinho)
+    .filter(
+        id =>
+        Number(carrinho[id]) > 0
+    );
+
+
+    if(ids.length === 0){
+
+        alert(
+            "Seu carrinho está vazio."
+        );
+
+        return;
+
+    }
+
+
+    const total =
+    calcularTotal();
+
+
+    const confirmar =
+    confirm(
+        `Confirmar pedido no valor de ${moeda(total)}?`
+    );
+
+
+    if(!confirmar){
+        return;
+    }
+
+
+    const botao =
+    document.getElementById(
+        "finalizarBtn"
+    );
+
+
+    botao.disabled =
+    true;
+
+    botao.textContent =
+    "CRIANDO PEDIDO...";
+
+
+    try{
+
+
+        /* ===============================
+           VERIFICAR ESTOQUE NOVAMENTE
+        ================================ */
+
+        for(
+            const id of ids
+        ){
+
+            const produto =
+            produtos.find(
+                item => item.id === id
+            );
+
+
+            if(!produto){
+                throw new Error(
+                    "Produto não encontrado."
+                );
+            }
+
+
+            const {
+                data:produtoAtual,
+                error:erroEstoque
+            } =
+            await supabaseClient
+            .from("produtos")
+            .select(
+                'id, Nome, Estoque, "Preço"'
+            )
+            .eq(
+                "id",
+                id
+            )
+            .single();
+
+
+            if(erroEstoque){
+                throw erroEstoque;
+            }
+
+
+            if(
+                Number(
+                    produtoAtual.Estoque || 0
+                )
+                <
+                Number(
+                    carrinho[id]
+                )
+            ){
+
+                throw new Error(
+                    `Estoque insuficiente para ${produtoAtual.Nome}.`
+                );
+
+            }
+
+        }
+
+
+        /* ===============================
+           LINK TON
+        ================================ */
+
+        let linkTon =
+        null;
+
+
+        if(
+            selecionado.value ===
+            "TON"
+        ){
+
+            linkTon =
+            obterLinkTon(
+                total
+            );
+
+
+            if(!linkTon){
+
+                throw new Error(
+                    "O valor deste pedido não possui um link TON cadastrado. Escolha Pix ou entre em contato com a Gold Style."
+                );
+
+            }
+
+        }
+
+
+        /* ===============================
+           CRIAR PEDIDO
+        ================================ */
+
+        const {
+            data:pedido,
+            error:erroPedido
+        } =
+        await supabaseClient
+        .from("pedidos_produtos")
+        .insert({
+
+            cliente_id:
+            cliente.id,
+
+            total:
+            total,
+
+            metodo_pagamento:
+            selecionado.value,
+
+            status_pagamento:
+            "Pendente",
+
+            status_pedido:
+            "Aguardando pagamento",
+
+            link_pagamento_ton:
+            linkTon,
+
+            referencia_pagamento_ton:
+            `GS-${Date.now()}`
+
+        })
+        .select()
+        .single();
+
+
+        if(erroPedido){
+            throw erroPedido;
+        }
+
+
+        /* ===============================
+           ITENS
+        ================================ */
+
+        const itens =
+        ids.map(id => {
+
+            const produto =
+            produtos.find(
+                item => item.id === id
+            );
+
+
+            const quantidade =
+            Number(
+                carrinho[id]
+            );
+
+
+            const valorUnitario =
+            Number(
+                produto["Preço"]
+            );
+
+
+            return {
+
+                pedido_id:
+                pedido.id,
+
+                produto_id:
+                produto.id,
+
+                produto_nome:
+                produto.Nome,
+
+                quantidade:
+                quantidade,
+
+                valor_unitario:
+                valorUnitario,
+
+                valor_total:
+                valorUnitario *
+                quantidade
+
+            };
+
+        });
+
+
+        const {
+            error:erroItens
+        } =
+        await supabaseClient
+        .from("itens_pedido")
+        .insert(
+            itens
+        );
+
+
+        if(erroItens){
+
+            /*
+              Se os itens falharem,
+              o pedido ficará registrado.
+              Isso permite que o administrador
+              identifique o pedido.
+            */
+
+            throw erroItens;
+
+        }
+
+
+        /* ===============================
+           LIMPAR CARRINHO
+        ================================ */
+
+        carrinho = {};
+
+
+        renderizarProdutos();
+
+        renderizarCarrinho();
+
+
+        /* ===============================
+           RESULTADO
+        ================================ */
+
+        if(
+            selecionado.value ===
+            "TON"
+            &&
+            linkTon
+        ){
+
+            const abrir =
+            confirm(
+                "Pedido criado! Deseja abrir o pagamento TON agora?"
+            );
+
+
+            if(abrir){
+
+                window.location.href =
+                linkTon;
+
+                return;
+
+            }
+
+        }
+
+
+        if(
+            selecionado.value ===
+            "Pix"
+        ){
+
+            const abrirWhatsApp =
+            confirm(
+                "Pedido criado! Deseja enviar uma mensagem para a Gold Style pelo WhatsApp?"
+            );
+
+
+            if(abrirWhatsApp){
+
+                const mensagem =
+                encodeURIComponent(
+                    `Olá Gold Style! Fiz um pedido de produtos no valor de ${moeda(total)}. Meu pedido é #${String(pedido.id).slice(0,8)}.`
+                );
+
+
+                window.open(
+                    `https://wa.me/5568999853643?text=${mensagem}`,
+                    "_blank"
+                );
+
+            }
+
+        }
+
+
+        alert(
+            `Pedido criado com sucesso!\n\nNúmero: #${String(pedido.id).slice(0,8)}\nTotal: ${moeda(total)}`
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            error.message ||
+            "Não foi possível criar o pedido."
+        );
+
+
+    }finally{
+
+        botao.disabled =
+        false;
+
+        botao.textContent =
+        "CONFIRMAR PEDIDO";
+
+    }
+
+}
+
+
+/* =========================================
+   INICIAR
+========================================= */
+
+async function iniciar(){
+
+    const logado =
+    await verificarLogin();
+
+
+    if(!logado){
+        return;
+    }
+
+
+    await carregarProdutos();
 
 }
 
@@ -2567,5 +1928,4 @@ iniciar();
 </script>
 
 </body>
-
   </html>
