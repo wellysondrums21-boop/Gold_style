@@ -1,0 +1,29 @@
+
+{
+  "id": "./",
+  "name": "Gold Style Barbearia",
+  "short_name": "Gold Style",
+  "description": "Agendamentos, serviços e atendimento da Gold Style Barbearia em Rio Branco, Acre.",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "categories": ["lifestyle", "shopping"],
+  "icons": [
+    {
+      "src": "./icons/gold-style.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/gold-style.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
