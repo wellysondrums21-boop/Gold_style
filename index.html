@@ -1,11 +1,24 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <meta name="theme-color" content="#050505">
-  <meta name="description" content="Gold Style Barbearia - cortes, barba e serviços profissionais em Rio Branco, Acre.">  <title>Gold Style Barbearia</title>  <link rel="stylesheet" href="style.css">  <style>
-    /* =====================================================
-       BASE
-    ====================================================== */
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="Gold Style Barbearia - cortes, barba e serviços profissionais em Rio Branco, Acre.">
+
+  <!-- CONFIGURAÇÃO DO APLICATIVO -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icons/gold-style.svg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Gold Style">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Gold Style Barbearia</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
     html {
       scroll-behavior: smooth;
     }
@@ -28,21 +41,10 @@
       margin: 30px 0;
     }
 
-    /* =====================================================
-       CABEÇALHO
-    ====================================================== */
-
     header {
       text-align: center;
       padding: 35px 15px 30px;
-
-      background:
-        linear-gradient(
-          180deg,
-          #111,
-          #050505
-        );
-
+      background: linear-gradient(180deg, #111, #050505);
       border-bottom: 1px solid rgba(212,175,55,.45);
     }
 
@@ -50,9 +52,7 @@
       font-size: clamp(38px, 10vw, 72px);
       font-weight: 1000;
       letter-spacing: 5px;
-
       color: #d4af37;
-
       text-shadow:
         0 0 5px #d4af37,
         0 0 15px rgba(212,175,55,.65),
@@ -67,32 +67,16 @@
       font-weight: bold;
     }
 
-    /* =====================================================
-       HERO
-    ====================================================== */
-
     .hero {
       position: relative;
       overflow: hidden;
-
       padding: 65px 25px;
       text-align: center;
-
       border: 1px solid rgba(212,175,55,.55);
       border-radius: 25px;
-
       background:
-        radial-gradient(
-          circle at 50% 0%,
-          rgba(212,175,55,.22),
-          transparent 45%
-        ),
-        linear-gradient(
-          145deg,
-          #111,
-          #050505
-        );
-
+        radial-gradient(circle at 50% 0%, rgba(212,175,55,.22), transparent 45%),
+        linear-gradient(145deg, #111, #050505);
       box-shadow:
         0 0 30px rgba(212,175,55,.12),
         inset 0 0 40px rgba(212,175,55,.03);
@@ -103,7 +87,6 @@
       position: absolute;
       right: 20px;
       top: -30px;
-
       font-size: 150px;
       color: rgba(212,175,55,.05);
     }
@@ -111,9 +94,7 @@
     .hero h1 {
       position: relative;
       margin: 0 0 15px;
-
       font-size: clamp(32px, 8vw, 58px);
-
       color: #fff;
       text-shadow: 0 0 15px rgba(255,255,255,.12);
     }
@@ -124,31 +105,21 @@
 
     .hero p {
       position: relative;
-
       max-width: 650px;
       margin: 0 auto 28px;
-
       color: #ddd;
       font-size: 17px;
       line-height: 1.7;
     }
 
-    /* =====================================================
-       BOTÕES
-    ====================================================== */
-
     .btn {
       display: inline-block;
-
       margin: 6px;
       padding: 14px 22px;
-
       border-radius: 12px;
-
       text-decoration: none;
       font-weight: 900;
       letter-spacing: .5px;
-
       transition: .25s ease;
     }
 
@@ -158,101 +129,55 @@
 
     .btn-gold {
       color: #050505;
-
-      background:
-        linear-gradient(
-          135deg,
-          #f6df75,
-          #d4af37,
-          #fff0a6,
-          #b8860b
-        );
-
-      box-shadow:
-        0 0 15px rgba(212,175,55,.35);
+      background: linear-gradient(135deg, #f6df75, #d4af37, #fff0a6, #b8860b);
+      box-shadow: 0 0 15px rgba(212,175,55,.35);
     }
 
     .btn-dark {
       color: #d4af37;
-
       border: 1px solid #d4af37;
-
       background: #090909;
     }
 
-    /* =====================================================
-       TÍTULOS
-    ====================================================== */
-
     .section-title {
       text-align: center;
-
       color: #d4af37;
-
       font-size: 28px;
-
       margin-bottom: 20px;
-
-      text-shadow:
-        0 0 10px rgba(212,175,55,.25);
+      text-shadow: 0 0 10px rgba(212,175,55,.25);
     }
-
-    /* =====================================================
-       PROMOÇÃO
-    ====================================================== */
 
     .promocao {
       position: relative;
       overflow: hidden;
-
       padding: 30px 20px;
-
       text-align: center;
-
       border: 2px solid #d4af37;
       border-radius: 25px;
-
       background:
-        radial-gradient(
-          circle at top right,
-          rgba(212,175,55,.20),
-          transparent 35%
-        ),
-        linear-gradient(
-          145deg,
-          #151515,
-          #050505
-        );
-
-      box-shadow:
-        0 0 25px rgba(212,175,55,.18);
+        radial-gradient(circle at top right, rgba(212,175,55,.20), transparent 35%),
+        linear-gradient(145deg, #151515, #050505);
+      box-shadow: 0 0 25px rgba(212,175,55,.18);
     }
 
     .promocao-tag {
       display: inline-block;
-
       padding: 8px 15px;
-
       border-radius: 30px;
-
       background: #d4af37;
       color: #050505;
-
       font-weight: 1000;
       font-size: 13px;
     }
 
     .promocao h2 {
       margin: 15px 0 5px;
-
       color: #d4af37;
-
       font-size: clamp(28px, 7vw, 42px);
     }
 
     .promocao h3 {
       margin: 5px 0 15px;
-
       font-size: 20px;
     }
 
@@ -264,30 +189,22 @@
 
     .promocao-texto {
       max-width: 650px;
-
       margin: 18px auto;
-
       color: #ddd;
       line-height: 1.7;
     }
 
     .premios {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
-
       margin: 25px 0;
     }
 
     .premio {
       padding: 20px 12px;
-
       border: 1px solid rgba(212,175,55,.65);
       border-radius: 18px;
-
       background: rgba(0,0,0,.55);
     }
 
@@ -302,33 +219,23 @@
 
     .premio p {
       margin: 0;
-
       color: #fff;
-
       line-height: 1.6;
     }
 
     .promocao-regra {
       max-width: 650px;
-
       margin: 20px auto;
       padding: 17px;
-
       border-radius: 15px;
-
       background: rgba(212,175,55,.07);
       border: 1px solid rgba(212,175,55,.35);
-
       line-height: 1.7;
     }
 
     .promocao-regra strong {
       color: #d4af37;
     }
-
-    /* =====================================================
-       GALERIA
-    ====================================================== */
 
     .galeria-intro {
       text-align: center;
@@ -338,37 +245,25 @@
 
     .galeria {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
     }
 
     .foto-corte {
       position: relative;
       overflow: hidden;
-
       min-height: 250px;
-
       border-radius: 18px;
-
       border: 1px solid rgba(212,175,55,.55);
-
       background: #111;
-
-      box-shadow:
-        0 0 15px rgba(212,175,55,.12);
+      box-shadow: 0 0 15px rgba(212,175,55,.12);
     }
 
     .foto-corte img {
       width: 100%;
       height: 250px;
-
       display: block;
-
       object-fit: cover;
-
       transition: transform .4s ease;
     }
 
@@ -378,21 +273,12 @@
 
     .foto-legenda {
       position: absolute;
-
       left: 0;
       right: 0;
       bottom: 0;
-
       padding: 35px 10px 13px;
-
       text-align: center;
-
-      background:
-        linear-gradient(
-          transparent,
-          rgba(0,0,0,.95)
-        );
-
+      background: linear-gradient(transparent, rgba(0,0,0,.95));
       font-weight: bold;
     }
 
@@ -400,42 +286,22 @@
       color: #d4af37;
     }
 
-    /* =====================================================
-       SERVIÇOS
-    ====================================================== */
-
     .servicos-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(2, 1fr);
-
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
 
     .service {
       display: flex;
-
       align-items: center;
       justify-content: space-between;
-
       gap: 10px;
-
       padding: 17px;
-
       border-radius: 14px;
-
       border: 1px solid rgba(212,175,55,.35);
-
-      background:
-        linear-gradient(
-          135deg,
-          #111,
-          #080808
-        );
-
-      box-shadow:
-        inset 0 0 15px rgba(212,175,55,.025);
+      background: linear-gradient(135deg, #111, #080808);
+      box-shadow: inset 0 0 15px rgba(212,175,55,.025);
     }
 
     .service-name {
@@ -448,25 +314,12 @@
       white-space: nowrap;
     }
 
-    /* =====================================================
-       PRODUTOS
-    ====================================================== */
-
     .produtos-box {
       text-align: center;
-
       padding: 28px 20px;
-
       border-radius: 20px;
-
       border: 1px solid rgba(212,175,55,.45);
-
-      background:
-        linear-gradient(
-          145deg,
-          #141414,
-          #070707
-        );
+      background: linear-gradient(145deg, #141414, #070707);
     }
 
     .produtos-box h3 {
@@ -479,19 +332,11 @@
       line-height: 1.6;
     }
 
-    /* =====================================================
-       INFORMAÇÕES
-    ====================================================== */
-
     .info {
       padding: 25px 20px;
-
       text-align: center;
-
       border-radius: 20px;
-
       background: #0b0b0b;
-
       border: 1px solid rgba(212,175,55,.3);
     }
 
@@ -504,25 +349,13 @@
       color: #d4af37;
     }
 
-    /* =====================================================
-       ÁREA DO CLIENTE
-    ====================================================== */
-
     .cliente-area {
       padding: 30px 20px;
-
       text-align: center;
-
       border-radius: 22px;
-
       border: 1px solid #d4af37;
-
       background:
-        radial-gradient(
-          circle at top,
-          rgba(212,175,55,.13),
-          transparent 55%
-        ),
+        radial-gradient(circle at top, rgba(212,175,55,.13), transparent 55%),
         #090909;
     }
 
@@ -531,23 +364,13 @@
       line-height: 1.6;
     }
 
-    /* =====================================================
-       RODAPÉ
-    ====================================================== */
-
     footer {
       margin-top: 45px;
-
       padding: 35px 20px;
-
       text-align: center;
-
       color: #aaa;
-
       border-top: 1px solid rgba(212,175,55,.35);
-
       background: #030303;
-
       line-height: 1.8;
     }
 
@@ -556,37 +379,22 @@
       font-size: 20px;
     }
 
-    /* =====================================================
-       WHATSAPP FLUTUANTE
-    ====================================================== */
-
     .whatsapp {
       position: fixed;
-
       right: 18px;
       bottom: 18px;
-
       width: 58px;
       height: 58px;
-
       display: flex;
       align-items: center;
       justify-content: center;
-
       border-radius: 50%;
-
       background: #25d366;
       color: #fff;
-
       font-size: 28px;
-
       text-decoration: none;
-
-      box-shadow:
-        0 5px 20px rgba(0,0,0,.5);
-
+      box-shadow: 0 5px 20px rgba(0,0,0,.5);
       z-index: 9999;
-
       transition: .25s ease;
     }
 
@@ -594,12 +402,7 @@
       transform: scale(1.08);
     }
 
-    /* =====================================================
-       RESPONSIVO
-    ====================================================== */
-
     @media (max-width: 800px) {
-
       .galeria {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -607,11 +410,9 @@
       .premios {
         grid-template-columns: 1fr;
       }
-
     }
 
     @media (max-width: 600px) {
-
       main {
         width: 92%;
       }
@@ -646,11 +447,9 @@
       .service {
         padding: 15px 12px;
       }
-
     }
 
     @media (max-width: 380px) {
-
       .galeria {
         grid-template-columns: 1fr;
       }
@@ -660,629 +459,355 @@
         height: 260px;
         min-height: 260px;
       }
-
     }
+  </style>
+</head>
 
-  </style></head><body>  <!-- =====================================================
-       CABEÇALHO
-  ====================================================== -->  <header><div class="logo">
-  GOLD STYLE
-</div>
+<body>
 
-<div class="subtitle">
-  BARBEARIA DESDE 2022
-</div>
+  <header>
+    <div class="logo">GOLD STYLE</div>
+    <div class="subtitle">BARBEARIA DESDE 2022</div>
+  </header>
 
-  </header>  <main><!-- =====================================================
-     HERO
-====================================================== -->
+  <main>
 
-<section class="hero">
-
-  <h1>
-    Seu estilo começa <span>aqui.</span>
-  </h1>
-
-  <p>
-    Cortes modernos, barba e serviços profissionais
-    para deixar seu visual sempre na régua.
-  </p>
-
-  <a
-    href="agendamento.html"
-    class="btn btn-gold"
-  >
-    📅 AGENDAR MEU HORÁRIO
-  </a>
-
-  <a
-    href="#servicos"
-    class="btn btn-dark"
-  >
-    💈 VER SERVIÇOS
-  </a>
-
-</section>
-
-
-<!-- =====================================================
-     PROMOÇÃO
-====================================================== -->
-
-<section class="promocao">
-
-  <div class="promocao-tag">
-    🎁 PROMOÇÃO GOLD STYLE
-  </div>
-
-  <h2>
-    SORTEIO GOLD STYLE
-  </h2>
-
-  <h3>
-    Comece 2027 com o pé direito! 🔥
-  </h3>
-
-  <div class="promocao-data">
-    📅 SORTEIO: 01/01/2027
-  </div>
-
-  <p class="promocao-texto">
-    A cada serviço realizado na Gold Style,
-    você poderá preencher seu cupom e participar
-    do nosso sorteio especial de Ano Novo.
-  </p>
-
-
-  <div class="premios">
-
-    <div class="premio">
-
-      <div class="premio-numero">
-        🥇
-      </div>
-
-      <h4>
-        1º PRÊMIO
-      </h4>
+    <section class="hero">
+      <h1>Seu estilo começa <span>aqui.</span></h1>
 
       <p>
-        R$ 100,00
-        <br>
-        +
-        <br>
-        1 corte grátis
+        Cortes modernos, barba e serviços profissionais
+        para deixar seu visual sempre na régua.
       </p>
 
-    </div>
+      <a href="agendamento.html" class="btn btn-gold">
+        📅 AGENDAR MEU HORÁRIO
+      </a>
 
+      <a href="#servicos" class="btn btn-dark">
+        💈 VER SERVIÇOS
+      </a>
+    </section>
 
-    <div class="premio">
+    <section class="promocao">
+      <div class="promocao-tag">🎁 PROMOÇÃO GOLD STYLE</div>
 
-      <div class="premio-numero">
-        🥈
+      <h2>SORTEIO GOLD STYLE</h2>
+      <h3>Comece 2027 com o pé direito! 🔥</h3>
+
+      <div class="promocao-data">
+        📅 SORTEIO: 01/01/2027
       </div>
 
-      <h4>
-        2º PRÊMIO
-      </h4>
+      <p class="promocao-texto">
+        A cada serviço realizado na Gold Style,
+        você poderá preencher seu cupom e participar
+        do nosso sorteio especial de Ano Novo.
+      </p>
+
+      <div class="premios">
+
+        <div class="premio">
+          <div class="premio-numero">🥇</div>
+          <h4>1º PRÊMIO</h4>
+          <p>R$ 100,00<br>+<br>1 corte grátis</p>
+        </div>
+
+        <div class="premio">
+          <div class="premio-numero">🥈</div>
+          <h4>2º PRÊMIO</h4>
+          <p>R$ 50,00<br>+<br>1 corte grátis</p>
+        </div>
+
+        <div class="premio">
+          <div class="premio-numero">🥉</div>
+          <h4>3º PRÊMIO</h4>
+          <p>1 corte de cabelo<br>totalmente grátis</p>
+        </div>
+
+      </div>
+
+      <div class="promocao-regra">
+        <strong>COMO PARTICIPAR?</strong>
+        <br><br>
+        Faça qualquer serviço na Gold Style,
+        preencha seu cupom e coloque-o na urna
+        da promoção.
+        <br><br>
+        Cada serviço realizado dá direito a
+        um novo cupom.
+      </div>
+
+      <a
+        href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
+        target="_blank"
+        rel="noopener"
+        class="btn btn-gold"
+      >
+        🎟️ QUERO PARTICIPAR
+      </a>
+    </section>
+
+    <section id="galeria">
+      <h2 class="section-title">✂️ NOSSOS TRABALHOS</h2>
+
+      <div class="galeria-intro">
+        <p>
+          Confira alguns estilos que combinam
+          com a identidade da Gold Style.
+        </p>
+      </div>
+
+      <div class="galeria">
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
+            alt="Corte degradê masculino"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>✂️</span> Degradê</div>
+        </div>
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
+            alt="Barba masculina"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>🧔</span> Barba</div>
+        </div>
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
+            alt="Corte masculino social"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>💈</span> Corte Social</div>
+        </div>
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=85"
+            alt="Corte masculino com barba"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>🔥</span> Corte + Barba</div>
+        </div>
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=800&q=85"
+            alt="Estilo masculino moderno"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>👑</span> Estilo Moderno</div>
+        </div>
+
+        <div class="foto-corte">
+          <img
+            src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
+            alt="Trabalho profissional de barbearia"
+            loading="lazy"
+          >
+          <div class="foto-legenda"><span>✨</span> Gold Style</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="servicos">
+      <h2 class="section-title">💈 NOSSOS SERVIÇOS</h2>
+
+      <div class="servicos-grid">
+
+        <div class="service">
+          <span class="service-name">Corte Social</span>
+          <span class="price">R$ 25</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Degradê / Navalhado</span>
+          <span class="price">R$ 30</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Corte + Barba</span>
+          <span class="price">R$ 50</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Sobrancelha</span>
+          <span class="price">R$ 10</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Barba</span>
+          <span class="price">R$ 25</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Selagem</span>
+          <span class="price">R$ 70</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Luzes</span>
+          <span class="price">R$ 80</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Platinado</span>
+          <span class="price">A partir de R$ 120</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Pigmentação de Barba</span>
+          <span class="price">R$ 30</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Pigmentação de Cabelo</span>
+          <span class="price">R$ 50</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Corte na Tesoura</span>
+          <span class="price">R$ 30</span>
+        </div>
+
+        <div class="service">
+          <span class="service-name">Corte Infantil</span>
+          <span class="price">R$ 30</span>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:22px;">
+        <a href="agendamento.html" class="btn btn-gold">
+          📅 ESCOLHER MEU SERVIÇO
+        </a>
+      </div>
+    </section>
+
+    <section class="produtos-box">
+      <h3>🛍️ PRODUTOS GOLD STYLE</h3>
 
       <p>
-        R$ 50,00
-        <br>
-        +
-        <br>
-        1 corte grátis
+        Pomadas, minoxidil, shampoo,
+        óleo para barba e perfumes.
       </p>
 
-    </div>
+      <a href="produtos-cliente.html" class="btn btn-gold">
+        🛒 VER PRODUTOS
+      </a>
+    </section>
 
-
-    <div class="premio">
-
-      <div class="premio-numero">
-        🥉
-      </div>
-
-      <h4>
-        3º PRÊMIO
-      </h4>
+    <section class="info">
+      <h2 class="section-title">📍 GOLD STYLE BARBEARIA</h2>
 
       <p>
-        1 corte de cabelo
+        <strong>Endereço</strong>
         <br>
-        totalmente grátis
+        Rua Preciosa 557
+        <br>
+        Rio Branco - Acre
       </p>
 
-    </div>
+      <p>
+        <strong>Horário de atendimento</strong>
+        <br>
+        Segunda a sábado: 08h às 19h
+        <br>
+        Domingo: 08h às 12h
+      </p>
 
-  </div>
+      <p>
+        <strong>📱 WhatsApp</strong>
+        <br>
+        (68) 99985-3643
+      </p>
 
+      <p>
+        <strong>📸 Instagram</strong>
+        <br>
+        @barbearia_Gold_style
+      </p>
 
-  <div class="promocao-regra">
-
-    <strong>
-      COMO PARTICIPAR?
-    </strong>
-
-    <br><br>
-
-    Faça qualquer serviço na Gold Style,
-    preencha seu cupom e coloque-o na urna
-    da promoção.
-
-    <br><br>
-
-    Cada serviço realizado dá direito a
-    um novo cupom.
-
-  </div>
-
-
-  <a
-    href="https://wa.me/5568999853643?text=Ol%C3%A1%20Gold%20Style!%20Quero%20saber%20mais%20sobre%20o%20sorteio%20de%2001%2F01%2F2027."
-    target="_blank"
-    class="btn btn-gold"
-  >
-    🎟️ QUERO PARTICIPAR
-  </a>
-
-</section>
-
-
-<!-- =====================================================
-     GALERIA
-====================================================== -->
-
-<section id="galeria">
-
-  <h2 class="section-title">
-    ✂️ NOSSOS TRABALHOS
-  </h2>
-
-  <div class="galeria-intro">
-
-    <p>
-      Confira alguns estilos que combinam
-      com a identidade da Gold Style.
-    </p>
-
-  </div>
-
-
-  <div class="galeria">
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=800&q=85"
-        alt="Corte degradê masculino"
-        loading="lazy"
+      <a
+        href="https://wa.me/5568999853643"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-gold"
       >
-
-      <div class="foto-legenda">
-        <span>✂️</span> Degradê
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
-        alt="Barba masculina"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>🧔</span> Barba
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&q=85"
-        alt="Corte masculino social"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>💈</span> Corte Social
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=85"
-        alt="Corte masculino com barba"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>🔥</span> Corte + Barba
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=800&q=85"
-        alt="Estilo masculino moderno"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>👑</span> Estilo Moderno
-      </div>
-
-    </div>
-
-
-    <div class="foto-corte">
-
-      <img
-        src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=800&q=85"
-        alt="Trabalho profissional de barbearia"
-        loading="lazy"
-      >
-
-      <div class="foto-legenda">
-        <span>✨</span> Gold Style
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     SERVIÇOS
-====================================================== -->
-
-<section id="servicos">
-
-  <h2 class="section-title">
-    💈 NOSSOS SERVIÇOS
-  </h2>
-
-
-  <div class="servicos-grid">
-
-    <div class="service">
-      <span class="service-name">
-        Corte Social
-      </span>
-      <span class="price">
-        R$ 25
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Degradê / Navalhado
-      </span>
-      <span class="price">
-        R$ 30
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Corte + Barba
-      </span>
-      <span class="price">
-        R$ 50
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Sobrancelha
-      </span>
-      <span class="price">
-        R$ 10
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Barba
-      </span>
-      <span class="price">
-        R$ 25
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Selagem
-      </span>
-      <span class="price">
-        R$ 70
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Luzes
-      </span>
-      <span class="price">
-        R$ 80
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Platinado
-      </span>
-      <span class="price">
-        A partir de R$ 120
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Pigmentação de Barba
-      </span>
-      <span class="price">
-        R$ 30
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Pigmentação de Cabelo
-      </span>
-      <span class="price">
-        R$ 50
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Corte na Tesoura
-      </span>
-      <span class="price">
-        R$ 30
-      </span>
-    </div>
-
-
-    <div class="service">
-      <span class="service-name">
-        Corte Infantil
-      </span>
-      <span class="price">
-        R$ 30
-      </span>
-    </div>
-
-  </div>
-
-
-  <div style="text-align:center;margin-top:22px;">
-
-    <a
-      href="agendamento.html"
-      class="btn btn-gold"
-    >
-      📅 ESCOLHER MEU SERVIÇO
-    </a>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     PRODUTOS
-====================================================== -->
-
-<section class="produtos-box">
-
-  <h3>
-    🛍️ PRODUTOS GOLD STYLE
-  </h3>
-
-  <p>
-    Pomadas, minoxidil, shampoo,
-    óleo para barba e perfumes.
-  </p>
-
-  <a
-    href="produtos-cliente.html"
-    class="btn btn-gold"
-  >
-    🛒 VER PRODUTOS
-  </a>
-
-</section>
-
-
-<!-- =====================================================
-     INFORMAÇÕES
-====================================================== -->
-
-<section class="info">
-
-  <h2 class="section-title">
-    📍 GOLD STYLE BARBEARIA
-  </h2>
-
-  <p>
-
-    <strong>
-      Endereço
-    </strong>
-
+        💬 FALAR COM A BARBEARIA
+      </a>
+    </section>
+
+    <section class="cliente-area">
+      <h2 class="section-title">👤 ÁREA DO CLIENTE</h2>
+
+      <p>
+        Tenha sua própria conta, acompanhe seus
+        agendamentos, pagamentos e pedidos.
+      </p>
+
+      <a href="cadastro.html" class="btn btn-gold">
+        📝 CRIAR MINHA CONTA
+      </a>
+
+      <a href="login.html" class="btn btn-dark">
+        🔐 ENTRAR NA MINHA CONTA
+      </a>
+
+      <a href="agendamento.html" class="btn btn-dark">
+        📅 AGENDAR HORÁRIO
+      </a>
+    </section>
+
+  </main>
+
+  <footer>
+    <strong>GOLD STYLE BARBEARIA</strong>
     <br>
-
+    BARBEARIA DESDE 2022
+    <br>
     Rua Preciosa 557
     <br>
     Rio Branco - Acre
-
-  </p>
-
-
-  <p>
-
-    <strong>
-      Horário de atendimento
-    </strong>
-
+    <br><br>
+    📸 @barbearia_Gold_style
     <br>
-
-    Segunda a sábado:
-    08h às 19h
-
-    <br>
-
-    Domingo:
-    08h às 12h
-
-  </p>
-
-
-  <p>
-
-    <strong>
-      📱 WhatsApp
-    </strong>
-
-    <br>
-
-    (68) 99985-3643
-
-  </p>
-
-
-  <p>
-
-    <strong>
-      📸 Instagram
-    </strong>
-
-    <br>
-
-    @barbearia_Gold_style
-
-  </p>
-
+    📱 (68) 99985-3643
+    <br><br>
+    © 2026 Gold Style Barbearia
+  </footer>
 
   <a
+    class="whatsapp"
     href="https://wa.me/5568999853643"
     target="_blank"
-    class="btn btn-gold"
+    rel="noopener"
+    aria-label="Falar com a Gold Style pelo WhatsApp"
   >
-    💬 FALAR COM A BARBEARIA
+    💬
   </a>
 
-</section>
+  <!-- ATIVAÇÃO DO APLICATIVO PWA -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(() => {
+            console.log("Gold Style PWA ativado!");
+          })
+          .catch((error) => {
+            console.error("Erro ao ativar PWA:", error);
+          });
+      });
+    }
+  </script>
 
-
-<!-- =====================================================
-     ÁREA DO CLIENTE
-====================================================== -->
-
-<section class="cliente-area">
-
-  <h2 class="section-title">
-    👤 ÁREA DO CLIENTE
-  </h2>
-
-  <p>
-    Tenha sua própria conta, acompanhe seus
-    agendamentos, pagamentos e pedidos.
-  </p>
-
-
-  <a
-    href="cadastro.html"
-    class="btn btn-gold"
-  >
-    📝 CRIAR MINHA CONTA
-  </a>
-
-
-  <a
-    href="login.html"
-    class="btn btn-dark"
-  >
-    🔐 ENTRAR NA MINHA CONTA
-  </a>
-
-
-  <a
-    href="agendamento.html"
-    class="btn btn-dark"
-  >
-    📅 AGENDAR HORÁRIO
-  </a>
-
-</section>
-
-  </main>  <!-- =====================================================
-       RODAPÉ
-  ====================================================== -->  <footer><strong>
-  GOLD STYLE BARBEARIA
-</strong>
-
-<br>
-
-BARBEARIA DESDE 2022
-
-<br>
-
-Rua Preciosa 557
-
-<br>
-
-Rio Branco - Acre
-
-<br><br>
-
-📸 @barbearia_Gold_style
-
-<br>
-
-📱 (68) 99985-3643
-
-<br><br>
-
-© 2026 Gold Style Barbearia
-
-  </footer>  <!-- =====================================================
-       WHATSAPP FLUTUANTE
-  ====================================================== --><a
-class="whatsapp"
-href="https://wa.me/5568999853643"
-target="_blank"
-aria-label="Falar com a Gold Style pelo WhatsApp"
-
-«»
-
-💬
-
-  </a></body>
-  </html>
+</body>
+</html>
